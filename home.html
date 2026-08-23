@@ -26,8 +26,8 @@
 
         /* ===== SIDEBAR ===== */
         .sidebar {
-            width: 260px;
-            background: rgba(0, 0, 0, 0.85);
+            width: 270px;
+            background: rgba(0, 0, 0, 0.92);
             border-right: 1px solid rgba(255, 255, 255, 0.03);
             position: fixed;
             height: 100vh;
@@ -35,23 +35,38 @@
             padding: 20px 0;
             display: flex;
             flex-direction: column;
+            z-index: 100;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 215, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: transparent;
         }
 
         .sidebar-brand {
             padding: 0 20px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 10px;
             text-align: center;
         }
 
         .sidebar-brand h2 {
             color: #ffd700;
             font-size: 22px;
+            letter-spacing: 1px;
         }
 
         .sidebar-brand .sub {
             color: #555;
-            font-size: 12px;
+            font-size: 11px;
             letter-spacing: 2px;
             margin-top: 4px;
         }
@@ -64,23 +79,8 @@
         }
 
         .sidebar-menu li {
-            padding: 10px 15px;
-            margin-bottom: 2px;
             border-radius: 10px;
             transition: all 0.3s ease;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .sidebar-menu li:hover {
-            background: rgba(255, 215, 0, 0.05);
-        }
-
-        .sidebar-menu li.active {
-            background: rgba(255, 215, 0, 0.08);
-            border-left: 3px solid #ffd700;
         }
 
         .sidebar-menu li a {
@@ -89,51 +89,70 @@
             font-size: 14px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            flex: 1;
+            gap: 12px;
+            padding: 10px 16px;
+            border-radius: 10px;
             transition: 0.3s;
+            cursor: pointer;
         }
 
-        .sidebar-menu li:hover a {
+        .sidebar-menu li a:hover {
+            background: rgba(255, 215, 0, 0.05);
             color: #fff;
         }
 
-        .sidebar-menu li.active a {
+        .sidebar-menu li.active > a {
             color: #ffd700;
+            background: rgba(255, 215, 0, 0.08);
         }
 
-        /* ===== BADGE ===== */
-        .badge {
-            font-size: 10px;
-            padding: 2px 10px;
-            border-radius: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            white-space: nowrap;
+        /* ===== SUB MENU ===== */
+        .sidebar-menu li .sub-menu {
+            list-style: none;
+            padding-left: 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
         }
 
-        .badge-hot {
-            background: rgba(255, 0, 0, 0.2);
-            color: #ff4444;
-            border: 1px solid rgba(255, 0, 0, 0.2);
+        .sidebar-menu li .sub-menu.open {
+            max-height: 500px;
         }
 
-        .badge-sale {
-            background: rgba(255, 215, 0, 0.15);
+        .sidebar-menu li .sub-menu li a {
+            padding: 8px 16px 8px 30px;
+            font-size: 13px;
+            color: #777;
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            margin-left: 10px;
+        }
+
+        .sidebar-menu li .sub-menu li a:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .sidebar-menu li .sub-menu li.active a {
             color: #ffd700;
-            border: 1px solid rgba(255, 215, 0, 0.15);
+            background: rgba(255, 215, 0, 0.05);
         }
 
-        .badge-247 {
-            background: rgba(0, 200, 255, 0.1);
-            color: #00ccff;
-            border: 1px solid rgba(0, 200, 255, 0.1);
+        /* ===== ARROW ===== */
+        .menu-arrow {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .menu-arrow.open {
+            transform: rotate(180deg);
         }
 
         /* ===== USER INFO ===== */
         .sidebar-footer {
             padding: 15px 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             margin-top: 10px;
         }
 
@@ -178,7 +197,7 @@
 
         /* ===== MAIN CONTENT ===== */
         .content {
-            margin-left: 260px;
+            margin-left: 270px;
             padding: 40px;
             flex: 1;
             min-height: 100vh;
@@ -364,13 +383,13 @@
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .sidebar {
-                width: 220px;
+                width: 240px;
             }
             .content {
-                margin-left: 220px;
+                margin-left: 240px;
                 padding: 20px;
             }
-            .sidebar-menu li {
+            .sidebar-menu li a {
                 padding: 8px 12px;
                 font-size: 13px;
             }
@@ -382,7 +401,7 @@
         @media (max-width: 600px) {
             .sidebar {
                 width: 200px;
-                padding: 10px 0;
+                padding: 15px 0;
             }
             .content {
                 margin-left: 200px;
@@ -392,11 +411,12 @@
                 font-size: 18px;
             }
             .sidebar-menu li a {
-                font-size: 13px;
+                font-size: 12px;
+                padding: 7px 10px;
             }
-            .badge {
-                font-size: 9px;
-                padding: 1px 6px;
+            .sidebar-menu li .sub-menu li a {
+                font-size: 11px;
+                padding: 6px 10px 6px 20px;
             }
         }
     </style>
@@ -414,45 +434,81 @@
 
         <!-- Menu -->
         <ul class="sidebar-menu" id="mainMenu">
+            <!-- Trang chủ -->
             <li class="active" data-page="home">
                 <a href="#">🏠 Trang chủ</a>
             </li>
+
+            <!-- Nhiệm vụ -->
             <li data-page="task">
                 <a href="#">📋 Nhiệm vụ</a>
             </li>
-            <li data-page="shop">
-                <a href="#">🛒 Đối điểm</a>
+
+            <!-- Đổi điểm -->
+            <li data-page="exchange">
+                <a href="#">🔄 Đổi điểm</a>
             </li>
-            <li data-page="recharge">
-                <a href="#">💰 Nạp Tiền</a>
+
+            <!-- Nạp Tiền (có sub-menu) -->
+            <li class="has-sub">
+                <a href="#" onclick="toggleSubMenu(this)">
+                    💰 Nạp Tiền
+                    <span class="menu-arrow">▼</span>
+                </a>
+                <ul class="sub-menu">
+                    <li data-page="card"><a href="#">💳 Nạp Thẻ Cào</a></li>
+                    <li data-page="bank"><a href="#">🏦 Nạp Bank/Momo</a></li>
+                    <li data-page="recharge-history"><a href="#">📜 Lịch sử nạp tiền</a></li>
+                </ul>
             </li>
-            <li data-page="tools">
-                <a href="#">🔧 Công Cụ</a>
+
+            <!-- Công Cụ (có sub-menu) -->
+            <li class="has-sub">
+                <a href="#" onclick="toggleSubMenu(this)">
+                    🔧 Công Cụ
+                    <span class="menu-arrow">▼</span>
+                </a>
+                <ul class="sub-menu">
+                    <li data-page="redeem"><a href="#">🔄 Redeem Uphone 4h</a></li>
+                    <li data-page="buycloud"><a href="#">☁️ Mua Máy Cloud</a></li>
+                    <li data-page="checkcloud"><a href="#">🔍 Check Máy Uphone</a></li>
+                    <li data-page="codelogin"><a href="#">🔑 Code Login Cloud</a></li>
+                </ul>
             </li>
+
+            <!-- Nhập Giftcode -->
             <li data-page="giftcode">
                 <a href="#">🎁 Nhập Giftcode</a>
             </li>
+
+            <!-- Flash Sale Cloud -->
             <li data-page="flashsale">
                 <a href="#">⚡ Flash Sale Cloud</a>
-                <span class="badge badge-sale">SALE</span>
             </li>
+
+            <!-- Bảng Xếp Hạng -->
             <li data-page="ranking">
                 <a href="#">🏆 Bảng Xếp Hạng</a>
-                <span class="badge badge-hot">HOT</span>
             </li>
+
+            <!-- Lịch sử mua hàng -->
             <li data-page="history">
                 <a href="#">📜 Lịch sử mua hàng</a>
             </li>
+
+            <!-- Lịch sử nhiệm vụ -->
             <li data-page="taskhistory">
                 <a href="#">📜 Lịch sử nhiệm vụ</a>
             </li>
+
+            <!-- Cloud Free Mỗi Ngày -->
             <li data-page="cloudfree">
                 <a href="#">☁️ Cloud Free Mỗi Ngày</a>
-                <span class="badge badge-hot">HOT</span>
             </li>
+
+            <!-- Trung Tâm Hỗ Trợ -->
             <li data-page="support">
                 <a href="#">⚙️ Trung Tâm Hỗ Trợ</a>
-                <span class="badge badge-247">24/7</span>
             </li>
         </ul>
 
@@ -586,13 +642,26 @@
         );
     }
 
+    // ===== Toggle SUB-MENU =====
+    function toggleSubMenu(element) {
+        var parentLi = element.closest('li');
+        var subMenu = parentLi.querySelector('.sub-menu');
+        var arrow = parentLi.querySelector('.menu-arrow');
+
+        if (subMenu) {
+            subMenu.classList.toggle('open');
+            if (arrow) {
+                arrow.classList.toggle('open');
+            }
+        }
+    }
+
     // ===== MENU SIDEBAR =====
     var menuItems = document.querySelectorAll('.sidebar-menu li[data-page]');
     var contentArea = document.getElementById('contentArea');
 
     var pageContent = {
         home: {
-            icon: '🏠',
             title: '📦 DANH SÁCH CODE',
             html: `
                 <div class="code-grid">
@@ -648,7 +717,6 @@
             `
         },
         task: {
-            icon: '📋',
             title: '📋 NHIỆM VỤ',
             html: `
                 <div style="text-align:center; padding:60px 20px; color:#888;">
@@ -661,13 +729,12 @@
                 </div>
             `
         },
-        shop: {
-            icon: '🛒',
-            title: '🛒 CỬA HÀNG - ĐỐI ĐIỂM',
+        exchange: {
+            title: '🔄 ĐỔI ĐIỂM',
             html: `
                 <div style="text-align:center; padding:60px 20px; color:#888;">
-                    <div style="font-size:60px; margin-bottom:20px;">🛒</div>
-                    <h3 style="color:#ffd700; margin-bottom:10px;">Cửa hàng đổi điểm</h3>
+                    <div style="font-size:60px; margin-bottom:20px;">🔄</div>
+                    <h3 style="color:#ffd700; margin-bottom:10px;">Đổi điểm lấy quà</h3>
                     <p>💎 100 điểm = 1 code Free Fire</p>
                     <p>💎 500 điểm = 1 skin hiếm</p>
                     <p>💎 1000 điểm = 1 thẻ VIP 1 tháng</p>
@@ -675,154 +742,93 @@
                 </div>
             `
         },
-        recharge: {
-            icon: '💰',
-            title: '💰 NẠP TIỀN',
+        card: {
+            title: '💳 NẠP THẺ CÀO',
             html: `
                 <div style="text-align:center; padding:60px 20px; color:#888;">
-                    <div style="font-size:60px; margin-bottom:20px;">💰</div>
-                    <h3 style="color:#ffd700; margin-bottom:10px;">Nạp tiền vào tài khoản</h3>
-                    <p>💳 Chuyển khoản ngân hàng</p>
-                    <p>📱 Mã QR MoMo / ZaloPay</p>
-                    <p>💳 Thẻ cào Viettel / Vinaphone / Mobifone</p>
-                    <p style="margin-top:20px; color:#555;">Liên hệ admin để được hỗ trợ!</p>
+                    <div style="font-size:60px; margin-bottom:20px;">💳</div>
+                    <h3 style="color:#ffd700; margin-bottom:10px;">Nạp thẻ cào</h3>
+                    <p>📱 Viettel / Vinaphone / Mobifone</p>
+                    <p>💰 Mệnh giá: 10k - 20k - 50k - 100k - 200k - 500k</p>
+                    <p style="margin-top:20px; color:#555;">Nhập mã thẻ và số serial để nạp!</p>
                 </div>
             `
         },
-        tools: {
-            icon: '🔧',
-            title: '🔧 CÔNG CỤ',
+        bank: {
+            title: '🏦 NẠP BANK/MOMO',
             html: `
                 <div style="text-align:center; padding:60px 20px; color:#888;">
-                    <div style="font-size:60px; margin-bottom:20px;">🔧</div>
-                    <h3 style="color:#ffd700; margin-bottom:10px;">Công cụ hỗ trợ</h3>
-                    <p>🔹 Kiểm tra tài khoản</p>
-                    <p>🔹 Tra cứu code</p>
-                    <p>🔹 Tạo code tự động</p>
-                    <p style="margin-top:20px; color:#555;">Đang phát triển...</p>
+                    <div style="font-size:60px; margin-bottom:20px;">🏦</div>
+                    <h3 style="color:#ffd700; margin-bottom:10px;">Nạp qua Bank / MoMo</h3>
+                    <p>🏦 Ngân hàng: Vietcombank / Techcombank / BIDV</p>
+                    <p>📱 MoMo / ZaloPay / ViettelPay</p>
+                    <p style="margin-top:20px; color:#555;">Chuyển khoản với nội dung: [Tên đăng nhập]</p>
+                </div>
+            `
+        },
+        'recharge-history': {
+            title: '📜 LỊCH SỬ NẠP TIỀN',
+            html: `
+                <div style="text-align:center; padding:60px 20px; color:#888;">
+                    <div style="font-size:60px; margin-bottom:20px;">📜</div>
+                    <h3 style="color:#ffd700; margin-bottom:10px;">Lịch sử nạp tiền</h3>
+                    <p>💰 Nạp 100,000đ - 01/01/2026 - Thành công</p>
+                    <p>💰 Nạp 50,000đ - 28/12/2025 - Thành công</p>
+                    <p style="margin-top:20px; color:#555;">Tổng đã nạp: 150,000đ</p>
+                </div>
+            `
+        },
+        redeem: {
+            title: '🔄 REDEEM UPHONE 4H',
+            html: `
+                <div style="text-align:center; padding:60px 20px; color:#888;">
+                    <div style="font-size:60px; margin-bottom:20px;">🔄</div>
+                    <h3 style="color:#ffd700; margin-bottom:10px;">Redeem Uphone 4H</h3>
+                    <p>Nhập mã code để nhận Uphone 4H</p>
+                    <input type="text" placeholder="Nhập mã code..." style="padding:12px 20px; background:rgba(255,255,255,0.05); border:1px solid #333; border-radius:10px; color:#fff; font-size:15px; width:80%; max-width:300px;">
+                    <br><br>
+                    <button style="padding:12px 40px; background:linear-gradient(135deg,#ffd700,#f0a500); color:#0a0a1a; border:none; border-radius:10px; font-weight:700; font-size:15px; cursor:pointer;" onclick="showPopup('🔄','Redeem Uphone','Chức năng đang được phát triển!')">Xác nhận</button>
+                </div>
+            `
+        },
+        buycloud: {
+            title: '☁️ MUA MÁY CLOUD',
+            html: `
+                <div style="text-align:center; padding:60px 20px; color:#888;">
+                    <div style="font-size:60px; margin-bottom:20px;">☁️</div>
+                    <h3 style="color:#ffd700; margin-bottom:10px;">Mua Máy Cloud</h3>
+                    <p>🖥️ Máy Cloud 1 ngày: 10,000đ</p>
+                    <p>🖥️ Máy Cloud 7 ngày: 50,000đ</p>
+                    <p>🖥️ Máy Cloud 30 ngày: 150,000đ</p>
+                    <button style="margin-top:15px; padding:12px 40px; background:linear-gradient(135deg,#ffd700,#f0a500); color:#0a0a1a; border:none; border-radius:10px; font-weight:700; font-size:15px; cursor:pointer;" onclick="showPopup('☁️','Mua máy cloud','Chức năng đang được phát triển!')">Mua ngay</button>
+                </div>
+            `
+        },
+        checkcloud: {
+            title: '🔍 CHECK MÁY UPHONE',
+            html: `
+                <div style="text-align:center; padding:60px 20px; color:#888;">
+                    <div style="font-size:60px; margin-bottom:20px;">🔍</div>
+                    <h3 style="color:#ffd700; margin-bottom:10px;">Check Máy Uphone</h3>
+                    <p>Kiểm tra trạng thái máy Uphone của bạn</p>
+                    <input type="text" placeholder="Nhập mã máy..." style="padding:12px 20px; background:rgba(255,255,255,0.05); border:1px solid #333; border-radius:10px; color:#fff; font-size:15px; width:80%; max-width:300px;">
+                    <br><br>
+                    <button style="padding:12px 40px; background:linear-gradient(135deg,#ffd700,#f0a500); color:#0a0a1a; border:none; border-radius:10px; font-weight:700; font-size:15px; cursor:pointer;" onclick="showPopup('🔍','Check máy','Chức năng đang được phát triển!')">Kiểm tra</button>
+                </div>
+            `
+        },
+        codelogin: {
+            title: '🔑 CODE LOGIN CLOUD',
+            html: `
+                <div style="text-align:center; padding:60px 20px; color:#888;">
+                    <div style="font-size:60px; margin-bottom:20px;">🔑</div>
+                    <h3 style="color:#ffd700; margin-bottom:10px;">Code Login Cloud</h3>
+                    <p>Nhập mã để đăng nhập vào Cloud</p>
+                    <input type="text" placeholder="Nhập mã login..." style="padding:12px 20px; background:rgba(255,255,255,0.05); border:1px solid #333; border-radius:10px; color:#fff; font-size:15px; width:80%; max-width:300px;">
+                    <br><br>
+                    <button style="padding:12px 40px; background:linear-gradient(135deg,#ffd700,#f0a500); color:#0a0a1a; border:none; border-radius:10px; font-weight:700; font-size:15px; cursor:pointer;" onclick="showPopup('🔑','Code Login','Chức năng đang được phát triển!')">Xác nhận</button>
                 </div>
             `
         },
         giftcode: {
-            icon: '🎁',
-            title: '🎁 NHẬP GIFTCODE',
-            html: `
-                <div style="text-align:center; padding:60px 20px; color:#888;">
-                    <div style="font-size:60px; margin-bottom:20px;">🎁</div>
-                    <h3 style="color:#ffd700; margin-bottom:10px;">Nhập Giftcode</h3>
-                    <p style="margin-bottom:15px;">Nhập mã code để nhận quà miễn phí!</p>
-                    <input type="text" placeholder="Nhập mã giftcode..." style="padding:12px 20px; background:rgba(255,255,255,0.05); border:1px solid #333; border-radius:10px; color:#fff; font-size:15px; width:80%; max-width:300px;">
-                    <br><br>
-                    <button style="padding:12px 40px; background:linear-gradient(135deg,#ffd700,#f0a500); color:#0a0a1a; border:none; border-radius:10px; font-weight:700; font-size:15px; cursor:pointer;" onclick="showPopup('🎁','Nhập giftcode','Chức năng đang được phát triển! Vui lòng quay lại sau.')">Xác nhận</button>
-                </div>
-            `
-        },
-        flashsale: {
-            icon: '⚡',
-            title: '⚡ FLASH SALE CLOUD',
-            html: `
-                <div style="text-align:center; padding:60px 20px; color:#888;">
-                    <div style="font-size:60px; margin-bottom:20px;">⚡</div>
-                    <h3 style="color:#ffd700; margin-bottom:10px;">Flash Sale - Giảm giá sốc!</h3>
-                    <p>🔥 Code Ughearna: <span style="color:#ff4444; text-decoration:line-through;">50,000đ</span> <span style="color:#ffd700;">25,000đ</span></p>
-                    <p>🔥 Code Vipplayer: <span style="color:#ff4444; text-decoration:line-through;">20,000đ</span> <span style="color:#ffd700;">10,000đ</span></p>
-                    <p style="margin-top:20px; color:#555;">Flash sale kết thúc sau 24h!</p>
-                </div>
-            `
-        },
-        ranking: {
-            icon: '🏆',
-            title: '🏆 BẢNG XẾP HẠNG',
-            html: `
-                <div style="text-align:center; padding:60px 20px; color:#888;">
-                    <div style="font-size:60px; margin-bottom:20px;">🏆</div>
-                    <h3 style="color:#ffd700; margin-bottom:10px;">Bảng xếp hạng</h3>
-                    <p>🥇 1. <span style="color:#ffd700;">Người chơi A</span> - 10,000 điểm</p>
-                    <p>🥈 2. <span style="color:#ccc;">Người chơi B</span> - 8,000 điểm</p>
-                    <p>🥉 3. <span style="color:#cd7f32;">Người chơi C</span> - 5,000 điểm</p>
-                    <p style="margin-top:20px; color:#555;">Bạn đang đứng hạng #10</p>
-                </div>
-            `
-        },
-        history: {
-            icon: '📜',
-            title: '📜 LỊCH SỬ MUA HÀNG',
-            html: `
-                <div style="text-align:center; padding:60px 20px; color:#888;">
-                    <div style="font-size:60px; margin-bottom:20px;">📜</div>
-                    <h3 style="color:#ffd700; margin-bottom:10px;">Lịch sử mua hàng</h3>
-                    <p>📦 Code Ughearna - 50,000đ - 01/01/2026</p>
-                    <p>📦 Code Vimos - 30,000đ - 28/12/2025</p>
-                    <p style="margin-top:20px; color:#555;">Bạn đã mua tổng cộng 5 code</p>
-                </div>
-            `
-        },
-        taskhistory: {
-            icon: '📜',
-            title: '📜 LỊCH SỬ NHIỆM VỤ',
-            html: `
-                <div style="text-align:center; padding:60px 20px; color:#888;">
-                    <div style="font-size:60px; margin-bottom:20px;">📜</div>
-                    <h3 style="color:#ffd700; margin-bottom:10px;">Lịch sử nhiệm vụ</h3>
-                    <p>✅ Đăng nhập hàng ngày - +100 điểm (Hôm qua)</p>
-                    <p>✅ Mua 1 code - +50 điểm (Hôm kia)</p>
-                    <p style="margin-top:20px; color:#555;">Tổng điểm nhiệm vụ: 1,500 điểm</p>
-                </div>
-            `
-        },
-        cloudfree: {
-            icon: '☁️',
-            title: '☁️ CLOUD FREE MỖI NGÀY',
-            html: `
-                <div style="text-align:center; padding:60px 20px; color:#888;">
-                    <div style="font-size:60px; margin-bottom:20px;">☁️</div>
-                    <h3 style="color:#ffd700; margin-bottom:10px;">Cloud Free Mỗi Ngày</h3>
-                    <p>🎁 Nhận code miễn phí mỗi ngày!</p>
-                    <p>🔹 Ngày 1: Code Vimos 1 Day</p>
-                    <p>🔹 Ngày 2: Code Vipplayer 1 Ngày</p>
-                    <p>🔹 Ngày 3: Code Ughearna 4H</p>
-                    <p style="margin-top:20px; color:#555;">Đã nhận 7/7 ngày!</p>
-                </div>
-            `
-        },
-        support: {
-            icon: '⚙️',
-            title: '⚙️ TRUNG TÂM HỖ TRỢ 24/7',
-            html: `
-                <div style="text-align:center; padding:60px 20px; color:#888;">
-                    <div style="font-size:60px; margin-bottom:20px;">⚙️</div>
-                    <h3 style="color:#ffd700; margin-bottom:10px;">Trung tâm hỗ trợ</h3>
-                    <p>📱 Zalo: 0909.xxx.xxx</p>
-                    <p>💬 Discord: NiNiStore#1234</p>
-                    <p>📧 Email: support@ninistore.com</p>
-                    <p style="margin-top:20px; color:#555;">Hỗ trợ 24/7 - Luôn sẵn sàng giúp đỡ bạn!</p>
-                </div>
-            `
-        }
-    };
-
-    menuItems.forEach(function(item) {
-        item.addEventListener('click', function(e) {
-            e.preventDefault();
-
-            // Xóa active cũ
-            menuItems.forEach(function(m) {
-                m.classList.remove('active');
-            });
-            this.classList.add('active');
-
-            var page = this.getAttribute('data-page');
-            var content = pageContent[page];
-
-            if (content) {
-                contentArea.innerHTML = `
-                    <h3 class="section-title">${content.title}</h3>
-                    ${content.html}
-                `;
-            }
-        });
-    });
-</script>
-
-</body>
-</html>
+            title: '🎁 NHẬP
