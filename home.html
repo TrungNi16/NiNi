@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang chủ - NiNi Store</title>
+    <title>NiNi Store - Trang chủ</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: Arial, sans-serif;
         }
 
         body {
@@ -21,235 +21,285 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 30px 20px;
         }
 
+        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 20px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .header h1 {
             color: #ffd700;
-            font-size: 28px;
+            font-size: 26px;
         }
 
-        .header .user {
+        .header .user-info {
             color: #888;
             font-size: 14px;
         }
 
-        .header .user strong {
+        .header .user-info strong {
             color: #ffd700;
         }
 
-        .welcome {
-            background: rgba(255, 215, 0, 0.03);
-            border: 1px solid rgba(255, 215, 0, 0.05);
+        .logout-btn {
+            padding: 8px 18px;
+            background: rgba(255,0,0,0.05);
+            border: 1px solid rgba(255,0,0,0.1);
+            border-radius: 8px;
+            color: #888;
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,0,0,0.1);
+            color: #ff6666;
+        }
+
+        /* Menu */
+        .menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            padding: 15px 0;
+            margin: 20px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .menu a {
+            color: #888;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .menu a:hover {
+            background: rgba(255,215,0,0.05);
+            color: #fff;
+        }
+
+        .menu a.active {
+            color: #ffd700;
+            background: rgba(255,215,0,0.05);
+        }
+
+        /* Banner */
+        .banner {
+            background: rgba(255,215,0,0.02);
+            border: 1px solid rgba(255,215,0,0.05);
             border-radius: 20px;
             padding: 40px;
             text-align: center;
             margin-bottom: 40px;
         }
 
-        .welcome h2 {
+        .banner h2 {
             color: #ffd700;
-            font-size: 32px;
+            font-size: 28px;
             margin-bottom: 10px;
         }
 
-        .welcome p {
+        .banner p {
             color: #888;
             font-size: 16px;
         }
 
+        .banner .stats {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .banner .stats span {
+            background: rgba(255,255,255,0.03);
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        /* Code Grid */
+        .section-title {
+            color: #ffd700;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
         .code-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 20px;
         }
 
         .code-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
             border-radius: 16px;
             padding: 20px;
-            transition: all 0.3s ease;
+            transition: 0.3s;
         }
 
         .code-card:hover {
-            border-color: rgba(255, 215, 0, 0.1);
+            border-color: rgba(255,215,0,0.1);
             transform: translateY(-3px);
         }
 
-        .code-card h3 {
+        .code-card .name {
             color: #fff;
             font-size: 16px;
+            font-weight: 600;
             margin-bottom: 10px;
         }
 
         .code-card .price {
             color: #ffd700;
-            font-weight: 600;
             font-size: 18px;
+            font-weight: 700;
         }
 
         .code-card .stock {
             color: #888;
             font-size: 14px;
+            margin: 5px 0 15px;
         }
 
         .code-card .buy-btn {
-            margin-top: 15px;
             width: 100%;
             padding: 10px;
             background: linear-gradient(135deg, #ffd700, #f0a500);
             color: #0a0a1a;
             border: none;
             border-radius: 10px;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 15px;
             cursor: pointer;
             transition: 0.3s;
         }
 
         .code-card .buy-btn:hover {
             transform: scale(1.02);
-        }
-
-        .logout-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background: rgba(255, 0, 0, 0.05);
-            border: 1px solid rgba(255, 0, 0, 0.1);
-            border-radius: 10px;
-            color: #888;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        .logout-btn:hover {
-            background: rgba(255, 0, 0, 0.1);
-            color: #ff6666;
-        }
-
-        .menu-bar {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 40px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-        }
-
-        .menu-bar a {
-            color: #888;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            transition: 0.3s;
-            font-size: 14px;
-        }
-
-        .menu-bar a:hover {
-            background: rgba(255, 215, 0, 0.05);
-            color: #fff;
-        }
-
-        .menu-bar a.active {
-            color: #ffd700;
-            background: rgba(255, 215, 0, 0.05);
+            box-shadow: 0 0 20px rgba(255,215,0,0.1);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <h1>🌟 NINI STORE</h1>
-            <div>
-                <span class="user">👤 <strong id="usernameDisplay">User</strong></span>
-                <a href="index.html" class="logout-btn" style="margin-left:15px;">🚪 Đăng xuất</a>
-            </div>
-        </div>
 
-        <!-- Menu Bar -->
-        <div class="menu-bar">
-            <a href="#" class="active">🏠 Trang chủ</a>
-            <a href="#">📋 Nhiệm vụ</a>
-            <a href="#">🛒 Đối điểm</a>
-            <a href="#">💰 Nạp Tiền</a>
-            <a href="#">🔧 Công Cụ</a>
-            <a href="#">🎁 Nhập Giftcode</a>
-            <a href="#">⚡ Flash Sale</a>
-            <a href="#">🏆 Bảng Xếp Hạng</a>
-            <a href="#">📜 Lịch sử</a>
-            <a href="#">⚙️ Trung Tâm</a>
-        </div>
-
-        <!-- Welcome Banner -->
-        <div class="welcome">
-            <h2>🔥 CHÀO MỪNG ĐẾN VỚI NINI STORE</h2>
-            <p>Nơi cung cấp code Free Fire uy tín - chất lượng - giá tốt nhất</p>
-        </div>
-
-        <!-- Danh sách code -->
-        <h3 style="color:#ffd700; margin-bottom:20px; font-size:22px;">📦 DANH SÁCH CODE</h3>
-        <div class="code-grid">
-            <div class="code-card">
-                <h3>Code Ughearna Redesem 4H</h3>
-                <div class="price">💰 50,000đ</div>
-                <div class="stock">📦 Còn: 10 code</div>
-                <button class="buy-btn" onclick="alert('🛒 Bạn đã mua code thành công!')">🛒 Mua ngay</button>
-            </div>
-
-            <div class="code-card">
-                <h3>Code Vimos 1 Day</h3>
-                <div class="price">💰 30,000đ</div>
-                <div class="stock">📦 Còn: 15 code</div>
-                <button class="buy-btn" onclick="alert('🛒 Bạn đã mua code thành công!')">🛒 Mua ngay</button>
-            </div>
-
-            <div class="code-card">
-                <h3>Code Vipplayer 1 Ngày</h3>
-                <div class="price">💰 20,000đ</div>
-                <div class="stock">📦 Còn: 20 code</div>
-                <button class="buy-btn" onclick="alert('🛒 Bạn đã mua code thành công!')">🛒 Mua ngay</button>
-            </div>
-
-            <div class="code-card">
-                <h3>Code Uuphone 7 Ngày</h3>
-                <div class="price">💰 100,000đ</div>
-                <div class="stock">📦 Còn: 8 code</div>
-                <button class="buy-btn" onclick="alert('🛒 Bạn đã mua code thành công!')">🛒 Mua ngay</button>
-            </div>
-
-            <div class="code-card">
-                <h3>Code Uuphone 15 Ngày</h3>
-                <div class="price">💰 150,000đ</div>
-                <div class="stock">📦 Còn: 5 code</div>
-                <button class="buy-btn" onclick="alert('🛒 Bạn đã mua code thành công!')">🛒 Mua ngay</button>
-            </div>
-
-            <div class="code-card">
-                <h3>App Mod Skin</h3>
-                <div class="price">💰 80,000đ</div>
-                <div class="stock">📦 Còn: 7 code</div>
-                <button class="buy-btn" onclick="alert('🛒 Bạn đã mua code thành công!')">🛒 Mua ngay</button>
-            </div>
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <h1>🌟 NINI STORE</h1>
+        <div>
+            <span class="user-info">👤 Xin chào, <strong id="usernameDisplay">Khách</strong></span>
+            <a href="index.html" class="logout-btn">🚪 Đăng xuất</a>
         </div>
     </div>
 
-    <script>
-        // Lấy tên user từ URL hoặc hiển thị mặc định
-        var urlParams = new URLSearchParams(window.location.search);
-        var username = urlParams.get('user') || 'Khách';
-        document.getElementById('usernameDisplay').textContent = username;
-    </script>
+    <!-- Menu -->
+    <div class="menu">
+        <a href="#" class="active">🏠 Trang chủ</a>
+        <a href="#">📋 Nhiệm vụ</a>
+        <a href="#">🛒 Đối điểm</a>
+        <a href="#">💰 Nạp Tiền</a>
+        <a href="#">🔧 Công Cụ</a>
+        <a href="#">🎁 Nhập Giftcode</a>
+        <a href="#">⚡ Flash Sale</a>
+        <a href="#">🏆 Bảng Xếp Hạng</a>
+        <a href="#">📜 Lịch sử</a>
+        <a href="#">⚙️ Trung Tâm</a>
+    </div>
+
+    <!-- Banner -->
+    <div class="banner">
+        <h2>🔥 CHÀO MỪNG ĐẾN VỚI NINI STORE</h2>
+        <p>Nơi cung cấp code Free Fire uy tín - chất lượng - giá tốt nhất</p>
+        <div class="stats">
+            <span>💰 Điểm: 1,000,000</span>
+            <span>👑 VIP: 3</span>
+        </div>
+    </div>
+
+    <!-- Danh sách code -->
+    <h3 class="section-title">📦 DANH SÁCH CODE</h3>
+    <div class="code-grid">
+        <div class="code-card">
+            <div class="name">Code Ughearna Redesem 4H</div>
+            <div class="price">💰 50,000đ</div>
+            <div class="stock">📦 Còn: 10 code</div>
+            <button class="buy-btn" onclick="alert('🛒 Mua thành công! Mã code: UGHEARN4H')">🛒 Mua ngay</button>
+        </div>
+
+        <div class="code-card">
+            <div class="name">Code Vimos 1 Day</div>
+            <div class="price">💰 30,000đ</div>
+            <div class="stock">📦 Còn: 15 code</div>
+            <button class="buy-btn" onclick="alert('🛒 Mua thành công! Mã code: VIMOS1D')">🛒 Mua ngay</button>
+        </div>
+
+        <div class="code-card">
+            <div class="name">Code Vipplayer 1 Ngày</div>
+            <div class="price">💰 20,000đ</div>
+            <div class="stock">📦 Còn: 20 code</div>
+            <button class="buy-btn" onclick="alert('🛒 Mua thành công! Mã code: VIPPL1N')">🛒 Mua ngay</button>
+        </div>
+
+        <div class="code-card">
+            <div class="name">Code Vipplayer 2 Ngày</div>
+            <div class="price">💰 35,000đ</div>
+            <div class="stock">📦 Còn: 12 code</div>
+            <button class="buy-btn" onclick="alert('🛒 Mua thành công! Mã code: VIPPL2N')">🛒 Mua ngay</button>
+        </div>
+
+        <div class="code-card">
+            <div class="name">Code Uuphone 7 Ngày</div>
+            <div class="price">💰 100,000đ</div>
+            <div class="stock">📦 Còn: 8 code</div>
+            <button class="buy-btn" onclick="alert('🛒 Mua thành công! Mã code: UUPH7N')">🛒 Mua ngay</button>
+        </div>
+
+        <div class="code-card">
+            <div class="name">Code Uuphone 15 Ngày</div>
+            <div class="price">💰 150,000đ</div>
+            <div class="stock">📦 Còn: 5 code</div>
+            <button class="buy-btn" onclick="alert('🛒 Mua thành công! Mã code: UUPH15N')">🛒 Mua ngay</button>
+        </div>
+
+        <div class="code-card">
+            <div class="name">App Mod Skin</div>
+            <div class="price">💰 80,000đ</div>
+            <div class="stock">📦 Còn: 7 code</div>
+            <button class="buy-btn" onclick="alert('🛒 Mua thành công! Mã code: APPMODSK')">🛒 Mua ngay</button>
+        </div>
+
+        <div class="code-card">
+            <div class="name">Cloud Free Mobile Ngày</div>
+            <div class="price">💰 25,000đ</div>
+            <div class="stock">📦 Còn: 30 code</div>
+            <button class="buy-btn" onclick="alert('🛒 Mua thành công! Mã code: CLOUD1D')">🛒 Mua ngay</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Lấy tên user từ URL
+    var urlParams = new URLSearchParams(window.location.search);
+    var user = urlParams.get('user') || 'Khách';
+    document.getElementById('usernameDisplay').textContent = user;
+</script>
+
 </body>
 </html>
