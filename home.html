@@ -24,7 +24,7 @@
             padding: 30px 20px;
         }
 
-        /* Header */
+        /* ===== HEADER ===== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -66,7 +66,7 @@
             color: #ff6666;
         }
 
-        /* Menu */
+        /* ===== MENU CHÍNH ===== */
         .menu {
             display: flex;
             flex-wrap: wrap;
@@ -79,10 +79,14 @@
         .menu a {
             color: #888;
             text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 8px;
+            padding: 10px 18px;
+            border-radius: 10px;
             font-size: 14px;
             transition: 0.3s;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .menu a:hover {
@@ -92,10 +96,38 @@
 
         .menu a.active {
             color: #ffd700;
-            background: rgba(255,215,0,0.05);
+            background: rgba(255,215,0,0.08);
         }
 
-        /* Banner */
+        /* Badge HOT / SALE / 24/7 */
+        .badge {
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-left: 2px;
+        }
+
+        .badge-hot {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff4444;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+        }
+
+        .badge-sale {
+            background: rgba(255, 215, 0, 0.15);
+            color: #ffd700;
+            border: 1px solid rgba(255, 215, 0, 0.15);
+        }
+
+        .badge-247 {
+            background: rgba(0, 200, 255, 0.1);
+            color: #00ccff;
+            border: 1px solid rgba(0, 200, 255, 0.1);
+        }
+
+        /* ===== BANNER ===== */
         .banner {
             background: rgba(255,215,0,0.02);
             border: 1px solid rgba(255,215,0,0.05);
@@ -133,7 +165,7 @@
             font-size: 14px;
         }
 
-        /* Code Grid */
+        /* ===== CODE GRID ===== */
         .section-title {
             color: #ffd700;
             font-size: 22px;
@@ -200,7 +232,7 @@
 <body>
 
 <div class="container">
-    <!-- Header -->
+    <!-- ===== HEADER ===== -->
     <div class="header">
         <h1>🌟 NINI STORE</h1>
         <div>
@@ -209,7 +241,7 @@
         </div>
     </div>
 
-    <!-- Menu -->
+    <!-- ===== MENU CHÍNH (đúng theo ảnh của bạn) ===== -->
     <div class="menu">
         <a href="#" class="active">🏠 Trang chủ</a>
         <a href="#">📋 Nhiệm vụ</a>
@@ -217,13 +249,27 @@
         <a href="#">💰 Nạp Tiền</a>
         <a href="#">🔧 Công Cụ</a>
         <a href="#">🎁 Nhập Giftcode</a>
-        <a href="#">⚡ Flash Sale</a>
-        <a href="#">🏆 Bảng Xếp Hạng</a>
-        <a href="#">📜 Lịch sử</a>
-        <a href="#">⚙️ Trung Tâm</a>
+        <a href="#">
+            ⚡ Flash Sale Cloud
+            <span class="badge badge-sale">SALE</span>
+        </a>
+        <a href="#">
+            🏆 Bảng Xếp Hạng
+            <span class="badge badge-hot">HOT</span>
+        </a>
+        <a href="#">📜 Lịch sử mua hàng</a>
+        <a href="#">📜 Lịch sử nhiệm vụ</a>
+        <a href="#">
+            ☁️ Cloud Free Mỗi Ngày
+            <span class="badge badge-hot">HOT</span>
+        </a>
+        <a href="#">
+            ⚙️ Trung Tâm Hỗ Trợ
+            <span class="badge badge-247">24/7</span>
+        </a>
     </div>
 
-    <!-- Banner -->
+    <!-- ===== BANNER ===== -->
     <div class="banner">
         <h2>🔥 CHÀO MỪNG ĐẾN VỚI NINI STORE</h2>
         <p>Nơi cung cấp code Free Fire uy tín - chất lượng - giá tốt nhất</p>
@@ -233,7 +279,7 @@
         </div>
     </div>
 
-    <!-- Danh sách code -->
+    <!-- ===== DANH SÁCH CODE ===== -->
     <h3 class="section-title">📦 DANH SÁCH CODE</h3>
     <div class="code-grid">
         <div class="code-card">
