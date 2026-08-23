@@ -87,6 +87,7 @@
             display: inline-flex;
             align-items: center;
             gap: 5px;
+            cursor: pointer;
         }
 
         .menu a:hover {
@@ -99,7 +100,7 @@
             background: rgba(255,215,0,0.08);
         }
 
-        /* Badge HOT / SALE / 24/7 */
+        /* Badge */
         .badge {
             font-size: 10px;
             padding: 2px 8px;
@@ -165,13 +166,18 @@
             font-size: 14px;
         }
 
-        /* ===== CODE GRID ===== */
+        /* ===== NỘI DUNG CHÍNH ===== */
         .section-title {
             color: #ffd700;
             font-size: 22px;
             margin-bottom: 20px;
         }
 
+        .content-area {
+            min-height: 300px;
+        }
+
+        /* ===== CODE GRID ===== */
         .code-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -227,6 +233,95 @@
             transform: scale(1.02);
             box-shadow: 0 0 20px rgba(255,215,0,0.1);
         }
+
+        /* ===== THÔNG BÁO POPUP ===== */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-overlay.show {
+            display: flex;
+        }
+
+        .popup-box {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,215,0,0.2);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .popup-box .icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .popup-box h3 {
+            color: #ffd700;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .popup-box p {
+            color: #aaa;
+            font-size: 15px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .popup-box .close-btn {
+            padding: 12px 40px;
+            background: linear-gradient(135deg, #ffd700, #f0a500);
+            color: #0a0a1a;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .popup-box .close-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .menu a {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+            .banner {
+                padding: 25px;
+            }
+            .banner h2 {
+                font-size: 22px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -241,29 +336,29 @@
         </div>
     </div>
 
-    <!-- ===== MENU CHÍNH (đúng theo ảnh của bạn) ===== -->
-    <div class="menu">
-        <a href="#" class="active">🏠 Trang chủ</a>
-        <a href="#">📋 Nhiệm vụ</a>
-        <a href="#">🛒 Đối điểm</a>
-        <a href="#">💰 Nạp Tiền</a>
-        <a href="#">🔧 Công Cụ</a>
-        <a href="#">🎁 Nhập Giftcode</a>
-        <a href="#">
+    <!-- ===== MENU CHÍNH ===== -->
+    <div class="menu" id="mainMenu">
+        <a href="#" class="active" data-page="home">🏠 Trang chủ</a>
+        <a href="#" data-page="task">📋 Nhiệm vụ</a>
+        <a href="#" data-page="shop">🛒 Đối điểm</a>
+        <a href="#" data-page="recharge">💰 Nạp Tiền</a>
+        <a href="#" data-page="tools">🔧 Công Cụ</a>
+        <a href="#" data-page="giftcode">🎁 Nhập Giftcode</a>
+        <a href="#" data-page="flashsale">
             ⚡ Flash Sale Cloud
             <span class="badge badge-sale">SALE</span>
         </a>
-        <a href="#">
+        <a href="#" data-page="ranking">
             🏆 Bảng Xếp Hạng
             <span class="badge badge-hot">HOT</span>
         </a>
-        <a href="#">📜 Lịch sử mua hàng</a>
-        <a href="#">📜 Lịch sử nhiệm vụ</a>
-        <a href="#">
+        <a href="#" data-page="history">📜 Lịch sử mua hàng</a>
+        <a href="#" data-page="taskhistory">📜 Lịch sử nhiệm vụ</a>
+        <a href="#" data-page="cloudfree">
             ☁️ Cloud Free Mỗi Ngày
             <span class="badge badge-hot">HOT</span>
         </a>
-        <a href="#">
+        <a href="#" data-page="support">
             ⚙️ Trung Tâm Hỗ Trợ
             <span class="badge badge-247">24/7</span>
         </a>
@@ -279,72 +374,347 @@
         </div>
     </div>
 
-    <!-- ===== DANH SÁCH CODE ===== -->
-    <h3 class="section-title">📦 DANH SÁCH CODE</h3>
-    <div class="code-grid">
-        <div class="code-card">
-            <div class="name">Code Ughearna Redesem 4H</div>
-            <div class="price">💰 50,000đ</div>
-            <div class="stock">📦 Còn: 10 code</div>
-            <button class="buy-btn" onclick="alert('🛒 Mua thành công! Mã code: UGHEARN4H')">🛒 Mua ngay</button>
-        </div>
+    <!-- ===== NỘI DUNG CHÍNH ===== -->
+    <div class="content-area" id="contentArea">
+        <h3 class="section-title">📦 DANH SÁCH CODE</h3>
+        <div class="code-grid">
+            <div class="code-card">
+                <div class="name">Code Ughearna Redesem 4H</div>
+                <div class="price">💰 50,000đ</div>
+                <div class="stock">📦 Còn: 10 code</div>
+                <button class="buy-btn" onclick="buyCode('UGHEARN4H', 50000)">🛒 Mua ngay</button>
+            </div>
 
-        <div class="code-card">
-            <div class="name">Code Vimos 1 Day</div>
-            <div class="price">💰 30,000đ</div>
-            <div class="stock">📦 Còn: 15 code</div>
-            <button class="buy-btn" onclick="alert('🛒 Mua thành công! Mã code: VIMOS1D')">🛒 Mua ngay</button>
-        </div>
+            <div class="code-card">
+                <div class="name">Code Vimos 1 Day</div>
+                <div class="price">💰 30,000đ</div>
+                <div class="stock">📦 Còn: 15 code</div>
+                <button class="buy-btn" onclick="buyCode('VIMOS1D', 30000)">🛒 Mua ngay</button>
+            </div>
 
-        <div class="code-card">
-            <div class="name">Code Vipplayer 1 Ngày</div>
-            <div class="price">💰 20,000đ</div>
-            <div class="stock">📦 Còn: 20 code</div>
-            <button class="buy-btn" onclick="alert('🛒 Mua thành công! Mã code: VIPPL1N')">🛒 Mua ngay</button>
-        </div>
+            <div class="code-card">
+                <div class="name">Code Vipplayer 1 Ngày</div>
+                <div class="price">💰 20,000đ</div>
+                <div class="stock">📦 Còn: 20 code</div>
+                <button class="buy-btn" onclick="buyCode('VIPPL1N', 20000)">🛒 Mua ngay</button>
+            </div>
 
-        <div class="code-card">
-            <div class="name">Code Vipplayer 2 Ngày</div>
-            <div class="price">💰 35,000đ</div>
-            <div class="stock">📦 Còn: 12 code</div>
-            <button class="buy-btn" onclick="alert('🛒 Mua thành công! Mã code: VIPPL2N')">🛒 Mua ngay</button>
-        </div>
+            <div class="code-card">
+                <div class="name">Code Vipplayer 2 Ngày</div>
+                <div class="price">💰 35,000đ</div>
+                <div class="stock">📦 Còn: 12 code</div>
+                <button class="buy-btn" onclick="buyCode('VIPPL2N', 35000)">🛒 Mua ngay</button>
+            </div>
 
-        <div class="code-card">
-            <div class="name">Code Uuphone 7 Ngày</div>
-            <div class="price">💰 100,000đ</div>
-            <div class="stock">📦 Còn: 8 code</div>
-            <button class="buy-btn" onclick="alert('🛒 Mua thành công! Mã code: UUPH7N')">🛒 Mua ngay</button>
-        </div>
+            <div class="code-card">
+                <div class="name">Code Uuphone 7 Ngày</div>
+                <div class="price">💰 100,000đ</div>
+                <div class="stock">📦 Còn: 8 code</div>
+                <button class="buy-btn" onclick="buyCode('UUPH7N', 100000)">🛒 Mua ngay</button>
+            </div>
 
-        <div class="code-card">
-            <div class="name">Code Uuphone 15 Ngày</div>
-            <div class="price">💰 150,000đ</div>
-            <div class="stock">📦 Còn: 5 code</div>
-            <button class="buy-btn" onclick="alert('🛒 Mua thành công! Mã code: UUPH15N')">🛒 Mua ngay</button>
-        </div>
+            <div class="code-card">
+                <div class="name">Code Uuphone 15 Ngày</div>
+                <div class="price">💰 150,000đ</div>
+                <div class="stock">📦 Còn: 5 code</div>
+                <button class="buy-btn" onclick="buyCode('UUPH15N', 150000)">🛒 Mua ngay</button>
+            </div>
 
-        <div class="code-card">
-            <div class="name">App Mod Skin</div>
-            <div class="price">💰 80,000đ</div>
-            <div class="stock">📦 Còn: 7 code</div>
-            <button class="buy-btn" onclick="alert('🛒 Mua thành công! Mã code: APPMODSK')">🛒 Mua ngay</button>
-        </div>
+            <div class="code-card">
+                <div class="name">App Mod Skin</div>
+                <div class="price">💰 80,000đ</div>
+                <div class="stock">📦 Còn: 7 code</div>
+                <button class="buy-btn" onclick="buyCode('APPMODSK', 80000)">🛒 Mua ngay</button>
+            </div>
 
-        <div class="code-card">
-            <div class="name">Cloud Free Mobile Ngày</div>
-            <div class="price">💰 25,000đ</div>
-            <div class="stock">📦 Còn: 30 code</div>
-            <button class="buy-btn" onclick="alert('🛒 Mua thành công! Mã code: CLOUD1D')">🛒 Mua ngay</button>
+            <div class="code-card">
+                <div class="name">Cloud Free Mobile Ngày</div>
+                <div class="price">💰 25,000đ</div>
+                <div class="stock">📦 Còn: 30 code</div>
+                <button class="buy-btn" onclick="buyCode('CLOUD1D', 25000)">🛒 Mua ngay</button>
+            </div>
         </div>
     </div>
 </div>
 
+<!-- ===== POPUP ===== -->
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup-box">
+        <div class="icon" id="popupIcon">📢</div>
+        <h3 id="popupTitle">Thông báo</h3>
+        <p id="popupMessage">Nội dung thông báo</p>
+        <button class="close-btn" onclick="closePopup()">Đã hiểu</button>
+    </div>
+</div>
+
 <script>
-    // Lấy tên user từ URL
+    // ===== LẤY TÊN USER =====
     var urlParams = new URLSearchParams(window.location.search);
     var user = urlParams.get('user') || 'Khách';
     document.getElementById('usernameDisplay').textContent = user;
+
+    // ===== POPUP =====
+    function showPopup(icon, title, message) {
+        document.getElementById('popupIcon').textContent = icon;
+        document.getElementById('popupTitle').textContent = title;
+        document.getElementById('popupMessage').textContent = message;
+        document.getElementById('popupOverlay').classList.add('show');
+    }
+
+    function closePopup() {
+        document.getElementById('popupOverlay').classList.remove('show');
+    }
+
+    // Đóng popup khi click ra ngoài
+    document.getElementById('popupOverlay').addEventListener('click', function(e) {
+        if (e.target === this) closePopup();
+    });
+
+    // ===== MUA CODE =====
+    function buyCode(code, price) {
+        showPopup(
+            '🛒',
+            'Xác nhận mua hàng',
+            'Bạn đã mua thành công mã code: ' + code + ' với giá ' + price.toLocaleString() + 'đ!'
+        );
+    }
+
+    // ===== MENU CHỨC NĂNG =====
+    var menuItems = document.querySelectorAll('.menu a[data-page]');
+    var contentArea = document.getElementById('contentArea');
+
+    var pageContent = {
+        home: {
+            icon: '🏠',
+            title: '📦 DANH SÁCH CODE',
+            html: `
+                <div class="code-grid">
+                    <div class="code-card">
+                        <div class="name">Code Ughearna Redesem 4H</div>
+                        <div class="price">💰 50,000đ</div>
+                        <div class="stock">📦 Còn: 10 code</div>
+                        <button class="buy-btn" onclick="buyCode('UGHEARN4H', 50000)">🛒 Mua ngay</button>
+                    </div>
+                    <div class="code-card">
+                        <div class="name">Code Vimos 1 Day</div>
+                        <div class="price">💰 30,000đ</div>
+                        <div class="stock">📦 Còn: 15 code</div>
+                        <button class="buy-btn" onclick="buyCode('VIMOS1D', 30000)">🛒 Mua ngay</button>
+                    </div>
+                    <div class="code-card">
+                        <div class="name">Code Vipplayer 1 Ngày</div>
+                        <div class="price">💰 20,000đ</div>
+                        <div class="stock">📦 Còn: 20 code</div>
+                        <button class="buy-btn" onclick="buyCode('VIPPL1N', 20000)">🛒 Mua ngay</button>
+                    </div>
+                    <div class="code-card">
+                        <div class="name">Code Vipplayer 2 Ngày</div>
+                        <div class="price">💰 35,000đ</div>
+                        <div class="stock">📦 Còn: 12 code</div>
+                        <button class="buy-btn" onclick="buyCode('VIPPL2N', 35000)">🛒 Mua ngay</button>
+                    </div>
+                    <div class="code-card">
+                        <div class="name">Code Uuphone 7 Ngày</div>
+                        <div class="price">💰 100,000đ</div>
+                        <div class="stock">📦 Còn: 8 code</div>
+                        <button class="buy-btn" onclick="buyCode('UUPH7N', 100000)">🛒 Mua ngay</button>
+                    </div>
+                    <div class="code-card">
+                        <div class="name">Code Uuphone 15 Ngày</div>
+                        <div class="price">💰 150,000đ</div>
+                        <div class="stock">📦 Còn: 5 code</div>
+                        <button class="buy-btn" onclick="buyCode('UUPH15N', 150000)">🛒 Mua ngay</button>
+                    </div>
+                    <div class="code-card">
+                        <div class="name">App Mod Skin</div>
+                        <div class="price">💰 80,000đ</div>
+                        <div class="stock">📦 Còn: 7 code</div>
+                        <button class="buy-btn" onclick="buyCode('APPMODSK', 80000)">🛒 Mua ngay</button>
+                    </div>
+                    <div class="code-card">
+                        <div class="name">Cloud Free Mobile Ngày</div>
+                        <div class="price">💰 25,000đ</div>
+                        <div class="stock">📦 Còn: 30 code</div>
+                        <button class="buy-btn" onclick="buyCode('CLOUD1D', 25000)">🛒 Mua ngay</button>
+                    </div>
+                </div>
+            `
+        },
+        task: {
+            icon: '📋',
+            title: '📋 NHIỆM VỤ',
+            html: `
+                <div style="text-align:center; padding:60px 20px; color:#888;">
+                    <div style="font-size:60px; margin-bottom:20px;">📋</div>
+                    <h3 style="color:#ffd700; margin-bottom:10px;">Nhiệm vụ hàng ngày</h3>
+                    <p>🔹 Đăng nhập hàng ngày: +100 điểm</p>
+                    <p>🔹 Mua 1 code bất kỳ: +50 điểm</p>
+                    <p>🔹 Mời bạn bè đăng ký: +200 điểm</p>
+                    <p style="margin-top:20px; color:#555;">Hoàn thành nhiệm vụ để nhận thưởng!</p>
+                </div>
+            `
+        },
+        shop: {
+            icon: '🛒',
+            title: '🛒 CỬA HÀNG - ĐỐI ĐIỂM',
+            html: `
+                <div style="text-align:center; padding:60px 20px; color:#888;">
+                    <div style="font-size:60px; margin-bottom:20px;">🛒</div>
+                    <h3 style="color:#ffd700; margin-bottom:10px;">Cửa hàng đổi điểm</h3>
+                    <p>💎 100 điểm = 1 code Free Fire</p>
+                    <p>💎 500 điểm = 1 skin hiếm</p>
+                    <p>💎 1000 điểm = 1 thẻ VIP 1 tháng</p>
+                    <p style="margin-top:20px; color:#555;">Tích lũy điểm để đổi quà!</p>
+                </div>
+            `
+        },
+        recharge: {
+            icon: '💰',
+            title: '💰 NẠP TIỀN',
+            html: `
+                <div style="text-align:center; padding:60px 20px; color:#888;">
+                    <div style="font-size:60px; margin-bottom:20px;">💰</div>
+                    <h3 style="color:#ffd700; margin-bottom:10px;">Nạp tiền vào tài khoản</h3>
+                    <p>💳 Chuyển khoản ngân hàng</p>
+                    <p>📱 Mã QR MoMo / ZaloPay</p>
+                    <p>💳 Thẻ cào Viettel / Vinaphone / Mobifone</p>
+                    <p style="margin-top:20px; color:#555;">Liên hệ admin để được hỗ trợ!</p>
+                </div>
+            `
+        },
+        tools: {
+            icon: '🔧',
+            title: '🔧 CÔNG CỤ',
+            html: `
+                <div style="text-align:center; padding:60px 20px; color:#888;">
+                    <div style="font-size:60px; margin-bottom:20px;">🔧</div>
+                    <h3 style="color:#ffd700; margin-bottom:10px;">Công cụ hỗ trợ</h3>
+                    <p>🔹 Kiểm tra tài khoản</p>
+                    <p>🔹 Tra cứu code</p>
+                    <p>🔹 Tạo code tự động</p>
+                    <p style="margin-top:20px; color:#555;">Đang phát triển...</p>
+                </div>
+            `
+        },
+        giftcode: {
+            icon: '🎁',
+            title: '🎁 NHẬP GIFTCODE',
+            html: `
+                <div style="text-align:center; padding:60px 20px; color:#888;">
+                    <div style="font-size:60px; margin-bottom:20px;">🎁</div>
+                    <h3 style="color:#ffd700; margin-bottom:10px;">Nhập Giftcode</h3>
+                    <p style="margin-bottom:15px;">Nhập mã code để nhận quà miễn phí!</p>
+                    <input type="text" placeholder="Nhập mã giftcode..." style="padding:12px 20px; background:rgba(255,255,255,0.05); border:1px solid #333; border-radius:10px; color:#fff; font-size:15px; width:80%; max-width:300px;">
+                    <br><br>
+                    <button style="padding:12px 40px; background:linear-gradient(135deg,#ffd700,#f0a500); color:#0a0a1a; border:none; border-radius:10px; font-weight:700; font-size:15px; cursor:pointer;" onclick="showPopup('🎁','Nhập giftcode','Chức năng đang được phát triển! Vui lòng quay lại sau.')">Xác nhận</button>
+                </div>
+            `
+        },
+        flashsale: {
+            icon: '⚡',
+            title: '⚡ FLASH SALE CLOUD',
+            html: `
+                <div style="text-align:center; padding:60px 20px; color:#888;">
+                    <div style="font-size:60px; margin-bottom:20px;">⚡</div>
+                    <h3 style="color:#ffd700; margin-bottom:10px;">Flash Sale - Giảm giá sốc!</h3>
+                    <p>🔥 Code Ughearna: <span style="color:#ff4444; text-decoration:line-through;">50,000đ</span> <span style="color:#ffd700;">25,000đ</span></p>
+                    <p>🔥 Code Vipplayer: <span style="color:#ff4444; text-decoration:line-through;">20,000đ</span> <span style="color:#ffd700;">10,000đ</span></p>
+                    <p style="margin-top:20px; color:#555;">Flash sale kết thúc sau 24h!</p>
+                </div>
+            `
+        },
+        ranking: {
+            icon: '🏆',
+            title: '🏆 BẢNG XẾP HẠNG',
+            html: `
+                <div style="text-align:center; padding:60px 20px; color:#888;">
+                    <div style="font-size:60px; margin-bottom:20px;">🏆</div>
+                    <h3 style="color:#ffd700; margin-bottom:10px;">Bảng xếp hạng</h3>
+                    <p>🥇 1. <span style="color:#ffd700;">Người chơi A</span> - 10,000 điểm</p>
+                    <p>🥈 2. <span style="color:#ccc;">Người chơi B</span> - 8,000 điểm</p>
+                    <p>🥉 3. <span style="color:#cd7f32;">Người chơi C</span> - 5,000 điểm</p>
+                    <p style="margin-top:20px; color:#555;">Bạn đang đứng hạng #10</p>
+                </div>
+            `
+        },
+        history: {
+            icon: '📜',
+            title: '📜 LỊCH SỬ MUA HÀNG',
+            html: `
+                <div style="text-align:center; padding:60px 20px; color:#888;">
+                    <div style="font-size:60px; margin-bottom:20px;">📜</div>
+                    <h3 style="color:#ffd700; margin-bottom:10px;">Lịch sử mua hàng</h3>
+                    <p>📦 Code Ughearna - 50,000đ - 01/01/2026</p>
+                    <p>📦 Code Vimos - 30,000đ - 28/12/2025</p>
+                    <p style="margin-top:20px; color:#555;">Bạn đã mua tổng cộng 5 code</p>
+                </div>
+            `
+        },
+        taskhistory: {
+            icon: '📜',
+            title: '📜 LỊCH SỬ NHIỆM VỤ',
+            html: `
+                <div style="text-align:center; padding:60px 20px; color:#888;">
+                    <div style="font-size:60px; margin-bottom:20px;">📜</div>
+                    <h3 style="color:#ffd700; margin-bottom:10px;">Lịch sử nhiệm vụ</h3>
+                    <p>✅ Đăng nhập hàng ngày - +100 điểm (Hôm qua)</p>
+                    <p>✅ Mua 1 code - +50 điểm (Hôm kia)</p>
+                    <p style="margin-top:20px; color:#555;">Tổng điểm nhiệm vụ: 1,500 điểm</p>
+                </div>
+            `
+        },
+        cloudfree: {
+            icon: '☁️',
+            title: '☁️ CLOUD FREE MỖI NGÀY',
+            html: `
+                <div style="text-align:center; padding:60px 20px; color:#888;">
+                    <div style="font-size:60px; margin-bottom:20px;">☁️</div>
+                    <h3 style="color:#ffd700; margin-bottom:10px;">Cloud Free Mỗi Ngày</h3>
+                    <p>🎁 Nhận code miễn phí mỗi ngày!</p>
+                    <p>🔹 Ngày 1: Code Vimos 1 Day</p>
+                    <p>🔹 Ngày 2: Code Vipplayer 1 Ngày</p>
+                    <p>🔹 Ngày 3: Code Ughearna 4H</p>
+                    <p style="margin-top:20px; color:#555;">Đã nhận 7/7 ngày!</p>
+                </div>
+            `
+        },
+        support: {
+            icon: '⚙️',
+            title: '⚙️ TRUNG TÂM HỖ TRỢ 24/7',
+            html: `
+                <div style="text-align:center; padding:60px 20px; color:#888;">
+                    <div style="font-size:60px; margin-bottom:20px;">⚙️</div>
+                    <h3 style="color:#ffd700; margin-bottom:10px;">Trung tâm hỗ trợ</h3>
+                    <p>📱 Zalo: 0909.xxx.xxx</p>
+                    <p>💬 Discord: NiNiStore#1234</p>
+                    <p>📧 Email: support@ninistore.com</p>
+                    <p style="margin-top:20px; color:#555;">Hỗ trợ 24/7 - Luôn sẵn sàng giúp đỡ bạn!</p>
+                </div>
+            `
+        }
+    };
+
+    menuItems.forEach(function(item) {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Xóa active cũ
+            menuItems.forEach(function(m) {
+                m.classList.remove('active');
+            });
+            this.classList.add('active');
+
+            var page = this.getAttribute('data-page');
+            var content = pageContent[page];
+
+            if (content) {
+                contentArea.innerHTML = `
+                    <h3 class="section-title">${content.title}</h3>
+                    ${content.html}
+                `;
+            }
+        });
+    });
 </script>
 
 </body>
