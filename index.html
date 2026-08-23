@@ -1,186 +1,3 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NiNi Store - Đăng Nhập</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #0a0a1a, #1a0a2e);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .login-box {
-            background: rgba(255,255,255,0.05);
-            padding: 40px 35px;
-            border-radius: 20px;
-            border: 1px solid rgba(255,215,0,0.2);
-            width: 400px;
-            max-width: 90%;
-            box-shadow: 0 0 50px rgba(255,215,0,0.05);
-        }
-
-        .login-box h1 {
-            color: #ffd700;
-            text-align: center;
-            font-size: 28px;
-            margin-bottom: 5px;
-        }
-
-        .login-box .sub {
-            color: #888;
-            text-align: center;
-            font-size: 14px;
-            margin-bottom: 30px;
-        }
-
-        .login-box label {
-            display: block;
-            color: #aaa;
-            font-size: 14px;
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
-
-        .login-box input {
-            width: 100%;
-            padding: 12px 15px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 10px;
-            color: #fff;
-            font-size: 15px;
-            margin-bottom: 18px;
-            transition: 0.3s;
-        }
-
-        .login-box input:focus {
-            border-color: #ffd700;
-            outline: none;
-            box-shadow: 0 0 20px rgba(255,215,0,0.05);
-        }
-
-        .login-box input::placeholder {
-            color: #555;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 12px;
-            margin-top: 10px;
-        }
-
-        .btn-group button {
-            flex: 1;
-            padding: 13px;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn-cancel {
-            background: rgba(255,255,255,0.05);
-            color: #888;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .btn-cancel:hover {
-            background: rgba(255,255,255,0.1);
-        }
-
-        .btn-login {
-            background: linear-gradient(135deg, #ffd700, #f0a500);
-            color: #0a0a1a;
-        }
-
-        .btn-login:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 30px rgba(255,215,0,0.15);
-        }
-
-        .register-link {
-            text-align: center;
-            margin-top: 20px;
-            color: #666;
-            font-size: 14px;
-        }
-
-        .register-link a {
-            color: #ffd700;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .register-link a:hover {
-            color: #ffed4a;
-        }
-
-        .error-msg {
-            background: rgba(255,0,0,0.1);
-            border: 1px solid rgba(255,0,0,0.2);
-            border-radius: 10px;
-            padding: 10px;
-            color: #ff6666;
-            text-align: center;
-            margin-bottom: 20px;
-            display: none;
-        }
-
-        .success-msg {
-            background: rgba(0,255,0,0.05);
-            border: 1px solid rgba(0,255,0,0.15);
-            border-radius: 10px;
-            padding: 10px;
-            color: #66ff66;
-            text-align: center;
-            margin-bottom: 20px;
-            display: none;
-        }
-    </style>
-</head>
-<body>
-
-<div class="login-box">
-    <h1>🌟 NINI STORE</h1>
-    <p class="sub">Free Fire Code Shop</p>
-
-    <div id="errorMsg" class="error-msg">❌ Sai thông tin đăng nhập!</div>
-    <div id="successMsg" class="success-msg">✅ Đăng nhập thành công!</div>
-
-    <form id="loginForm">
-        <label>👤 Tài khoản</label>
-        <input type="text" id="username" placeholder="Nhập tên đăng nhập" required>
-
-        <label>🔒 Mật khẩu</label>
-        <input type="password" id="password" placeholder="Nhập mật khẩu" required>
-
-        <label>🧮 Giải phép tính: 3 + 1 = ?</label>
-        <input type="number" id="captcha" placeholder="Nhập kết quả" required>
-
-        <div class="btn-group">
-            <button type="reset" class="btn-cancel">HỦY</button>
-            <button type="submit" class="btn-login">VÀO WEB</button>
-        </div>
-    </form>
-
-    <p class="register-link">
-        Chưa có tài khoản? <a href="#">Đăng ký ngay</a>
-    </p>
-</div>
-
 <script>
     document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -192,34 +9,49 @@
         var errorMsg = document.getElementById('errorMsg');
         var successMsg = document.getElementById('successMsg');
 
-        // Ẩn thông báo cũ
         errorMsg.style.display = 'none';
         successMsg.style.display = 'none';
 
         // Kiểm tra captcha: 3 + 1 = 4
-        if (captcha != 4) {
-            errorMsg.textContent = '❌ Sai mã xác nhận! Vui lòng nhập lại.';
+        if (parseInt(captcha) !== 4) {
+            errorMsg.textContent = '❌ Sai mã xác nhận! 3 + 1 = 4';
             errorMsg.style.display = 'block';
             return;
         }
 
-        // Kiểm tra tài khoản không được để trống
         if (user === '' || pass === '') {
             errorMsg.textContent = '❌ Vui lòng nhập đầy đủ thông tin!';
             errorMsg.style.display = 'block';
             return;
         }
 
-        // Đăng nhập thành công (demo)
-        successMsg.textContent = '✅ Đăng nhập thành công! Chào mừng ' + user + '!';
-        successMsg.style.display = 'block';
+        // Lấy danh sách user đã lưu
+        var users = JSON.parse(localStorage.getItem('users') || '[]');
 
-        // Chuyển đến trang chủ sau 1.5 giây
-        setTimeout(function() {
-            window.location.href = 'home.html?user=' + encodeURIComponent(user);
-        }, 1500);
+        // Tìm user
+        var foundUser = users.find(function(u) {
+            return u.username === user && u.password === pass;
+        });
+
+        if (foundUser) {
+            successMsg.textContent = '✅ Đăng nhập thành công! Chào mừng ' + user + '!';
+            successMsg.style.display = 'block';
+
+            setTimeout(function() {
+                window.location.href = 'home.html?user=' + encodeURIComponent(user);
+            }, 1500);
+        } else {
+            // Kiểm tra user có tồn tại không
+            var userExists = users.some(function(u) {
+                return u.username === user;
+            });
+
+            if (userExists) {
+                errorMsg.textContent = '❌ Sai mật khẩu! Vui lòng thử lại.';
+            } else {
+                errorMsg.textContent = '❌ Tài khoản không tồn tại! Vui lòng đăng ký.';
+            }
+            errorMsg.style.display = 'block';
+        }
     });
 </script>
-
-</body>
-</html>
