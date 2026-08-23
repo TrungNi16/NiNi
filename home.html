@@ -18,96 +18,98 @@
             min-height: 100vh;
         }
 
+        /* ===== LAYOUT ===== */
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 30px 20px;
+            display: flex;
+            min-height: 100vh;
         }
 
-        /* ===== HEADER ===== */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 260px;
+            background: rgba(0, 0, 0, 0.85);
+            border-right: 1px solid rgba(255, 255, 255, 0.03);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
             padding: 20px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .header h1 {
-            color: #ffd700;
-            font-size: 26px;
-        }
-
-        .header .user-info {
-            color: #888;
-            font-size: 14px;
-        }
-
-        .header .user-info strong {
-            color: #ffd700;
-        }
-
-        .logout-btn {
-            padding: 8px 18px;
-            background: rgba(255,0,0,0.05);
-            border: 1px solid rgba(255,0,0,0.1);
-            border-radius: 8px;
-            color: #888;
-            text-decoration: none;
-            transition: 0.3s;
-            font-size: 14px;
-            margin-left: 10px;
-        }
-
-        .logout-btn:hover {
-            background: rgba(255,0,0,0.1);
-            color: #ff6666;
-        }
-
-        /* ===== MENU CHÍNH ===== */
-        .menu {
             display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            padding: 15px 0;
-            margin: 20px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.03);
+            flex-direction: column;
         }
 
-        .menu a {
-            color: #888;
-            text-decoration: none;
-            padding: 10px 18px;
+        .sidebar-brand {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .sidebar-brand h2 {
+            color: #ffd700;
+            font-size: 22px;
+        }
+
+        .sidebar-brand .sub {
+            color: #555;
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin-top: 4px;
+        }
+
+        /* ===== MENU ===== */
+        .sidebar-menu {
+            list-style: none;
+            padding: 0 10px;
+            flex: 1;
+        }
+
+        .sidebar-menu li {
+            padding: 10px 15px;
+            margin-bottom: 2px;
             border-radius: 10px;
-            font-size: 14px;
-            transition: 0.3s;
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
+            transition: all 0.3s ease;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .menu a:hover {
-            background: rgba(255,215,0,0.05);
+        .sidebar-menu li:hover {
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        .sidebar-menu li.active {
+            background: rgba(255, 215, 0, 0.08);
+            border-left: 3px solid #ffd700;
+        }
+
+        .sidebar-menu li a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            transition: 0.3s;
+        }
+
+        .sidebar-menu li:hover a {
             color: #fff;
         }
 
-        .menu a.active {
+        .sidebar-menu li.active a {
             color: #ffd700;
-            background: rgba(255,215,0,0.08);
         }
 
-        /* Badge */
+        /* ===== BADGE ===== */
         .badge {
             font-size: 10px;
-            padding: 2px 8px;
+            padding: 2px 10px;
             border-radius: 12px;
             font-weight: 700;
             text-transform: uppercase;
-            margin-left: 2px;
+            white-space: nowrap;
         }
 
         .badge-hot {
@@ -128,10 +130,64 @@
             border: 1px solid rgba(0, 200, 255, 0.1);
         }
 
+        /* ===== USER INFO ===== */
+        .sidebar-footer {
+            padding: 15px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            margin-top: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .user-avatar {
+            font-size: 28px;
+        }
+
+        .user-info strong {
+            color: #fff;
+            font-size: 14px;
+            display: block;
+        }
+
+        .user-info span {
+            color: #888;
+            font-size: 12px;
+        }
+
+        .logout-btn {
+            display: block;
+            text-align: center;
+            padding: 10px;
+            background: rgba(255, 0, 0, 0.05);
+            border-radius: 8px;
+            color: #888;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 0, 0, 0.1);
+            color: #ff6666;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .content {
+            margin-left: 260px;
+            padding: 40px;
+            flex: 1;
+            min-height: 100vh;
+        }
+
         /* ===== BANNER ===== */
         .banner {
-            background: rgba(255,215,0,0.02);
-            border: 1px solid rgba(255,215,0,0.05);
+            background: rgba(255, 215, 0, 0.02);
+            border: 1px solid rgba(255, 215, 0, 0.05);
             border-radius: 20px;
             padding: 40px;
             text-align: center;
@@ -158,23 +214,19 @@
         }
 
         .banner .stats span {
-            background: rgba(255,255,255,0.03);
+            background: rgba(255, 255, 255, 0.03);
             padding: 8px 20px;
             border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             color: #ccc;
             font-size: 14px;
         }
 
-        /* ===== NỘI DUNG CHÍNH ===== */
+        /* ===== SECTION TITLE ===== */
         .section-title {
             color: #ffd700;
             font-size: 22px;
             margin-bottom: 20px;
-        }
-
-        .content-area {
-            min-height: 300px;
         }
 
         /* ===== CODE GRID ===== */
@@ -185,15 +237,15 @@
         }
 
         .code-card {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.04);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             border-radius: 16px;
             padding: 20px;
             transition: 0.3s;
         }
 
         .code-card:hover {
-            border-color: rgba(255,215,0,0.1);
+            border-color: rgba(255, 215, 0, 0.1);
             transform: translateY(-3px);
         }
 
@@ -231,10 +283,10 @@
 
         .code-card .buy-btn:hover {
             transform: scale(1.02);
-            box-shadow: 0 0 20px rgba(255,215,0,0.1);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
         }
 
-        /* ===== THÔNG BÁO POPUP ===== */
+        /* ===== POPUP ===== */
         .popup-overlay {
             display: none;
             position: fixed;
@@ -242,7 +294,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(5px);
             z-index: 999;
             justify-content: center;
@@ -255,7 +307,7 @@
 
         .popup-box {
             background: #1a1a2e;
-            border: 1px solid rgba(255,215,0,0.2);
+            border: 1px solid rgba(255, 215, 0, 0.2);
             border-radius: 20px;
             padding: 40px;
             max-width: 450px;
@@ -311,15 +363,40 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .menu a {
+            .sidebar {
+                width: 220px;
+            }
+            .content {
+                margin-left: 220px;
+                padding: 20px;
+            }
+            .sidebar-menu li {
                 padding: 8px 12px;
                 font-size: 13px;
             }
-            .banner {
-                padding: 25px;
-            }
             .banner h2 {
                 font-size: 22px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .sidebar {
+                width: 200px;
+                padding: 10px 0;
+            }
+            .content {
+                margin-left: 200px;
+                padding: 15px;
+            }
+            .sidebar-brand h2 {
+                font-size: 18px;
+            }
+            .sidebar-menu li a {
+                font-size: 13px;
+            }
+            .badge {
+                font-size: 9px;
+                padding: 1px 6px;
             }
         }
     </style>
@@ -327,114 +404,145 @@
 <body>
 
 <div class="container">
-    <!-- ===== HEADER ===== -->
-    <div class="header">
-        <h1>🌟 NINI STORE</h1>
-        <div>
-            <span class="user-info">👤 Xin chào, <strong id="usernameDisplay">Khách</strong></span>
+    <!-- ===== SIDEBAR ===== -->
+    <nav class="sidebar">
+        <!-- Brand -->
+        <div class="sidebar-brand">
+            <h2>🌟 NINI STORE</h2>
+            <div class="sub">Free Fire Code Shop</div>
+        </div>
+
+        <!-- Menu -->
+        <ul class="sidebar-menu" id="mainMenu">
+            <li class="active" data-page="home">
+                <a href="#">🏠 Trang chủ</a>
+            </li>
+            <li data-page="task">
+                <a href="#">📋 Nhiệm vụ</a>
+            </li>
+            <li data-page="shop">
+                <a href="#">🛒 Đối điểm</a>
+            </li>
+            <li data-page="recharge">
+                <a href="#">💰 Nạp Tiền</a>
+            </li>
+            <li data-page="tools">
+                <a href="#">🔧 Công Cụ</a>
+            </li>
+            <li data-page="giftcode">
+                <a href="#">🎁 Nhập Giftcode</a>
+            </li>
+            <li data-page="flashsale">
+                <a href="#">⚡ Flash Sale Cloud</a>
+                <span class="badge badge-sale">SALE</span>
+            </li>
+            <li data-page="ranking">
+                <a href="#">🏆 Bảng Xếp Hạng</a>
+                <span class="badge badge-hot">HOT</span>
+            </li>
+            <li data-page="history">
+                <a href="#">📜 Lịch sử mua hàng</a>
+            </li>
+            <li data-page="taskhistory">
+                <a href="#">📜 Lịch sử nhiệm vụ</a>
+            </li>
+            <li data-page="cloudfree">
+                <a href="#">☁️ Cloud Free Mỗi Ngày</a>
+                <span class="badge badge-hot">HOT</span>
+            </li>
+            <li data-page="support">
+                <a href="#">⚙️ Trung Tâm Hỗ Trợ</a>
+                <span class="badge badge-247">24/7</span>
+            </li>
+        </ul>
+
+        <!-- Footer -->
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <span class="user-avatar">👤</span>
+                <div>
+                    <strong id="usernameDisplay">Khách</strong>
+                    <span>💰 1,000,000đ</span>
+                </div>
+            </div>
             <a href="index.html" class="logout-btn">🚪 Đăng xuất</a>
         </div>
-    </div>
+    </nav>
 
-    <!-- ===== MENU CHÍNH ===== -->
-    <div class="menu" id="mainMenu">
-        <a href="#" class="active" data-page="home">🏠 Trang chủ</a>
-        <a href="#" data-page="task">📋 Nhiệm vụ</a>
-        <a href="#" data-page="shop">🛒 Đối điểm</a>
-        <a href="#" data-page="recharge">💰 Nạp Tiền</a>
-        <a href="#" data-page="tools">🔧 Công Cụ</a>
-        <a href="#" data-page="giftcode">🎁 Nhập Giftcode</a>
-        <a href="#" data-page="flashsale">
-            ⚡ Flash Sale Cloud
-            <span class="badge badge-sale">SALE</span>
-        </a>
-        <a href="#" data-page="ranking">
-            🏆 Bảng Xếp Hạng
-            <span class="badge badge-hot">HOT</span>
-        </a>
-        <a href="#" data-page="history">📜 Lịch sử mua hàng</a>
-        <a href="#" data-page="taskhistory">📜 Lịch sử nhiệm vụ</a>
-        <a href="#" data-page="cloudfree">
-            ☁️ Cloud Free Mỗi Ngày
-            <span class="badge badge-hot">HOT</span>
-        </a>
-        <a href="#" data-page="support">
-            ⚙️ Trung Tâm Hỗ Trợ
-            <span class="badge badge-247">24/7</span>
-        </a>
-    </div>
-
-    <!-- ===== BANNER ===== -->
-    <div class="banner">
-        <h2>🔥 CHÀO MỪNG ĐẾN VỚI NINI STORE</h2>
-        <p>Nơi cung cấp code Free Fire uy tín - chất lượng - giá tốt nhất</p>
-        <div class="stats">
-            <span>💰 Điểm: 1,000,000</span>
-            <span>👑 VIP: 3</span>
-        </div>
-    </div>
-
-    <!-- ===== NỘI DUNG CHÍNH ===== -->
-    <div class="content-area" id="contentArea">
-        <h3 class="section-title">📦 DANH SÁCH CODE</h3>
-        <div class="code-grid">
-            <div class="code-card">
-                <div class="name">Code Ughearna Redesem 4H</div>
-                <div class="price">💰 50,000đ</div>
-                <div class="stock">📦 Còn: 10 code</div>
-                <button class="buy-btn" onclick="buyCode('UGHEARN4H', 50000)">🛒 Mua ngay</button>
-            </div>
-
-            <div class="code-card">
-                <div class="name">Code Vimos 1 Day</div>
-                <div class="price">💰 30,000đ</div>
-                <div class="stock">📦 Còn: 15 code</div>
-                <button class="buy-btn" onclick="buyCode('VIMOS1D', 30000)">🛒 Mua ngay</button>
-            </div>
-
-            <div class="code-card">
-                <div class="name">Code Vipplayer 1 Ngày</div>
-                <div class="price">💰 20,000đ</div>
-                <div class="stock">📦 Còn: 20 code</div>
-                <button class="buy-btn" onclick="buyCode('VIPPL1N', 20000)">🛒 Mua ngay</button>
-            </div>
-
-            <div class="code-card">
-                <div class="name">Code Vipplayer 2 Ngày</div>
-                <div class="price">💰 35,000đ</div>
-                <div class="stock">📦 Còn: 12 code</div>
-                <button class="buy-btn" onclick="buyCode('VIPPL2N', 35000)">🛒 Mua ngay</button>
-            </div>
-
-            <div class="code-card">
-                <div class="name">Code Uuphone 7 Ngày</div>
-                <div class="price">💰 100,000đ</div>
-                <div class="stock">📦 Còn: 8 code</div>
-                <button class="buy-btn" onclick="buyCode('UUPH7N', 100000)">🛒 Mua ngay</button>
-            </div>
-
-            <div class="code-card">
-                <div class="name">Code Uuphone 15 Ngày</div>
-                <div class="price">💰 150,000đ</div>
-                <div class="stock">📦 Còn: 5 code</div>
-                <button class="buy-btn" onclick="buyCode('UUPH15N', 150000)">🛒 Mua ngay</button>
-            </div>
-
-            <div class="code-card">
-                <div class="name">App Mod Skin</div>
-                <div class="price">💰 80,000đ</div>
-                <div class="stock">📦 Còn: 7 code</div>
-                <button class="buy-btn" onclick="buyCode('APPMODSK', 80000)">🛒 Mua ngay</button>
-            </div>
-
-            <div class="code-card">
-                <div class="name">Cloud Free Mobile Ngày</div>
-                <div class="price">💰 25,000đ</div>
-                <div class="stock">📦 Còn: 30 code</div>
-                <button class="buy-btn" onclick="buyCode('CLOUD1D', 25000)">🛒 Mua ngay</button>
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="content">
+        <!-- Banner -->
+        <div class="banner">
+            <h2>🔥 CHÀO MỪNG ĐẾN VỚI NINI STORE</h2>
+            <p>Nơi cung cấp code Free Fire uy tín - chất lượng - giá tốt nhất</p>
+            <div class="stats">
+                <span>💰 Điểm: 1,000,000</span>
+                <span>👑 VIP: 3</span>
             </div>
         </div>
-    </div>
+
+        <!-- Content Area -->
+        <div id="contentArea">
+            <h3 class="section-title">📦 DANH SÁCH CODE</h3>
+            <div class="code-grid">
+                <div class="code-card">
+                    <div class="name">Code Ughearna Redesem 4H</div>
+                    <div class="price">💰 50,000đ</div>
+                    <div class="stock">📦 Còn: 10 code</div>
+                    <button class="buy-btn" onclick="buyCode('UGHEARN4H', 50000)">🛒 Mua ngay</button>
+                </div>
+
+                <div class="code-card">
+                    <div class="name">Code Vimos 1 Day</div>
+                    <div class="price">💰 30,000đ</div>
+                    <div class="stock">📦 Còn: 15 code</div>
+                    <button class="buy-btn" onclick="buyCode('VIMOS1D', 30000)">🛒 Mua ngay</button>
+                </div>
+
+                <div class="code-card">
+                    <div class="name">Code Vipplayer 1 Ngày</div>
+                    <div class="price">💰 20,000đ</div>
+                    <div class="stock">📦 Còn: 20 code</div>
+                    <button class="buy-btn" onclick="buyCode('VIPPL1N', 20000)">🛒 Mua ngay</button>
+                </div>
+
+                <div class="code-card">
+                    <div class="name">Code Vipplayer 2 Ngày</div>
+                    <div class="price">💰 35,000đ</div>
+                    <div class="stock">📦 Còn: 12 code</div>
+                    <button class="buy-btn" onclick="buyCode('VIPPL2N', 35000)">🛒 Mua ngay</button>
+                </div>
+
+                <div class="code-card">
+                    <div class="name">Code Uuphone 7 Ngày</div>
+                    <div class="price">💰 100,000đ</div>
+                    <div class="stock">📦 Còn: 8 code</div>
+                    <button class="buy-btn" onclick="buyCode('UUPH7N', 100000)">🛒 Mua ngay</button>
+                </div>
+
+                <div class="code-card">
+                    <div class="name">Code Uuphone 15 Ngày</div>
+                    <div class="price">💰 150,000đ</div>
+                    <div class="stock">📦 Còn: 5 code</div>
+                    <button class="buy-btn" onclick="buyCode('UUPH15N', 150000)">🛒 Mua ngay</button>
+                </div>
+
+                <div class="code-card">
+                    <div class="name">App Mod Skin</div>
+                    <div class="price">💰 80,000đ</div>
+                    <div class="stock">📦 Còn: 7 code</div>
+                    <button class="buy-btn" onclick="buyCode('APPMODSK', 80000)">🛒 Mua ngay</button>
+                </div>
+
+                <div class="code-card">
+                    <div class="name">Cloud Free Mobile Ngày</div>
+                    <div class="price">💰 25,000đ</div>
+                    <div class="stock">📦 Còn: 30 code</div>
+                    <button class="buy-btn" onclick="buyCode('CLOUD1D', 25000)">🛒 Mua ngay</button>
+                </div>
+            </div>
+        </div>
+    </main>
 </div>
 
 <!-- ===== POPUP ===== -->
@@ -465,7 +573,6 @@
         document.getElementById('popupOverlay').classList.remove('show');
     }
 
-    // Đóng popup khi click ra ngoài
     document.getElementById('popupOverlay').addEventListener('click', function(e) {
         if (e.target === this) closePopup();
     });
@@ -479,8 +586,8 @@
         );
     }
 
-    // ===== MENU CHỨC NĂNG =====
-    var menuItems = document.querySelectorAll('.menu a[data-page]');
+    // ===== MENU SIDEBAR =====
+    var menuItems = document.querySelectorAll('.sidebar-menu li[data-page]');
     var contentArea = document.getElementById('contentArea');
 
     var pageContent = {
