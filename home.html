@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ - NiNi Store</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a1a, #1a0a2e);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #ffd700;
+            font-size: 28px;
+        }
+
+        .header .user {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .header .user strong {
+            color: #ffd700;
+        }
+
+        .welcome {
+            background: rgba(255, 215, 0, 0.03);
+            border: 1px solid rgba(255, 215, 0, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .welcome h2 {
+            color: #ffd700;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .welcome p {
+            color: #888;
+            font-size: 16px;
+        }
+
+        .code-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .code-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .code-card:hover {
+            border-color: rgba(255, 215, 0, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .code-card h3 {
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .code-card .price {
+            color: #ffd700;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .code-card .stock {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .code-card .buy-btn {
+            margin-top: 15px;
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, #ffd700, #f0a500);
+            color: #0a0a1a;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .code-card .buy-btn:hover {
+            transform: scale(1.02);
+        }
+
+        .logout-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: rgba(255, 0, 0, 0.05);
+            border: 1px solid rgba(255, 0, 0, 0.1);
+            border-radius: 10px;
+            color: #888;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 0, 0, 0.1);
+            color: #ff6666;
+        }
+
+        .menu-bar {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .menu-bar a {
+            color: #888;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .menu-bar a:hover {
+            background: rgba(255, 215, 0, 0.05);
+            color: #fff;
+        }
+
+        .menu-bar a.active {
+            color: #ffd700;
+            background: rgba(255, 215, 0, 0.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🌟 NINI STORE</h1>
+            <div>
+                <span class="user">👤 <strong id="usernameDisplay">User</strong></span>
+                <a href="index.html" class="logout-btn" style="margin-left:15px;">🚪 Đăng xuất</a>
+            </div>
+        </div>
+
+        <!-- Menu Bar -->
+        <div class="menu-bar">
+            <a href="#" class="active">🏠 Trang chủ</a>
+            <a href="#">📋 Nhiệm vụ</a>
+            <a href="#">🛒 Đối điểm</a>
+            <a href="#">💰 Nạp Tiền</a>
+            <a href="#">🔧 Công Cụ</a>
+            <a href="#">🎁 Nhập Giftcode</a>
+            <a href="#">⚡ Flash Sale</a>
+            <a href="#">🏆 Bảng Xếp Hạng</a>
+            <a href="#">📜 Lịch sử</a>
+            <a href="#">⚙️ Trung Tâm</a>
+        </div>
+
+        <!-- Welcome Banner -->
+        <div class="welcome">
+            <h2>🔥 CHÀO MỪNG ĐẾN VỚI NINI STORE</h2>
+            <p>Nơi cung cấp code Free Fire uy tín - chất lượng - giá tốt nhất</p>
+        </div>
+
+        <!-- Danh sách code -->
+        <h3 style="color:#ffd700; margin-bottom:20px; font-size:22px;">📦 DANH SÁCH CODE</h3>
+        <div class="code-grid">
+            <div class="code-card">
+                <h3>Code Ughearna Redesem 4H</h3>
+                <div class="price">💰 50,000đ</div>
+                <div class="stock">📦 Còn: 10 code</div>
+                <button class="buy-btn" onclick="alert('🛒 Bạn đã mua code thành công!')">🛒 Mua ngay</button>
+            </div>
+
+            <div class="code-card">
+                <h3>Code Vimos 1 Day</h3>
+                <div class="price">💰 30,000đ</div>
+                <div class="stock">📦 Còn: 15 code</div>
+                <button class="buy-btn" onclick="alert('🛒 Bạn đã mua code thành công!')">🛒 Mua ngay</button>
+            </div>
+
+            <div class="code-card">
+                <h3>Code Vipplayer 1 Ngày</h3>
+                <div class="price">💰 20,000đ</div>
+                <div class="stock">📦 Còn: 20 code</div>
+                <button class="buy-btn" onclick="alert('🛒 Bạn đã mua code thành công!')">🛒 Mua ngay</button>
+            </div>
+
+            <div class="code-card">
+                <h3>Code Uuphone 7 Ngày</h3>
+                <div class="price">💰 100,000đ</div>
+                <div class="stock">📦 Còn: 8 code</div>
+                <button class="buy-btn" onclick="alert('🛒 Bạn đã mua code thành công!')">🛒 Mua ngay</button>
+            </div>
+
+            <div class="code-card">
+                <h3>Code Uuphone 15 Ngày</h3>
+                <div class="price">💰 150,000đ</div>
+                <div class="stock">📦 Còn: 5 code</div>
+                <button class="buy-btn" onclick="alert('🛒 Bạn đã mua code thành công!')">🛒 Mua ngay</button>
+            </div>
+
+            <div class="code-card">
+                <h3>App Mod Skin</h3>
+                <div class="price">💰 80,000đ</div>
+                <div class="stock">📦 Còn: 7 code</div>
+                <button class="buy-btn" onclick="alert('🛒 Bạn đã mua code thành công!')">🛒 Mua ngay</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Lấy tên user từ URL hoặc hiển thị mặc định
+        var urlParams = new URLSearchParams(window.location.search);
+        var username = urlParams.get('user') || 'Khách';
+        document.getElementById('usernameDisplay').textContent = username;
+    </script>
+</body>
+</html>
