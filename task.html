@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhiệm vụ - NiNi Store</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .task-container {
+            max-width: 800px;
+            margin: 60px auto;
+            text-align: center;
+            padding: 20px;
+        }
+        .task-container .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        .task-container h1 {
+            color: #ffd700;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        .task-list {
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: left;
+        }
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: #ccc;
+        }
+        .task-item:last-child {
+            border-bottom: none;
+        }
+        .task-item .reward {
+            color: #ffd700;
+            font-weight: bold;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #888;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .back-btn:hover {
+            background: rgba(255,215,0,0.05);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="task-container">
+        <div class="icon">📋</div>
+        <h1>Nhiệm vụ hàng ngày</h1>
+        <div class="task-list">
+            <div class="task-item">
+                <span>🔹 Đăng nhập hàng ngày</span>
+                <span class="reward">+100 điểm</span>
+            </div>
+            <div class="task-item">
+                <span>🔹 Mua 1 code bất kỳ</span>
+                <span class="reward">+50 điểm</span>
+            </div>
+            <div class="task-item">
+                <span>🔹 Mời bạn bè đăng ký</span>
+                <span class="reward">+200 điểm</span>
+            </div>
+            <div class="task-item">
+                <span>🔹 Hoàn thành 5 nhiệm vụ</span>
+                <span class="reward">+500 điểm</span>
+            </div>
+        </div>
+        <a href="home.html" class="back-btn">⬅ Quay lại trang chủ</a>
+    </div>
+</body>
+</html>
