@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng xếp hạng - NiNi Store</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .ranking-container {
+            max-width: 700px;
+            margin: 60px auto;
+            text-align: center;
+            padding: 20px;
+        }
+        .ranking-container .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        .ranking-container h1 {
+            color: #ffd700;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        .ranking-list {
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: left;
+        }
+        .rank-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: #ccc;
+        }
+        .rank-item:last-child {
+            border-bottom: none;
+        }
+        .rank-item .medal {
+            font-size: 20px;
+        }
+        .rank-item .name {
+            color: #fff;
+        }
+        .rank-item .points {
+            color: #ffd700;
+        }
+        .rank-item.me {
+            background: rgba(255,215,0,0.05);
+            border-radius: 8px;
+            padding: 12px 10px;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #888;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .back-btn:hover {
+            background: rgba(255,215,0,0.05);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="ranking-container">
+        <div class="icon">🏆</div>
+        <h1>Bảng xếp hạng</h1>
+        <div class="ranking-list">
+            <div class="rank-item">
+                <span><span class="medal">🥇</span> <span class="name">Người chơi A</span></span>
+                <span class="points">10,000 điểm</span>
+            </div>
+            <div class="rank-item">
+                <span><span class="medal">🥈</span> <span class="name">Người chơi B</span></span>
+                <span class="points">8,000 điểm</span>
+            </div>
+            <div class="rank-item">
+                <span><span class="medal">🥉</span> <span class="name">Người chơi C</span></span>
+                <span class="points">5,000 điểm</span>
+            </div>
+            <div class="rank-item">
+                <span>4. <span class="name">Người chơi D</span></span>
+                <span class="points">3,000 điểm</span>
+            </div>
+            <div class="rank-item me">
+                <span>🏅 <span class="name" style="color:#ffd700;">Bạn</span></span>
+                <span class="points" style="color:#ffd700;">1,000 điểm</span>
+            </div>
+        </div>
+        <a href="home.html" class="back-btn">⬅ Quay lại trang chủ</a>
+    </div>
+</body>
+</html>
