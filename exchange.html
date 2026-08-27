@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đổi điểm - NiNi Store</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .exchange-container {
+            max-width: 800px;
+            margin: 60px auto;
+            text-align: center;
+            padding: 20px;
+        }
+        .exchange-container .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        .exchange-container h1 {
+            color: #ffd700;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        .exchange-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .exchange-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 25px;
+            transition: 0.3s;
+        }
+        .exchange-item:hover {
+            border-color: rgba(255,215,0,0.1);
+        }
+        .exchange-item .name {
+            color: #fff;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .exchange-item .cost {
+            color: #ffd700;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        .exchange-item .btn-exchange {
+            padding: 10px 30px;
+            background: linear-gradient(135deg, #ffd700, #f0a500);
+            color: #0a0a1a;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .exchange-item .btn-exchange:hover {
+            transform: scale(1.05);
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #888;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .back-btn:hover {
+            background: rgba(255,215,0,0.05);
+            color: #fff;
+        }
+        @media (max-width: 600px) {
+            .exchange-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="exchange-container">
+        <div class="icon">🔄</div>
+        <h1>Đổi điểm lấy quà</h1>
+        <div class="exchange-list">
+            <div class="exchange-item">
+                <div class="name">🎁 Code Free Fire</div>
+                <div class="cost">💎 100 điểm</div>
+                <button class="btn-exchange" onclick="alert('✅ Đổi thành công! Kiểm tra email của bạn.')">Đổi ngay</button>
+            </div>
+            <div class="exchange-item">
+                <div class="name">🎨 Skin hiếm</div>
+                <div class="cost">💎 500 điểm</div>
+                <button class="btn-exchange" onclick="alert('✅ Đổi thành công! Skin đã được gửi.')">Đổi ngay</button>
+            </div>
+            <div class="exchange-item">
+                <div class="name">👑 VIP 1 tháng</div>
+                <div class="cost">💎 1000 điểm</div>
+                <button class="btn-exchange" onclick="alert('✅ Đổi thành công! Bạn đã được nâng cấp VIP.')">Đổi ngay</button>
+            </div>
+            <div class="exchange-item">
+                <div class="name">☁️ Máy Cloud 1 ngày</div>
+                <div class="cost">💎 200 điểm</div>
+                <button class="btn-exchange" onclick="alert('✅ Đổi thành công! Máy Cloud đã được kích hoạt.')">Đổi ngay</button>
+            </div>
+        </div>
+        <a href="home.html" class="back-btn">⬅ Quay lại trang chủ</a>
+    </div>
+</body>
+</html>
