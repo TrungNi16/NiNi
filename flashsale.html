@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flash Sale - NiNi Store</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .flash-container {
+            max-width: 700px;
+            margin: 60px auto;
+            text-align: center;
+            padding: 20px;
+        }
+        .flash-container .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        .flash-container h1 {
+            color: #ffd700;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        .flash-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,215,0,0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .flash-item .info {
+            color: #ccc;
+        }
+        .flash-item .info .name {
+            color: #fff;
+            font-size: 18px;
+        }
+        .flash-item .info .old-price {
+            text-decoration: line-through;
+            color: #ff4444;
+            margin-right: 10px;
+        }
+        .flash-item .info .new-price {
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .flash-item .btn-buy {
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #ffd700, #f0a500);
+            color: #0a0a1a;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .flash-item .btn-buy:hover {
+            transform: scale(1.05);
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #888;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .back-btn:hover {
+            background: rgba(255,215,0,0.05);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="flash-container">
+        <div class="icon">⚡</div>
+        <h1>Flash Sale - Giảm giá sốc!</h1>
+        <div class="flash-item">
+            <div class="info">
+                <div class="name">🔥 Code Ughearna 4H</div>
+                <div><span class="old-price">50,000đ</span> <span class="new-price">25,000đ</span></div>
+            </div>
+            <button class="btn-buy" onclick="alert('✅ Mua thành công! Bạn đã mua với giá 25,000đ.')">Mua ngay</button>
+        </div>
+        <div class="flash-item">
+            <div class="info">
+                <div class="name">🔥 Code Vipplayer 1 Ngày</div>
+                <div><span class="old-price">20,000đ</span> <span class="new-price">10,000đ</span></div>
+            </div>
+            <button class="btn-buy" onclick="alert('✅ Mua thành công! Bạn đã mua với giá 10,000đ.')">Mua ngay</button>
+        </div>
+        <div class="flash-item">
+            <div class="info">
+                <div class="name">🔥 Máy Cloud 1 ngày</div>
+                <div><span class="old-price">10,000đ</span> <span class="new-price">5,000đ</span></div>
+            </div>
+            <button class="btn-buy" onclick="alert('✅ Mua thành công! Bạn đã mua với giá 5,000đ.')">Mua ngay</button>
+        </div>
+        <a href="home.html" class="back-btn">⬅ Quay lại trang chủ</a>
+    </div>
+</body>
+</html>
