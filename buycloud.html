@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mua máy Cloud - NiNi Store</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .buycloud-container {
+            max-width: 500px;
+            margin: 60px auto;
+            text-align: center;
+            padding: 20px;
+        }
+        .buycloud-container .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        .buycloud-container h1 {
+            color: #ffd700;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        .cloud-plans {
+            display: grid;
+            gap: 15px;
+        }
+        .cloud-plan {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cloud-plan .info {
+            color: #ccc;
+        }
+        .cloud-plan .info .name {
+            color: #fff;
+            font-size: 18px;
+        }
+        .cloud-plan .price {
+            color: #ffd700;
+            font-weight: bold;
+        }
+        .cloud-plan .btn-buy {
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #ffd700, #f0a500);
+            color: #0a0a1a;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .cloud-plan .btn-buy:hover {
+            transform: scale(1.05);
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #888;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .back-btn:hover {
+            background: rgba(255,215,0,0.05);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="buycloud-container">
+        <div class="icon">☁️</div>
+        <h1>Mua máy Cloud</h1>
+        <div class="cloud-plans">
+            <div class="cloud-plan">
+                <div class="info">
+                    <div class="name">🖥️ Máy Cloud 1 ngày</div>
+                    <div class="price">10,000đ</div>
+                </div>
+                <button class="btn-buy" onclick="alert('✅ Mua thành công! Máy Cloud 1 ngày đã được kích hoạt.')">Mua</button>
+            </div>
+            <div class="cloud-plan">
+                <div class="info">
+                    <div class="name">🖥️ Máy Cloud 7 ngày</div>
+                    <div class="price">50,000đ</div>
+                </div>
+                <button class="btn-buy" onclick="alert('✅ Mua thành công! Máy Cloud 7 ngày đã được kích hoạt.')">Mua</button>
+            </div>
+            <div class="cloud-plan">
+                <div class="info">
+                    <div class="name">🖥️ Máy Cloud 30 ngày</div>
+                    <div class="price">150,000đ</div>
+                </div>
+                <button class="btn-buy" onclick="alert('✅ Mua thành công! Máy Cloud 30 ngày đã được kích hoạt.')">Mua</button>
+            </div>
+        </div>
+        <a href="home.html" class="back-btn">⬅ Quay lại trang chủ</a>
+    </div>
+</body>
+</html>
