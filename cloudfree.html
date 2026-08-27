@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Free - NiNi Store</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .cloudfree-container {
+            max-width: 700px;
+            margin: 60px auto;
+            text-align: center;
+            padding: 20px;
+        }
+        .cloudfree-container .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        .cloudfree-container h1 {
+            color: #ffd700;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        .cloudfree-list {
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: left;
+        }
+        .cloudfree-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: #ccc;
+        }
+        .cloudfree-item:last-child {
+            border-bottom: none;
+        }
+        .cloudfree-item .status {
+            color: #66ff66;
+        }
+        .cloudfree-item .status.locked {
+            color: #555;
+        }
+        .btn-claim {
+            margin-top: 20px;
+            padding: 14px 40px;
+            background: linear-gradient(135deg, #ffd700, #f0a500);
+            color: #0a0a1a;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-claim:hover {
+            transform: scale(1.05);
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #888;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .back-btn:hover {
+            background: rgba(255,215,0,0.05);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="cloudfree-container">
+        <div class="icon">☁️</div>
+        <h1>Cloud Free Mỗi Ngày</h1>
+        <div class="cloudfree-list">
+            <div class="cloudfree-item">
+                <span>🎁 Ngày 1: Code Vimos 1 Day</span>
+                <span class="status">✅ Đã nhận</span>
+            </div>
+            <div class="cloudfree-item">
+                <span>🎁 Ngày 2: Code Vipplayer 1 Ngày</span>
+                <span class="status">✅ Đã nhận</span>
+            </div>
+            <div class="cloudfree-item">
+                <span>🎁 Ngày 3: Code Ughearna 4H</span>
+                <span class="status">✅ Đã nhận</span>
+            </div>
+            <div class="cloudfree-item">
+                <span>🎁 Ngày 4: Máy Cloud 1 ngày</span>
+                <span class="status locked">🔒 Chưa nhận</span>
+            </div>
+        </div>
+        <button class="btn-claim" onclick="alert('✅ Nhận thành công! Mã code đã được gửi.')">🎁 Nhận ngay</button>
+        <br>
+        <a href="home.html" class="back-btn">⬅ Quay lại trang chủ</a>
+    </div>
+</body>
+</html>
