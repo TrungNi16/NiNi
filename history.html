@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch sử mua hàng - NiNi Store</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .history-container {
+            max-width: 700px;
+            margin: 60px auto;
+            text-align: center;
+            padding: 20px;
+        }
+        .history-container .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        .history-container h1 {
+            color: #ffd700;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        .history-list {
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: left;
+        }
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: #ccc;
+        }
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        .history-item .price {
+            color: #ffd700;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #888;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .back-btn:hover {
+            background: rgba(255,215,0,0.05);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="history-container">
+        <div class="icon">📜</div>
+        <h1>Lịch sử mua hàng</h1>
+        <div class="history-list">
+            <div class="history-item">
+                <span>📦 Code Ughearna 4H</span>
+                <span class="price">50,000đ - 01/01/2026</span>
+            </div>
+            <div class="history-item">
+                <span>📦 Code Vimos 1 Day</span>
+                <span class="price">30,000đ - 28/12/2025</span>
+            </div>
+            <div class="history-item">
+                <span>📦 Máy Cloud 1 ngày</span>
+                <span class="price">10,000đ - 20/12/2025</span>
+            </div>
+        </div>
+        <a href="home.html" class="back-btn">⬅ Quay lại trang chủ</a>
+    </div>
+</body>
+</html>
