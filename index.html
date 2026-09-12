@@ -74,6 +74,28 @@
             color: #555;
         }
 
+        /* ===== REMEMBER ME ===== */
+        .remember-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .remember-row input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #ffd700;
+            cursor: pointer;
+        }
+
+        .remember-row span {
+            color: #aaa;
+            font-size: 14px;
+            user-select: none;
+        }
+
         .btn-group {
             display: flex;
             gap: 12px;
@@ -149,6 +171,18 @@
             margin-bottom: 20px;
             display: none;
         }
+
+        .saved-info {
+            background: rgba(255,215,0,0.05);
+            border: 1px solid rgba(255,215,0,0.1);
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            color: #ffd700;
+            font-size: 13px;
+            display: none;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -157,6 +191,7 @@
     <h1>🌟 NINI STORE</h1>
     <p class="sub">Free Fire Code Shop</p>
 
+    <div id="savedInfo" class="saved-info">🔐 Đã lưu thông tin đăng nhập</div>
     <div id="errorMsg" class="error-msg">❌ Sai thông tin đăng nhập!</div>
     <div id="successMsg" class="success-msg">✅ Đăng nhập thành công!</div>
 
@@ -170,8 +205,14 @@
         <label>🧮 Giải phép tính: 3 + 1 = ?</label>
         <input type="number" id="captcha" placeholder="Nhập kết quả" required>
 
+        <!-- Ghi nhớ đăng nhập -->
+        <div class="remember-row" onclick="toggleRemember(event)">
+            <input type="checkbox" id="rememberMe">
+            <span>💾 Ghi nhớ đăng nhập</span>
+        </div>
+
         <div class="btn-group">
-            <button type="reset" class="btn-cancel">HỦY</button>
+            <button type="reset" class="btn-cancel" onclick="clearSaved()">HỦY</button>
             <button type="submit" class="btn-login">VÀO WEB</button>
         </div>
     </form>
@@ -182,17 +223,48 @@
 </div>
 
 <script>
+    // ===== TỰ ĐỘNG ĐIỀN THÔNG TIN ĐÃ LƯU =====
+    window.addEventListener('DOMContentLoaded', function() {
+        var savedUser = localStorage.getItem('savedUsername');
+        var savedPass = localStorage.getItem('savedPassword');
+        var remember = localStorage.getItem('rememberMe');
+
+        if (remember === 'true' && savedUser && savedPass) {
+            document.getElementById('username').value = savedUser;
+            document.getElementById('password').value = savedPass;
+            document.getElementById('rememberMe').checked = true;
+            document.getElementById('savedInfo').style.display = 'block';
+        }
+    });
+
+    // ===== TOGGLE REMEMBER (click cả vùng) =====
+    function toggleRemember(e) {
+        // Nếu click trực tiếp vào checkbox thì không xử lý (để mặc định)
+        if (e.target.type === 'checkbox') return;
+        var checkbox = document.getElementById('rememberMe');
+        checkbox.checked = !checkbox.checked;
+    }
+
+    // ===== XÓA THÔNG TIN ĐÃ LƯU =====
+    function clearSaved() {
+        localStorage.removeItem('savedUsername');
+        localStorage.removeItem('savedPassword');
+        localStorage.removeItem('rememberMe');
+        document.getElementById('savedInfo').style.display = 'none';
+    }
+
+    // ===== XỬ LÝ ĐĂNG NHẬP =====
     document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
         var user = document.getElementById('username').value.trim();
         var pass = document.getElementById('password').value.trim();
         var captcha = document.getElementById('captcha').value.trim();
+        var remember = document.getElementById('rememberMe').checked;
 
         var errorMsg = document.getElementById('errorMsg');
         var successMsg = document.getElementById('successMsg');
 
-        // Ẩn thông báo cũ
         errorMsg.style.display = 'none';
         successMsg.style.display = 'none';
 
@@ -203,32 +275,38 @@
             return;
         }
 
-        // Kiểm tra không để trống
         if (user === '' || pass === '') {
             errorMsg.textContent = '❌ Vui lòng nhập đầy đủ thông tin!';
             errorMsg.style.display = 'block';
             return;
         }
 
-        // Lấy danh sách user đã đăng ký từ localStorage
+        // Lấy danh sách user đã đăng ký
         var users = JSON.parse(localStorage.getItem('users') || '[]');
 
-        // Tìm user trong danh sách
         var foundUser = users.find(function(u) {
             return u.username === user && u.password === pass;
         });
 
         if (foundUser) {
-            // Đăng nhập thành công
+            // Lưu thông tin nếu chọn "Ghi nhớ"
+            if (remember) {
+                localStorage.setItem('savedUsername', user);
+                localStorage.setItem('savedPassword', pass);
+                localStorage.setItem('rememberMe', 'true');
+            } else {
+                localStorage.removeItem('savedUsername');
+                localStorage.removeItem('savedPassword');
+                localStorage.setItem('rememberMe', 'false');
+            }
+
             successMsg.textContent = '✅ Đăng nhập thành công! Chào mừng ' + user + '!';
             successMsg.style.display = 'block';
 
-            // Chuyển đến trang chủ sau 1.5 giây
             setTimeout(function() {
                 window.location.href = 'home.html?user=' + encodeURIComponent(user);
-            }, 1500);
+            }, 1200);
         } else {
-            // Kiểm tra user có tồn tại không
             var userExists = users.some(function(u) {
                 return u.username === user;
             });
