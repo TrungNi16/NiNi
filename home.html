@@ -11,8 +11,41 @@
             background: linear-gradient(135deg, #0a0a1a, #1a0a2e);
             color: #fff;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
+        /* ===== NÚT HAMBURGER ≡ ===== */
+        .hamburger {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 200;
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 10px;
+            color: #ffd700;
+            font-size: 22px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .hamburger:hover {
+            background: rgba(255, 215, 0, 0.1);
+            transform: scale(1.05);
+        }
+
+        .hamburger:active {
+            transform: scale(0.95);
+        }
+
+        /* ===== LAYOUT ===== */
         .container { display: flex; min-height: 100vh; }
 
         /* ===== SIDEBAR ===== */
@@ -26,7 +59,14 @@
             padding: 20px 0;
             display: flex;
             flex-direction: column;
-            z-index: 100;
+            z-index: 150;
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(0);
+        }
+
+        /* Khi ẩn sidebar */
+        .sidebar.hidden {
+            transform: translateX(-100%);
         }
 
         .sidebar::-webkit-scrollbar { width: 4px; }
@@ -36,8 +76,9 @@
         }
         .sidebar::-webkit-scrollbar-track { background: transparent; }
 
+        /* Logo/brand cần padding-top để không che bởi nút ≡ */
         .sidebar-brand {
-            padding: 0 20px 20px;
+            padding: 50px 20px 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             margin-bottom: 10px;
             text-align: center;
@@ -169,12 +210,36 @@
             color: #ff6666;
         }
 
+        /* ===== OVERLAY (làm mờ nền khi mở menu mobile) ===== */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(2px);
+            z-index: 140;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
         /* ===== MAIN CONTENT ===== */
         .content {
             margin-left: 250px;
             padding: 40px;
             flex: 1;
             min-height: 100vh;
+            transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Khi sidebar ẩn, content mở rộng */
+        .content.full {
+            margin-left: 0;
         }
 
         .banner {
@@ -339,33 +404,44 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .sidebar { width: 220px; }
-            .content { margin-left: 220px; padding: 20px; }
-            .sidebar-menu li a { padding: 8px 12px; font-size: 13px; }
-            .banner h2 { font-size: 22px; }
+            .content { padding: 20px; padding-top: 70px; }
+
+            /* Mobile: sidebar mặc định ẩn */
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            .content {
+                margin-left: 0;
+            }
         }
 
-        @media (max-width: 600px) {
-            .sidebar { width: 200px; padding: 15px 0; }
-            .content { margin-left: 200px; padding: 15px; }
-            .sidebar-brand h2 { font-size: 18px; }
-            .sidebar-menu li a { font-size: 12px; padding: 7px 10px; }
-            .sidebar-menu li .sub-menu li a {
-                font-size: 11px;
-                padding: 6px 10px 6px 20px;
+        /* Desktop khi ẩn menu */
+        @media (min-width: 769px) {
+            .sidebar.hidden {
+                transform: translateX(-100%);
+            }
+            .content.full {
+                margin-left: 0;
             }
         }
     </style>
 </head>
 <body>
 
-<!-- ===== BẢO VỆ TRANG - CHẶN TRUY CẬP TRÁI PHÉP ===== -->
+<!-- ===== NÚT HAMBURGER ≡ ===== -->
+<button class="hamburger" id="hamburgerBtn" onclick="toggleSidebar()" title="Ẩn/Hiện menu">☰</button>
+
+<!-- ===== OVERLAY ===== -->
+<div class="overlay" id="overlay" onclick="closeMobileSidebar()"></div>
+
+<!-- ===== BẢO VỆ TRANG ===== -->
 <script>
-    // Kiểm tra session trước khi hiển thị trang
     (function() {
         var user = sessionStorage.getItem('currentUser');
         if (!user) {
-            // Ẩn toàn bộ trang + chuyển về đăng nhập
             document.documentElement.style.display = 'none';
             alert('⚠️ Vui lòng đăng nhập trước!');
             window.location.href = 'index.html';
@@ -375,7 +451,7 @@
 
 <div class="container">
     <!-- ===== SIDEBAR ===== -->
-    <nav class="sidebar">
+    <nav class="sidebar" id="sidebar">
         <div class="sidebar-brand">
             <h2>🌟 NINI STORE</h2>
             <div class="sub">Free Fire Code Shop</div>
@@ -433,7 +509,7 @@
     </nav>
 
     <!-- ===== MAIN CONTENT ===== -->
-    <main class="content">
+    <main class="content" id="content">
         <div class="banner">
             <h2>🔥 CHÀO MỪNG ĐẾN VỚI NINI STORE</h2>
             <p>Nơi cung cấp code Free Fire uy tín - chất lượng - giá tốt nhất</p>
@@ -459,9 +535,49 @@
 </div>
 
 <script>
-    // ===== LẤY USERNAME TỪ SESSIONSTORAGE (ẩn khỏi URL) =====
+    // ===== LẤY USERNAME =====
     var user = sessionStorage.getItem('currentUser') || 'Khách';
     document.getElementById('usernameDisplay').textContent = user;
+
+    // ===== TOGGLE SIDEBAR =====
+    function toggleSidebar() {
+        var sidebar = document.getElementById('sidebar');
+        var content = document.getElementById('content');
+        var overlay = document.getElementById('overlay');
+        var isMobile = window.innerWidth <= 768;
+
+        if (isMobile) {
+            // Mobile: trượt sidebar từ trái
+            sidebar.classList.toggle('mobile-open');
+            overlay.classList.toggle('show');
+        } else {
+            // Desktop: ẩn/hiện sidebar và mở rộng content
+            sidebar.classList.toggle('hidden');
+            content.classList.toggle('full');
+        }
+    }
+
+    // Đóng sidebar mobile
+    function closeMobileSidebar() {
+        document.getElementById('sidebar').classList.remove('mobile-open');
+        document.getElementById('overlay').classList.remove('show');
+    }
+
+    // Đóng sidebar mobile khi click vào menu link
+    document.querySelectorAll('.sidebar-menu a').forEach(function(link) {
+        link.addEventListener('click', function() {
+            if (window.innerWidth <= 768 && !this.getAttribute('onclick')) {
+                closeMobileSidebar();
+            }
+        });
+    });
+
+    // Tự đóng sidebar mobile khi resize lên desktop
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            closeMobileSidebar();
+        }
+    });
 
     // ===== ĐĂNG XUẤT =====
     function logout() {
