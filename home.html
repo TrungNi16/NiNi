@@ -5,12 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NiNi Store - Trang chủ</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
 
         body {
             background: linear-gradient(135deg, #0a0a1a, #1a0a2e);
@@ -18,10 +13,7 @@
             min-height: 100vh;
         }
 
-        .container {
-            display: flex;
-            min-height: 100vh;
-        }
+        .container { display: flex; min-height: 100vh; }
 
         /* ===== SIDEBAR ===== */
         .sidebar {
@@ -37,16 +29,12 @@
             z-index: 100;
         }
 
-        .sidebar::-webkit-scrollbar {
-            width: 4px;
-        }
+        .sidebar::-webkit-scrollbar { width: 4px; }
         .sidebar::-webkit-scrollbar-thumb {
             background: rgba(255, 215, 0, 0.2);
             border-radius: 10px;
         }
-        .sidebar::-webkit-scrollbar-track {
-            background: transparent;
-        }
+        .sidebar::-webkit-scrollbar-track { background: transparent; }
 
         .sidebar-brand {
             padding: 0 20px 20px;
@@ -112,9 +100,7 @@
             transition: max-height 0.4s ease;
         }
 
-        .sidebar-menu li .sub-menu.open {
-            max-height: 500px;
-        }
+        .sidebar-menu li .sub-menu.open { max-height: 500px; }
 
         .sidebar-menu li .sub-menu li a {
             padding: 8px 16px 8px 30px;
@@ -129,11 +115,6 @@
             background: rgba(255, 255, 255, 0.03);
         }
 
-        .sidebar-menu li .sub-menu li.active a {
-            color: #ffd700;
-            background: rgba(255, 215, 0, 0.05);
-        }
-
         .menu-arrow {
             margin-left: auto;
             transition: transform 0.3s ease;
@@ -141,9 +122,7 @@
             color: #555;
         }
 
-        .menu-arrow.open {
-            transform: rotate(180deg);
-        }
+        .menu-arrow.open { transform: rotate(180deg); }
 
         /* ===== USER INFO ===== */
         .sidebar-footer {
@@ -159,9 +138,7 @@
             margin-bottom: 12px;
         }
 
-        .user-avatar {
-            font-size: 28px;
-        }
+        .user-avatar { font-size: 28px; }
 
         .user-info strong {
             color: #fff;
@@ -184,6 +161,7 @@
             text-decoration: none;
             font-size: 14px;
             transition: 0.3s;
+            cursor: pointer;
         }
 
         .logout-btn:hover {
@@ -303,10 +281,8 @@
         .popup-overlay {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(5px);
             z-index: 999;
@@ -314,9 +290,7 @@
             align-items: center;
         }
 
-        .popup-overlay.show {
-            display: flex;
-        }
+        .popup-overlay.show { display: flex; }
 
         .popup-box {
             background: #1a1a2e;
@@ -330,20 +304,11 @@
         }
 
         @keyframes popIn {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
 
-        .popup-box .icon {
-            font-size: 60px;
-            margin-bottom: 15px;
-        }
+        .popup-box .icon { font-size: 60px; margin-bottom: 15px; }
 
         .popup-box h3 {
             color: #ffd700;
@@ -370,44 +335,21 @@
             transition: 0.3s;
         }
 
-        .popup-box .close-btn:hover {
-            transform: scale(1.05);
-        }
+        .popup-box .close-btn:hover { transform: scale(1.05); }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .sidebar {
-                width: 220px;
-            }
-            .content {
-                margin-left: 220px;
-                padding: 20px;
-            }
-            .sidebar-menu li a {
-                padding: 8px 12px;
-                font-size: 13px;
-            }
-            .banner h2 {
-                font-size: 22px;
-            }
+            .sidebar { width: 220px; }
+            .content { margin-left: 220px; padding: 20px; }
+            .sidebar-menu li a { padding: 8px 12px; font-size: 13px; }
+            .banner h2 { font-size: 22px; }
         }
 
         @media (max-width: 600px) {
-            .sidebar {
-                width: 200px;
-                padding: 15px 0;
-            }
-            .content {
-                margin-left: 200px;
-                padding: 15px;
-            }
-            .sidebar-brand h2 {
-                font-size: 18px;
-            }
-            .sidebar-menu li a {
-                font-size: 12px;
-                padding: 7px 10px;
-            }
+            .sidebar { width: 200px; padding: 15px 0; }
+            .content { margin-left: 200px; padding: 15px; }
+            .sidebar-brand h2 { font-size: 18px; }
+            .sidebar-menu li a { font-size: 12px; padding: 7px 10px; }
             .sidebar-menu li .sub-menu li a {
                 font-size: 11px;
                 padding: 6px 10px 6px 20px;
@@ -416,6 +358,20 @@
     </style>
 </head>
 <body>
+
+<!-- ===== BẢO VỆ TRANG - CHẶN TRUY CẬP TRÁI PHÉP ===== -->
+<script>
+    // Kiểm tra session trước khi hiển thị trang
+    (function() {
+        var user = sessionStorage.getItem('currentUser');
+        if (!user) {
+            // Ẩn toàn bộ trang + chuyển về đăng nhập
+            document.documentElement.style.display = 'none';
+            alert('⚠️ Vui lòng đăng nhập trước!');
+            window.location.href = 'index.html';
+        }
+    })();
+</script>
 
 <div class="container">
     <!-- ===== SIDEBAR ===== -->
@@ -426,22 +382,10 @@
         </div>
 
         <ul class="sidebar-menu">
-            <!-- Trang chủ -->
-            <li class="active">
-                <a href="home.html">🏠 Trang chủ</a>
-            </li>
+            <li class="active"><a href="home.html">🏠 Trang chủ</a></li>
+            <li><a href="task.html">📋 Nhiệm vụ</a></li>
+            <li><a href="exchange.html">🔄 Đổi điểm</a></li>
 
-            <!-- Nhiệm vụ -->
-            <li>
-                <a href="task.html">📋 Nhiệm vụ</a>
-            </li>
-
-            <!-- Đổi điểm -->
-            <li>
-                <a href="exchange.html">🔄 Đổi điểm</a>
-            </li>
-
-            <!-- Nạp Tiền (có sub-menu) -->
             <li class="has-sub">
                 <a href="#" onclick="toggleSubMenu(this)">
                     💰 Nạp Tiền
@@ -454,7 +398,6 @@
                 </ul>
             </li>
 
-            <!-- Công Cụ (có sub-menu) -->
             <li class="has-sub">
                 <a href="#" onclick="toggleSubMenu(this)">
                     🔧 Công Cụ
@@ -468,40 +411,13 @@
                 </ul>
             </li>
 
-            <!-- Nhập Giftcode -->
-            <li>
-                <a href="giftcode.html">🎁 Nhập Giftcode</a>
-            </li>
-
-            <!-- Flash Sale Cloud -->
-            <li>
-                <a href="flashsale.html">⚡ Flash Sale Cloud</a>
-            </li>
-
-            <!-- Bảng Xếp Hạng -->
-            <li>
-                <a href="ranking.html">🏆 Bảng Xếp Hạng</a>
-            </li>
-
-            <!-- Lịch sử mua hàng -->
-            <li>
-                <a href="history.html">📜 Lịch sử mua hàng</a>
-            </li>
-
-            <!-- Lịch sử nhiệm vụ -->
-            <li>
-                <a href="taskhistory.html">📜 Lịch sử nhiệm vụ</a>
-            </li>
-
-            <!-- Cloud Free Mỗi Ngày -->
-            <li>
-                <a href="cloudfree.html">☁️ Cloud Free Mỗi Ngày</a>
-            </li>
-
-            <!-- Trung Tâm Hỗ Trợ -->
-            <li>
-                <a href="support.html">⚙️ Trung Tâm Hỗ Trợ</a>
-            </li>
+            <li><a href="giftcode.html">🎁 Nhập Giftcode</a></li>
+            <li><a href="flashsale.html">⚡ Flash Sale Cloud</a></li>
+            <li><a href="ranking.html">🏆 Bảng Xếp Hạng</a></li>
+            <li><a href="history.html">📜 Lịch sử mua hàng</a></li>
+            <li><a href="taskhistory.html">📜 Lịch sử nhiệm vụ</a></li>
+            <li><a href="cloudfree.html">☁️ Cloud Free Mỗi Ngày</a></li>
+            <li><a href="support.html">⚙️ Trung Tâm Hỗ Trợ</a></li>
         </ul>
 
         <div class="sidebar-footer">
@@ -512,13 +428,12 @@
                     <span>💰 1,000,000đ</span>
                 </div>
             </div>
-            <a href="index.html" class="logout-btn">🚪 Đăng xuất</a>
+            <a href="#" class="logout-btn" onclick="logout()">🚪 Đăng xuất</a>
         </div>
     </nav>
 
     <!-- ===== MAIN CONTENT ===== -->
     <main class="content">
-        <!-- Banner -->
         <div class="banner">
             <h2>🔥 CHÀO MỪNG ĐẾN VỚI NINI STORE</h2>
             <p>Nơi cung cấp code Free Fire uy tín - chất lượng - giá tốt nhất</p>
@@ -528,7 +443,6 @@
             </div>
         </div>
 
-        <!-- Danh sách code -->
         <h3 class="section-title">📦 DANH SÁCH CODE</h3>
         <div class="code-grid" id="codeGrid"></div>
     </main>
@@ -545,10 +459,17 @@
 </div>
 
 <script>
-    // ===== LẤY TÊN USER =====
-    var urlParams = new URLSearchParams(window.location.search);
-    var user = urlParams.get('user') || 'Khách';
+    // ===== LẤY USERNAME TỪ SESSIONSTORAGE (ẩn khỏi URL) =====
+    var user = sessionStorage.getItem('currentUser') || 'Khách';
     document.getElementById('usernameDisplay').textContent = user;
+
+    // ===== ĐĂNG XUẤT =====
+    function logout() {
+        if (confirm('Bạn có chắc muốn đăng xuất?')) {
+            sessionStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        }
+    }
 
     // ===== POPUP =====
     function showPopup(icon, title, message) {
@@ -575,7 +496,7 @@
         );
     }
 
-    // ===== Toggle SUB-MENU =====
+    // ===== TOGGLE SUB-MENU =====
     function toggleSubMenu(element) {
         var parentLi = element.closest('li');
         var subMenu = parentLi.querySelector('.sub-menu');
@@ -583,9 +504,7 @@
 
         if (subMenu) {
             subMenu.classList.toggle('open');
-            if (arrow) {
-                arrow.classList.toggle('open');
-            }
+            if (arrow) arrow.classList.toggle('open');
         }
     }
 
@@ -604,7 +523,7 @@
     function renderCodes() {
         var grid = document.getElementById('codeGrid');
         if (!grid) return;
-        
+
         var html = '';
         codeData.forEach(function(c) {
             html += `
