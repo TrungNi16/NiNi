@@ -5,12 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NiNi Store - Đăng Nhập</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
 
         body {
             background: linear-gradient(135deg, #0a0a1a, #1a0a2e);
@@ -70,11 +65,8 @@
             box-shadow: 0 0 20px rgba(255,215,0,0.05);
         }
 
-        .login-box input::placeholder {
-            color: #555;
-        }
+        .login-box input::placeholder { color: #555; }
 
-        /* ===== REMEMBER ME ===== */
         .remember-row {
             display: flex;
             align-items: center;
@@ -90,17 +82,9 @@
             cursor: pointer;
         }
 
-        .remember-row span {
-            color: #aaa;
-            font-size: 14px;
-            user-select: none;
-        }
+        .remember-row span { color: #aaa; font-size: 14px; user-select: none; }
 
-        .btn-group {
-            display: flex;
-            gap: 12px;
-            margin-top: 10px;
-        }
+        .btn-group { display: flex; gap: 12px; margin-top: 10px; }
 
         .btn-group button {
             flex: 1;
@@ -119,9 +103,7 @@
             border: 1px solid rgba(255,255,255,0.05);
         }
 
-        .btn-cancel:hover {
-            background: rgba(255,255,255,0.1);
-        }
+        .btn-cancel:hover { background: rgba(255,255,255,0.1); }
 
         .btn-login {
             background: linear-gradient(135deg, #ffd700, #f0a500);
@@ -140,15 +122,8 @@
             font-size: 14px;
         }
 
-        .register-link a {
-            color: #ffd700;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .register-link a:hover {
-            color: #ffed4a;
-        }
+        .register-link a { color: #ffd700; text-decoration: none; font-weight: 600; }
+        .register-link a:hover { color: #ffed4a; }
 
         .error-msg {
             background: rgba(255,0,0,0.1);
@@ -205,7 +180,6 @@
         <label>🧮 Giải phép tính: 3 + 1 = ?</label>
         <input type="number" id="captcha" placeholder="Nhập kết quả" required>
 
-        <!-- Ghi nhớ đăng nhập -->
         <div class="remember-row" onclick="toggleRemember(event)">
             <input type="checkbox" id="rememberMe">
             <span>💾 Ghi nhớ đăng nhập</span>
@@ -225,6 +199,13 @@
 <script>
     // ===== TỰ ĐỘNG ĐIỀN THÔNG TIN ĐÃ LƯU =====
     window.addEventListener('DOMContentLoaded', function() {
+        // Nếu đã có phiên đăng nhập → vào thẳng home
+        var currentUser = sessionStorage.getItem('currentUser');
+        if (currentUser) {
+            window.location.href = 'home.html';
+            return;
+        }
+
         var savedUser = localStorage.getItem('savedUsername');
         var savedPass = localStorage.getItem('savedPassword');
         var remember = localStorage.getItem('rememberMe');
@@ -237,9 +218,8 @@
         }
     });
 
-    // ===== TOGGLE REMEMBER (click cả vùng) =====
+    // ===== TOGGLE REMEMBER =====
     function toggleRemember(e) {
-        // Nếu click trực tiếp vào checkbox thì không xử lý (để mặc định)
         if (e.target.type === 'checkbox') return;
         var checkbox = document.getElementById('rememberMe');
         checkbox.checked = !checkbox.checked;
@@ -250,6 +230,7 @@
         localStorage.removeItem('savedUsername');
         localStorage.removeItem('savedPassword');
         localStorage.removeItem('rememberMe');
+        sessionStorage.removeItem('currentUser');
         document.getElementById('savedInfo').style.display = 'none';
     }
 
@@ -268,7 +249,7 @@
         errorMsg.style.display = 'none';
         successMsg.style.display = 'none';
 
-        // Kiểm tra captcha: 3 + 1 = 4
+        // Kiểm tra captcha
         if (parseInt(captcha) !== 4) {
             errorMsg.textContent = '❌ Sai mã xác nhận! 3 + 1 = 4';
             errorMsg.style.display = 'block';
@@ -281,7 +262,7 @@
             return;
         }
 
-        // Lấy danh sách user đã đăng ký
+        // Lấy danh sách user
         var users = JSON.parse(localStorage.getItem('users') || '[]');
 
         var foundUser = users.find(function(u) {
@@ -289,7 +270,7 @@
         });
 
         if (foundUser) {
-            // Lưu thông tin nếu chọn "Ghi nhớ"
+            // Lưu "Ghi nhớ" nếu được chọn
             if (remember) {
                 localStorage.setItem('savedUsername', user);
                 localStorage.setItem('savedPassword', pass);
@@ -300,11 +281,14 @@
                 localStorage.setItem('rememberMe', 'false');
             }
 
+            // ✅ LƯU USERNAME VÀO SESSIONSTORAGE (ẩn khỏi URL)
+            sessionStorage.setItem('currentUser', user);
+
             successMsg.textContent = '✅ Đăng nhập thành công! Chào mừng ' + user + '!';
             successMsg.style.display = 'block';
 
             setTimeout(function() {
-                window.location.href = 'home.html?user=' + encodeURIComponent(user);
+                window.location.href = 'home.html';  // ✅ Không còn ?user=
             }, 1200);
         } else {
             var userExists = users.some(function(u) {
