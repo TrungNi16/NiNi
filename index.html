@@ -67,6 +67,35 @@
 
         .login-box input::placeholder { color: #555; }
 
+        /* ===== CAPTCHA ROW ===== */
+        .captcha-row {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .captcha-row input {
+            flex: 1;
+        }
+
+        .refresh-btn {
+            padding: 12px 14px;
+            background: rgba(255,215,0,0.08);
+            border: 1px solid rgba(255,215,0,0.15);
+            border-radius: 10px;
+            color: #ffd700;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 18px;
+            user-select: none;
+        }
+
+        .refresh-btn:hover {
+            background: rgba(255,215,0,0.15);
+            transform: rotate(180deg);
+        }
+
         .remember-row {
             display: flex;
             align-items: center;
@@ -177,8 +206,11 @@
         <label>🔒 Mật khẩu</label>
         <input type="password" id="password" placeholder="Nhập mật khẩu" required>
 
-        <label>🧮 Giải phép tính: 3 + 1 = ?</label>
-        <input type="number" id="captcha" placeholder="Nhập kết quả" required>
+        <label id="captchaLabel">🧮 Giải phép tính: ...</label>
+        <div class="captcha-row">
+            <input type="number" id="captcha" placeholder="Nhập kết quả" required>
+            <button type="button" class="refresh-btn" onclick="newCaptcha()" title="Đổi phép tính khác">🔄</button>
+        </div>
 
         <div class="remember-row" onclick="toggleRemember(event)">
             <input type="checkbox" id="rememberMe">
@@ -197,9 +229,43 @@
 </div>
 
 <script>
+    // ===== CAPTCHA PHÉP TÍNH NGẪU NHIÊN =====
+    var currentCaptchaAnswer = 0;
+
+    function newCaptcha() {
+        // Số ngẫu nhiên từ 1 đến 50
+        var a = Math.floor(Math.random() * 50) + 1;
+        var b = Math.floor(Math.random() * 50) + 1;
+
+        // Ngẫu nhiên phép + hoặc -
+        var op = Math.random() < 0.5 ? '+' : '-';
+
+        // Đảm bảo kết quả dương (nếu là phép trừ)
+        if (op === '-' && a < b) {
+            var temp = a;
+            a = b;
+            b = temp;
+        }
+
+        if (op === '+') {
+            currentCaptchaAnswer = a + b;
+            document.getElementById('captchaLabel').textContent =
+                '🧮 Giải phép tính: ' + a + ' + ' + b + ' = ?';
+        } else {
+            currentCaptchaAnswer = a - b;
+            document.getElementById('captchaLabel').textContent =
+                '🧮 Giải phép tính: ' + a + ' - ' + b + ' = ?';
+        }
+
+        // Xóa ô nhập captcha để user nhập lại
+        document.getElementById('captcha').value = '';
+    }
+
     // ===== TỰ ĐỘNG ĐIỀN THÔNG TIN ĐÃ LƯU =====
     window.addEventListener('DOMContentLoaded', function() {
-        // Nếu đã có phiên đăng nhập → vào thẳng home
+        newCaptcha();  // Tạo captcha mới khi load trang
+
+        // Nếu đã có phiên → vào thẳng home
         var currentUser = sessionStorage.getItem('currentUser');
         if (currentUser) {
             window.location.href = 'home.html';
@@ -232,6 +298,7 @@
         localStorage.removeItem('rememberMe');
         sessionStorage.removeItem('currentUser');
         document.getElementById('savedInfo').style.display = 'none';
+        newCaptcha();  // Đổi captcha mới
     }
 
     // ===== XỬ LÝ ĐĂNG NHẬP =====
@@ -249,10 +316,13 @@
         errorMsg.style.display = 'none';
         successMsg.style.display = 'none';
 
-        // Kiểm tra captcha
-        if (parseInt(captcha) !== 4) {
-            errorMsg.textContent = '❌ Sai mã xác nhận! 3 + 1 = 4';
+        // ✅ KIỂM TRA CAPTCHA
+        if (parseInt(captcha) !== currentCaptchaAnswer) {
+            errorMsg.textContent = '❌ Sai mã xác nhận! Đã đổi phép tính mới, vui lòng thử lại.';
             errorMsg.style.display = 'block';
+
+            // 🔄 ĐỔI CAPTCHA MỚI NGAY KHI SAI
+            newCaptcha();
             return;
         }
 
@@ -270,7 +340,6 @@
         });
 
         if (foundUser) {
-            // Lưu "Ghi nhớ" nếu được chọn
             if (remember) {
                 localStorage.setItem('savedUsername', user);
                 localStorage.setItem('savedPassword', pass);
@@ -281,14 +350,14 @@
                 localStorage.setItem('rememberMe', 'false');
             }
 
-            // ✅ LƯU USERNAME VÀO SESSIONSTORAGE (ẩn khỏi URL)
+            // Lưu phiên (ẩn khỏi URL)
             sessionStorage.setItem('currentUser', user);
 
             successMsg.textContent = '✅ Đăng nhập thành công! Chào mừng ' + user + '!';
             successMsg.style.display = 'block';
 
             setTimeout(function() {
-                window.location.href = 'home.html';  // ✅ Không còn ?user=
+                window.location.href = 'home.html';
             }, 1200);
         } else {
             var userExists = users.some(function(u) {
@@ -301,6 +370,9 @@
                 errorMsg.textContent = '❌ Tài khoản không tồn tại! Vui lòng đăng ký.';
             }
             errorMsg.style.display = 'block';
+
+            // 🔄 Cũng đổi captcha khi sai tài khoản/mật khẩu
+            newCaptcha();
         }
     });
 </script>
