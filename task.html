@@ -41,18 +41,92 @@
             font-weight: 700;
         }
 
-<!-- ===== ĐẶC QUYỀN ===== -->
-<div class="privilege-bar">
-    <div class="privilege-left">
-        <span class="privilege-title">✨ Đặc quyền: <span class="status">Chưa kích hoạt</span></span>
-        <span class="badge-item"><span>🌸</span> Sumi <span class="time">+10đ</span></span>
-        <span class="badge-item"><span>🔺</span> Booster <span class="time">+25đ</span></span>
-    </div>
-    <a href="https://discord.gg/QQRygmwpq3" target="_blank" rel="noopener" class="discord-link">
-        Server Discord ↗
-    </a>
-</div>
-        
+        /* ===== ĐẶC QUYỀN ===== */
+        .privilege-bar {
+            background: rgba(10, 10, 26, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .privilege-left { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+        .privilege-title { color: #ffd700; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+        .privilege-title .status { color: #888; font-weight: 400; font-size: 13px; }
+        .badge-item {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 5px 12px; border-radius: 20px;
+            font-size: 13px; color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .badge-item .time { color: #ffd700; font-weight: 700; font-size: 12px; }
+        .discord-link {
+            color: #00aaff; text-decoration: none; font-size: 14px;
+            display: flex; align-items: center; gap: 6px; transition: 0.3s;
+        }
+        .discord-link:hover { color: #66ccff; }
+
+        /* ===== BOX LINK RÚT GỌN ===== */
+        .shortlink-box {
+            background: rgba(10, 10, 26, 0.9);
+            border: 1px solid rgba(0, 150, 255, 0.15);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .shortlink-title {
+            color: #00ff88;
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .shortlink-desc {
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        .shortlink-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .shortlink-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 14px;
+        }
+        .shortlink-input:focus { border-color: #00aaff; outline: none; }
+        .shortlink-input::placeholder { color: #555; }
+        .btn-shortlink {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #00cc66, #00a050);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+        .btn-shortlink:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(0, 204, 102, 0.3); }
+        .shortlink-info { color: #888; font-size: 12px; }
+
         /* ===== CARDS GRID ===== */
         .cards-grid {
             display: grid;
@@ -165,11 +239,7 @@
             gap: 12px;
             margin-bottom: 8px;
         }
-        .history-title {
-            color: #ffd700;
-            font-size: 18px;
-            font-weight: 700;
-        }
+        .history-title { color: #ffd700; font-size: 18px; font-weight: 700; }
         .history-desc { color: #888; font-size: 13px; margin-bottom: 16px; }
         .btn-refresh {
             padding: 8px 16px;
@@ -324,7 +394,7 @@
             <div class="notice-item">
                 <div class="notice-icon blue">🕐</div>
                 <div class="notice-content">
-                    <h4>Làm mới sau <span class="timer-badge" id="timerBadge">09:05:01</span></h4>
+                    <h4>Làm mới sau <span class="timer-badge" id="timerBadge">00:00:00</span></h4>
                     <p>Hạn ngạch số lượt của mỗi dịch vụ tự động reset vào 00:00 hàng ngày.</p>
                 </div>
             </div>
@@ -351,7 +421,9 @@
                 <span class="badge-item"><span>🌸</span> Sumi <span class="time">+10đ</span></span>
                 <span class="badge-item"><span>🔺</span> Booster <span class="time">+25đ</span></span>
             </div>
-            <a href="#" class="discord-link" onclick="showPopup('💬','Discord','Tham gia Discord: NiNiStore#1234')">Server Discord ↗</a>
+            <a href="https://discord.gg/QQRygmwpq3" target="_blank" rel="noopener" class="discord-link">
+                Server Discord ↗
+            </a>
         </div>
 
         <!-- ===== LINK RÚT GỌN ===== -->
@@ -513,11 +585,27 @@
 
 <script src="layout.js"></script>
 <script>
+    // ===== KIỂM TRA RESET NGÀY MỚI =====
+    (function checkDailyReset() {
+        var today = new Date().toDateString();
+        var lastReset = localStorage.getItem('lastResetDate');
+        if (lastReset !== today) {
+            localStorage.setItem('lastResetDate', today);
+            localStorage.setItem('usedLayma', '0');
+            localStorage.setItem('usedTrafficVN', '0');
+            localStorage.setItem('usedGtraffic', '0');
+            localStorage.setItem('usedGtrafficDirect', '0');
+            console.log('✅ Đã reset lượt cho ngày mới:', today);
+        }
+    })();
+
+    // ===== TẠO LINK =====
     function createLink(name, price) {
         showPopup('🔗', 'Tạo link ' + name,
             'Bạn đã tạo thành công link ' + name + ' với giá ' + price + 'đ. Link đã được sao chép!');
     }
 
+    // ===== RÚT GỌN LINK =====
     function shortenLink() {
         var input = document.getElementById('shortlinkInput');
         var url = input.value.trim();
@@ -532,30 +620,44 @@
         input.value = '';
     }
 
+    // ===== ĐỒNG HỒ ĐẾM NGƯỢC ĐẾN 00:00 =====
     function startCountdown() {
         var el = document.getElementById('timerBadge');
         if (!el) return;
-        var total = 9 * 3600 + 5 * 60 + 1;
-        setInterval(function() {
-            total--;
-            if (total < 0) total = 24 * 3600;
-            var h = Math.floor(total / 3600);
-            var m = Math.floor((total % 3600) / 60);
-            var s = total % 60;
+
+        function update() {
+            var now = new Date();
+            var midnight = new Date();
+            midnight.setHours(24, 0, 0, 0); // 00:00 ngày mai
+
+            var diff = Math.floor((midnight - now) / 1000);
+            if (diff < 0) diff = 0;
+
+            var h = Math.floor(diff / 3600);
+            var m = Math.floor((diff % 3600) / 60);
+            var s = diff % 60;
+
             el.textContent =
                 String(h).padStart(2, '0') + ':' +
                 String(m).padStart(2, '0') + ':' +
                 String(s).padStart(2, '0');
-        }, 1000);
+
+            // Nếu đã đến 00:00 → reset tất cả về 0/2
+            if (diff === 0) {
+                localStorage.setItem('usedLayma', '0');
+                localStorage.setItem('usedTrafficVN', '0');
+                localStorage.setItem('usedGtraffic', '0');
+                localStorage.setItem('usedGtrafficDirect', '0');
+                console.log('✅ Đã reset lượt cho ngày mới!');
+            }
+        }
+
+        update();
+        setInterval(update, 1000);
     }
 
+    // ===== DỮ LIỆU LỊCH SỬ =====
     var historyData = [
         { service: 'Layma', logo: 'L', logoClass: 'layma', link: 'https://layma.net/xyz123abc', points: 510, status: 'done', date: '2026-09-12', time: '23:37:07' },
         { service: 'TrafficVN', logo: '⚡', logoClass: '', link: 'https://trafficvn.net/abc456def', points: 260, status: 'done', date: '2026-09-12', time: '21:15:33' },
-        { service: 'Gtraffic', logo: 'G', logoClass: 'gtraffic', link: 'https://gtraffic.com/def789ghi', points: 360, status: 'pending', date: '2026-09-12', time: '19:45:12' },
-        { service: 'Gtraffic Direct', logo: 'G', logoClass: 'gtraffic-direct', link: 'https://gtraffic.com/direct123', points: 360, status: 'pending', date: '2026-09-12', time: '18:20:45' },
-        { service: 'Layma', logo: 'L', logoClass: 'layma', link: 'https://layma.net/abc789xyz', points: 510, status: 'done', date: '2026-09-12', time: '15:10:22' }
-    ];
-
-    function renderHistory(filter) {
-        var tbody = document
+        { service: 'Gtraffic', logo: 'G', logoClass: 'gtraffic', link: '
