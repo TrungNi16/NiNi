@@ -79,14 +79,6 @@
             padding: 20px;
             margin-bottom: 20px;
         }
-        .shortlink-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
         .shortlink-title {
             color: #00ff88;
             font-size: 16px;
@@ -94,6 +86,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            margin-bottom: 12px;
         }
         .shortlink-desc {
             color: #888;
@@ -132,14 +125,7 @@
             white-space: nowrap;
         }
         .btn-shortlink:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(0, 204, 102, 0.3); }
-        .shortlink-info {
-            color: #888;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+        .shortlink-info { color: #888; font-size: 12px; }
 
         /* ===== CARDS GRID ===== */
         .cards-grid {
@@ -165,8 +151,10 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
-        .card-logo-wrap { display: flex; align-items: center; gap: 10px; }
+        .card-logo-wrap { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .card-logo {
             width: 38px; height: 38px;
             border-radius: 10px;
@@ -229,10 +217,6 @@
             font-size: 14px;
             cursor: pointer;
             transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
         }
         .btn-create:hover {
             background: linear-gradient(135deg, #8b4fff, #6b3fff);
@@ -259,15 +243,8 @@
             color: #ffd700;
             font-size: 18px;
             font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
-        .history-desc {
-            color: #888;
-            font-size: 13px;
-            margin-bottom: 16px;
-        }
+        .history-desc { color: #888; font-size: 13px; margin-bottom: 16px; }
         .btn-refresh {
             padding: 8px 16px;
             background: rgba(255, 255, 255, 0.05);
@@ -279,12 +256,7 @@
             transition: 0.3s;
         }
         .btn-refresh:hover { background: rgba(255, 215, 0, 0.05); color: #ffd700; }
-        .filter-bar {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-        }
+        .filter-bar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
         .filter-btn {
             padding: 8px 18px;
             background: rgba(255, 255, 255, 0.03);
@@ -304,32 +276,19 @@
 
         /* ===== BẢNG ===== */
         .table-wrap { overflow-x: auto; }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-        }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
         thead th {
-            text-align: left;
-            color: #666;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 12px 10px;
+            text-align: left; color: #666; font-size: 11px;
+            font-weight: 600; text-transform: uppercase;
+            letter-spacing: 1px; padding: 12px 10px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
         tbody td {
-            padding: 14px 10px;
-            color: #ccc;
+            padding: 14px 10px; color: #ccc;
             border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
         tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
-        .td-code {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .td-code { display: flex; align-items: center; gap: 10px; }
         .code-logo {
             width: 28px; height: 28px;
             border-radius: 8px;
@@ -343,22 +302,15 @@
         .code-logo.gtraffic { background: #fff; }
         .code-logo.gtraffic-direct { background: #fff; }
         .td-link {
-            color: #00aaff;
-            max-width: 200px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            display: inline-block;
+            color: #00aaff; max-width: 200px;
+            overflow: hidden; text-overflow: ellipsis;
+            white-space: nowrap; display: inline-block;
         }
         .td-points { color: #00ff88; font-weight: 700; }
         .status-badge {
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
+            padding: 4px 10px; border-radius: 6px;
+            font-size: 11px; font-weight: 700;
+            display: inline-flex; align-items: center; gap: 4px;
         }
         .status-pending {
             background: rgba(255, 200, 0, 0.1);
@@ -370,11 +322,7 @@
             color: #00ff88;
             border: 1px solid rgba(0, 255, 136, 0.2);
         }
-        .time-cell {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
+        .time-cell { display: flex; flex-direction: column; gap: 2px; }
         .time-cell .date { color: #888; font-size: 11px; }
         .time-cell .time { color: #ccc; font-size: 12px; }
 
@@ -444,6 +392,7 @@
     </nav>
 
     <main class="content" id="content">
+
         <!-- ===== THÔNG BÁO ===== -->
         <div class="notice-bar">
             <div class="notice-item">
@@ -481,9 +430,7 @@
 
         <!-- ===== LINK RÚT GỌN ===== -->
         <div class="shortlink-box">
-            <div class="shortlink-header">
-                <div class="shortlink-title">🔗 Link nhận +250đ đã rút gọn</div>
-            </div>
+            <div class="shortlink-title">🔗 Link nhận +250đ đã rút gọn</div>
             <div class="shortlink-desc">
                 Vượt link rút gọn để nhận ngay <strong style="color:#00ff88;">+250đ</strong> vào tài khoản. Mỗi lượt chỉ mất 30 giây.
             </div>
@@ -491,13 +438,13 @@
                 <input type="text" class="shortlink-input" placeholder="Nhập URL cần rút gọn (VD: https://example.com)" id="shortlinkInput">
                 <button class="btn-shortlink" onclick="shortenLink()">🚀 Rút gọn ngay</button>
             </div>
-            <div class="shortlink-info">
-                <span>ℹ️ Hỗ trợ: Facebook, TikTok, YouTube, Shopee, v.v.</span>
-            </div>
+            <div class="shortlink-info">ℹ️ Hỗ trợ: Facebook, TikTok, YouTube, Shopee, v.v.</div>
         </div>
 
         <!-- ===== CARDS CHỨC NĂNG ===== -->
         <div class="cards-grid">
+
+            <!-- Card Layma -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-logo-wrap">
@@ -519,11 +466,10 @@
                     </div>
                     <div class="progress-bar"><div class="progress-fill" style="width:0%;"></div></div>
                 </div>
-                <button class="btn-create" onclick="createLink('Layma', 510)">
-                    ➜ Tạo link Layma (510đ)
-                </button>
+                <button class="btn-create" onclick="createLink('Layma', 510)">➜ Tạo link Layma (510đ)</button>
             </div>
 
+            <!-- Card TrafficVN -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-logo-wrap">
@@ -544,14 +490,146 @@
                     </div>
                     <div class="progress-bar"><div class="progress-fill" style="width:0%;"></div></div>
                 </div>
-                <button class="btn-create" onclick="createLink('TrafficVN', 260)">
-                    ➜ Tạo link TrafficVN (260đ)
-                </button>
+                <button class="btn-create" onclick="createLink('TrafficVN', 260)">➜ Tạo link TrafficVN (260đ)</button>
             </div>
 
+            <!-- Card Gtraffic -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-logo-wrap">
                         <div class="card-logo gtraffic">G</div>
                         <span class="card-tag tag-gtraffic">Gtraffic</span>
-                        <span class="card-tag
+                        <span class="card-tag tag-badge-sumi">🌸</span>
+                    </div>
+                    <div class="card-price">
+                        <div><span class="current">+360đ</span> <span class="unit">/ link</span></div>
+                        <div class="original">+350đ gốc</div>
+                    </div>
+                </div>
+                <h3 class="card-title">Vượt link Gtraffic</h3>
+                <div class="card-limit">
+                    <div class="limit-row">
+                        <span>Hạn ngạch hôm nay</span>
+                        <span class="count">0/2 Lượt</span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:0%;"></div></div>
+                </div>
+                <button class="btn-create" onclick="createLink('Gtraffic', 360)">➜ Tạo link Gtraffic (360đ)</button>
+            </div>
+
+            <!-- Card Gtraffic Direct -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-logo-wrap">
+                        <div class="card-logo gtraffic-direct">G</div>
+                        <span class="card-tag tag-gtraffic-direct">Gtraffic Direct</span>
+                        <span class="card-tag tag-badge-sumi">🌸</span>
+                    </div>
+                    <div class="card-price">
+                        <div><span class="current">+360đ</span> <span class="unit">/ link</span></div>
+                        <div class="original">+350đ gốc</div>
+                    </div>
+                </div>
+                <h3 class="card-title">Vượt link Gtraffic Direct</h3>
+                <div class="card-limit">
+                    <div class="limit-row">
+                        <span>Hạn ngạch hôm nay</span>
+                        <span class="count">0/2 Lượt</span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:0%;"></div></div>
+                </div>
+                <button class="btn-create" onclick="createLink('Gtraffic Direct', 360)">➜ Tạo link Gtraffic Direct (360đ)</button>
+            </div>
+
+        </div>
+
+        <!-- ===== LỊCH SỬ VƯỢT LINK ===== -->
+        <div class="history-box">
+            <div class="history-header">
+                <div class="history-title">📜 Lượt vượt link gần đây</div>
+                <button class="btn-refresh" onclick="refreshHistory()">🔄 Làm mới</button>
+            </div>
+            <div class="history-desc">Hiển thị tối đa 5 lượt gần nhất (cả thành công lẫn thất bại).</div>
+
+            <div class="filter-bar">
+                <button class="filter-btn active" onclick="filterHistory('all', this)">🌐 Tất cả</button>
+                <button class="filter-btn" onclick="filterHistory('done', this)">✅ Đã duyệt</button>
+                <button class="filter-btn" onclick="filterHistory('pending', this)">⏳ Chờ duyệt</button>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Dịch vụ</th>
+                            <th>Link rút gọn</th>
+                            <th>Thưởng</th>
+                            <th>Trạng thái</th>
+                            <th>Thời gian</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup-box">
+        <div class="icon" id="popupIcon">📢</div>
+        <h3 id="popupTitle">Thông báo</h3>
+        <p id="popupMessage">Nội dung thông báo</p>
+        <button class="close-btn" onclick="closePopup()">Đã hiểu</button>
+    </div>
+</div>
+
+<script src="layout.js"></script>
+<script>
+    function createLink(name, price) {
+        showPopup('🔗', 'Tạo link ' + name,
+            'Bạn đã tạo thành công link ' + name + ' với giá ' + price + 'đ. Link đã được sao chép!');
+    }
+
+    function shortenLink() {
+        var input = document.getElementById('shortlinkInput');
+        var url = input.value.trim();
+        if (!url) { showPopup('⚠️', 'Thiếu URL', 'Vui lòng nhập URL cần rút gọn!'); return; }
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            showPopup('⚠️', 'URL không hợp lệ', 'URL phải bắt đầu bằng http:// hoặc https://');
+            return;
+        }
+        showPopup('🚀', 'Rút gọn thành công!',
+            'Link của bạn đã được rút gọn: nini.store/' +
+            Math.random().toString(36).substring(2, 8) + '\n\nBạn nhận được +250đ!');
+        input.value = '';
+    }
+
+    function startCountdown() {
+        var el = document.getElementById('timerBadge');
+        if (!el) return;
+        var total = 9 * 3600 + 5 * 60 + 1;
+        setInterval(function() {
+            total--;
+            if (total < 0) total = 24 * 3600;
+            var h = Math.floor(total / 3600);
+            var m = Math.floor((total % 3600) / 60);
+            var s = total % 60;
+            el.textContent =
+                String(h).padStart(2, '0') + ':' +
+                String(m).padStart(2, '0') + ':' +
+                String(s).padStart(2, '0');
+        }, 1000);
+    }
+
+    var historyData = [
+        { service: 'Layma', logo: 'L', logoClass: 'layma', link: 'https://layma.net/xyz123abc', points: 510, status: 'done', date: '2026-09-12', time: '23:37:07' },
+        { service: 'TrafficVN', logo: '⚡', logoClass: '', link: 'https://trafficvn.net/abc456def', points: 260, status: 'done', date: '2026-09-12', time: '21:15:33' },
+        { service: 'Gtraffic', logo: 'G', logoClass: 'gtraffic', link: 'https://gtraffic.com/def789ghi', points: 360, status: 'pending', date: '2026-09-12', time: '19:45:12' },
+        { service: 'Gtraffic Direct', logo: 'G', logoClass: 'gtraffic-direct', link: 'https://gtraffic.com/direct123', points: 360, status: 'pending', date: '2026-09-12', time: '18:20:45' },
+        { service: 'Layma', logo: 'L', logoClass: 'layma', link: 'https://layma.net/abc789xyz', points: 510, status: 'done', date: '2026-09-12', time: '15:10:22' }
+    ];
+
+    function renderHistory(filter) {
+        var tbody = document
