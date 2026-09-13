@@ -4,47 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cloud Free - NiNi Store</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="layout.css">
     <style>
-        .cloudfree-container {
-            max-width: 700px;
-            margin: 60px auto;
-            text-align: center;
-            padding: 20px;
-        }
-        .cloudfree-container .icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-        }
-        .cloudfree-container h1 {
-            color: #ffd700;
-            font-size: 32px;
-            margin-bottom: 20px;
-        }
+        .cloudfree-container { max-width: 700px; margin: 0 auto; text-align: center; padding: 40px 20px; }
+        .cloudfree-container .icon { font-size: 100px; margin-bottom: 20px; }
+        .cloudfree-container h1 { color: #ffd700; font-size: 32px; margin-bottom: 30px; }
         .cloudfree-list {
             background: rgba(255,255,255,0.03);
             border-radius: 16px;
-            padding: 20px;
+            padding: 15px 20px;
             text-align: left;
+            margin-bottom: 20px;
         }
         .cloudfree-item {
             display: flex;
             justify-content: space-between;
-            padding: 12px 0;
+            align-items: center;
+            padding: 14px 0;
             border-bottom: 1px solid rgba(255,255,255,0.05);
             color: #ccc;
+            flex-wrap: wrap;
+            gap: 8px;
         }
-        .cloudfree-item:last-child {
-            border-bottom: none;
-        }
-        .cloudfree-item .status {
-            color: #66ff66;
-        }
-        .cloudfree-item .status.locked {
-            color: #555;
-        }
+        .cloudfree-item:last-child { border-bottom: none; }
+        .cloudfree-item .name { color: #fff; }
+        .cloudfree-item .status { color: #00ff88; font-weight: 700; font-size: 13px; }
+        .cloudfree-item .status.locked { color: #555; }
         .btn-claim {
-            margin-top: 20px;
             padding: 14px 40px;
             background: linear-gradient(135deg, #ffd700, #f0a500);
             color: #0a0a1a;
@@ -55,51 +41,49 @@
             cursor: pointer;
             transition: 0.3s;
         }
-        .btn-claim:hover {
-            transform: scale(1.05);
-        }
-        .back-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 30px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
-            color: #888;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-        .back-btn:hover {
-            background: rgba(255,215,0,0.05);
-            color: #fff;
+        .btn-claim:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(255,215,0,0.3); }
+        .btn-claim:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
     </style>
 </head>
 <body>
-    <div class="cloudfree-container">
-        <div class="icon">☁️</div>
-        <h1>Cloud Free Mỗi Ngày</h1>
-        <div class="cloudfree-list">
-            <div class="cloudfree-item">
-                <span>🎁 Ngày 1: Code Vimos 1 Day</span>
-                <span class="status">✅ Đã nhận</span>
-            </div>
-            <div class="cloudfree-item">
-                <span>🎁 Ngày 2: Code Vipplayer 1 Ngày</span>
-                <span class="status">✅ Đã nhận</span>
-            </div>
-            <div class="cloudfree-item">
-                <span>🎁 Ngày 3: Code Ughearna 4H</span>
-                <span class="status">✅ Đã nhận</span>
-            </div>
-            <div class="cloudfree-item">
-                <span>🎁 Ngày 4: Máy Cloud 1 ngày</span>
-                <span class="status locked">🔒 Chưa nhận</span>
-            </div>
+
+<button class="hamburger" onclick="toggleSidebar()" title="Ẩn/Hiện menu">☰</button>
+<div class="overlay" id="overlay" onclick="closeMobileSidebar()"></div>
+
+<div class="container">
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <h2>🌟 NINI STORE</h2>
+            <div class="sub">Free Fire Code Shop</div>
         </div>
-        <button class="btn-claim" onclick="alert('✅ Nhận thành công! Mã code đã được gửi.')">🎁 Nhận ngay</button>
-        <br>
-        <a href="home.html" class="back-btn">⬅ Quay lại trang chủ</a>
-    </div>
-</body>
-</html>
+        <ul class="sidebar-menu">
+            <li data-page="home"><a href="home.html">🏠 Trang chủ</a></li>
+            <li data-page="task"><a href="task.html">📋 Nhiệm vụ</a></li>
+            <li data-page="exchange"><a href="exchange.html">🔄 Đổi điểm</a></li>
+            <li class="has-sub">
+                <a href="#" onclick="toggleSubMenu(this)">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
+                <ul class="sub-menu">
+                    <li data-page="card"><a href="card.html">💳 Nạp Thẻ Cào</a></li>
+                    <li data-page="bank"><a href="bank.html">🏦 Nạp Bank/Momo</a></li>
+                    <li data-page="recharge-history"><a href="recharge-history.html">📜 Lịch sử nạp tiền</a></li>
+                </ul>
+            </li>
+            <li class="has-sub">
+                <a href="#" onclick="toggleSubMenu(this)">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
+                <ul class="sub-menu">
+                    <li data-page="redeem"><a href="redeem.html">🔄 Redeem Uphone 4h</a></li>
+                    <li data-page="buycloud"><a href="buycloud.html">☁️ Mua Máy Cloud</a></li>
+                    <li data-page="checkcloud"><a href="checkcloud.html">🔍 Check Máy Uphone</a></li>
+                    <li data-page="codelogin"><a href="codelogin.html">🔑 Code Login Cloud</a></li>
+                </ul>
+            </li>
+            <li data-page="giftcode"><a href="giftcode.html">🎁 Nhập Giftcode</a></li>
+            <li data-page="flashsale"><a href="flashsale.html">⚡ Flash Sale Cloud</a></li>
+            <li data-page="ranking"><a href="ranking.html">🏆 Bảng Xếp Hạng</a></li>
+            <li data-page="history"><a href="history.html">📜 Lịch sử mua hàng</a></li>
+            <li data-page="taskhistory"><a href="taskhistory.html">📜 Lịch sử nhiệm vụ</a></li>
+            <li data-page="cloudfree" class="active"><a href="cloudfree.html">
