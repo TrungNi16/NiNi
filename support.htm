@@ -3,64 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hỗ trợ - NiNi Store</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Trung Tâm Hỗ Trợ - NiNi Store</title>
+    <link rel="stylesheet" href="layout.css">
     <style>
         .support-container {
             max-width: 600px;
-            margin: 60px auto;
+            margin: 0 auto;
             text-align: center;
-            padding: 20px;
+            padding: 40px 20px;
         }
         .support-container .icon {
-            font-size: 80px;
+            font-size: 100px;
             margin-bottom: 20px;
         }
         .support-container h1 {
             color: #ffd700;
             font-size: 32px;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
         .support-info {
             background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
             border-radius: 16px;
             padding: 30px;
             color: #ccc;
             line-height: 2.5;
+            text-align: left;
         }
         .support-info .highlight {
             color: #ffd700;
             font-weight: bold;
         }
-        .back-btn {
+        .support-info .discord-btn {
             display: inline-block;
-            margin-top: 20px;
+            margin-top: 15px;
             padding: 12px 30px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
-            color: #888;
+            background: linear-gradient(135deg, #5865F2, #4752c4);
+            color: #fff;
             text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
             transition: 0.3s;
         }
-        .back-btn:hover {
-            background: rgba(255,215,0,0.05);
-            color: #fff;
+        .support-info .discord-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(88, 101, 242, 0.4);
         }
     </style>
 </head>
 <body>
-    <div class="support-container">
-        <div class="icon">⚙️</div>
-        <h1>Trung tâm hỗ trợ</h1>
-        <div class="support-info">
-            <p>📱 <span class="highlight">Zalo:</span> 0909.xxx.xxx</p>
-            <p>💬 <span class="highlight">Discord:</span> NiNiStore#1234</p>
-            <p>📧 <span class="highlight">Email:</span> support@ninistore.com</p>
-            <p>⏰ <span class="highlight">Thời gian:</span> 24/7</p>
-            <p style="color:#555; margin-top:10px;">Luôn sẵn sàng giúp đỡ bạn!</p>
+
+<button class="hamburger" onclick="toggleSidebar()" title="Ẩn/Hiện menu">☰</button>
+<div class="overlay" id="overlay" onclick="closeMobileSidebar()"></div>
+
+<div class="container">
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <h2>🌟 NINI STORE</h2>
+            <div class="sub">Free Fire Code Shop</div>
         </div>
-        <a href="home.html" class="back-btn">⬅ Quay lại trang chủ</a>
-    </div>
+        <ul class="sidebar-menu">
+            <li data-page="home"><a href="home.html">🏠 Trang chủ</a></li>
+            <li data-page="task"><a href="task.html">📋 Nhiệm vụ</a></li>
+            <li data-page="exchange"><a href="exchange.html">🔄 Đổi điểm</a></li>
+            <li class="has-sub">
+                <a href="#" onclick="toggleSubMenu(this)">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
+                <ul class="sub-menu">
+                    <li data-page="card"><a href="card.html">💳 Nạp Thẻ Cào</a></li>
+                    <li data-page="bank"><a href="bank.html">🏦 Nạp Bank/Momo</a></li>
+                    <li data-page="recharge-history"><a href="recharge-history.html">📜 Lịch sử nạp tiền</a></li>
+                </ul>
+            </li>
+            <li class="has-sub">
+                <a href="#" onclick="toggleSubMenu(this)">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
+                <ul class="sub-menu">
+                    <li data-page="redeem"><a href="redeem.html">🔄 Redeem Uphone 4h</a></li>
+                    <li data-page="buycloud"><a href="buycloud.html">☁️ Mua Máy Cloud</a></li>
+                    <li data-page="checkcloud"><a href="checkcloud.html">🔍 Check Máy Uphone</a></li>
+                    <li data-page="codelogin"><a href="codelogin.html">🔑 Code Login Cloud</a></li>
+                </ul>
+            </li>
+            <li data-page="giftcode"><a href="giftcode.html">🎁 Nhập Giftcode</a></li>
+            <li data-page="flashsale"><a href="flashsale.html">⚡ Flash Sale Cloud</a></li>
+            <li data-page="ranking"><a href="ranking.html">🏆 Bảng Xếp Hạng</a></li>
+            <li data-page="history"><a href="history.html">📜 Lịch sử mua hàng</a></li>
+            <li data-page="taskhistory"><a href="taskhistory.html">📜 Lịch sử nhiệm vụ</a></li>
+            <li data-page="cloudfree"><a href="cloudfree.html">☁️ Cloud Free Mỗi Ngày</a></li>
+            <li data-page="support" class="active"><a href="support.html">⚙️ Trung Tâm Hỗ Trợ</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <span class="user-avatar">👤</span>
+                <div>
+                    <strong id="usernameDisplay">Khách</strong>
+                    <span>💰 1,000,000đ</span>
+                </div>
+            </div>
+            <a href="#" class="logout-btn" onclick="logout()">🚪 Đăng xuất</a>
+        </div>
+    </nav>
+
+    <main class="content" id="content">
+        <div class="support-container">
+            <div class="icon">⚙️</div>
+            <h1>Trung Tâm Hỗ Trợ</h1>
+            <div class="support-info">
+                <p>📱 <span class="highlight">Zalo:</span> 0909.xxx.xxx</p>
+                <p>💬 <span class="highlight">Discord:</span> NiNiStore#1234</p>
+                <p>📧 <span class="highlight">Email:</span> support@ninistore.com</p>
+                <p>⏰ <span class="highlight">Thời gian:</span> 24/7</p>
+                <p style="color:#555; margin-top:15px;">Luôn sẵn sàng giúp đỡ bạn!</p>
+                <a href="https://discord.gg/QQRygmwpq3" target="_blank" rel="noopener" class="discord-btn">
+                    💬 Tham gia Discord
+                </a>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="layout.js"></script>
+
 </body>
 </html>
