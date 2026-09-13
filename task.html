@@ -528,10 +528,47 @@
         }
     })();
 
+    // ===== LẤY DỮ LIỆU LỊCH SỬ TỪ LOCALSTORAGE =====
+    function getHistoryData() {
+        var history = JSON.parse(localStorage.getItem('linkHistory') || '[]');
+        return history.slice(-5).reverse();
+    }
+
     // ===== TẠO LINK =====
     function createLink(name, price) {
+        var now = new Date();
+        var dateStr = now.getFullYear() + '-' +
+            String(now.getMonth() + 1).padStart(2, '0') + '-' +
+            String(now.getDate()).padStart(2, '0');
+        var timeStr = String(now.getHours()).padStart(2, '0') + ':' +
+            String(now.getMinutes()).padStart(2, '0') + ':' +
+            String(now.getSeconds()).padStart(2, '0');
+
+        var logoMap = {
+            'Layma': 'L',
+            'TrafficVN': '⚡',
+            'Gtraffic': 'G',
+            'Gtraffic Direct': 'G'
+        };
+
+        var newEntry = {
+            service: name,
+            logo: logoMap[name] || '?',
+            link: 'https://' + name.toLowerCase().replace(/\s/g, '') + '.net/' + Math.random().toString(36).substring(2, 11),
+            points: price,
+            status: 'pending',
+            date: dateStr,
+            time: timeStr
+        };
+
+        var history = JSON.parse(localStorage.getItem('linkHistory') || '[]');
+        history.push(newEntry);
+        localStorage.setItem('linkHistory', JSON.stringify(history));
+
         showPopup('🔗', 'Tạo link ' + name,
             'Bạn đã tạo thành công link ' + name + ' với giá ' + price + 'đ. Link đã được sao chép!');
+
+        renderHistory('all');
     }
 
     // ===== ĐỒNG HỒ ĐẾM NGƯỢC ĐẾN 00:00 =====
@@ -555,27 +592,11 @@
                 String(h).padStart(2, '0') + ':' +
                 String(m).padStart(2, '0') + ':' +
                 String(s).padStart(2, '0');
-
-            if (diff === 0) {
-                localStorage.setItem('usedLayma', '0');
-                localStorage.setItem('usedTrafficVN', '0');
-                localStorage.setItem('usedGtraffic', '0');
-                localStorage.setItem('usedGtrafficDirect', '0');
-            }
         }
 
         update();
         setInterval(update, 1000);
     }
-
-    // ===== DỮ LIỆU LỊCH SỬ =====
-    var historyData = [
-        { service: 'Layma', logo: 'L', logoClass: 'layma', link: 'https://layma.net/xyz123abc', points: 510, status: 'done', date: '2026-09-12', time: '23:37:07' },
-        { service: 'TrafficVN', logo: '⚡', logoClass: '', link: 'https://trafficvn.net/abc456def', points: 260, status: 'done', date: '2026-09-12', time: '21:15:33' },
-        { service: 'Gtraffic', logo: 'G', logoClass: 'gtraffic', link: 'https://gtraffic.com/def789ghi', points: 360, status: 'pending', date: '2026-09-12', time: '19:45:12' },
-        { service: 'Gtraffic Direct', logo: 'G', logoClass: 'gtraffic-direct', link: 'https://gtraffic.com/direct123', points: 360, status: 'pending', date: '2026-09-12', time: '18:20:45' },
-        { service: 'Layma', logo: 'L', logoClass: 'layma', link: 'https://layma.net/abc789xyz', points: 510, status: 'done', date: '2026-09-12', time: '15:10:22' }
-    ];
 
     // ===== HIỂN THỊ LỊCH SỬ =====
     function renderHistory(filter) {
@@ -583,21 +604,23 @@
         if (!tbody) return;
 
         filter = filter || 'all';
+        var historyData = getHistoryData();
+
         var filtered = historyData.filter(function(item) {
             if (filter === 'all') return true;
             return item.status === filter;
         });
 
         if (filtered.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#555;padding:30px;">📭 Chưa có dữ liệu</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#555;padding:40px;">📭 Bạn chưa có lượt vượt link nào</td></tr>';
             return;
         }
 
         var html = '';
         filtered.forEach(function(item) {
             var logoClass = 'code-logo';
-            if (item.logoClass === 'gtraffic') logoClass += ' gtraffic';
-            if (item.logoClass === 'gtraffic-direct') logoClass += ' gtraffic-direct';
+            if (item.service === 'Gtraffic') logoClass += ' gtraffic';
+            if (item.service === 'Gtraffic Direct') logoClass += ' gtraffic-direct';
 
             var statusHtml = item.status === 'done'
                 ? '<span class="status-badge status-done">✅ Đã duyệt</span>'
