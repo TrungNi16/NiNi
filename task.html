@@ -360,7 +360,7 @@
         <div class="privilege-bar">
             <div class="privilege-left">
                 <span class="privilege-title">✨ Đặc quyền: <span class="status">Chưa kích hoạt</span></span>
-                <span class="badge-item"><span>🌸</span> Sumi <span class="time">+10đ</span></span>
+                <span class="badge-item"><span>🌸</span> NiNi <span class="time">+10đ</span></span>
                 <span class="badge-item"><span>🔺</span> Booster <span class="time">+25đ</span></span>
             </div>
             <a href="https://discord.gg/QQRygmwpq3" target="_blank" rel="noopener" class="discord-link">
@@ -630,4 +630,15 @@
             b.classList.remove('active');
         });
         document.querySelector('.filter-btn').classList.add('active');
-        showPopup('🔄', 'Đã làm mới', 'Dan
+        showPopup('🔄', 'Đã làm mới', 'Danh sách lịch sử đã được cập nhật!');
+    }
+
+    // ===== KHỞI CHẠY =====
+    document.addEventListener('DOMContentLoaded', function() {
+        startCountdown();
+        renderHistory('all');
+    });
+</script>
+
+</body>
+</html>
