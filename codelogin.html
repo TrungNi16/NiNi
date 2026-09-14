@@ -1,86 +1,301 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Login Cloud - NiNi Store</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Code Login Cloud - CloudVIP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .codelogin-container {
-            max-width: 500px;
-            margin: 60px auto;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            color: #333;
+        }
+        .header {
+            background: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo img {
+            height: 40px;
+        }
+        .logo h1 {
+            color: #2563eb;
+            font-size: 20px;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .user-info img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+        }
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .page-title {
             text-align: center;
+            margin-bottom: 30px;
+        }
+        .page-title h2 {
+            color: #1e293b;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        .page-title p {
+            color: #64748b;
+            font-size: 14px;
+        }
+        .note-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
             padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
         }
-        .codelogin-container .icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-        }
-        .codelogin-container h1 {
-            color: #ffd700;
-            font-size: 32px;
-            margin-bottom: 20px;
-        }
-        .codelogin-form {
-            background: rgba(255,255,255,0.03);
-            border-radius: 16px;
-            padding: 30px;
-        }
-        .codelogin-form input {
-            width: 100%;
-            padding: 12px 16px;
-            margin-bottom: 15px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 10px;
-            color: #fff;
+        .note-box h4 {
+            color: #92400e;
+            margin-bottom: 10px;
             font-size: 15px;
         }
-        .codelogin-form input:focus {
-            border-color: #ffd700;
-            outline: none;
+        .note-box ul {
+            list-style: none;
+            padding-left: 0;
         }
-        .btn-submit {
+        .note-box ul li {
+            color: #78350f;
+            font-size: 14px;
+            margin-bottom: 6px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .note-box ul li:before {
+            content: "•";
+            position: absolute;
+            left: 5px;
+            color: #f59e0b;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+        .card h3 {
+            color: #1e293b;
+            font-size: 16px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 13px;
+            resize: vertical;
+            outline: none;
+            transition: 0.3s;
+        }
+        textarea:focus {
+            border-color: #3b82f6;
+        }
+        .btn {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #ffd700, #f0a500);
-            color: #0a0a1a;
             border: none;
             border-radius: 10px;
-            font-weight: 700;
-            font-size: 16px;
+            font-weight: 600;
+            font-size: 15px;
             cursor: pointer;
             transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 15px;
         }
-        .btn-submit:hover {
-            transform: scale(1.02);
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
         }
-        .back-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 30px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
-            color: #888;
-            text-decoration: none;
-            transition: 0.3s;
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            transform: translateY(-2px);
         }
-        .back-btn:hover {
-            background: rgba(255,215,0,0.05);
-            color: #fff;
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        .btn-success:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-2px);
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            transform: translateY(-2px);
+        }
+        .info-box {
+            background: #d1fae5;
+            border-left: 4px solid #10b981;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        .info-box h4 {
+            color: #065f46;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+        .info-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .info-box ul li {
+            color: #047857;
+            font-size: 14px;
+            margin-bottom: 6px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .info-box ul li:before {
+            content: "•";
+            position: absolute;
+            left: 5px;
+            color: #10b981;
+        }
+        @media (max-width: 768px) {
+            .header { padding: 12px 15px; }
+            .container { padding: 0 15px; }
+            .card { padding: 20px; }
         }
     </style>
 </head>
 <body>
-    <div class="codelogin-container">
-        <div class="icon">🔑</div>
-        <h1>Code Login Cloud</h1>
-        <div class="codelogin-form">
-            <input type="text" placeholder="Nhập mã login Cloud">
-            <button class="btn-submit" onclick="alert('✅ Đăng nhập Cloud thành công!')">Xác nhận</button>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <img src="https://cloudvipvn.site/assets/logo.png" alt="Logo" onerror="this.style.display='none'">
+            <h1>☁️ CLOUDVIP</h1>
         </div>
-        <a href="home.html" class="back-btn">⬅ Quay lại trang chủ</a>
+        <div class="user-info">
+            <span>trungni16</span>
+            <img src="https://ui-avatars.com/api/?name=trungni16&background=3b82f6&color=fff" alt="Avatar">
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Tiêu đề -->
+        <div class="page-title">
+            <h2><i class="fas fa-code"></i> CODE LOGIN CLOUD</h2>
+            <p>Phiên dịch dữ liệu Token JSON thành mã Script Login Nhanh siêu ngắn gọn 1 dòng.</p>
+        </div>
+
+        <!-- Ghi chú -->
+        <div class="note-box">
+            <h4>⚠️ GHI CHÚ CHUẨN BỊ:</h4>
+            <ul>
+                <li>Đảm bảo đã Copy đầy đủ dữ liệu đăng (....) từ Local Storage bản đầu.</li>
+                <li>Đoạn mã sẽ được dùng gói trực tiếp vào Script dưới dạng Base64 siêu ngắn (Fetch Eval) an toàn 100%.</li>
+                <li>Nếu gặp rào cản gõ lệnh ở F12 (DevTools), hãy cần thận gõ chỉ allow pasting rồi nhấn Enter để mở khóa chế độ dán script nhé.</li>
+            </ul>
+        </div>
+
+        <!-- Card 1: Nhập JSON -->
+        <div class="card">
+            <h3><i class="fas fa-keyboard"></i> Nhập văn bản Local Storage JSON nguyên bản:</h3>
+            <textarea id="jsonInput" placeholder='{"ugPhoneLang":"vi","ugBrowserId":"...","UGPHONE-ID":"...","UGPHONE-Token":"..."}'></textarea>
+            <button class="btn btn-primary" onclick="extractCode()">
+                <i class="fas fa-magic"></i> TRÍCH XUẤT CODE BẰNG NHẬP VÀO TÀI KHOẢN UGPHONE
+            </button>
+        </div>
+
+        <!-- Info Box -->
+        <div class="info-box">
+            <h4>💡 NẾU CÁCH TRÊN LỖI HOẶC KHÔNG THẤY MÃ THÌ XÀI CÁCH DƯỚI ĐÂY NHÉ!</h4>
+            <ul>
+                <li>1 số máy sẽ không làm được cách trên thì xài cách này.</li>
+                <li>Cách này máy nào cũng xài được nhé (PC / IOS / Android được tất).</li>
+            </ul>
+        </div>
+
+        <!-- Card 2: Dán JSON -->
+        <div class="card">
+            <h3><i class="fas fa-code"></i> Dán mã Local Storage JSON vào đây (Dành cho Cách 2):</h3>
+            <textarea id="jsonInput2" placeholder='{"ugPhoneLang":"vi","ugBrowserId":"...","UGPHONE-ID":"...","UGPHONE-Token":"..."}'></textarea>
+            <button class="btn btn-success" onclick="createLoginCode()">
+                <i class="fas fa-check-circle"></i> TẠO MÃ ĐĂNG NHẬP CHÓNG LỚI (BẢN ĐÃ NÉN)
+            </button>
+            <button class="btn btn-danger" onclick="showGuide()">
+                <i class="fas fa-book"></i> HƯỚNG DẪN SỬ DỤNG
+            </button>
+        </div>
     </div>
+
+    <script>
+        function extractCode() {
+            const json = document.getElementById('jsonInput').value.trim();
+            if (!json) {
+                alert('Vui lòng nhập JSON!');
+                return;
+            }
+            try {
+                JSON.parse(json);
+                // Xử lý trích xuất code
+                const base64 = btoa(unescape(encodeURIComponent(json)));
+                const script = `(function(){var d=atob('${base64}');var t=JSON.parse(d);for(var k in t){localStorage.setItem(k,t[k]);}location.reload();})();`;
+                alert('✅ Đã trích xuất thành công!\n\nScript:\n' + script);
+            } catch(e) {
+                alert('❌ JSON không hợp lệ: ' + e.message);
+            }
+        }
+
+        function createLoginCode() {
+            const json = document.getElementById('jsonInput2').value.trim();
+            if (!json) {
+                alert('Vui lòng nhập JSON!');
+                return;
+            }
+            try {
+                JSON.parse(json);
+                const base64 = btoa(unescape(encodeURIComponent(json)));
+                const script = `javascript:(function(){var d=atob('${base64}');var t=JSON.parse(d);for(var k in t){localStorage.setItem(k,t[k]);}location.reload();})();`;
+                navigator.clipboard.writeText(script);
+                alert('✅ Đã tạo và copy script vào clipboard!');
+            } catch(e) {
+                alert('❌ JSON không hợp lệ: ' + e.message);
+            }
+        }
+
+        function showGuide() {
+            alert('HƯỚNG DẪN SỬ DỤNG:\n\n1. Copy toàn bộ Local Storage JSON\n2. Dán vào ô bên trên\n3. Nhấn nút tạo mã\n4. Copy script và dán vào Console (F12)\n5. Nhấn Enter để chạy');
+        }
+    </script>
 </body>
 </html>
