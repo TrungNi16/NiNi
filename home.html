@@ -3,662 +3,533 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NiNi Store - Trang chủ</title>
+    <title>Trang chủ - NiNi.env.pm</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            background: linear-gradient(135deg, #0a0a1a, #1a0a2e);
-            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0616;
+            color: #e2e8f0;
             min-height: 100vh;
-            overflow-x: hidden;
         }
-
-        /* ===== NÚT HAMBURGER ≡ ===== */
-        .hamburger {
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            z-index: 200;
-            width: 45px;
-            height: 45px;
-            background: rgba(0, 0, 0, 0.85);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 10px;
-            color: #ffd700;
-            font-size: 22px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .hamburger:hover {
-            background: rgba(255, 215, 0, 0.1);
-            transform: scale(1.05);
-        }
-
-        .hamburger:active {
-            transform: scale(0.95);
-        }
-
-        /* ===== LAYOUT ===== */
-        .container { display: flex; min-height: 100vh; }
-
-        /* ===== SIDEBAR ===== */
-        .sidebar {
-            width: 250px;
-            background: rgba(0, 0, 0, 0.92);
-            border-right: 1px solid rgba(255, 255, 255, 0.03);
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-            padding: 20px 0;
-            display: flex;
-            flex-direction: column;
-            z-index: 150;
-            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateX(0);
-        }
-
-        /* Khi ẩn sidebar */
-        .sidebar.hidden {
-            transform: translateX(-100%);
-        }
-
-        .sidebar::-webkit-scrollbar { width: 4px; }
-        .sidebar::-webkit-scrollbar-thumb {
-            background: rgba(255, 215, 0, 0.2);
-            border-radius: 10px;
-        }
-        .sidebar::-webkit-scrollbar-track { background: transparent; }
-
-        /* Logo/brand cần padding-top để không che bởi nút ≡ */
-        .sidebar-brand {
-            padding: 50px 20px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        .sidebar-brand h2 {
-            color: #ffd700;
-            font-size: 22px;
-            letter-spacing: 1px;
-        }
-
-        .sidebar-brand .sub {
-            color: #555;
-            font-size: 11px;
-            letter-spacing: 2px;
-            margin-top: 4px;
-        }
-
-        /* ===== MENU ===== */
-        .sidebar-menu {
-            list-style: none;
-            padding: 0 10px;
-            flex: 1;
-        }
-
-        .sidebar-menu li {
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .sidebar-menu li a {
-            color: #aaa;
-            text-decoration: none;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 16px;
-            border-radius: 10px;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-
-        .sidebar-menu li a:hover {
-            background: rgba(255, 215, 0, 0.05);
-            color: #fff;
-        }
-
-        .sidebar-menu li.active > a {
-            color: #ffd700;
-            background: rgba(255, 215, 0, 0.08);
-        }
-
-        /* ===== SUB MENU ===== */
-        .sidebar-menu li .sub-menu {
-            list-style: none;
-            padding-left: 20px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease;
-        }
-
-        .sidebar-menu li .sub-menu.open { max-height: 500px; }
-
-        .sidebar-menu li .sub-menu li a {
-            padding: 8px 16px 8px 30px;
-            font-size: 13px;
-            color: #777;
-            border-left: 1px solid rgba(255, 255, 255, 0.05);
-            margin-left: 10px;
-        }
-
-        .sidebar-menu li .sub-menu li a:hover {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        .menu-arrow {
-            margin-left: auto;
-            transition: transform 0.3s ease;
-            font-size: 12px;
-            color: #555;
-        }
-
-        .menu-arrow.open { transform: rotate(180deg); }
-
-        /* ===== USER INFO ===== */
-        .sidebar-footer {
-            padding: 15px 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            margin-top: 10px;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-
-        .user-avatar { font-size: 28px; }
-
-        .user-info strong {
-            color: #fff;
-            font-size: 14px;
-            display: block;
-        }
-
-        .user-info span {
-            color: #888;
-            font-size: 12px;
-        }
-
-        .logout-btn {
-            display: block;
-            text-align: center;
-            padding: 10px;
-            background: rgba(255, 0, 0, 0.05);
-            border-radius: 8px;
-            color: #888;
-            text-decoration: none;
-            font-size: 14px;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-
-        .logout-btn:hover {
-            background: rgba(255, 0, 0, 0.1);
-            color: #ff6666;
-        }
-
-        /* ===== OVERLAY (làm mờ nền khi mở menu mobile) ===== */
-        .overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(2px);
-            z-index: 140;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* ===== MAIN CONTENT ===== */
-        .content {
-            margin-left: 250px;
-            padding: 40px;
-            flex: 1;
-            min-height: 100vh;
-            transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Khi sidebar ẩn, content mở rộng */
-        .content.full {
-            margin-left: 0;
-        }
-
-        .banner {
-            background: rgba(255, 215, 0, 0.02);
-            border: 1px solid rgba(255, 215, 0, 0.05);
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .banner h2 {
-            color: #ffd700;
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-
-        .banner p {
-            color: #888;
-            font-size: 16px;
-        }
-
-        .banner .stats {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        .banner .stats span {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 8px 20px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            color: #ccc;
-            font-size: 14px;
-        }
-
-        .section-title {
-            color: #ffd700;
-            font-size: 22px;
-            margin-bottom: 20px;
-        }
-
-        /* ===== CODE GRID ===== */
-        .code-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 20px;
-        }
-
-        .code-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 16px;
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
-            transition: 0.3s;
         }
-
-        .code-card:hover {
-            border-color: rgba(255, 215, 0, 0.1);
-            transform: translateY(-3px);
+        
+        /* ===== HEADER BANNER ===== */
+        .hero-banner {
+            background: linear-gradient(135deg, #0f0a1e 0%, #1a0f2e 100%);
+            border: 1px solid #2d1f4a;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-
-        .code-card .name {
-            color: #fff;
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 10px;
+        
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
         }
-
-        .code-card .price {
-            color: #ffd700;
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-content h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 8px;
+        }
+        
+        .hero-content h1 span {
+            color: #60a5fa;
+        }
+        
+        .hero-content p {
+            color: #9ca3af;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .hero-content .sub-text {
+            color: #6b7280;
+            font-size: 13px;
+        }
+        
+        .hero-stats {
+            display: flex;
+            gap: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stat-badge {
+            background: rgba(30, 20, 50, 0.8);
+            border: 1px solid #2d1f4a;
+            border-radius: 12px;
+            padding: 12px 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-badge .num {
+            color: #60a5fa;
             font-size: 18px;
             font-weight: 700;
         }
-
-        .code-card .stock {
-            color: #888;
-            font-size: 14px;
-            margin: 5px 0 15px;
+        
+        .stat-badge .label {
+            color: #9ca3af;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
         }
-
-        .code-card .buy-btn {
-            width: 100%;
-            padding: 10px;
-            background: linear-gradient(135deg, #ffd700, #f0a500);
-            color: #0a0a1a;
-            border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 15px;
-            cursor: pointer;
-            transition: 0.3s;
+        
+        /* ===== QUICK MENU ===== */
+        .quick-menu {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
         }
-
-        .code-card .buy-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
-        }
-
-        /* ===== POPUP ===== */
-        .popup-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
-            z-index: 999;
-            justify-content: center;
+        
+        .menu-card {
+            background: #0f0a1e;
+            border: 1px solid #1e1435;
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
             align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
         }
-
-        .popup-overlay.show { display: flex; }
-
-        .popup-box {
-            background: #1a1a2e;
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 450px;
-            width: 90%;
-            text-align: center;
-            animation: popIn 0.3s ease;
+        
+        .menu-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
         }
-
-        @keyframes popIn {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        .popup-box .icon { font-size: 60px; margin-bottom: 15px; }
-
-        .popup-box h3 {
-            color: #ffd700;
+        
+        .menu-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 22px;
+            flex-shrink: 0;
+        }
+        
+        .icon-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
+        .icon-purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white; }
+        .icon-green { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .icon-yellow { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #0f0a1e; }
+        
+        .menu-info h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #e2e8f0;
+            margin-bottom: 3px;
+        }
+        
+        .menu-info p {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        
+        /* ===== NOTIFICATION SECTION ===== */
+        .notification-section {
+            background: #0f0a1e;
+            border: 1px solid #1e1435;
+            border-radius: 16px;
+            padding: 25px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #1e1435;
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+        
+        .section-title i {
+            color: #60a5fa;
+        }
+        
+        .badge-new {
+            background: #ef4444;
+            color: white;
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        /* ===== NOTIFICATION ITEMS ===== */
+        .notification-item {
+            background: #0a0616;
+            border: 1px solid #1e1435;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+        }
+        
+        .notification-item:hover {
+            border-color: #2d1f4a;
+        }
+        
+        .notif-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
             margin-bottom: 10px;
         }
-
-        .popup-box p {
-            color: #aaa;
+        
+        .notif-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             font-size: 15px;
-            margin-bottom: 20px;
-            line-height: 1.6;
+            font-weight: 600;
+            color: #e2e8f0;
         }
-
-        .popup-box .close-btn {
-            padding: 12px 40px;
-            background: linear-gradient(135deg, #ffd700, #f0a500);
-            color: #0a0a1a;
-            border: none;
+        
+        .notif-title.blue { color: #60a5fa; }
+        .notif-title.pink { color: #ec4899; }
+        .notif-title.red { color: #ef4444; }
+        .notif-title.yellow { color: #fbbf24; }
+        
+        .notif-time {
+            color: #4b5563;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+        
+        .notif-content {
+            color: #9ca3af;
+            font-size: 13px;
+            line-height: 1.7;
+            padding-left: 25px;
+        }
+        
+        .notif-content .highlight {
+            color: #fbbf24;
+            font-weight: 600;
+        }
+        
+        .notif-content .link {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+        
+        .notif-content .link:hover {
+            text-decoration: underline;
+        }
+        
+        .notif-footer {
+            display: flex;
+            gap: 15px;
+            margin-top: 12px;
+            padding-left: 25px;
+        }
+        
+        .notif-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+        
+        /* ===== LOAD MORE ===== */
+        .load-more {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .btn-load-more {
+            background: #1a0f2e;
+            border: 1px solid #2d1f4a;
+            color: #9ca3af;
+            padding: 12px 30px;
             border-radius: 10px;
-            font-weight: 700;
-            font-size: 16px;
+            font-size: 13px;
+            font-weight: 600;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s;
         }
-
-        .popup-box .close-btn:hover { transform: scale(1.05); }
-
+        
+        .btn-load-more:hover {
+            background: #2d1f4a;
+            color: #e2e8f0;
+        }
+        
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .content { padding: 20px; padding-top: 70px; }
-
-            /* Mobile: sidebar mặc định ẩn */
-            .sidebar {
-                transform: translateX(-100%);
+            .hero-banner {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
             }
-            .sidebar.mobile-open {
-                transform: translateX(0);
+            
+            .hero-stats {
+                width: 100%;
+                justify-content: center;
             }
-            .content {
-                margin-left: 0;
+            
+            .quick-menu {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .menu-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px;
+            }
+            
+            .hero-content h1 {
+                font-size: 22px;
             }
         }
-
-        /* Desktop khi ẩn menu */
-        @media (min-width: 769px) {
-            .sidebar.hidden {
-                transform: translateX(-100%);
+        
+        @media (max-width: 480px) {
+            .quick-menu {
+                grid-template-columns: 1fr;
             }
-            .content.full {
-                margin-left: 0;
+            
+            .hero-stats {
+                flex-wrap: wrap;
             }
         }
     </style>
 </head>
 <body>
 
-<!-- ===== NÚT HAMBURGER ≡ ===== -->
-<button class="hamburger" id="hamburgerBtn" onclick="toggleSidebar()" title="Ẩn/Hiện menu">☰</button>
-
-<!-- ===== OVERLAY ===== -->
-<div class="overlay" id="overlay" onclick="closeMobileSidebar()"></div>
-
-<!-- ===== BẢO VỆ TRANG ===== -->
-<script>
-    (function() {
-        var user = sessionStorage.getItem('currentUser');
-        if (!user) {
-            document.documentElement.style.display = 'none';
-            alert('⚠️ Vui lòng đăng nhập trước!');
-            window.location.href = 'index.html';
-        }
-    })();
-</script>
-
 <div class="container">
-    <!-- ===== SIDEBAR ===== -->
-    <nav class="sidebar" id="sidebar">
-        <div class="sidebar-brand">
-            <h2>🌟 NINI STORE</h2>
-            <div class="sub">Free Fire Code Shop</div>
+
+    <!-- ===== HERO BANNER ===== -->
+    <div class="hero-banner">
+        <div class="hero-content">
+            <h1>Chào mừng đến với <span>NiNi.env.pm</span></h1>
+            <p>Nền tảng dịch vụ AI, MMO hàng đầu Việt Nam</p>
+            <p class="sub-text">Website uy tín bậc nhất trên mọi mặt phẳng</p>
         </div>
-
-        <ul class="sidebar-menu">
-            <li class="active"><a href="home.html">🏠 Trang chủ</a></li>
-            <li><a href="task.html">📋 Nhiệm vụ</a></li>
-            <li><a href="exchange.html">🔄 Đổi điểm</a></li>
-
-            <li class="has-sub">
-                <a href="#" onclick="toggleSubMenu(this)">
-                    💰 Nạp Tiền
-                    <span class="menu-arrow">▼</span>
-                </a>
-                <ul class="sub-menu">
-                    <li><a href="card.html">💳 Nạp Thẻ Cào</a></li>
-                    <li><a href="bank.html">🏦 Nạp Bank/Momo</a></li>
-                    <li><a href="recharge-history.html">📜 Lịch sử nạp tiền</a></li>
-                </ul>
-            </li>
-
-            <li class="has-sub">
-                <a href="#" onclick="toggleSubMenu(this)">
-                    🔧 Công Cụ
-                    <span class="menu-arrow">▼</span>
-                </a>
-                <ul class="sub-menu">
-                    <li><a href="redeem.html">🔄 Redeem Uphone 4h</a></li>
-                    <li><a href="buycloud.html">☁️ Mua Máy Cloud</a></li>
-                    <li><a href="checkcloud.html">🔍 Check Máy Uphone</a></li>
-                    <li><a href="codelogin.html">🔑 Code Login Cloud</a></li>
-                </ul>
-            </li>
-
-            <li><a href="giftcode.html">🎁 Nhập Giftcode</a></li>
-            <li><a href="flashsale.html">⚡ Flash Sale Cloud</a></li>
-            <li><a href="ranking.html">🏆 Bảng Xếp Hạng</a></li>
-            <li><a href="history.html">📜 Lịch sử mua hàng</a></li>
-            <li><a href="taskhistory.html">📜 Lịch sử nhiệm vụ</a></li>
-            <li><a href="cloudfree.html">☁️ Cloud Free Mỗi Ngày</a></li>
-            <li><a href="support.html">⚙️ Trung Tâm Hỗ Trợ</a></li>
-        </ul>
-
-        <div class="sidebar-footer">
-            <div class="user-info">
-                <span class="user-avatar">👤</span>
-                <div>
-                    <strong id="usernameDisplay">Khách</strong>
-                    <span>💰 1,000,000đ</span>
-                </div>
+        <div class="hero-stats">
+            <div class="stat-badge">
+                <div class="num">50K+</div>
+                <div class="label">Thành viên</div>
             </div>
-            <a href="#" class="logout-btn" onclick="logout()">🚪 Đăng xuất</a>
-        </div>
-    </nav>
-
-    <!-- ===== MAIN CONTENT ===== -->
-    <main class="content" id="content">
-        <div class="banner">
-            <h2>🔥 CHÀO MỪNG ĐẾN VỚI NINI STORE</h2>
-            <p>Nơi cung cấp code Free Fire uy tín - chất lượng - giá tốt nhất</p>
-            <div class="stats">
-                <span>💰 Điểm: 1,000,000</span>
-                <span>👑 VIP: 3</span>
+            <div class="stat-badge">
+                <div class="num">100+</div>
+                <div class="label">Dịch vụ</div>
+            </div>
+            <div class="stat-badge">
+                <div class="num">24/7</div>
+                <div class="label">Hỗ trợ</div>
             </div>
         </div>
-
-        <h3 class="section-title">📦 DANH SÁCH CODE</h3>
-        <div class="code-grid" id="codeGrid"></div>
-    </main>
-</div>
-
-<!-- ===== POPUP ===== -->
-<div class="popup-overlay" id="popupOverlay">
-    <div class="popup-box">
-        <div class="icon" id="popupIcon">📢</div>
-        <h3 id="popupTitle">Thông báo</h3>
-        <p id="popupMessage">Nội dung thông báo</p>
-        <button class="close-btn" onclick="closePopup()">Đã hiểu</button>
     </div>
-</div>
 
-<script>
-    // ===== LẤY USERNAME =====
-    var user = sessionStorage.getItem('currentUser') || 'Khách';
-    document.getElementById('usernameDisplay').textContent = user;
+    <!-- ===== QUICK MENU ===== -->
+    <div class="quick-menu">
+        <a href="#" class="menu-card">
+            <div class="menu-icon icon-blue">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <div class="menu-info">
+                <h3>Chợ Tài Khoản</h3>
+                <p>Mua bán acc</p>
+            </div>
+        </a>
 
-    // ===== TOGGLE SIDEBAR =====
-    function toggleSidebar() {
-        var sidebar = document.getElementById('sidebar');
-        var content = document.getElementById('content');
-        var overlay = document.getElementById('overlay');
-        var isMobile = window.innerWidth <= 768;
+        <a href="#" class="menu-card">
+            <div class="menu-icon icon-purple">
+                <i class="fas fa-cloud"></i>
+            </div>
+            <div class="menu-info">
+                <h3>Cloud Account</h3>
+                <p>Thuê cloud</p>
+            </div>
+        </a>
 
-        if (isMobile) {
-            // Mobile: trượt sidebar từ trái
-            sidebar.classList.toggle('mobile-open');
-            overlay.classList.toggle('show');
-        } else {
-            // Desktop: ẩn/hiện sidebar và mở rộng content
-            sidebar.classList.toggle('hidden');
-            content.classList.toggle('full');
-        }
-    }
+        <a href="#" class="menu-card">
+            <div class="menu-icon icon-green">
+                <i class="fas fa-rocket"></i>
+            </div>
+            <div class="menu-info">
+                <h3>Buff MMO</h3>
+                <p>Tăng tương tác</p>
+            </div>
+        </a>
 
-    // Đóng sidebar mobile
-    function closeMobileSidebar() {
-        document.getElementById('sidebar').classList.remove('mobile-open');
-        document.getElementById('overlay').classList.remove('show');
-    }
+        <a href="#" class="menu-card">
+            <div class="menu-icon icon-yellow">
+                <i class="fas fa-coins"></i>
+            </div>
+            <div class="menu-info">
+                <h3>Nạp Coin</h3>
+                <p>Nạp tiền</p>
+            </div>
+        </a>
+    </div>
 
-    // Đóng sidebar mobile khi click vào menu link
-    document.querySelectorAll('.sidebar-menu a').forEach(function(link) {
-        link.addEventListener('click', function() {
-            if (window.innerWidth <= 768 && !this.getAttribute('onclick')) {
-                closeMobileSidebar();
-            }
-        });
-    });
+    <!-- ===== THÔNG BÁO ===== -->
+    <div class="notification-section">
+        <div class="section-header">
+            <div class="section-title">
+                <i class="fas fa-bullhorn"></i>
+                Thông báo
+            </div>
+            <span class="badge-new">Mới</span>
+        </div>
 
-    // Tự đóng sidebar mobile khi resize lên desktop
-    window.addEventListener('resize', function() {
-        if (window.innerWidth > 768) {
-            closeMobileSidebar();
-        }
-    });
-
-    // ===== ĐĂNG XUẤT =====
-    function logout() {
-        if (confirm('Bạn có chắc muốn đăng xuất?')) {
-            sessionStorage.removeItem('currentUser');
-            window.location.href = 'index.html';
-        }
-    }
-
-    // ===== POPUP =====
-    function showPopup(icon, title, message) {
-        document.getElementById('popupIcon').textContent = icon;
-        document.getElementById('popupTitle').textContent = title;
-        document.getElementById('popupMessage').textContent = message;
-        document.getElementById('popupOverlay').classList.add('show');
-    }
-
-    function closePopup() {
-        document.getElementById('popupOverlay').classList.remove('show');
-    }
-
-    document.getElementById('popupOverlay').addEventListener('click', function(e) {
-        if (e.target === this) closePopup();
-    });
-
-    // ===== MUA CODE =====
-    function buyCode(code, price) {
-        showPopup(
-            '🛒',
-            'Xác nhận mua hàng',
-            'Bạn đã mua thành công mã code: ' + code + ' với giá ' + price.toLocaleString() + 'đ!'
-        );
-    }
-
-    // ===== TOGGLE SUB-MENU =====
-    function toggleSubMenu(element) {
-        var parentLi = element.closest('li');
-        var subMenu = parentLi.querySelector('.sub-menu');
-        var arrow = parentLi.querySelector('.menu-arrow');
-
-        if (subMenu) {
-            subMenu.classList.toggle('open');
-            if (arrow) arrow.classList.toggle('open');
-        }
-    }
-
-    // ===== DANH SÁCH CODE =====
-    var codeData = [
-        { name: 'Code Ughearna Redesem 4H', price: 50000, stock: 10, code: 'UGHEARN4H' },
-        { name: 'Code Vimos 1 Day', price: 30000, stock: 15, code: 'VIMOS1D' },
-        { name: 'Code Vipplayer 1 Ngày', price: 20000, stock: 20, code: 'VIPPL1N' },
-        { name: 'Code Vipplayer 2 Ngày', price: 35000, stock: 12, code: 'VIPPL2N' },
-        { name: 'Code Uuphone 7 Ngày', price: 100000, stock: 8, code: 'UUPH7N' },
-        { name: 'Code Uuphone 15 Ngày', price: 150000, stock: 5, code: 'UUPH15N' },
-        { name: 'App Mod Skin', price: 80000, stock: 7, code: 'APPMODSK' },
-        { name: 'Cloud Free Mobile Ngày', price: 25000, stock: 30, code: 'CLOUD1D' }
-    ];
-
-    function renderCodes() {
-        var grid = document.getElementById('codeGrid');
-        if (!grid) return;
-
-        var html = '';
-        codeData.forEach(function(c) {
-            html += `
-                <div class="code-card">
-                    <div class="name">${c.name}</div>
-                    <div class="price">💰 ${c.price.toLocaleString()}đ</div>
-                    <div class="stock">📦 Còn: ${c.stock} code</div>
-                    <button class="buy-btn" onclick="buyCode('${c.code}', ${c.price})">🛒 Mua ngay</button>
+        <!-- Thông báo 1 -->
+        <div class="notification-item">
+            <div class="notif-header">
+                <div class="notif-title blue">
+                    <i class="fas fa-sync-alt"></i>
+                    Cập Nhật #43: Bảo Trì, Nâng Cấp
                 </div>
-            `;
-        });
-        grid.innerHTML = html;
-    }
+                <div class="notif-time">1 phút trước</div>
+            </div>
+            <div class="notif-content">
+                Chúng tôi sẽ tiến hành bảo trì hệ thống để nâng cấp server và cải thiện hiệu suất. Thời gian bảo trì dự kiến từ 2:00 - 4:00 sáng mai. Trong thời gian này, một số dịch vụ có thể tạm thời không khả dụng.<br><br>
+                Rất xin lỗi vì sự bất tiện này! <span class="highlight">😽</span>
+            </div>
+            <div class="notif-footer">
+                <span class="notif-tag"><i class="fas fa-heart" style="color:#ef4444;"></i> 43</span>
+                <span class="notif-tag"><i class="fas fa-comment"></i> 12</span>
+            </div>
+        </div>
 
-    // ===== KHỞI CHẠY =====
-    document.addEventListener('DOMContentLoaded', function() {
-        renderCodes();
-    });
-</script>
+        <!-- Thông báo 2 -->
+        <div class="notification-item">
+            <div class="notif-header">
+                <div class="notif-title pink">
+                    <i class="fas fa-calendar-check"></i>
+                    Thông Báo Thanh Toán
+                </div>
+                <div class="notif-time">2 giờ trước</div>
+            </div>
+            <div class="notif-content">
+                Quý khách vui lòng thanh toán đúng hạn để tránh gián đoạn dịch vụ. Mọi giao dịch sau ngày <span class="highlight">15/09/2026</span> sẽ được xử lý chậm hơn.<br><br>
+                Nếu có thắc mắc, vui lòng liên hệ bộ phận hỗ trợ.
+            </div>
+            <div class="notif-footer">
+                <span class="notif-tag"><i class="fas fa-heart" style="color:#ef4444;"></i> 28</span>
+                <span class="notif-tag"><i class="fas fa-comment"></i> 5</span>
+            </div>
+        </div>
+
+        <!-- Thông báo 3 -->
+        <div class="notification-item">
+            <div class="notif-header">
+                <div class="notif-title red">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Thông Báo Bảo Trì
+                </div>
+                <div class="notif-time">5 giờ trước</div>
+            </div>
+            <div class="notif-content">
+                Để đảm bảo dịch vụ luôn ổn định. Xin thông báo!
+            </div>
+            <div class="notif-footer">
+                <span class="notif-tag"><i class="fas fa-heart" style="color:#ef4444;"></i> 15</span>
+                <span class="notif-tag"><i class="fas fa-comment"></i> 3</span>
+            </div>
+        </div>
+
+        <!-- Thông báo 4 -->
+        <div class="notification-item">
+            <div class="notif-header">
+                <div class="notif-title yellow">
+                    <i class="fas fa-gift"></i>
+                    🎁 Sự Kiện Mừng Khai Trương NiNi
+                </div>
+                <div class="notif-time">1 ngày trước</div>
+            </div>
+            <div class="notif-content">
+                Chào mừng đại lễ khai trương hệ thống mới - Nơi cung cấp tài khoản MMO, ChatGPT, Cloud,... uy tín số 1 Việt Nam!<br><br>
+                Nhân dịp khai trương, chúng tôi có chương trình khuyến mãi đặc biệt:
+                <ul style="margin-top:8px; padding-left:20px; color:#9ca3af;">
+                    <li>Giảm giá <span class="highlight">20%</span> cho tất cả dịch vụ</li>
+                    <li>Tặng <span class="highlight">50K</span> khi nạp lần đầu</li>
+                    <li>Hoàn tiền <span class="highlight">10%</span> cho thành viên VIP</li>
+                </ul>
+                <br>
+                Cảm ơn các bạn đã tin tưởng và ủng hộ! <span class="highlight">❤️</span>
+            </div>
+            <div class="notif-footer">
+                <span class="notif-tag"><i class="fas fa-heart" style="color:#ef4444;"></i> 156</span>
+                <span class="notif-tag"><i class="fas fa-comment"></i> 42</span>
+            </div>
+        </div>
+
+        <!-- Thông báo 5 -->
+        <div class="notification-item">
+            <div class="notif-header">
+                <div class="notif-title blue">
+                    <i class="fas fa-shield-alt"></i>
+                    Thông Báo Chức Năng
+                </div>
+                <div class="notif-time">2 ngày trước</div>
+            </div>
+            <div class="notif-content">
+                Chúng tôi vừa cập nhật một số tính năng mới cho hệ thống:<br><br>
+                - Thêm tính năng <span class="highlight">2FA</span> bảo mật tài khoản<br>
+                - Cải thiện tốc độ xử lý đơn hàng<br>
+                - Nâng cấp giao diện người dùng<br><br>
+                Cảm ơn các bạn đã ủng hộ! <span class="highlight">❤️</span>
+            </div>
+            <div class="notif-footer">
+                <span class="notif-tag"><i class="fas fa-heart" style="color:#ef4444;"></i> 89</span>
+                <span class="notif-tag"><i class="fas fa-comment"></i> 21</span>
+            </div>
+        </div>
+
+        <!-- Load More -->
+        <div class="load-more">
+            <button class="btn-load-more">
+                <i class="fas fa-sync-alt"></i> Xem thêm các thông báo
+            </button>
+        </div>
+    </div>
+
+</div>
 
 </body>
 </html>
