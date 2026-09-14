@@ -3,72 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nạp Bank/Momo - NiNi Store</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .bank-container {
-            max-width: 500px;
-            margin: 60px auto;
-            text-align: center;
-            padding: 20px;
-        }
-        .bank-container .icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-        }
-        .bank-container h1 {
-            color: #ffd700;
-            font-size: 32px;
-            margin-bottom: 20px;
-        }
-        .bank-info {
-            background: rgba(255,255,255,0.03);
-            border-radius: 16px;
-            padding: 30px;
-            color: #ccc;
-            line-height: 2;
-        }
-        .bank-info .highlight {
-            color: #ffd700;
-            font-weight: bold;
-        }
-        .bank-info .note {
-            color: #555;
-            font-size: 14px;
-            margin-top: 15px;
-        }
-        .back-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 30px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
-            color: #888;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-        .back-btn:hover {
-            background: rgba(255,215,0,0.05);
-            color: #fff;
-        }
-    </style>
+    <title>Nạp Bank/MoMo - NINI STORE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-    <div class="bank-container">
-        <div class="icon">🏦</div>
-        <h1>Nạp qua Bank / MoMo</h1>
-        <div class="bank-info">
-            <p>🏦 <span class="highlight">Vietcombank</span></p>
-            <p>STK: <span class="highlight">1234 5678 9012</span></p>
-            <p>Chủ TK: <span class="highlight">NINI STORE</span></p>
-            <hr style="border-color:rgba(255,255,255,0.05); margin:15px 0;">
-            <p>📱 <span class="highlight">MoMo / ZaloPay</span></p>
-            <p>SĐT: <span class="highlight">0909.xxx.xxx</span></p>
-            <div class="note">⚠️ Nội dung chuyển khoản: <strong style="color:#ffd700;">[Tên đăng nhập]</strong></div>
-            <div class="note">⏳ Sau khi chuyển, liên hệ admin để cập nhật!</div>
+    <button class="menu-toggle" id="menuToggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="overlay" id="overlay"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <h1>⭐ NINI STORE</h1>
+            <p>Free Fire Code Shop</p>
         </div>
-        <a href="home.html" class="back-btn">⬅ Quay lại trang chủ</a>
-    </div>
+        <nav class="sidebar-nav">
+            <a href="index.html"><i class="fas fa-home"></i> Trang chủ</a>
+            <a href="#"><i class="fas fa-tasks"></i> Nhiệm vụ</a>
+            <a href="#"><i class="fas fa-gift"></i> Đổi điểm</a>
+            <div class="has-submenu">
+                <a href="#" onclick="toggleSubmenu(this); return false;">
+                    <i class="fas fa-wallet"></i> Nạp Tiền
+                </a>
+                <div class="submenu">
+                    <a href="card.html"><i class="fas fa-credit-card"></i> Nạp Thẻ Cào</a>
+                    <a href="bank.html" class="active"><i class="fas fa-university"></i> Nạp Bank/Momo</a>
+                </div>
+            </div>
+            <a href="recharge-history.html"><i class="fas fa-history"></i> Lịch sử nạp tiền</a>
+            <div class="has-submenu">
+                <a href="#" onclick="toggleSubmenu(this); return false;">
+                    <i class="fas fa-tools"></i> Công Cụ
+                </a>
+                <div class="submenu">
+                    <a href="redeeem.html"><i class="fas fa-sync-alt"></i> Redeem Uphone 4H</a>
+                    <a href="codelogin.html"><i class="fas fa-key"></i> Code Login Cloud</a>
+                    <a href="#"><i class="fas fa-server"></i> Mua Máy Cloud</a>
+                </div>
+            </div>
+            <a href="#"><i class="fas fa-gift"></i> Nhập Giftcode</a>
+            <a href="#"><i class="fas fa-bolt"></i> Flash Sale Cloud</a>
+            <a href="#"><i class="fas fa-trophy"></i> Bảng Xếp Hạng</a>
+            <a href="#"><i class="fas fa-history"></i> Lịch sử mua hàng</a>
+            <a href="#"><i class="fas fa-history"></i> Lịch sử nhiệm vụ</a>
+            <a href="cloudfree.html"><i class="fas fa-cloud"></i> Cloud Free Mỗi Ngày</a>
+            <a href="support.html"><i class="fas fa-headset"></i> Trung Tâm Hỗ Trợ</a>
+        </nav>
+    </aside>
+
+    <main class="main-content" id="mainContent">
+        <div class="page-centered">
+            <div class="page-icon">🏦</div>
+            <h1 class="page-title">Nạp qua Bank / MoMo</h1>
+
+            <div class="card-box wide">
+                <div class="bank-info">
+                    <div class="bank-section">
+                        <h4>🏛️ Vietcombank</h4>
+                        <p>STK: <span class="value">1234 5678 9012</span></p>
+                        <p>Chủ TK: <span class="value">NINI STORE</span></p>
+                    </div>
+
+                    <div class="bank-section">
+                        <h4>💳 MoMo / ZaloPay</h4>
+                        <p>SĐT: <span class="value">0909.xxx.xxx</span></p>
+                    </div>
+
+                    <div class="note-warning">
+                        ⚠️ Nội dung chuyển khoản: <strong>[Tên đăng nhập]</strong>
+                    </div>
+
+                    <p class="note-info">
+                        ⏳ Sau khi chuyển, liên hệ admin để cập nhật!
+                    </p>
+                </div>
+            </div>
+
+            <a href="index.html" class="btn btn-back">
+                <i class="fas fa-arrow-left"></i> Quay lại trang chủ
+            </a>
+        </div>
+    </main>
+
+    <script src="assets/sidebar.js"></script>
 </body>
 </html>
