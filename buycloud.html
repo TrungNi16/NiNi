@@ -1,108 +1,307 @@
+<?php
+session_start();
+
+// Tạo CAPTCHA
+if (!isset($_SESSION['captcha_answer'])) {
+    $a = rand(1, 15);
+    $b = rand(1, 19 - $a);
+    $_SESSION['captcha_answer'] = $a + $b;
+    $_SESSION['captcha_question'] = "$a + $b = ?";
+}
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mua máy Cloud - NiNi Store</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Mua Cloud - CloudVIP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .buycloud-container {
-            max-width: 500px;
-            margin: 60px auto;
-            text-align: center;
-            padding: 20px;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            min-height: 100vh;
         }
-        .buycloud-container .icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-        }
-        .buycloud-container h1 {
-            color: #ffd700;
-            font-size: 32px;
-            margin-bottom: 20px;
-        }
-        .cloud-plans {
-            display: grid;
-            gap: 15px;
-        }
-        .cloud-plan {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 20px;
+        .header {
+            background: #1e293b;
+            padding: 15px 30px;
+            border-bottom: 1px solid #334155;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .cloud-plan .info {
-            color: #ccc;
+        .logo { display: flex; align-items: center; gap: 10px; }
+        .logo h1 { color: #60a5fa; font-size: 20px; }
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
         }
-        .cloud-plan .info .name {
-            color: #fff;
-            font-size: 18px;
+        .page-title {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 10px;
         }
-        .cloud-plan .price {
-            color: #ffd700;
-            font-weight: bold;
+        .page-title h2 {
+            font-size: 28px;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
         }
-        .cloud-plan .btn-buy {
-            padding: 8px 20px;
-            background: linear-gradient(135deg, #ffd700, #f0a500);
-            color: #0a0a1a;
+        .page-title p {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+        .card {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid #334155;
+        }
+        .card h3 {
+            color: #e2e8f0;
+            font-size: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .localstorage-box {
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid #334155;
+            margin-bottom: 20px;
+        }
+        .localstorage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .localstorage-header span {
+            color: #60a5fa;
+            font-size: 12px;
+            font-family: monospace;
+        }
+        .localstorage-header button {
+            background: #3b82f6;
+            color: white;
             border: none;
-            border-radius: 8px;
-            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+        .localstorage-box textarea {
+            width: 100%;
+            min-height: 180px;
+            background: transparent;
+            border: none;
+            color: #e2e8f0;
+            font-family: monospace;
+            font-size: 13px;
+            resize: vertical;
+            outline: none;
+        }
+        .region-section {
+            margin-bottom: 20px;
+        }
+        .region-section h4 {
+            color: #94a3b8;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+        .region-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .region-item {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 12px;
             cursor: pointer;
             transition: 0.3s;
         }
-        .cloud-plan .btn-buy:hover {
-            transform: scale(1.05);
+        .region-item:hover {
+            border-color: #60a5fa;
         }
-        .back-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 30px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
+        .region-item.selected {
+            border-color: #3b82f6;
+            background: #1e3a5f;
+        }
+        .region-item .region-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .region-item .region-name {
+            font-weight: 600;
+            font-size: 13px;
+        }
+        .region-item .region-ping {
+            color: #10b981;
+            font-size: 11px;
+        }
+        .region-item .region-info {
+            color: #64748b;
+            font-size: 11px;
+        }
+        .captcha-box {
+            background: #0f172a;
             border-radius: 10px;
-            color: #888;
-            text-decoration: none;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .captcha-box .question {
+            color: #a78bfa;
+            font-size: 20px;
+            font-weight: 700;
+            font-family: monospace;
+        }
+        .captcha-box input {
+            width: 120px;
+            padding: 10px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #e2e8f0;
+            text-align: center;
+            outline: none;
+        }
+        .btn-launch {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
             transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
-        .back-btn:hover {
-            background: rgba(255,215,0,0.05);
-            color: #fff;
+        .btn-launch:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
         }
-    </style>
-</head>
-<body>
-    <div class="buycloud-container">
-        <div class="icon">☁️</div>
-        <h1>Mua máy Cloud</h1>
-        <div class="cloud-plans">
-            <div class="cloud-plan">
-                <div class="info">
-                    <div class="name">🖥️ Máy Cloud 1 ngày</div>
-                    <div class="price">10,000đ</div>
-                </div>
-                <button class="btn-buy" onclick="alert('✅ Mua thành công! Máy Cloud 1 ngày đã được kích hoạt.')">Mua</button>
-            </div>
-            <div class="cloud-plan">
-                <div class="info">
-                    <div class="name">🖥️ Máy Cloud 7 ngày</div>
-                    <div class="price">50,000đ</div>
-                </div>
-                <button class="btn-buy" onclick="alert('✅ Mua thành công! Máy Cloud 7 ngày đã được kích hoạt.')">Mua</button>
-            </div>
-            <div class="cloud-plan">
-                <div class="info">
-                    <div class="name">🖥️ Máy Cloud 30 ngày</div>
-                    <div class="price">150,000đ</div>
-                </div>
-                <button class="btn-buy" onclick="alert('✅ Mua thành công! Máy Cloud 30 ngày đã được kích hoạt.')">Mua</button>
-            </div>
-        </div>
-        <a href="home.html" class="back-btn">⬅ Quay lại trang chủ</a>
-    </div>
-</body>
-</html>
+        /* Right panel */
+        .telemetry-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .telemetry-header .live-dot {
+            width: 10px;
+            height: 10px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .telemetry-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .telemetry-item {
+            background: #0f172a;
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #334155;
+        }
+        .telemetry-item .label {
+            color: #64748b;
+            font-size: 10px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .telemetry-item .value {
+            color: #60a5fa;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .progress-item {
+            margin-bottom: 12px;
+        }
+        .progress-item .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        .progress-item .progress-label {
+            color: #94a3b8;
+            font-size: 12px;
+        }
+        .progress-item .progress-value {
+            color: #60a5fa;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .progress-bar {
+            height: 6px;
+            background: #0f172a;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .progress-bar .progress-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.5s;
+        }
+        .progress-fill.blue { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+        .progress-fill.purple { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+        .progress-fill.green { background: linear-gradient(90deg, #10b981, #34d399); }
+        .console-log {
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #334155;
+        }
+        .console-log h4 {
+            color: #94a3b8;
+            font-size: 12px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .log-entry {
+            font-family: monospace;
+            font-size: 11px;
+            padding: 6px 0;
+            border-bottom: 1px solid #1e293b;
+            display: flex;
+            gap: 10px;
+        }
+        .log-entry .log-time { color: #64748b; }
+        .log-entry .log-type {
+            padding: 1px 6px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+        .log-type.info { background: #1e3a5f; color: #60a5fa; }
+        .log-type.success { background: #064e3b; color: #34d399; }
+        .log-type.warn { background: #78350f; color: #fbbf24; }
+        .log-entry .log-msg
