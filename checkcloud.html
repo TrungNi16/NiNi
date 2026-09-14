@@ -1,86 +1,323 @@
+<?php
+session_start();
+
+// Giả lập dữ liệu - trong thực tế sẽ lấy từ database/API
+$regions = [
+    ['code' => 'SG', 'name' => 'Singapore', 'status' => 'available', 'count' => 3],
+    ['code' => 'HK', 'name' => 'Hong Kong', 'status' => 'available', 'count' => 2],
+    ['code' => 'JA', 'name' => 'Japan', 'status' => 'available', 'count' => 4],
+    ['code' => 'DE', 'name' => 'Germany', 'status' => 'available', 'count' => 1],
+    ['code' => 'AM', 'name' => 'America', 'status' => 'available', 'count' => 2],
+];
+
+$total_available = array_sum(array_column($regions, 'count'));
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Check máy Uphone - NiNi Store</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Check Máy UGPhone - CloudVIP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .check-container {
-            max-width: 500px;
-            margin: 60px auto;
-            text-align: center;
-            padding: 20px;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8fafc;
+            color: #333;
         }
-        .check-container .icon {
-            font-size: 80px;
-            margin-bottom: 20px;
+        .header {
+            background: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .check-container h1 {
-            color: #ffd700;
+        .logo { display: flex; align-items: center; gap: 10px; }
+        .logo h1 { color: #2563eb; font-size: 20px; }
+        .user-info { display: flex; align-items: center; gap: 15px; }
+        .user-info img { width: 35px; height: 35px; border-radius: 50%; }
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        .breadcrumb {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .page-header h2 {
+            color: #1e293b;
             font-size: 32px;
-            margin-bottom: 20px;
+            margin-bottom: 8px;
         }
-        .check-form {
-            background: rgba(255,255,255,0.03);
-            border-radius: 16px;
-            padding: 30px;
-        }
-        .check-form input {
-            width: 100%;
-            padding: 12px 16px;
-            margin-bottom: 15px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 10px;
-            color: #fff;
-            font-size: 15px;
-        }
-        .check-form input:focus {
-            border-color: #ffd700;
-            outline: none;
-        }
-        .btn-submit {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #ffd700, #f0a500);
-            color: #0a0a1a;
+        .page-header p { color: #64748b; font-size: 14px; }
+        .btn-refresh {
+            background: #3b82f6;
+            color: white;
             border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #f1f5f9;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #475569;
+            margin-bottom: 15px;
+        }
+        .status-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .info-banner {
+            background: #dbeafe;
+            border-left: 4px solid #3b82f6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .info-banner h4 { color: #1e40af; margin-bottom: 5px; }
+        .info-banner p { color: #1e40af; font-size: 13px; }
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .stats-left {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #475569;
+            font-size: 14px;
+        }
+        .stat-item i { color: #3b82f6; }
+        .total-badge {
+            background: #1e293b;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        .total-badge span { color: #fbbf24; }
+        .region-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .region-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border: 2px solid #e2e8f0;
             transition: 0.3s;
         }
-        .btn-submit:hover {
-            transform: scale(1.02);
+        .region-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
-        .back-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 30px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
-            color: #888;
-            text-decoration: none;
-            transition: 0.3s;
+        .region-card.available { border-color: #10b981; }
+        .region-card.unavailable { border-color: #ef4444; opacity: 0.6; }
+        .region-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
         }
-        .back-btn:hover {
-            background: rgba(255,215,0,0.05);
-            color: #fff;
+        .region-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            color: #1e293b;
+        }
+        .region-flag {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #475569;
+        }
+        .region-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .region-status.available {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .region-status.unavailable {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .region-status .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+        .region-status.available .dot { background: #10b981; }
+        .region-status.unavailable .dot { background: #ef4444; }
+        .region-info {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .region-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #f1f5f9;
+        }
+        .update-time {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+        @media (max-width: 768px) {
+            .container { padding: 0 15px; }
+            .page-header h2 { font-size: 24px; }
+            .region-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <div class="check-container">
-        <div class="icon">🔍</div>
-        <h1>Check máy Uphone</h1>
-        <div class="check-form">
-            <input type="text" placeholder="Nhập mã máy Uphone">
-            <button class="btn-submit" onclick="alert('✅ Máy Uphone đang hoạt động tốt! Hạn sử dụng: 30/06/2026.')">Kiểm tra</button>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <h1>☁️ CLOUDVIP</h1>
         </div>
-        <a href="home.html" class="back-btn">⬅ Quay lại trang chủ</a>
+        <div class="user-info">
+            <span>trungni16</span>
+            <img src="https://ui-avatars.com/api/?name=trungni16&background=3b82f6&color=fff" alt="Avatar">
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <i class="fas fa-cloud"></i> CLOUD TOOLS / UGPHONE AVAILABILITY
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h2>Check máy Ugphone</h2>
+                <p>Theo dõi nhanh tình trạng tài nguyên theo từng khu vực trước khi bạn mua hoặc sử dụng máy.</p>
+            </div>
+            <button class="btn-refresh" onclick="location.reload()">
+                <i class="fas fa-sync-alt"></i> Cập nhật dữ liệu
+            </button>
+        </div>
+
+        <!-- Status Badge -->
+        <div class="status-badge">
+            <span class="dot"></span>
+            Đang theo dõi · cập nhật tự động
+        </div>
+
+        <!-- Info Banner -->
+        <div class="info-banner">
+            <div>
+                <h4><i class="fas fa-info-circle"></i> Check máy Ugphone chỉ mang tính tham khảo, độ chính xác khoảng 80%</h4>
+                <p>Hãy nhìn ngay và giữ chỗ nhật bên dưới trước khi thao tác. Tình trạng thực tế có thể thay đổi nhanh theo số lượng máy đang được sử dụng.</p>
+            </div>
+            <span style="color: #3b82f6; font-weight: 600; font-size: 13px;">Vừa cập nhật</span>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stats-left">
+                <div class="stat-item">
+                    <i class="fas fa-chart-line"></i>
+                    Trạng thái hệ thống: Online
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-clock"></i>
+                    Cập nhật lúc: <?php echo date('H:i:s d/m/Y'); ?>
+                </div>
+            </div>
+            <div class="total-badge">
+                <span><?php echo $total_available; ?></span> / 5 khu vực đang có máy
+            </div>
+        </div>
+
+        <!-- Region Grid -->
+        <div class="region-grid">
+            <?php foreach ($regions as $region): ?>
+            <div class="region-card available">
+                <div class="region-header">
+                    <div class="region-name">
+                        <div class="region-flag"><?php echo $region['code']; ?></div>
+                        <?php echo $region['name']; ?>
+                    </div>
+                </div>
+                <div class="region-status available">
+                    <span class="dot"></span>
+                    Còn máy
+                </div>
+                <p class="region-info">
+                    <i class="fas fa-check-circle" style="color: #10b981;"></i>
+                    Khu vực đang có máy sẵn sàng để sử dụng.
+                </p>
+                <div class="region-footer">
+                    <span class="update-time">
+                        <i class="fas fa-sync-alt"></i>
+                        Cập nhật lúc: <?php echo date('H:i:s d/m/Y'); ?>
+                    </span>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
     </div>
 </body>
 </html>
