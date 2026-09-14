@@ -3,82 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lịch sử nạp tiền - NiNi Store</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .history-container {
-            max-width: 700px;
-            margin: 60px auto;
-            text-align: center;
-            padding: 20px;
-        }
-        .history-container .icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-        }
-        .history-container h1 {
-            color: #ffd700;
-            font-size: 32px;
-            margin-bottom: 20px;
-        }
-        .history-list {
-            background: rgba(255,255,255,0.03);
-            border-radius: 16px;
-            padding: 20px;
-            text-align: left;
-        }
-        .history-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            color: #ccc;
-        }
-        .history-item:last-child {
-            border-bottom: none;
-        }
-        .history-item .status {
-            color: #66ff66;
-        }
-        .history-item .status.fail {
-            color: #ff6666;
-        }
-        .back-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 30px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
-            color: #888;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-        .back-btn:hover {
-            background: rgba(255,215,0,0.05);
-            color: #fff;
-        }
-    </style>
+    <title>Lịch sử nạp tiền - NINI STORE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-    <div class="history-container">
-        <div class="icon">📜</div>
-        <h1>Lịch sử nạp tiền</h1>
-        <div class="history-list">
-            <div class="history-item">
-                <span>💰 +100,000đ - 01/01/2026</span>
-                <span class="status">✅ Thành công</span>
-            </div>
-            <div class="history-item">
-                <span>💰 +50,000đ - 28/12/2025</span>
-                <span class="status">✅ Thành công</span>
-            </div>
-            <div class="history-item">
-                <span>💰 +20,000đ - 20/12/2025</span>
-                <span class="status fail">❌ Thất bại</span>
-            </div>
+    <button class="menu-toggle" id="menuToggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="overlay" id="overlay"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <h1>⭐ NINI STORE</h1>
+            <p>Free Fire Code Shop</p>
         </div>
-        <a href="home.html" class="back-btn">⬅ Quay lại trang chủ</a>
-    </div>
+        <nav class="sidebar-nav">
+            <a href="index.html"><i class="fas fa-home"></i> Trang chủ</a>
+            <a href="#"><i class="fas fa-tasks"></i> Nhiệm vụ</a>
+            <a href="#"><i class="fas fa-gift"></i> Đổi điểm</a>
+            <div class="has-submenu">
+                <a href="#" onclick="toggleSubmenu(this); return false;">
+                    <i class="fas fa-wallet"></i> Nạp Tiền
+                </a>
+                <div class="submenu">
+                    <a href="card.html"><i class="fas fa-credit-card"></i> Nạp Thẻ Cào</a>
+                    <a href="bank.html"><i class="fas fa-university"></i> Nạp Bank/Momo</a>
+                </div>
+            </div>
+            <a href="recharge-history.html" class="active"><i class="fas fa-history"></i> Lịch sử nạp tiền</a>
+            <div class="has-submenu">
+                <a href="#" onclick="toggleSubmenu(this); return false;">
+                    <i class="fas fa-tools"></i> Công Cụ
+                </a>
+                <div class="submenu">
+                    <a href="redeeem.html"><i class="fas fa-sync-alt"></i> Redeem Uphone 4H</a>
+                    <a href="codelogin.html"><i class="fas fa-key"></i> Code Login Cloud</a>
+                    <a href="#"><i class="fas fa-server"></i> Mua Máy Cloud</a>
+                </div>
+            </div>
+            <a href="#"><i class="fas fa-gift"></i> Nhập Giftcode</a>
+            <a href="#"><i class="fas fa-bolt"></i> Flash Sale Cloud</a>
+            <a href="#"><i class="fas fa-trophy"></i> Bảng Xếp Hạng</a>
+            <a href="#"><i class="fas fa-history"></i> Lịch sử mua hàng</a>
+            <a href="#"><i class="fas fa-history"></i> Lịch sử nhiệm vụ</a>
+            <a href="cloudfree.html"><i class="fas fa-cloud"></i> Cloud Free Mỗi Ngày</a>
+            <a href="support.html"><i class="fas fa-headset"></i> Trung Tâm Hỗ Trợ</a>
+        </nav>
+    </aside>
+
+    <main class="main-content" id="mainContent">
+        <div class="page-centered">
+            <div class="page-icon">📜</div>
+            <h1 class="page-title">Lịch sử nạp tiền</h1>
+
+            <div class="card-box wide">
+                <div class="history-list">
+                    <div class="history-item">
+                        <div class="left">
+                            <span class="amount">💧 +100,000đ</span>
+                            <span class="date">- 01/01/2026</span>
+                        </div>
+                        <span class="status-success">
+                            <i class="fas fa-check-square"></i> Thành công
+                        </span>
+                    </div>
+                    <div class="history-item">
+                        <div class="left">
+                            <span class="amount">💧 +50,000đ</span>
+                            <span class="date">- 28/12/2025</span>
+                        </div>
+                        <span class="status-success">
+                            <i class="fas fa-check-square"></i> Thành công
+                        </span>
+                    </div>
+                    <div class="history-item">
+                        <div class="left">
+                            <span class="amount">💧 +20,000đ</span>
+                            <span class="date">- 20/12/2025</span>
+                        </div>
+                        <span class="status-failed">
+                            <i class="fas fa-times"></i> Thất bại
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <a href="index.html" class="btn btn-back">
+                <i class="fas fa-arrow-left"></i> Quay lại trang chủ
+            </a>
+        </div>
+    </main>
+
+    <script src="assets/sidebar.js"></script>
 </body>
 </html>
