@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redeem Ugphone 4H - NINI STORE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <!-- Nút 3 gạch -->
+    <button class="menu-toggle" id="menuToggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Overlay cho mobile -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <h1>⭐ NINI STORE</h1>
+            <p>Code Cloud Shop</p>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="index.html"><i class="fas fa-home"></i> Trang chủ</a>
+            <a href="#"><i class="fas fa-tasks"></i> Nhiệm vụ</a>
+            <a href="#"><i class="fas fa-gift"></i> Đổi điểm</a>
+            <div class="has-submenu">
+                <a href="#" onclick="toggleSubmenu(this); return false;">
+                    <i class="fas fa-wallet"></i> Nạp Tiền
+                </a>
+                <div class="submenu">
+                    <a href="card.html"><i class="fas fa-credit-card"></i> Nạp Thẻ Cào</a>
+                    <a href="bank.html"><i class="fas fa-university"></i> Nạp Bank/Momo</a>
+                </div>
+            </div>
+            <a href="recharge-history.html"><i class="fas fa-history"></i> Lịch sử nạp tiền</a>
+            <div class="has-submenu">
+                <a href="#" onclick="toggleSubmenu(this); return false;">
+                    <i class="fas fa-tools"></i> Công Cụ
+                </a>
+                <div class="submenu">
+                    <a href="redeeem.html"><i class="fas fa-sync-alt"></i> Redeem Ugphone 4H</a>
+                    <a href="codelogin.html"><i class="fas fa-key"></i> Code Login Cloud</a>
+                    <a href="#"><i class="fas fa-server"></i> Mua Máy Cloud</a>
+                </div>
+            </div>
+            <a href="#"><i class="fas fa-gift"></i> Nhập Giftcode</a>
+            <a href="#"><i class="fas fa-bolt"></i> Flash Sale Cloud</a>
+            <a href="#"><i class="fas fa-trophy"></i> Bảng Xếp Hạng</a>
+            <a href="#"><i class="fas fa-history"></i> Lịch sử mua hàng</a>
+            <a href="#"><i class="fas fa-history"></i> Lịch sử nhiệm vụ</a>
+            <a href="cloudfree.html"><i class="fas fa-cloud"></i> Cloud Free Mỗi Ngày</a>
+            <a href="support.html"><i class="fas fa-headset"></i> Trung Tâm Hỗ Trợ</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <div class="page-centered">
+            <div class="page-icon">🔄</div>
+            <h1 class="page-title">Redeem Ugphone 4H</h1>
+
+            <div class="card-box">
+                <div class="form-group">
+                    <input type="text" id="redeemCode" placeholder="Nhập mã code Uphone 4H">
+                </div>
+                <button class="btn btn-yellow" onclick="redeemCode()">
+                    <i class="fas fa-check"></i> Xác nhận
+                </button>
+            </div>
+
+            <a href="index.html" class="btn btn-back">
+                <i class="fas fa-arrow-left"></i> Quay lại trang chủ
+            </a>
+        </div>
+    </main>
+
+    <script src="assets/sidebar.js"></script>
+    <script>
+        function redeemCode() {
+            const code = document.getElementById('redeemCode').value.trim();
+            if (!code) {
+                alert('❌ Vui lòng nhập mã code!');
+                return;
+            }
+            alert('⏳ Đang xử lý redeem: ' + code);
+            // TODO: Gọi API redeem
+        }
+    </script>
+</body>
+</html>
