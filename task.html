@@ -174,6 +174,7 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
             padding: 20px;
+            margin-bottom: 20px;
         }
         .history-header {
             display: flex;
@@ -266,6 +267,29 @@
         .time-cell .date { color: #888; font-size: 11px; }
         .time-cell .time { color: #ccc; font-size: 12px; }
 
+        /* ===== NÚT QUAY LẠI ===== */
+        .back-home-btn {
+            display: block;
+            width: fit-content;
+            margin: 30px auto 0;
+            padding: 14px 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #aaa;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            transition: 0.3s;
+            text-align: center;
+        }
+        .back-home-btn:hover {
+            background: rgba(255, 215, 0, 0.08);
+            color: #ffd700;
+            border-color: rgba(255, 215, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 992px) {
             .notice-bar { grid-template-columns: 1fr; }
@@ -283,6 +307,7 @@
 <div class="overlay" id="overlay" onclick="closeMobileSidebar()"></div>
 
 <div class="container">
+    <!-- ===== SIDEBAR ===== -->
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-brand">
             <h2>🌟 NINI STORE</h2>
@@ -329,6 +354,7 @@
         </div>
     </nav>
 
+    <!-- ===== MAIN CONTENT ===== -->
     <main class="content" id="content">
 
         <!-- ===== THÔNG BÁO ===== -->
@@ -500,6 +526,9 @@
             </div>
         </div>
 
+        <!-- ===== NÚT QUAY LẠI ===== -->
+        <a href="home.html" class="back-home-btn">← Quay lại trang chủ</a>
+
     </main>
 </div>
 
@@ -650,18 +679,4 @@
     function refreshHistory() {
         renderHistory('all');
         document.querySelectorAll('.filter-btn').forEach(function(b) {
-            b.classList.remove('active');
-        });
-        document.querySelector('.filter-btn').classList.add('active');
-        showPopup('🔄', 'Đã làm mới', 'Danh sách lịch sử đã được cập nhật!');
-    }
-
-    // ===== KHỞI CHẠY =====
-    document.addEventListener('DOMContentLoaded', function() {
-        startCountdown();
-        renderHistory('all');
-    });
-</script>
-
-</body>
-</html>
+            b.classList.remove('
