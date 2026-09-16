@@ -3,137 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang chủ - NiNi.env.pm</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Trang chủ - NiNi Store</title>
+    <link rel="stylesheet" href="layout.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0a0616;
-            color: #e2e8f0;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        /* ===== HEADER BANNER ===== */
-        .hero-banner {
-            background: linear-gradient(135deg, #0f0a1e 0%, #1a0f2e 100%);
-            border: 1px solid #2d1f4a;
-            border-radius: 16px;
+        /* ===== WELCOME HEADER ===== */
+        .welcome-box {
+            background: linear-gradient(135deg, rgba(123, 63, 255, 0.15), rgba(0, 150, 255, 0.05));
+            border: 1px solid rgba(150, 100, 255, 0.2);
+            border-radius: 20px;
             padding: 30px;
             margin-bottom: 20px;
-            position: relative;
-            overflow: hidden;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            position: relative;
+            overflow: hidden;
         }
-        
-        .hero-banner::before {
+        .welcome-box::before {
             content: '';
             position: absolute;
             top: -50%;
             right: -10%;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(123, 63, 255, 0.15), transparent 70%);
+            pointer-events: none;
         }
-        
-        .hero-content {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .hero-content h1 {
-            font-size: 28px;
+        .welcome-left h1 {
+            color: #fff;
+            font-size: 26px;
             font-weight: 700;
-            color: #e2e8f0;
             margin-bottom: 8px;
         }
-        
-        .hero-content h1 span {
-            color: #60a5fa;
+        .welcome-left h1 span {
+            color: #a855f7;
         }
-        
-        .hero-content p {
-            color: #9ca3af;
+        .welcome-left p {
+            color: #888;
             font-size: 14px;
-            margin-bottom: 5px;
+            max-width: 500px;
+            line-height: 1.5;
         }
-        
-        .hero-content .sub-text {
-            color: #6b7280;
-            font-size: 13px;
-        }
-        
-        .hero-stats {
+        .welcome-stats {
             display: flex;
-            gap: 15px;
-            position: relative;
-            z-index: 1;
+            gap: 12px;
+            flex-wrap: wrap;
         }
-        
-        .stat-badge {
-            background: rgba(30, 20, 50, 0.8);
-            border: 1px solid #2d1f4a;
+        .stat-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             padding: 12px 20px;
+            min-width: 90px;
             text-align: center;
-            backdrop-filter: blur(10px);
         }
-        
-        .stat-badge .num {
-            color: #60a5fa;
-            font-size: 18px;
+        .stat-box .num {
+            color: #a855f7;
+            font-size: 22px;
             font-weight: 700;
         }
-        
-        .stat-badge .label {
-            color: #9ca3af;
+        .stat-box .label {
+            color: #888;
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-top: 4px;
         }
-        
-        /* ===== QUICK MENU ===== */
-        .quick-menu {
+
+        /* ===== QUICK ACTIONS ===== */
+        .quick-actions {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 15px;
             margin-bottom: 25px;
         }
-        
-        .menu-card {
-            background: #0f0a1e;
-            border: 1px solid #1e1435;
-            border-radius: 14px;
-            padding: 20px;
+        .action-btn {
+            background: rgba(15, 15, 30, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 18px;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 14px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: 0.3s;
             text-decoration: none;
             color: inherit;
         }
-        
-        .menu-card:hover {
-            border-color: #3b82f6;
+        .action-btn:hover {
+            border-color: rgba(168, 85, 247, 0.4);
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+            box-shadow: 0 10px 30px rgba(168, 85, 247, 0.15);
         }
-        
-        .menu-icon {
-            width: 50px;
-            height: 50px;
+        .action-icon {
+            width: 45px;
+            height: 45px;
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -141,395 +107,427 @@
             font-size: 22px;
             flex-shrink: 0;
         }
-        
-        .icon-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
-        .icon-purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white; }
-        .icon-green { background: linear-gradient(135deg, #10b981, #059669); color: white; }
-        .icon-yellow { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #0f0a1e; }
-        
-        .menu-info h3 {
+        .action-icon.blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .action-icon.purple { background: linear-gradient(135deg, #a855f7, #7c3aed); }
+        .action-icon.green { background: linear-gradient(135deg, #10b981, #059669); }
+        .action-icon.yellow { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .action-info .name {
+            color: #fff;
             font-size: 15px;
-            font-weight: 600;
-            color: #e2e8f0;
+            font-weight: 700;
             margin-bottom: 3px;
         }
-        
-        .menu-info p {
+        .action-info .desc {
+            color: #666;
             font-size: 12px;
-            color: #6b7280;
         }
-        
-        /* ===== NOTIFICATION SECTION ===== */
-        .notification-section {
-            background: #0f0a1e;
-            border: 1px solid #1e1435;
-            border-radius: 16px;
-            padding: 25px;
-        }
-        
+
+        /* ===== SECTION TITLE ===== */
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #1e1435;
+            margin-bottom: 15px;
         }
-        
         .section-title {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            color: #e2e8f0;
         }
-        
-        .section-title i {
-            color: #60a5fa;
+
+        /* ===== NOTICE LIST ===== */
+        .notice-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
         }
-        
-        .badge-new {
-            background: #ef4444;
-            color: white;
-            font-size: 11px;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-weight: 600;
+        .notice-card {
+            background: rgba(15, 15, 30, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            transition: 0.3s;
+            position: relative;
         }
-        
-        /* ===== NOTIFICATION ITEMS ===== */
-        .notification-item {
-            background: #0a0616;
-            border: 1px solid #1e1435;
-            border-radius: 12px;
-            padding: 18px;
-            margin-bottom: 12px;
-            transition: all 0.3s;
+        .notice-card:hover {
+            border-color: rgba(168, 85, 247, 0.2);
         }
-        
-        .notification-item:hover {
-            border-color: #2d1f4a;
+        .notice-card.new {
+            border-color: rgba(168, 85, 247, 0.3);
         }
-        
-        .notif-header {
+        .notice-card-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            gap: 12px;
             margin-bottom: 10px;
         }
-        
-        .notif-title {
+        .notice-card-title {
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 15px;
-            font-weight: 600;
-            color: #e2e8f0;
+            gap: 8px;
         }
-        
-        .notif-title.blue { color: #60a5fa; }
-        .notif-title.pink { color: #ec4899; }
-        .notif-title.red { color: #ef4444; }
-        .notif-title.yellow { color: #fbbf24; }
-        
-        .notif-time {
-            color: #4b5563;
-            font-size: 11px;
+        .notice-card-title .emoji {
+            font-size: 18px;
+        }
+        .notice-card-time {
+            color: #666;
+            font-size: 12px;
             white-space: nowrap;
         }
-        
-        .notif-content {
-            color: #9ca3af;
+        .badge-new {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #fff;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .notice-card-body {
+            color: #aaa;
             font-size: 13px;
-            line-height: 1.7;
-            padding-left: 25px;
+            line-height: 1.6;
         }
-        
-        .notif-content .highlight {
-            color: #fbbf24;
-            font-weight: 600;
+        .notice-card-body strong {
+            color: #fff;
         }
-        
-        .notif-content .link {
-            color: #60a5fa;
-            text-decoration: none;
+        .notice-card-body .highlight {
+            color: #a855f7;
+            font-weight: 700;
         }
-        
-        .notif-content .link:hover {
-            text-decoration: underline;
+        .notice-card-body .green {
+            color: #10b981;
+            font-weight: 700;
         }
-        
-        .notif-footer {
+        .notice-card-footer {
             display: flex;
             gap: 15px;
             margin-top: 12px;
-            padding-left: 25px;
-        }
-        
-        .notif-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
+            color: #666;
             font-size: 12px;
-            color: #6b7280;
         }
-        
-        /* ===== LOAD MORE ===== */
-        .load-more {
-            text-align: center;
-            margin-top: 20px;
+        .notice-card-footer span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: 0.2s;
         }
-        
-        .btn-load-more {
-            background: #1a0f2e;
-            border: 1px solid #2d1f4a;
-            color: #9ca3af;
-            padding: 12px 30px;
-            border-radius: 10px;
-            font-size: 13px;
+        .notice-card-footer span:hover {
+            color: #a855f7;
+        }
+
+        /* ===== VIEW MORE BTN ===== */
+        .view-more-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 14px;
+            background: rgba(15, 15, 30, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            color: #a855f7;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: 0.3s;
+            text-decoration: none;
         }
-        
-        .btn-load-more:hover {
-            background: #2d1f4a;
-            color: #e2e8f0;
+        .view-more-btn:hover {
+            background: rgba(168, 85, 247, 0.08);
+            border-color: rgba(168, 85, 247, 0.3);
         }
-        
+
         /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            .hero-banner {
-                flex-direction: column;
-                text-align: center;
-                gap: 20px;
-            }
-            
-            .hero-stats {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .quick-menu {
+        @media (max-width: 992px) {
+            .quick-actions {
                 grid-template-columns: repeat(2, 1fr);
             }
-            
-            .menu-card {
-                flex-direction: column;
-                text-align: center;
-                padding: 15px;
-            }
-            
-            .hero-content h1 {
-                font-size: 22px;
-            }
         }
-        
-        @media (max-width: 480px) {
-            .quick-menu {
+        @media (max-width: 600px) {
+            .quick-actions {
                 grid-template-columns: 1fr;
             }
-            
-            .hero-stats {
-                flex-wrap: wrap;
+            .welcome-box {
+                padding: 20px;
+            }
+            .welcome-left h1 {
+                font-size: 20px;
+            }
+            .welcome-stats {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .stat-box {
+                flex: 1;
+                min-width: 0;
+                padding: 10px;
             }
         }
     </style>
 </head>
 <body>
 
+<button class="hamburger" onclick="toggleSidebar()" title="Ẩn/Hiện menu">☰</button>
+<div class="overlay" id="overlay" onclick="closeMobileSidebar()"></div>
+
 <div class="container">
-
-    <!-- ===== HERO BANNER ===== -->
-    <div class="hero-banner">
-        <div class="hero-content">
-            <h1>Chào mừng đến với <span>NiNi.env.pm</span></h1>
-            <p>Nền tảng dịch vụ AI, MMO hàng đầu Việt Nam</p>
-            <p class="sub-text">Website uy tín bậc nhất trên mọi mặt phẳng</p>
+    <!-- ===== SIDEBAR ===== -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <h2>🌟 NINI STORE</h2>
+            <div class="sub">Free Fire Code Shop</div>
         </div>
-        <div class="hero-stats">
-            <div class="stat-badge">
-                <div class="num">50K+</div>
-                <div class="label">Thành viên</div>
-            </div>
-            <div class="stat-badge">
-                <div class="num">100+</div>
-                <div class="label">Dịch vụ</div>
-            </div>
-            <div class="stat-badge">
-                <div class="num">24/7</div>
-                <div class="label">Hỗ trợ</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== QUICK MENU ===== -->
-    <div class="quick-menu">
-        <a href="#" class="menu-card">
-            <div class="menu-icon icon-blue">
-                <i class="fas fa-shopping-cart"></i>
-            </div>
-            <div class="menu-info">
-                <h3>Chợ Tài Khoản</h3>
-                <p>Mua bán acc</p>
-            </div>
-        </a>
-
-        <a href="#" class="menu-card">
-            <div class="menu-icon icon-purple">
-                <i class="fas fa-cloud"></i>
-            </div>
-            <div class="menu-info">
-                <h3>Cloud Account</h3>
-                <p>Thuê cloud</p>
-            </div>
-        </a>
-
-        <a href="#" class="menu-card">
-            <div class="menu-icon icon-green">
-                <i class="fas fa-rocket"></i>
-            </div>
-            <div class="menu-info">
-                <h3>Buff MMO</h3>
-                <p>Tăng tương tác</p>
-            </div>
-        </a>
-
-        <a href="#" class="menu-card">
-            <div class="menu-icon icon-yellow">
-                <i class="fas fa-coins"></i>
-            </div>
-            <div class="menu-info">
-                <h3>Nạp Coin</h3>
-                <p>Nạp tiền</p>
-            </div>
-        </a>
-    </div>
-
-    <!-- ===== THÔNG BÁO ===== -->
-    <div class="notification-section">
-        <div class="section-header">
-            <div class="section-title">
-                <i class="fas fa-bullhorn"></i>
-                Thông báo
-            </div>
-            <span class="badge-new">Mới</span>
-        </div>
-
-        <!-- Thông báo 1 -->
-        <div class="notification-item">
-            <div class="notif-header">
-                <div class="notif-title blue">
-                    <i class="fas fa-sync-alt"></i>
-                    Cập Nhật #43: Bảo Trì, Nâng Cấp
-                </div>
-                <div class="notif-time">1 phút trước</div>
-            </div>
-            <div class="notif-content">
-                Chúng tôi sẽ tiến hành bảo trì hệ thống để nâng cấp server và cải thiện hiệu suất. Thời gian bảo trì dự kiến từ 2:00 - 4:00 sáng mai. Trong thời gian này, một số dịch vụ có thể tạm thời không khả dụng.<br><br>
-                Rất xin lỗi vì sự bất tiện này! <span class="highlight">😽</span>
-            </div>
-            <div class="notif-footer">
-                <span class="notif-tag"><i class="fas fa-heart" style="color:#ef4444;"></i> 43</span>
-                <span class="notif-tag"><i class="fas fa-comment"></i> 12</span>
-            </div>
-        </div>
-
-        <!-- Thông báo 2 -->
-        <div class="notification-item">
-            <div class="notif-header">
-                <div class="notif-title pink">
-                    <i class="fas fa-calendar-check"></i>
-                    Thông Báo Thanh Toán
-                </div>
-                <div class="notif-time">2 giờ trước</div>
-            </div>
-            <div class="notif-content">
-                Quý khách vui lòng thanh toán đúng hạn để tránh gián đoạn dịch vụ. Mọi giao dịch sau ngày <span class="highlight">15/09/2026</span> sẽ được xử lý chậm hơn.<br><br>
-                Nếu có thắc mắc, vui lòng liên hệ bộ phận hỗ trợ.
-            </div>
-            <div class="notif-footer">
-                <span class="notif-tag"><i class="fas fa-heart" style="color:#ef4444;"></i> 28</span>
-                <span class="notif-tag"><i class="fas fa-comment"></i> 5</span>
-            </div>
-        </div>
-
-        <!-- Thông báo 3 -->
-        <div class="notification-item">
-            <div class="notif-header">
-                <div class="notif-title red">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    Thông Báo Bảo Trì
-                </div>
-                <div class="notif-time">5 giờ trước</div>
-            </div>
-            <div class="notif-content">
-                Để đảm bảo dịch vụ luôn ổn định. Xin thông báo!
-            </div>
-            <div class="notif-footer">
-                <span class="notif-tag"><i class="fas fa-heart" style="color:#ef4444;"></i> 15</span>
-                <span class="notif-tag"><i class="fas fa-comment"></i> 3</span>
-            </div>
-        </div>
-
-        <!-- Thông báo 4 -->
-        <div class="notification-item">
-            <div class="notif-header">
-                <div class="notif-title yellow">
-                    <i class="fas fa-gift"></i>
-                    🎁 Sự Kiện Mừng Khai Trương NiNi
-                </div>
-                <div class="notif-time">1 ngày trước</div>
-            </div>
-            <div class="notif-content">
-                Chào mừng đại lễ khai trương hệ thống mới - Nơi cung cấp tài khoản MMO, ChatGPT, Cloud,... uy tín số 1 Việt Nam!<br><br>
-                Nhân dịp khai trương, chúng tôi có chương trình khuyến mãi đặc biệt:
-                <ul style="margin-top:8px; padding-left:20px; color:#9ca3af;">
-                    <li>Giảm giá <span class="highlight">20%</span> cho tất cả dịch vụ</li>
-                    <li>Tặng <span class="highlight">50K</span> khi nạp lần đầu</li>
-                    <li>Hoàn tiền <span class="highlight">10%</span> cho thành viên VIP</li>
+        <ul class="sidebar-menu">
+            <li data-page="home" class="active"><a href="home.html">🏠 Trang chủ</a></li>
+            <li data-page="task"><a href="task.html">📋 Nhiệm vụ</a></li>
+            <li data-page="exchange"><a href="exchange.html">🔄 Đổi điểm</a></li>
+            <li class="has-sub">
+                <a href="#" onclick="toggleSubMenu(this)">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
+                <ul class="sub-menu">
+                    <li data-page="card"><a href="card.html">💳 Nạp Thẻ Cào</a></li>
+                    <li data-page="bank"><a href="bank.html">🏦 Nạp Bank/Momo</a></li>
+                    <li data-page="recharge-history"><a href="recharge-history.html">📜 Lịch sử nạp tiền</a></li>
                 </ul>
-                <br>
-                Cảm ơn các bạn đã tin tưởng và ủng hộ! <span class="highlight">❤️</span>
-            </div>
-            <div class="notif-footer">
-                <span class="notif-tag"><i class="fas fa-heart" style="color:#ef4444;"></i> 156</span>
-                <span class="notif-tag"><i class="fas fa-comment"></i> 42</span>
-            </div>
-        </div>
-
-        <!-- Thông báo 5 -->
-        <div class="notification-item">
-            <div class="notif-header">
-                <div class="notif-title blue">
-                    <i class="fas fa-shield-alt"></i>
-                    Thông Báo Chức Năng
+            </li>
+            <li class="has-sub">
+                <a href="#" onclick="toggleSubMenu(this)">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
+                <ul class="sub-menu">
+                    <li data-page="redeem"><a href="redeem.html">🔄 Redeem Uphone 4h</a></li>
+                    <li data-page="buycloud"><a href="buycloud.html">☁️ Mua Máy Cloud</a></li>
+                    <li data-page="checkcloud"><a href="checkcloud.html">🔍 Check Máy Uphone</a></li>
+                    <li data-page="codelogin"><a href="codelogin.html">🔑 Code Login Cloud</a></li>
+                </ul>
+            </li>
+            <li data-page="giftcode"><a href="giftcode.html">🎁 Nhập Giftcode</a></li>
+            <li data-page="flashsale"><a href="flashsale.html">⚡ Flash Sale Cloud</a></li>
+            <li data-page="ranking"><a href="ranking.html">🏆 Bảng Xếp Hạng</a></li>
+            <li data-page="history"><a href="history.html">📜 Lịch sử mua hàng</a></li>
+            <li data-page="taskhistory"><a href="taskhistory.html">📜 Lịch sử nhiệm vụ</a></li>
+            <li data-page="cloudfree"><a href="cloudfree.html">☁️ Cloud Free Mỗi Ngày</a></li>
+            <li data-page="support"><a href="support.html">⚙️ Trung Tâm Hỗ Trợ</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <span class="user-avatar">👤</span>
+                <div>
+                    <strong id="usernameDisplay">Khách</strong>
+                    <span>💰 1,000,000đ</span>
                 </div>
-                <div class="notif-time">2 ngày trước</div>
             </div>
-            <div class="notif-content">
-                Chúng tôi vừa cập nhật một số tính năng mới cho hệ thống:<br><br>
-                - Thêm tính năng <span class="highlight">2FA</span> bảo mật tài khoản<br>
-                - Cải thiện tốc độ xử lý đơn hàng<br>
-                - Nâng cấp giao diện người dùng<br><br>
-                Cảm ơn các bạn đã ủng hộ! <span class="highlight">❤️</span>
+            <a href="#" class="logout-btn" onclick="logout()">🚪 Đăng xuất</a>
+        </div>
+    </nav>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="content" id="content">
+
+        <!-- ===== WELCOME BOX ===== -->
+        <div class="welcome-box">
+            <div class="welcome-left">
+                <h1>Chào mừng đến với <span>NiNi.env.pm</span></h1>
+                <p>Hệ thống cung cấp tài khoản, giftcode và dịch vụ MMO chuyên nghiệp, uy tín và bảo mật nhất hiện nay!</p>
             </div>
-            <div class="notif-footer">
-                <span class="notif-tag"><i class="fas fa-heart" style="color:#ef4444;"></i> 89</span>
-                <span class="notif-tag"><i class="fas fa-comment"></i> 21</span>
+            <div class="welcome-stats">
+                <div class="stat-box">
+                    <div class="num">50K+</div>
+                    <div class="label">Thành viên</div>
+                </div>
+                <div class="stat-box">
+                    <div class="num">100+</div>
+                    <div class="label">Dịch vụ</div>
+                </div>
+                <div class="stat-box">
+                    <div class="num">24/7</div>
+                    <div class="label">Hỗ trợ</div>
+                </div>
             </div>
         </div>
 
-        <!-- Load More -->
-        <div class="load-more">
-            <button class="btn-load-more">
-                <i class="fas fa-sync-alt"></i> Xem thêm các thông báo
-            </button>
+        <!-- ===== QUICK ACTIONS ===== -->
+        <div class="quick-actions">
+            <a href="buycloud.html" class="action-btn">
+                <div class="action-icon blue">🎮</div>
+                <div class="action-info">
+                    <div class="name">Chơi Tài Khoản</div>
+                    <div class="desc">Mua tài khoản game</div>
+                </div>
+            </a>
+            <a href="buycloud.html" class="action-btn">
+                <div class="action-icon purple">☁️</div>
+                <div class="action-info">
+                    <div class="name">Cloud Account</div>
+                    <div class="desc">Thuê Cloud giá rẻ</div>
+                </div>
+            </a>
+            <a href="task.html" class="action-btn">
+                <div class="action-icon green">⚡</div>
+                <div class="action-info">
+                    <div class="name">Buff MMO</div>
+                    <div class="desc">Vượt link kiếm tiền</div>
+                </div>
+            </a>
+            <a href="card.html" class="action-btn">
+                <div class="action-icon yellow">💰</div>
+                <div class="action-info">
+                    <div class="name">Nạp Coin</div>
+                    <div class="desc">Nạp tiền vào ví</div>
+                </div>
+            </a>
         </div>
-    </div>
 
+        <!-- ===== THÔNG BÁO ===== -->
+        <div class="section-header">
+            <div class="section-title">📢 Thông báo</div>
+        </div>
+
+        <div class="notice-list">
+
+            <!-- Thông báo 1 -->
+            <div class="notice-card new">
+                <div class="notice-card-header">
+                    <div class="notice-card-title">
+                        <span class="emoji">🎉</span>
+                        Cập Nhật #43: Bảo Trì, Nâng Cấp
+                        <span class="badge-new">NEW</span>
+                    </div>
+                    <div class="notice-card-time">2 phút trước</div>
+                </div>
+                <div class="notice-card-body">
+                    Chúng tôi sẽ tiến hành bảo trì hệ thống để nâng cấp dịch vụ và cải thiện hiệu suất. Thời gian bảo trì dự kiến từ <strong>02:00 - 04:00</strong> sáng mai. Trong thời gian này, một số dịch vụ có thể tạm thời gián đoạn.
+                    <br><br>
+                    Xin vui lòng sắp xếp thời gian hợp lý! 🙏
+                </div>
+                <div class="notice-card-footer">
+                    <span>❤️ 12</span>
+                    <span>💬 3</span>
+                </div>
+            </div>
+
+            <!-- Thông báo 2 -->
+            <div class="notice-card">
+                <div class="notice-card-header">
+                    <div class="notice-card-title">
+                        <span class="emoji">🎁</span>
+                        Thông Báo Thưởng Tuần
+                    </div>
+                    <div class="notice-card-time">2 giờ trước</div>
+                </div>
+                <div class="notice-card-body">
+                    Quà thưởng và tổng kết hoạt động của tất cả người dùng đã được cập nhật. Mời các bạn xem ngay <span class="highlight">TẠI ĐÂY</span> để xem có tên mình không nhé.
+                    <br><br>
+                    Nhanh tay nhận thưởng, số lượng có hạn! 🎊
+                </div>
+                <div class="notice-card-footer">
+                    <span>❤️ 8</span>
+                    <span>💬 2</span>
+                </div>
+            </div>
+
+            <!-- Thông báo 3 -->
+            <div class="notice-card">
+                <div class="notice-card-header">
+                    <div class="notice-card-title">
+                        <span class="emoji">⚠️</span>
+                        Thông Báo Bảo Trì
+                    </div>
+                    <div class="notice-card-time">5 giờ trước</div>
+                </div>
+                <div class="notice-card-body">
+                    Đã lên lịch bảo trì để bảo dưỡng định kỳ. Xin thông báo!
+                </div>
+                <div class="notice-card-footer">
+                    <span>❤️ 3</span>
+                    <span>💬 0</span>
+                </div>
+            </div>
+
+            <!-- Thông báo 4 -->
+            <div class="notice-card new">
+                <div class="notice-card-header">
+                    <div class="notice-card-title">
+                        <span class="emoji">🆕</span>
+                        Ra Mắt Nhiều Dịch Vụ Mới
+                        <span class="badge-new">NEW</span>
+                    </div>
+                    <div class="notice-card-time">1 ngày trước</div>
+                </div>
+                <div class="notice-card-body">
+                    Chúng tôi đã bổ sung thêm nhiều dịch vụ mới. Bao gồm các tài khoản MMO, ChatGPT, Cloud, ... và sẽ có giá rẻ hơn!
+                    <br><br>
+                    Một số dịch vụ mới đã có sẵn như:
+                    <br>
+                    • <strong>ChatGPT</strong> giá chỉ 20k
+                    <br>
+                    • <strong>Tài khoản Netflix</strong> giá 20k
+                    <br>
+                    • <strong>Hosting, VPS</strong> giá chỉ 10k
+                    <br><br>
+                    Các bạn có thể đón chờ trong thời gian sắp tới! ❤️
+                </div>
+                <div class="notice-card-footer">
+                    <span>❤️ 15</span>
+                    <span>💬 5</span>
+                </div>
+            </div>
+
+            <!-- Thông báo 5 -->
+            <div class="notice-card">
+                <div class="notice-card-header">
+                    <div class="notice-card-title">
+                        <span class="emoji">🎯</span>
+                        Thông Báo Chính Sách
+                    </div>
+                    <div class="notice-card-time">1 ngày trước</div>
+                </div>
+                <div class="notice-card-body">
+                    Chúng tôi có cập nhật một số chính sách mới cho hệ thống:
+                    <br><br>
+                    • Thêm nhiều <strong>tính năng mới</strong> vào hệ thống
+                    <br>
+                    • Các thành viên có <strong>đã được ưu đãi</strong> tốt hơn
+                    <br>
+                    • Nâng cấp <strong>độ ổn định dịch vụ</strong>
+                    <br><br>
+                    Cám ơn các bạn đã ủng hộ! ❤️
+                </div>
+                <div class="notice-card-footer">
+                    <span>❤️ 7</span>
+                    <span>💬 1</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ===== XEM THÊM ===== -->
+        <a href="taskhistory.html" class="view-more-btn">
+            ⚡ Xem thêm các thông báo
+        </a>
+
+    </main>
 </div>
+
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup-box">
+        <div class="icon" id="popupIcon">📢</div>
+        <h3 id="popupTitle">Thông báo</h3>
+        <p id="popupMessage">Nội dung thông báo</p>
+        <button class="close-btn" onclick="closePopup()">Đã hiểu</button>
+    </div>
+</div>
+
+<script src="layout.js"></script>
 
 </body>
 </html>
