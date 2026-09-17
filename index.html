@@ -97,10 +97,7 @@
             transition: 0.3s;
         }
 
-        .btn-group button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+        .btn-group button:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .btn-cancel {
             background: rgba(255,255,255,0.05);
@@ -218,7 +215,6 @@
 <script src="firebase.js"></script>
 
 <script>
-    // ===== CAPTCHA =====
     var currentCaptchaAnswer = 0;
 
     function newCaptcha() {
@@ -240,18 +236,15 @@
         document.getElementById('captcha').value = '';
     }
 
-    // ===== KHỞI TẠO =====
     window.addEventListener('DOMContentLoaded', function() {
         newCaptcha();
 
-        // Nếu đã có phiên → vào thẳng home
         var currentUser = localStorage.getItem('currentUser');
         if (currentUser) {
             window.location.href = 'home.html';
             return;
         }
 
-        // Tự động điền thông tin đã lưu
         var savedUser = localStorage.getItem('savedUsername');
         var savedPass = localStorage.getItem('savedPassword');
         var remember = localStorage.getItem('rememberMe');
@@ -278,7 +271,6 @@
         newCaptcha();
     }
 
-    // ===== XỬ LÝ ĐĂNG NHẬP =====
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
         e.preventDefault();
 
@@ -295,7 +287,6 @@
         errorMsg.style.display = 'none';
         successMsg.style.display = 'none';
 
-        // Kiểm tra captcha
         if (parseInt(captcha) !== currentCaptchaAnswer) {
             errorMsg.textContent = '❌ Sai mã xác nhận!';
             errorMsg.style.display = 'block';
@@ -309,29 +300,20 @@
             return;
         }
 
-        // Hiển thị loading
         loading.style.display = 'block';
         loginBtn.disabled = true;
         loginBtn.textContent = '⏳ Đang kiểm tra...';
 
         try {
-            // Lấy user từ Firebase
             var cloudUser = await getUserFromCloud(user);
 
             if (cloudUser && cloudUser.password === pass) {
-                // ✅ ĐĂNG NHẬP THÀNH CÔNG
-                
-                // Cập nhật lastLogin
                 await updateLastLogin(user);
 
-                // Tạo token phiên
                 var token = generateToken();
                 await saveSessionToCloud(user, token);
-
-                // Lưu lịch sử đăng nhập
                 await saveLoginHistory(user, true);
 
-                // Lưu vào localStorage
                 if (remember) {
                     localStorage.setItem('savedUsername', user);
                     localStorage.setItem('savedPassword', pass);
@@ -354,7 +336,6 @@
                 }, 1200);
 
             } else {
-                // ❌ SAI THÔNG TIN
                 await saveLoginHistory(user, false);
                 errorMsg.textContent = '❌ Sai tài khoản hoặc mật khẩu!';
                 errorMsg.style.display = 'block';
