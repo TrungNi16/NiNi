@@ -80,10 +80,7 @@
             transition: 0.3s;
         }
 
-        .btn-group button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+        .btn-group button:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .btn-cancel {
             background: rgba(255,255,255,0.05);
@@ -225,7 +222,6 @@
         errorMsg.style.display = 'none';
         successMsg.style.display = 'none';
 
-        // Kiểm tra captcha
         if (parseInt(captcha) !== currentCaptchaAnswer) {
             errorMsg.textContent = '❌ Sai mã xác nhận!';
             errorMsg.style.display = 'block';
@@ -261,50 +257,5 @@
             return;
         }
 
-        // Hiển thị loading
         loading.style.display = 'block';
         registerBtn.disabled = true;
-        registerBtn.textContent = '⏳ Đang xử lý...';
-
-        try {
-            // Kiểm tra user tồn tại trên Firebase
-            var exists = await checkUserExists(user);
-
-            if (exists) {
-                errorMsg.textContent = '❌ Tài khoản đã tồn tại! Vui lòng chọn tên khác.';
-                errorMsg.style.display = 'block';
-                loading.style.display = 'none';
-                registerBtn.disabled = false;
-                registerBtn.textContent = 'XÁC NHẬN';
-                newCaptcha();
-                return;
-            }
-
-            // Đăng ký lên Firebase
-            await registerUserToCloud(user, pass);
-
-            // Lưu thông tin đăng nhập
-            localStorage.setItem('savedUsername', user);
-            localStorage.setItem('savedPassword', pass);
-            localStorage.setItem('rememberMe', 'true');
-
-            successMsg.textContent = '✅ Đăng ký thành công! Đang chuyển đến đăng nhập...';
-            successMsg.style.display = 'block';
-
-            setTimeout(function() {
-                window.location.href = 'index.html';
-            }, 1500);
-
-        } catch (error) {
-            console.error('Lỗi Firebase:', error);
-            errorMsg.textContent = '❌ Lỗi kết nối! Vui lòng thử lại.';
-            errorMsg.style.display = 'block';
-            loading.style.display = 'none';
-            registerBtn.disabled = false;
-            registerBtn.textContent = 'XÁC NHẬN';
-        }
-    });
-</script>
-
-</body>
-</html>
