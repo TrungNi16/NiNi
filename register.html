@@ -80,6 +80,11 @@
             transition: 0.3s;
         }
 
+        .btn-group button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         .btn-cancel {
             background: rgba(255,255,255,0.05);
             color: #888;
@@ -117,6 +122,7 @@
             text-align: center;
             margin-bottom: 20px;
             display: none;
+            font-size: 13px;
         }
 
         .success-msg {
@@ -128,6 +134,15 @@
             text-align: center;
             margin-bottom: 20px;
             display: none;
+            font-size: 13px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #ffd700;
+            font-size: 13px;
+            margin-bottom: 15px;
         }
     </style>
 </head>
@@ -137,8 +152,9 @@
     <h1>🌟 NINI STORE</h1>
     <p class="sub">Tạo tài khoản mới</p>
 
-    <div id="errorMsg" class="error-msg">❌ Lỗi đăng ký!</div>
-    <div id="successMsg" class="success-msg">✅ Đăng ký thành công!</div>
+    <div id="errorMsg" class="error-msg"></div>
+    <div id="successMsg" class="success-msg"></div>
+    <div id="loading" class="loading">⏳ Đang xử lý...</div>
 
     <form id="registerForm">
         <label>👤 Tài khoản</label>
@@ -155,7 +171,7 @@
 
         <div class="btn-group">
             <button type="reset" class="btn-cancel" onclick="newCaptcha()">HỦY</button>
-            <button type="submit" class="btn-register">XÁC NHẬN</button>
+            <button type="submit" class="btn-register" id="registerBtn">XÁC NHẬN</button>
         </div>
     </form>
 
@@ -163,6 +179,11 @@
         Đã có tài khoản? <a href="index.html">Đăng nhập</a>
     </p>
 </div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="firebase.js"></script>
 
 <script>
     var currentCaptchaAnswer = 0;
@@ -188,7 +209,7 @@
 
     window.addEventListener('DOMContentLoaded', newCaptcha);
 
-    document.getElementById('registerForm').addEventListener('submit', function(e) {
+    document.getElementById('registerForm').addEventListener('submit', async function(e) {
         e.preventDefault();
 
         var user = document.getElementById('username').value.trim();
@@ -198,10 +219,13 @@
 
         var errorMsg = document.getElementById('errorMsg');
         var successMsg = document.getElementById('successMsg');
+        var loading = document.getElementById('loading');
+        var registerBtn = document.getElementById('registerBtn');
 
         errorMsg.style.display = 'none';
         successMsg.style.display = 'none';
 
+        // Kiểm tra captcha
         if (parseInt(captcha) !== currentCaptchaAnswer) {
             errorMsg.textContent = '❌ Sai mã xác nhận!';
             errorMsg.style.display = 'block';
@@ -211,6 +235,13 @@
 
         if (user.length < 3) {
             errorMsg.textContent = '❌ Tài khoản phải có ít nhất 3 ký tự!';
+            errorMsg.style.display = 'block';
+            newCaptcha();
+            return;
+        }
+
+        if (!/^[a-zA-Z0-9_]+$/.test(user)) {
+            errorMsg.textContent = '❌ Tài khoản chỉ được chứa chữ, số, gạch dưới!';
             errorMsg.style.display = 'block';
             newCaptcha();
             return;
@@ -230,36 +261,48 @@
             return;
         }
 
-        var users = JSON.parse(localStorage.getItem('users') || '[]');
+        // Hiển thị loading
+        loading.style.display = 'block';
+        registerBtn.disabled = true;
+        registerBtn.textContent = '⏳ Đang xử lý...';
 
-        var exists = users.some(function(u) { return u.username === user; });
+        try {
+            // Kiểm tra user tồn tại trên Firebase
+            var exists = await checkUserExists(user);
 
-        if (exists) {
-            errorMsg.textContent = '❌ Tài khoản đã tồn tại!';
+            if (exists) {
+                errorMsg.textContent = '❌ Tài khoản đã tồn tại! Vui lòng chọn tên khác.';
+                errorMsg.style.display = 'block';
+                loading.style.display = 'none';
+                registerBtn.disabled = false;
+                registerBtn.textContent = 'XÁC NHẬN';
+                newCaptcha();
+                return;
+            }
+
+            // Đăng ký lên Firebase
+            await registerUserToCloud(user, pass);
+
+            // Lưu thông tin đăng nhập
+            localStorage.setItem('savedUsername', user);
+            localStorage.setItem('savedPassword', pass);
+            localStorage.setItem('rememberMe', 'true');
+
+            successMsg.textContent = '✅ Đăng ký thành công! Đang chuyển đến đăng nhập...';
+            successMsg.style.display = 'block';
+
+            setTimeout(function() {
+                window.location.href = 'index.html';
+            }, 1500);
+
+        } catch (error) {
+            console.error('Lỗi Firebase:', error);
+            errorMsg.textContent = '❌ Lỗi kết nối! Vui lòng thử lại.';
             errorMsg.style.display = 'block';
-            newCaptcha();
-            return;
+            loading.style.display = 'none';
+            registerBtn.disabled = false;
+            registerBtn.textContent = 'XÁC NHẬN';
         }
-
-        // Lưu user mới
-        users.push({
-            username: user,
-            password: pass,
-            createdAt: Date.now()
-        });
-        localStorage.setItem('users', JSON.stringify(users));
-
-        // ✅ TỰ ĐỘNG LƯU THÔNG TIN ĐĂNG NHẬP
-        localStorage.setItem('savedUsername', user);
-        localStorage.setItem('savedPassword', pass);
-        localStorage.setItem('rememberMe', 'true');
-
-        successMsg.textContent = '✅ Đăng ký thành công! Đang chuyển đến đăng nhập...';
-        successMsg.style.display = 'block';
-
-        setTimeout(function() {
-            window.location.href = 'index.html';
-        }, 1500);
     });
 </script>
 
