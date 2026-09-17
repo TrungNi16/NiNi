@@ -2,9 +2,6 @@
 // NINI STORE - FIREBASE SYNC
 // ==========================================
 
-// Firebase SDK (Compat version - dễ dùng)
-// Đã nhúng qua CDN trong HTML
-
 // ===== CẤU HÌNH FIREBASE =====
 var firebaseConfig = {
     apiKey: "AIzaSyCghsuyQOhK6EYM5tyMVeMyMORE-yy79UE",
@@ -31,6 +28,8 @@ function registerUserToCloud(username, password) {
     return db.ref('users/' + username).set({
         username: username,
         password: password,
+        balance: 100000,      // ← Tặng 100,000đ khi đăng ký mới
+        vipLevel: 0,
         createdAt: Date.now(),
         lastLogin: Date.now()
     });
@@ -94,4 +93,110 @@ function generateToken() {
     return Math.random().toString(36).substring(2, 15) +
            Math.random().toString(36).substring(2, 15) +
            Date.now().toString(36);
+}
+
+// ===== 10. LẤY SỐ DƯ USER =====
+function getUserBalance(username) {
+    return db.ref('users/' + username + '/balance').once('value').then(function(snapshot) {
+        var balance = snapshot.val();
+        return balance !== null ? balance : 0;
+    });
+}
+
+// ===== 11. CẬP NHẬT SỐ DƯ USER =====
+function updateUserBalance(username, newBalance) {
+    return db.ref('users/' + username + '/balance').set(newBalance);
+}
+
+// ===== 12. CỘNG TIỀN CHO USER =====
+function addUserBalance(username, amount) {
+    return db.ref('users/' + username + '/balance').transaction(function(current) {
+        return (current || 0) + amount;
+    });
+}
+
+// ===== 13. TRỪ TIỀN USER =====
+function subtractUserBalance(username, amount) {
+    return db.ref('users/' + username + '/balance').transaction(function(current) {
+        var balance = current || 0;
+        if (balance < amount) return; // Không đủ tiền
+        return balance - amount;
+    });
+}
+
+// ===== 14. LẤY THÔNG TIN USER ĐẦY ĐỦ =====
+function getUserInfo(username) {
+    return db.ref('users/' + username).once('value').then(function(snapshot) {
+        return snapshot.val();
+    });
+}
+
+// ===== 15. CẬP NHẬT VIP LEVEL =====
+function updateUserVip(username, level) {
+    return db.ref('users/' + username + '/vipLevel').set(level);
+}
+
+// ===== 16. LƯU LỊCH SỬ MUA HÀNG =====
+function savePurchaseToCloud(username, itemName, price) {
+    var purchaseRef = db.ref('purchases/' + username).push();
+    return purchaseRef.set({
+        itemName: itemName,
+        price: price,
+        time: Date.now()
+    });
+}
+
+// ===== 17. LẤY LỊCH SỬ MUA HÀNG =====
+function getPurchaseHistory(username) {
+    return db.ref('purchases/' + username).once('value').then(function(snapshot) {
+        var data = snapshot.val();
+        if (!data) return [];
+        return Object.values(data).sort(function(a, b) {
+            return b.time - a.time;
+        });
+    });
+}
+
+// ===== 18. LƯU LỊCH SỬ NHIỆM VỤ =====
+function saveTaskToCloud(username, taskName, points) {
+    var taskRef = db.ref('tasks/' + username).push();
+    return taskRef.set({
+        taskName: taskName,
+        points: points,
+        time: Date.now()
+    });
+}
+
+// ===== 19. LẤY LỊCH SỬ NHIỆM VỤ =====
+function getTaskHistory(username) {
+    return db.ref('tasks/' + username).once('value').then(function(snapshot) {
+        var data = snapshot.val();
+        if (!data) return [];
+        return Object.values(data).sort(function(a, b) {
+            return b.time - a.time;
+        });
+    });
+}
+
+// ===== 20. LƯU LỊCH SỬ VƯỢT LINK =====
+function saveLinkHistoryToCloud(username, service, link, points, status) {
+    var linkRef = db.ref('links/' + username).push();
+    return linkRef.set({
+        service: service,
+        link: link,
+        points: points,
+        status: status || 'pending',
+        time: Date.now()
+    });
+}
+
+// ===== 21. LẤY LỊCH SỬ VƯỢT LINK =====
+function getLinkHistoryFromCloud(username) {
+    return db.ref('links/' + username).once('value').then(function(snapshot) {
+        var data = snapshot.val();
+        if (!data) return [];
+        return Object.values(data).sort(function(a, b) {
+            return b.time - a.time;
+        });
+    });
 }
