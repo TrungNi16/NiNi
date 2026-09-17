@@ -14,12 +14,53 @@
     }
 })();
 
-// ===== HIỂN THỊ USERNAME =====
+// ===== HIỂN THỊ USERNAME + SỐ DƯ + VIP =====
 document.addEventListener('DOMContentLoaded', function() {
     var user = localStorage.getItem('currentUser') || 'Khách';
+    
+    // Hiển thị username
     var el = document.getElementById('usernameDisplay');
     if (el) el.textContent = user;
+
+    // Hiển thị số dư từ Firebase
+    var balanceEl = document.getElementById('balanceDisplay');
+    if (balanceEl && typeof getUserBalance === 'function') {
+        balanceEl.textContent = '💰 Đang tải...';
+        
+        getUserBalance(user).then(function(balance) {
+            balanceEl.textContent = '💰 ' + balance.toLocaleString('vi-VN') + 'đ';
+        }).catch(function(err) {
+            console.error('Lỗi lấy số dư:', err);
+            balanceEl.textContent = '💰 0đ';
+        });
+    }
+
+    // Hiển thị VIP
+    var vipEl = document.getElementById('vipDisplay');
+    if (vipEl && typeof getUserInfo === 'function') {
+        getUserInfo(user).then(function(info) {
+            if (info && info.vipLevel) {
+                vipEl.textContent = '👑 VIP ' + info.vipLevel;
+            } else {
+                vipEl.textContent = '';
+            }
+        }).catch(function() {});
+    }
 });
+
+// ===== CẬP NHẬT SỐ DƯ REAL-TIME =====
+function listenBalanceChanges() {
+    var user = localStorage.getItem('currentUser');
+    if (!user || typeof db === 'undefined') return;
+
+    db.ref('users/' + user + '/balance').on('value', function(snapshot) {
+        var balance = snapshot.val() || 0;
+        var balanceEl = document.getElementById('balanceDisplay');
+        if (balanceEl) {
+            balanceEl.textContent = '💰 ' + balance.toLocaleString('vi-VN') + 'đ';
+        }
+    });
+}
 
 // ===== TOGGLE SIDEBAR =====
 function toggleSidebar() {
@@ -55,6 +96,9 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('resize', function() {
         if (window.innerWidth > 768) closeMobileSidebar();
     });
+
+    // Bắt đầu lắng nghe thay đổi số dư
+    listenBalanceChanges();
 });
 
 // ===== ĐĂNG XUẤT =====
@@ -62,12 +106,10 @@ function logout() {
     if (confirm('Bạn có chắc muốn đăng xuất?')) {
         var user = localStorage.getItem('currentUser');
         
-        // Xóa phiên trên cloud (nếu có Firebase)
         if (typeof clearSessionFromCloud === 'function' && user) {
             clearSessionFromCloud(user).catch(function() {});
         }
         
-        // Xóa phiên local
         localStorage.removeItem('currentUser');
         localStorage.removeItem('sessionToken');
         localStorage.removeItem('loginTime');
