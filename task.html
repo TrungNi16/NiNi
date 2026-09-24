@@ -55,7 +55,7 @@
             margin-bottom: 16px;
         }
         .privilege-left { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-        .privilege-title { color: #ffd700; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+        .privilege-title { color: #ffd700; font-size: 14px; font-weight: 700; }
         .privilege-title .status { color: #888; font-weight: 400; font-size: 13px; }
         .badge-item {
             display: inline-flex; align-items: center; gap: 6px;
@@ -212,7 +212,6 @@
             color: #fff;
             border-color: transparent;
         }
-        .filter-btn:hover:not(.active) { background: rgba(255, 255, 255, 0.08); color: #fff; }
 
         /* ===== BẢNG ===== */
         .table-wrap { overflow-x: auto; }
@@ -262,11 +261,15 @@
             color: #00ff88;
             border: 1px solid rgba(0, 255, 136, 0.2);
         }
+        .status-rejected {
+            background: rgba(255, 50, 50, 0.1);
+            color: #ff6666;
+            border: 1px solid rgba(255, 50, 50, 0.2);
+        }
         .time-cell { display: flex; flex-direction: column; gap: 2px; }
         .time-cell .date { color: #888; font-size: 11px; }
         .time-cell .time { color: #ccc; font-size: 12px; }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 992px) {
             .notice-bar { grid-template-columns: 1fr; }
             .cards-grid { grid-template-columns: 1fr 1fr; }
@@ -293,7 +296,7 @@
             <li data-page="task" class="active"><a href="task.html">📋 Nhiệm vụ</a></li>
             <li data-page="exchange"><a href="exchange.html">🔄 Đổi điểm</a></li>
             <li class="has-sub">
-                <a href="#" onclick="toggleSubMenu(this)">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
+                <a href="#">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
                 <ul class="sub-menu">
                     <li data-page="card"><a href="card.html">💳 Nạp Thẻ Cào</a></li>
                     <li data-page="bank"><a href="bank.html">🏦 Nạp Bank/Momo</a></li>
@@ -301,7 +304,7 @@
                 </ul>
             </li>
             <li class="has-sub">
-                <a href="#" onclick="toggleSubMenu(this)">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
+                <a href="#">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
                 <ul class="sub-menu">
                     <li data-page="redeem"><a href="redeem.html">🔄 Redeem Uphone 4h</a></li>
                     <li data-page="buycloud"><a href="buycloud.html">☁️ Mua Máy Cloud</a></li>
@@ -322,7 +325,7 @@
                 <span class="user-avatar">👤</span>
                 <div>
                     <strong id="usernameDisplay">Khách</strong>
-                    <span>💰 1,000,000đ</span>
+                    <span id="balanceDisplay">💰 Đang tải...</span>
                 </div>
             </div>
             <a href="#" class="logout-btn" onclick="logout()">🚪 Đăng xuất</a>
@@ -331,7 +334,6 @@
 
     <main class="content" id="content">
 
-        <!-- ===== THÔNG BÁO ===== -->
         <div class="notice-bar">
             <div class="notice-item">
                 <div class="notice-icon blue">🕐</div>
@@ -356,29 +358,22 @@
             </div>
         </div>
 
-        <!-- ===== ĐẶC QUYỀN ===== -->
         <div class="privilege-bar">
             <div class="privilege-left">
                 <span class="privilege-title">✨ Đặc quyền: <span class="status">Chưa kích hoạt</span></span>
                 <span class="badge-item"><span>🌸</span> NiNi <span class="time">+10đ</span></span>
                 <span class="badge-item"><span>🔺</span> Booster <span class="time">+25đ</span></span>
             </div>
-            <a href="https://discord.gg/QQRygmwpq3" target="_blank" rel="noopener" class="discord-link">
-                Server Discord ↗
-            </a>
+            <a href="https://discord.gg/QQRygmwpq3" target="_blank" rel="noopener" class="discord-link">Server Discord ↗</a>
         </div>
 
-        <!-- ===== CARDS CHỨC NĂNG ===== -->
         <div class="cards-grid">
-
-            <!-- Card Layma -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-logo-wrap">
                         <div class="card-logo layma">L</div>
                         <span class="card-tag tag-layma">Layma</span>
                         <span class="card-tag tag-badge-sumi">🌸</span>
-                        <span class="card-tag tag-badge-booster">🔺</span>
                     </div>
                     <div class="card-price">
                         <div><span class="current">+510đ</span> <span class="unit">/ link</span></div>
@@ -387,16 +382,12 @@
                 </div>
                 <h3 class="card-title">Vượt link Layma</h3>
                 <div class="card-limit">
-                    <div class="limit-row">
-                        <span>Hạn ngạch hôm nay</span>
-                        <span class="count">0/2 Lượt</span>
-                    </div>
+                    <div class="limit-row"><span>Hạn ngạch hôm nay</span><span class="count">0/2 Lượt</span></div>
                     <div class="progress-bar"><div class="progress-fill" style="width:0%;"></div></div>
                 </div>
                 <button class="btn-create" onclick="createLink('Layma', 510)">➜ Tạo link Layma (510đ)</button>
             </div>
 
-            <!-- Card TrafficVN -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-logo-wrap">
@@ -411,16 +402,12 @@
                 </div>
                 <h3 class="card-title">Vượt link TrafficVN</h3>
                 <div class="card-limit">
-                    <div class="limit-row">
-                        <span>Hạn ngạch hôm nay</span>
-                        <span class="count">0/2 Lượt</span>
-                    </div>
+                    <div class="limit-row"><span>Hạn ngạch hôm nay</span><span class="count">0/2 Lượt</span></div>
                     <div class="progress-bar"><div class="progress-fill" style="width:0%;"></div></div>
                 </div>
                 <button class="btn-create" onclick="createLink('TrafficVN', 260)">➜ Tạo link TrafficVN (260đ)</button>
             </div>
 
-            <!-- Card Gtraffic -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-logo-wrap">
@@ -435,16 +422,12 @@
                 </div>
                 <h3 class="card-title">Vượt link Gtraffic</h3>
                 <div class="card-limit">
-                    <div class="limit-row">
-                        <span>Hạn ngạch hôm nay</span>
-                        <span class="count">0/2 Lượt</span>
-                    </div>
+                    <div class="limit-row"><span>Hạn ngạch hôm nay</span><span class="count">0/2 Lượt</span></div>
                     <div class="progress-bar"><div class="progress-fill" style="width:0%;"></div></div>
                 </div>
                 <button class="btn-create" onclick="createLink('Gtraffic', 360)">➜ Tạo link Gtraffic (360đ)</button>
             </div>
 
-            <!-- Card Gtraffic Direct -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-logo-wrap">
@@ -459,22 +442,17 @@
                 </div>
                 <h3 class="card-title">Vượt link Gtraffic Direct</h3>
                 <div class="card-limit">
-                    <div class="limit-row">
-                        <span>Hạn ngạch hôm nay</span>
-                        <span class="count">0/2 Lượt</span>
-                    </div>
+                    <div class="limit-row"><span>Hạn ngạch hôm nay</span><span class="count">0/2 Lượt</span></div>
                     <div class="progress-bar"><div class="progress-fill" style="width:0%;"></div></div>
                 </div>
                 <button class="btn-create" onclick="createLink('Gtraffic Direct', 360)">➜ Tạo link Gtraffic Direct (360đ)</button>
             </div>
-
         </div>
 
-        <!-- ===== LỊCH SỬ VƯỢT LINK ===== -->
         <div class="history-box">
             <div class="history-header">
                 <div class="history-title">📜 Lượt vượt link gần đây</div>
-                <button class="btn-refresh" onclick="refreshHistory()">🔄 Làm mới</button>
+                <button class="btn-refresh" onclick="loadHistory()">🔄 Làm mới</button>
             </div>
             <div class="history-desc">Hiển thị tối đa 5 lượt gần nhất (cả thành công lẫn thất bại).</div>
 
@@ -512,66 +490,124 @@
     </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="firebase.js"></script>
 <script src="layout.js"></script>
-<script>
-    // ===== KIỂM TRA RESET NGÀY MỚI =====
-    (function checkDailyReset() {
-        var today = new Date().toDateString();
-        var lastReset = localStorage.getItem('lastResetDate');
-        if (lastReset !== today) {
-            localStorage.setItem('lastResetDate', today);
-            localStorage.setItem('usedLayma', '0');
-            localStorage.setItem('usedTrafficVN', '0');
-            localStorage.setItem('usedGtraffic', '0');
-            localStorage.setItem('usedGtrafficDirect', '0');
-            console.log('✅ Đã reset lượt cho ngày mới:', today);
-        }
-    })();
 
-    // ===== LẤY DỮ LIỆU LỊCH SỬ TỪ LOCALSTORAGE =====
-    function getHistoryData() {
-        var history = JSON.parse(localStorage.getItem('linkHistory') || '[]');
-        return history.slice(-5).reverse();
-    }
+<script>
+    var currentFilter = 'all';
+    var currentUser = localStorage.getItem('currentUser');
 
     // ===== TẠO LINK =====
-    function createLink(name, price) {
-        var now = new Date();
-        var dateStr = now.getFullYear() + '-' +
-            String(now.getMonth() + 1).padStart(2, '0') + '-' +
-            String(now.getDate()).padStart(2, '0');
-        var timeStr = String(now.getHours()).padStart(2, '0') + ':' +
-            String(now.getMinutes()).padStart(2, '0') + ':' +
-            String(now.getSeconds()).padStart(2, '0');
+    async function createLink(service, points) {
+        if (!currentUser) {
+            showPopup('⚠️', 'Lỗi', 'Vui lòng đăng nhập lại!');
+            return;
+        }
 
-        var logoMap = {
-            'Layma': 'L',
-            'TrafficVN': '⚡',
-            'Gtraffic': 'G',
-            'Gtraffic Direct': 'G'
-        };
+        // Tạo link ngẫu nhiên
+        var link = 'https://' + service.toLowerCase().replace(/\s/g, '') + '.net/' + 
+                   Math.random().toString(36).substring(2, 11);
 
-        var newEntry = {
-            service: name,
-            logo: logoMap[name] || '?',
-            link: 'https://' + name.toLowerCase().replace(/\s/g, '') + '.net/' + Math.random().toString(36).substring(2, 11),
-            points: price,
-            status: 'pending',
-            date: dateStr,
-            time: timeStr
-        };
+        try {
+            // Lưu lên Firebase
+            await saveLinkHistoryToCloud(currentUser, service, link, points, 'pending');
+            
+            showPopup('🔗', 'Tạo link ' + service + ' thành công!',
+                'Link: ' + link + '\n\nĐang chờ admin duyệt. Bạn sẽ được cộng ' + points + 'đ sau khi duyệt!');
+            
+            // Reload lịch sử
+            loadHistory();
 
-        var history = JSON.parse(localStorage.getItem('linkHistory') || '[]');
-        history.push(newEntry);
-        localStorage.setItem('linkHistory', JSON.stringify(history));
-
-        showPopup('🔗', 'Tạo link ' + name,
-            'Bạn đã tạo thành công link ' + name + ' với giá ' + price + 'đ. Link đã được sao chép!');
-
-        renderHistory('all');
+        } catch (error) {
+            console.error('❌ Lỗi tạo link:', error);
+            showPopup('❌', 'Lỗi', 'Không thể tạo link. Vui lòng thử lại!');
+        }
     }
 
-    // ===== ĐỒNG HỒ ĐẾM NGƯỢC ĐẾN 00:00 =====
+    // ===== LOAD LỊCH SỬ =====
+    async function loadHistory() {
+        var tbody = document.getElementById('historyBody');
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#555;padding:40px;">⏳ Đang tải...</td></tr>';
+
+        try {
+            var history = await getLinkHistoryFromCloud(currentUser);
+            console.log('📦 Lịch sử link:', history);
+
+            if (!history || history.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#555;padding:40px;">📭 Bạn chưa có lượt vượt link nào</td></tr>';
+                return;
+            }
+
+            // Lọc theo currentFilter
+            var filtered = history.filter(function(item) {
+                if (currentFilter === 'all') return true;
+                return item.status === currentFilter;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#555;padding:40px;">📭 Không có dữ liệu</td></tr>';
+                return;
+            }
+
+            // Chỉ hiển thị 5 cái mới nhất
+            filtered = filtered.slice(0, 5);
+
+            var html = '';
+            filtered.forEach(function(item) {
+                var logoClass = 'code-logo';
+                var logo = '?';
+                
+                if (item.service === 'Layma') { logo = 'L'; logoClass += ' layma'; }
+                else if (item.service === 'TrafficVN') { logo = '⚡'; }
+                else if (item.service === 'Gtraffic') { logo = 'G'; logoClass += ' gtraffic'; }
+                else if (item.service === 'Gtraffic Direct') { logo = 'G'; logoClass += ' gtraffic-direct'; }
+
+                var statusHtml = '';
+                if (item.status === 'pending') {
+                    statusHtml = '<span class="status-badge status-pending">⏳ Chờ duyệt</span>';
+                } else if (item.status === 'done') {
+                    statusHtml = '<span class="status-badge status-done">✅ Đã duyệt</span>';
+                } else {
+                    statusHtml = '<span class="status-badge status-rejected">❌ Từ chối</span>';
+                }
+
+                var date = new Date(item.time);
+                var dateStr = date.getFullYear() + '-' + 
+                    String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+                    String(date.getDate()).padStart(2, '0');
+                var timeStr = String(date.getHours()).padStart(2, '0') + ':' + 
+                    String(date.getMinutes()).padStart(2, '0') + ':' + 
+                    String(date.getSeconds()).padStart(2, '0');
+
+                html += '<tr>' +
+                    '<td><div class="td-code"><div class="' + logoClass + '">' + logo + '</div><span>' + item.service + '</span></div></td>' +
+                    '<td><span class="td-link">' + item.link + '</span></td>' +
+                    '<td class="td-points">+' + item.points + 'đ</td>' +
+                    '<td>' + statusHtml + '</td>' +
+                    '<td><div class="time-cell"><span class="date">' + dateStr + '</span><span class="time">' + timeStr + '</span></div></td>' +
+                    '</tr>';
+            });
+            tbody.innerHTML = html;
+
+        } catch (error) {
+            console.error('❌ Lỗi load lịch sử:', error);
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#ff6666;padding:40px;">❌ Lỗi tải dữ liệu</td></tr>';
+        }
+    }
+
+    // ===== LỌC LỊCH SỬ =====
+    function filterHistory(type, btn) {
+        document.querySelectorAll('.filter-btn').forEach(function(b) {
+            b.classList.remove('active');
+        });
+        btn.classList.add('active');
+        currentFilter = type;
+        loadHistory();
+    }
+
+    // ===== ĐỒNG HỒ ĐẾM NGƯỢC =====
     function startCountdown() {
         var el = document.getElementById('timerBadge');
         if (!el) return;
@@ -598,68 +634,10 @@
         setInterval(update, 1000);
     }
 
-    // ===== HIỂN THỊ LỊCH SỬ =====
-    function renderHistory(filter) {
-        var tbody = document.getElementById('historyBody');
-        if (!tbody) return;
-
-        filter = filter || 'all';
-        var historyData = getHistoryData();
-
-        var filtered = historyData.filter(function(item) {
-            if (filter === 'all') return true;
-            return item.status === filter;
-        });
-
-        if (filtered.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#555;padding:40px;">📭 Bạn chưa có lượt vượt link nào</td></tr>';
-            return;
-        }
-
-        var html = '';
-        filtered.forEach(function(item) {
-            var logoClass = 'code-logo';
-            if (item.service === 'Gtraffic') logoClass += ' gtraffic';
-            if (item.service === 'Gtraffic Direct') logoClass += ' gtraffic-direct';
-
-            var statusHtml = item.status === 'done'
-                ? '<span class="status-badge status-done">✅ Đã duyệt</span>'
-                : '<span class="status-badge status-pending">⏳ Chờ duyệt</span>';
-
-            html += '<tr>' +
-                '<td><div class="td-code"><div class="' + logoClass + '">' + item.logo + '</div><span>' + item.service + '</span></div></td>' +
-                '<td><span class="td-link">' + item.link + '</span></td>' +
-                '<td class="td-points">+' + item.points + 'đ</td>' +
-                '<td>' + statusHtml + '</td>' +
-                '<td><div class="time-cell"><span class="date">' + item.date + '</span><span class="time">' + item.time + '</span></div></td>' +
-                '</tr>';
-        });
-        tbody.innerHTML = html;
-    }
-
-    // ===== LỌC LỊCH SỬ =====
-    function filterHistory(type, btn) {
-        document.querySelectorAll('.filter-btn').forEach(function(b) {
-            b.classList.remove('active');
-        });
-        btn.classList.add('active');
-        renderHistory(type);
-    }
-
-    // ===== LÀM MỚI =====
-    function refreshHistory() {
-        renderHistory('all');
-        document.querySelectorAll('.filter-btn').forEach(function(b) {
-            b.classList.remove('active');
-        });
-        document.querySelector('.filter-btn').classList.add('active');
-        showPopup('🔄', 'Đã làm mới', 'Danh sách lịch sử đã được cập nhật!');
-    }
-
     // ===== KHỞI CHẠY =====
     document.addEventListener('DOMContentLoaded', function() {
         startCountdown();
-        renderHistory('all');
+        loadHistory();
     });
 </script>
 
