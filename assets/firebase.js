@@ -14,10 +14,21 @@ var firebaseConfig = {
 };
 
 // ===== KHỞI TẠO FIREBASE =====
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
+var db; // Khai báo db ở phạm vi toàn cục TRƯỚC
+
+try {
+    if (typeof firebase === 'undefined') {
+        console.error('❌ LỖI: Firebase SDK chưa được load!');
+    } else {
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        db = firebase.database();
+        console.log('✅ Firebase đã khởi tạo thành công!');
+    }
+} catch (error) {
+    console.error('❌ LỖI khởi tạo Firebase:', error);
 }
-var db = firebase.database();
 
 // ==========================================
 // CÁC HÀM XỬ LÝ USER
@@ -28,7 +39,7 @@ function registerUserToCloud(username, password) {
     return db.ref('users/' + username).set({
         username: username,
         password: password,
-        balance: 100000,      // ← Tặng 100,000đ khi đăng ký mới
+        balance: 100000,
         vipLevel: 0,
         createdAt: Date.now(),
         lastLogin: Date.now()
@@ -119,7 +130,7 @@ function addUserBalance(username, amount) {
 function subtractUserBalance(username, amount) {
     return db.ref('users/' + username + '/balance').transaction(function(current) {
         var balance = current || 0;
-        if (balance < amount) return; // Không đủ tiền
+        if (balance < amount) return;
         return balance - amount;
     });
 }
@@ -200,3 +211,5 @@ function getLinkHistoryFromCloud(username) {
         });
     });
 }
+
+console.log('✅ File firebase.js đã load xong!');
