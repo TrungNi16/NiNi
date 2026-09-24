@@ -207,5 +207,115 @@ function getLinkHistoryFromCloud(username) {
         });
     });
 }
+// ==========================================
+// ADMIN FUNCTIONS
+// ==========================================
+
+// ===== 22. LẤY TẤT CẢ LINK PENDING =====
+function getAllPendingLinks() {
+    return db.ref('links').once('value').then(function(snapshot) {
+        var data = snapshot.val();
+        if (!data) return [];
+        
+        var allLinks = [];
+        Object.keys(data).forEach(function(username) {
+            var userLinks = data[username];
+            Object.keys(userLinks).forEach(function(key) {
+                var link = userLinks[key];
+                link.id = key;
+                link.username = username;
+                allLinks.push(link);
+            });
+        });
+        
+        // Sắp xếp mới nhất lên đầu
+        return allLinks.sort(function(a, b) {
+            return b.time - a.time;
+        });
+    });
+}
+
+// ===== 23. LẤY LINK THEO TRẠNG THÁI =====
+function getLinksByStatus(status) {
+    return getAllPendingLinks().then(function(links) {
+        if (status === 'all') return links;
+        return links.filter(function(link) {
+            return link.status === status;
+        });
+    });
+}
+
+// ===== 24. DUYỆT LINK (Admin) =====
+function approveLink(username, linkId) {
+    // Lấy thông tin link
+    return db.ref('links/' + username + '/' + linkId).once('value').then(function(snapshot) {
+        var link = snapshot.val();
+        if (!link) throw new Error('Link không tồn tại');
+        if (link.status === 'done') throw new Error('Link đã được duyệt rồi');
+        
+        // Cập nhật status
+        return db.ref('links/' + username + '/' + linkId + '/status').set('done')
+            .then(function() {
+                // Cộng tiền cho user
+                return addUserBalance(username, link.points);
+            })
+            .then(function() {
+                console.log('✅ Đã duyệt link và cộng', link.points, 'đ cho', username);
+                return true;
+            });
+    });
+}
+
+// ===== 25. TỪ CHỐI LINK (Admin) =====
+function rejectLink(username, linkId) {
+    return db.ref('links/' + username + '/' + linkId + '/status').set('rejected')
+        .then(function() {
+            console.log('❌ Đã từ chối link của', username);
+            return true;
+        });
+}
+
+// ===== 26. XÓA LINK (Admin) =====
+function deleteLink(username, linkId) {
+    return db.ref('links/' + username + '/' + linkId).remove()
+        .then(function() {
+            console.log('🗑️ Đã xóa link');
+            return true;
+        });
+}
+
+// ===== 27. KIỂM TRA ADMIN =====
+function checkAdmin(username) {
+    // Danh sách admin (thêm username admin của bạn vào đây)
+    var adminList = ['trungni16', 'admin']; // ← Sửa thành username admin thật
+    
+    return db.ref('users/' + username + '/isAdmin').once('value').then(function(snapshot) {
+        var isAdmin = snapshot.val();
+        return isAdmin === true || adminList.indexOf(username) !== -1;
+    });
+}
+
+// ===== 28. ĐẾM SỐ LINK PENDING =====
+function countPendingLinks() {
+    return getAllPendingLinks().then(function(links) {
+        return links.filter(function(l) { return l.status === 'pending'; }).length;
+    });
+}
+
+// ===== 29. LẤY THÔNG TIN USER (Admin) =====
+function getAllUsers() {
+    return db.ref('users').once('value').then(function(snapshot) {
+        var data = snapshot.val();
+        if (!data) return [];
+        return Object.values(data).sort(function(a, b) {
+            return (b.createdAt || 0) - (a.createdAt || 0);
+        });
+    });
+}
+
+// ===== 30. CẬP NHẬT QUYỀN ADMIN =====
+function setAdmin(username, isAdmin) {
+    return db.ref('users/' + username + '/isAdmin').set(isAdmin);
+}
 
 console.log('✅ File firebase.js đã load xong!');
