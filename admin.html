@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - NiNi Store</title>
+    <link rel="stylesheet" href="layout.css">
+    <style>
+        .admin-header {
+            background: linear-gradient(135deg, rgba(255, 0, 100, 0.15), rgba(123, 63, 255, 0.1));
+            border: 1px solid rgba(255, 0, 100, 0.2);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .admin-header h1 {
+            color: #fff;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .admin-header .badge {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .stat-card {
+            background: rgba(10, 10, 26, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+        .stat-card .num {
+            color: #ffd700;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .stat-card .label {
+            color: #888;
+            font-size: 12px;
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .stat-card.warning .num { color: #ffaa00; }
+        .stat-card.success .num { color: #00ff88; }
+        .stat-card.danger .num { color: #ff4444; }
+
+        .admin-section {
+            background: rgba(10, 10, 26, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .section-header h2 {
+            color: #ffd700;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-refresh {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #aaa;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-refresh:hover {
+            background: rgba(255, 215, 0, 0.05);
+            color: #ffd700;
+        }
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 8px 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            color: #aaa;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .filter-btn.active {
+            background: linear-gradient(135deg, #7b3fff, #5b2fff);
+            color: #fff;
+            border-color: transparent;
+        }
+        .filter-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        thead th {
+            text-align: left; color: #666; font-size: 11px;
+            font-weight: 600; text-transform: uppercase;
+            letter-spacing: 1px; padding: 12px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        tbody td {
+            padding: 14px 10px; color: #ccc;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
+        .user-cell {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .user-avatar-small {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7b3fff, #5b2fff);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+        .td-link {
+            color: #00aaff; max-width: 250px;
+            overflow: hidden; text-overflow: ellipsis;
+            white-space: nowrap; display: inline-block;
+        }
+        .td-points { color: #00ff88; font-weight: 700; }
+        .status-badge {
+            padding: 4px 10px; border-radius: 6px;
+            font-size: 11px; font-weight: 700;
+            display: inline-flex; align-items: center; gap: 4px;
+            white-space: nowrap;
+        }
+        .status-pending {
+            background: rgba(255, 200, 0, 0.1);
+            color: #ffcc00;
+            border: 1px solid rgba(255, 200, 0, 0.2);
+        }
+        .status-done {
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+        .status-rejected {
+            background: rgba(255, 50, 50, 0.1);
+            color: #ff6666;
+            border: 1px solid rgba(255, 50, 50, 0.2);
+        }
+        .action-btns {
+            display: flex;
+            gap: 6px;
+        }
+        .btn-action {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+        .btn-approve {
+            background: rgba(0, 255, 136, 0.15);
+            color: #00ff88;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+        .btn-approve:hover {
+            background: rgba(0, 255, 136, 0.3);
+        }
+        .btn-reject {
+            background: rgba(255, 50, 50, 0.15);
+            color: #ff6666;
+            border: 1px solid rgba(255, 50, 50, 0.3);
+        }
+        .btn-reject:hover {
+            background: rgba(255, 50, 50, 0.3);
+        }
+        .btn-delete {
+            background: rgba(255, 255, 255, 0.05);
+            color: #888;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .btn-delete:hover {
+            background: rgba(255, 50, 50, 0.1);
+            color: #ff6666;
+        }
+        .empty-state {
+            text-align: center;
+            color: #555;
+            padding: 40px 20px;
+        }
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()">☰</button>
+<div class="overlay" id="overlay" onclick="closeMobileSidebar()"></div>
+
+<div class="container">
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <h2>🌟 NINI STORE</h2>
+            <div class="sub">Admin Panel</div>
+        </div>
+        <ul class="sidebar-menu">
+            <li data-page="home"><a href="home.html">🏠 Trang chủ</a></li>
+            <li data-page="admin" class="active"><a href="admin.html">👑 Admin Panel</a></li>
+            <li data-page="task"><a href="task.html">📋 Nhiệm vụ</a></li>
+            <li data-page="exchange"><a href="exchange.html">🔄 Đổi điểm</a></li>
+            <li data-page="users"><a href="admin.html#users">👥 Quản lý User</a></li>
+            <li data-page="links"><a href="admin.html#links">🔗 Duyệt Link</a></li>
+            <li data-page="support"><a href="support.html">⚙️ Trung Tâm Hỗ Trợ</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <span class="user-avatar">👤</span>
+                <div>
+                    <strong id="usernameDisplay">Khách</strong>
+                    <span id="balanceDisplay">💰 Đang tải...</span>
+                </div>
+            </div>
+            <a href="#" class="logout-btn" onclick="logout()">🚪 Đăng xuất</a>
+        </div>
+    </nav>
+
+    <main class="content" id="content">
+        <div class="admin-header">
+            <h1>👑 Admin Panel <span class="badge">ADMIN</span></h1>
+            <div style="color:#888;font-size:13px;">Quản lý hệ thống NiNi Store</div>
+        </div>
+
+        <!-- THỐNG KÊ -->
+        <div class="stats-grid">
+            <div class="stat-card warning">
+                <div class="num" id="statPending">0</div>
+                <div class="label">Chờ duyệt</div>
+            </div>
+            <div class="stat-card success">
+                <div class="num" id="statDone">0</div>
+                <div class="label">Đã duyệt</div>
+            </div>
+            <div class="stat-card danger">
+                <div class="num" id="statRejected">0</div>
+                <div class="label">Từ chối</div>
+            </div>
+            <div class="stat-card">
+                <div class="num" id="statUsers">0</div>
+                <div class="label">Người dùng</div>
+            </div>
+        </div>
+
+        <!-- DUYỆT LINK -->
+        <div class="admin-section" id="links">
+            <div class="section-header">
+                <h2>🔗 Duyệt Link</h2>
+                <button class="btn-refresh" onclick="loadLinks()">🔄 Làm mới</button>
+            </div>
+
+            <div class="filter-bar">
+                <button class="filter-btn active" onclick="filterLinks('pending', this)">⏳ Chờ duyệt</button>
+                <button class="filter-btn" onclick="filterLinks('done', this)">✅ Đã duyệt</button>
+                <button class="filter-btn" onclick="filterLinks('rejected', this)">❌ Từ chối</button>
+                <button class="filter-btn" onclick="filterLinks('all', this)">🌐 Tất cả</button>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Dịch vụ</th>
+                            <th>Link</th>
+                            <th>Thưởng</th>
+                            <th>Trạng thái</th>
+                            <th>Thời gian</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="linksBody">
+                        <tr><td colspan="7" class="empty-state">⏳ Đang tải...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- QUẢN LÝ USER -->
+        <div class="admin-section" id="users">
+            <div class="section-header">
+                <h2>👥 Quản lý User</h2>
+                <button class="btn-refresh" onclick="loadUsers()">🔄 Làm mới</button>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Số dư</th>
+                            <th>VIP</th>
+                            <th>Ngày tạo</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersBody">
+                        <tr><td colspan="5" class="empty-state">⏳ Đang tải...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup-box">
+        <div class="icon" id="popupIcon">📢</div>
+        <h3 id="popupTitle">Thông báo</h3>
+        <p id="popupMessage">Nội dung thông báo</p>
+        <button class="close-btn" onclick="closePopup()">Đã hiểu</button>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="firebase.js"></script>
+<script src="layout.js"></script>
+
+<script>
+    var currentFilter = 'pending';
+
+    // ===== KIỂM TRA QUYỀN ADMIN =====
+    window.addEventListener('DOMContentLoaded', async function() {
+        var user = localStorage.getItem('currentUser');
+        
+        if (!user) {
+            alert('⚠️ Vui lòng đăng nhập!');
+            window.location.href = 'index.html';
+            return;
+        }
+
+        var isAdmin = await checkAdmin(user);
+        
+        if (!isAdmin) {
+            alert('❌ Bạn không có quyền truy cập trang Admin!');
+            window.location.href = 'home.html';
+            return;
+        }
+
+        console.log('✅ Admin đã xác thực:', user);
+        loadLinks();
+        loadStats();
+        loadUsers();
+    });
+
+    // ===== LOAD THỐNG KÊ =====
+    async function loadStats() {
+        try {
+            var links = await getAllPendingLinks();
+            var users = await getAllUsers();
+
+            var pending = links.filter(function(l) { return l.status === 'pending'; }).length;
+            var done = links.filter(function(l) { return l.status === 'done'; }).length;
+            var rejected = links.filter(function(l) { return l.status === 'rejected'; }).length;
+
+            document.getElementById('statPending').textContent = pending;
+            document.getElementById('statDone').textContent = done;
+            document.getElementById('statRejected').textContent = rejected;
+            document.getElementById('statUsers').textContent = users.length;
+        } catch (e) {
+            console.error('Lỗi load stats:', e);
+        }
+    }
+
+    // ===== LOAD LINKS =====
+    async function loadLinks() {
+        var tbody = document.getElementById('linksBody');
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-state">⏳ Đang tải...</td></tr>';
+
+        try {
+            var links = await getLinksByStatus(currentFilter);
+
+            if (links.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="empty-state">📭 Không có link nào</td></tr>';
+                return;
+            }
+
+            var html = '';
+            links.forEach(function(link) {
+                var statusHtml = '';
+                if (link.status === 'pending') {
+                    statusHtml = '<span class="status-badge status-pending">⏳ Chờ duyệt</span>';
+                } else if (link.status === 'done') {
+                    statusHtml = '<span class="status-badge status-done">✅ Đã duyệt</span>';
+                } else {
+                    statusHtml = '<span class="status-badge status-rejected">❌ Từ chối</span>';
+                }
+
+                var date = new Date(link.time);
+                var dateStr = date.getFullYear() + '-' + 
+                    String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+                    String(date.getDate()).padStart(2, '0');
+                var timeStr = String(date.getHours()).padStart(2, '0') + ':' + 
+                    String(date.getMinutes()).padStart(2, '0') + ':' + 
+                    String(date.getSeconds()).padStart(2, '0');
+
+                var actionBtns = '';
+                if (link.status === 'pending') {
+                    actionBtns = 
+                        '<button class="btn-action btn-approve" onclick="approve(\'' + link.username + '\', \'' + link.id + '\')">✅ Duyệt</button>' +
+                        '<button class="btn-action btn-reject" onclick="reject(\'' + link.username + '\', \'' + link.id + '\')">❌ Từ chối</button>';
+                }
+                actionBtns += '<button class="btn-action btn-delete" onclick="deleteLinkConfirm(\'' + link.username + '\', \'' + link.id + '\')">🗑️</button>';
+
+                html += '<tr>' +
+                    '<td><div class="user-cell"><div class="user-avatar-small">' + link.username.charAt(0).toUpperCase() + '</div>' + link.username + '</div></td>' +
+                    '<td>' + link.service + '</td>' +
+                    '<td><span class="td-link" title="' + link.link + '">' + link.link + '</span></td>' +
+                    '<td class="td-points">+' + link.points + 'đ</td>' +
+                    '<td>' + statusHtml + '</td>' +
+                    '<td>' + dateStr + '<br><span style="color:#888;font-size:11px;">' + timeStr + '</span></td>' +
+                    '<td><div class="action-btns">' + actionBtns + '</div></td>' +
+                    '</tr>';
+            });
+            tbody.innerHTML = html;
+
+        } catch (e) {
+            console.error('Lỗi load links:', e);
+            tbody.innerHTML = '<tr><td colspan="7" class="empty-state">❌ Lỗi: ' + e.message + '</td></tr>';
+        }
+    }
+
+    // ===== DUYỆT LINK =====
+    async function approve(username, linkId) {
+        if (!confirm('Duyệt link này và cộng tiền cho ' + username + '?')) return;
+
+        try {
+            await approveLink(username, linkId);
+            showPopup('✅', 'Duyệt thành công!', 'Đã duyệt link và cộng tiền cho ' + username);
+            loadLinks();
+            loadStats();
+        } catch (e) {
+            showPopup('❌', 'Lỗi', e.message);
+        }
+    }
+
+    // ===== TỪ CHỐI LINK =====
+    async function reject(username, linkId) {
+        if (!confirm('Từ chối link này của ' + username + '?')) return;
+
+        try {
+            await rejectLink(username, linkId);
+            showPopup('⚠️', 'Đã từ chối', 'Link của ' + username + ' đã bị từ chối');
+            loadLinks();
+            loadStats();
+        } catch (e) {
+            showPopup('❌', 'Lỗi', e.message);
+        }
+    }
+
+    // ===== XÓA LINK =====
+    async function deleteLinkConfirm(username, linkId) {
+        if (!confirm('XÓA VĨNH VIỄN link này?\nKhông thể khôi phục!')) return;
+
+        try {
+            await deleteLink(username, linkId);
+            showPopup('🗑️', 'Đã xóa', 'Link đã được xóa vĩnh viễn');
+            loadLinks();
+            loadStats();
+        } catch (e) {
+            showPopup('❌', 'Lỗi', e.message);
+        }
+    }
+
+    // ===== LỌC LINKS =====
+    function filterLinks(status, btn) {
+        document.querySelectorAll('.filter-btn').forEach(function(b) {
+            b.classList.remove('active');
+        });
+        btn.classList.add('active');
+        currentFilter = status;
+        loadLinks();
+    }
+
+    // ===== LOAD USERS =====
+    async function loadUsers() {
+        var tbody = document.getElementById('usersBody');
+        tbody.innerHTML = '<tr><td colspan="5" class="empty-state">⏳ Đang tải...</td></tr>';
+
+        try {
+            var users = await getAllUsers();
+
+            if (users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">📭 Chưa có user nào</td></tr>';
+                return;
+            }
+
+            var html = '';
+            users.forEach(function(u) {
+                var date = new Date(u.createdAt || Date.now());
+                var dateStr = date.getFullYear() + '-' + 
+                    String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+                    String(date.getDate()).padStart(2, '0');
+
+                html += '<tr>' +
+                    '<td><div class="user-cell"><div class="user-avatar-small">' + u.username.charAt(0).toUpperCase() + '</div>' + u.username + '</div></td>' +
+                    '<td class="td-points">' + (u.balance || 0).toLocaleString('vi-VN') + 'đ</td>' +
+                    '<td>' + (u.vipLevel || 0) + '</td>' +
+                    '<td>' + dateStr + '</td>' +
+                    '<td>' +
+                        '<button class="btn-action btn-approve" onclick="addBalance(\'' + u.username + '\')">💰 Cộng tiền</button>' +
+                    '</td>' +
+                    '</tr>';
+            });
+            tbody.innerHTML = html;
+
+        } catch (e) {
+            console.error('Lỗi load users:', e);
+            tbody.innerHTML = '<tr><td colspan="5" class="empty-state">❌ Lỗi: ' + e.message + '</td></tr>';
+        }
+    }
+
+    // ===== CỘNG TIỀN CHO USER =====
+    async function addBalance(username) {
+        var amount = prompt('Nhập số tiền muốn cộng cho ' + username + ' (VNĐ):');
+        if (!amount) return;
+        
+        amount = parseInt(amount);
+        if (isNaN(amount) || amount <= 0) {
+            showPopup('⚠️', 'Lỗi', 'Số tiền không hợp lệ!');
+            return;
+        }
+
+        try {
+            await addUserBalance(username, amount);
+            showPopup('✅', 'Thành công!', 'Đã cộng ' + amount.toLocaleString('vi-VN') + 'đ cho ' + username);
+            loadUsers();
+        } catch (e) {
+            showPopup('❌', 'Lỗi', e.message);
+        }
+    }
+
+    // Load stats mỗi 30 giây
+    setInterval(loadStats, 30000);
+</script>
+
+</body>
+</html>
