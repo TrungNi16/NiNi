@@ -1,5 +1,5 @@
 // ==========================================
-// NINI STORE - LAYOUT CHUNG (FIREBASE SYNC)
+// NINI STORE - LAYOUT CHUNG
 // ==========================================
 
 // ===== BẢO VỆ TRANG =====
@@ -14,7 +14,7 @@
     }
 })();
 
-// ===== HIỂN THỊ USERNAME + SỐ DƯ + VIP =====
+// ===== HIỂN THỊ USERNAME + SỐ DƯ =====
 document.addEventListener('DOMContentLoaded', function() {
     var user = localStorage.getItem('currentUser') || 'Khách';
     
@@ -33,18 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Lỗi lấy số dư:', err);
             balanceEl.textContent = '💰 0đ';
         });
-    }
-
-    // Hiển thị VIP
-    var vipEl = document.getElementById('vipDisplay');
-    if (vipEl && typeof getUserInfo === 'function') {
-        getUserInfo(user).then(function(info) {
-            if (info && info.vipLevel) {
-                vipEl.textContent = '👑 VIP ' + info.vipLevel;
-            } else {
-                vipEl.textContent = '';
-            }
-        }).catch(function() {});
     }
 });
 
@@ -85,19 +73,43 @@ function closeMobileSidebar() {
     if (overlay) overlay.classList.remove('show');
 }
 
+// ===== TOGGLE SUB-MENU =====
+function toggleSubMenu(element) {
+    if (event) event.preventDefault();
+    
+    var parentLi = element.closest('li');
+    if (!parentLi) return;
+    
+    var subMenu = parentLi.querySelector('.sub-menu');
+    var arrow = parentLi.querySelector('.menu-arrow');
+    
+    if (subMenu) {
+        subMenu.classList.toggle('open');
+        if (arrow) arrow.classList.toggle('open');
+    }
+}
+
+// ===== XỬ LÝ MENU KHI CLICK =====
 document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.sidebar-menu a').forEach(function(link) {
-        link.addEventListener('click', function() {
-            if (window.innerWidth <= 768 && !this.getAttribute('onclick')) {
+    document.querySelectorAll('.sidebar-menu li > a').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            var parentLi = this.closest('li');
+            if (parentLi && parentLi.classList.contains('has-sub')) {
+                e.preventDefault();
+                toggleSubMenu(this);
+                return;
+            }
+            
+            if (window.innerWidth <= 768) {
                 closeMobileSidebar();
             }
         });
     });
+
     window.addEventListener('resize', function() {
         if (window.innerWidth > 768) closeMobileSidebar();
     });
 
-    // Bắt đầu lắng nghe thay đổi số dư
     listenBalanceChanges();
 });
 
@@ -115,17 +127,6 @@ function logout() {
         localStorage.removeItem('loginTime');
         
         window.location.href = 'index.html';
-    }
-}
-
-// ===== TOGGLE SUB-MENU =====
-function toggleSubMenu(element) {
-    var parentLi = element.closest('li');
-    var subMenu = parentLi.querySelector('.sub-menu');
-    var arrow = parentLi.querySelector('.menu-arrow');
-    if (subMenu) {
-        subMenu.classList.toggle('open');
-        if (arrow) arrow.classList.toggle('open');
     }
 }
 
