@@ -30,6 +30,10 @@ try {
     console.error('❌ LỖI khởi tạo Firebase:', error);
 }
 
+// ==========================================
+// USER FUNCTIONS
+// ==========================================
+
 // ===== 1. ĐĂNG KÝ USER LÊN CLOUD =====
 function registerUserToCloud(username, password) {
     return db.ref('users/' + username).set({
@@ -207,31 +211,47 @@ function getLinkHistoryFromCloud(username) {
         });
     });
 }
+
 // ==========================================
 // ADMIN FUNCTIONS
 // ==========================================
 
-// ===== 22. LẤY TẤT CẢ LINK PENDING =====
+// ===== 22. LẤY TẤT CẢ LINK =====
 function getAllPendingLinks() {
+    console.log('🔍 getAllPendingLinks() được gọi');
+    
     return db.ref('links').once('value').then(function(snapshot) {
         var data = snapshot.val();
-        if (!data) return [];
+        console.log('📦 Dữ liệu links:', data);
+        
+        if (!data) {
+            console.log('⚠️ Không có link nào');
+            return [];
+        }
         
         var allLinks = [];
         Object.keys(data).forEach(function(username) {
             var userLinks = data[username];
-            Object.keys(userLinks).forEach(function(key) {
-                var link = userLinks[key];
-                link.id = key;
-                link.username = username;
-                allLinks.push(link);
-            });
+            if (userLinks && typeof userLinks === 'object') {
+                Object.keys(userLinks).forEach(function(key) {
+                    var link = userLinks[key];
+                    if (link && typeof link === 'object') {
+                        link.id = key;
+                        link.username = username;
+                        allLinks.push(link);
+                    }
+                });
+            }
         });
         
-        // Sắp xếp mới nhất lên đầu
+        console.log('✅ Tổng số link:', allLinks.length);
+        
         return allLinks.sort(function(a, b) {
-            return b.time - a.time;
+            return (b.time || 0) - (a.time || 0);
         });
+    }).catch(function(err) {
+        console.error('❌ Lỗi getAllPendingLinks:', err);
+        return [];
     });
 }
 
@@ -245,18 +265,15 @@ function getLinksByStatus(status) {
     });
 }
 
-// ===== 24. DUYỆT LINK (Admin) =====
+// ===== 24. DUYỆT LINK =====
 function approveLink(username, linkId) {
-    // Lấy thông tin link
     return db.ref('links/' + username + '/' + linkId).once('value').then(function(snapshot) {
         var link = snapshot.val();
         if (!link) throw new Error('Link không tồn tại');
         if (link.status === 'done') throw new Error('Link đã được duyệt rồi');
         
-        // Cập nhật status
         return db.ref('links/' + username + '/' + linkId + '/status').set('done')
             .then(function() {
-                // Cộng tiền cho user
                 return addUserBalance(username, link.points);
             })
             .then(function() {
@@ -266,7 +283,7 @@ function approveLink(username, linkId) {
     });
 }
 
-// ===== 25. TỪ CHỐI LINK (Admin) =====
+// ===== 25. TỪ CHỐI LINK =====
 function rejectLink(username, linkId) {
     return db.ref('links/' + username + '/' + linkId + '/status').set('rejected')
         .then(function() {
@@ -275,7 +292,7 @@ function rejectLink(username, linkId) {
         });
 }
 
-// ===== 26. XÓA LINK (Admin) =====
+// ===== 26. XÓA LINK =====
 function deleteLink(username, linkId) {
     return db.ref('links/' + username + '/' + linkId).remove()
         .then(function() {
@@ -286,12 +303,13 @@ function deleteLink(username, linkId) {
 
 // ===== 27. KIỂM TRA ADMIN =====
 function checkAdmin(username) {
-    // Danh sách admin (thêm username admin của bạn vào đây)
-    var adminList = ['trungni16', 'admin']; // ← Sửa thành username admin thật
+    var adminList = ['trungni16', 'admin'];
     
     return db.ref('users/' + username + '/isAdmin').once('value').then(function(snapshot) {
         var isAdmin = snapshot.val();
         return isAdmin === true || adminList.indexOf(username) !== -1;
+    }).catch(function() {
+        return adminList.indexOf(username) !== -1;
     });
 }
 
@@ -304,12 +322,26 @@ function countPendingLinks() {
 
 // ===== 29. LẤY THÔNG TIN USER (Admin) =====
 function getAllUsers() {
+    console.log('🔍 getAllUsers() được gọi');
+    
     return db.ref('users').once('value').then(function(snapshot) {
         var data = snapshot.val();
-        if (!data) return [];
-        return Object.values(data).sort(function(a, b) {
+        console.log('📦 Dữ liệu users:', data);
+        
+        if (!data) {
+            console.log('⚠️ Không có user nào');
+            return [];
+        }
+        
+        var users = Object.values(data);
+        console.log('✅ Tổng số user:', users.length);
+        
+        return users.sort(function(a, b) {
             return (b.createdAt || 0) - (a.createdAt || 0);
         });
+    }).catch(function(err) {
+        console.error('❌ Lỗi getAllUsers:', err);
+        return [];
     });
 }
 
