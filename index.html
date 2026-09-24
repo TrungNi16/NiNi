@@ -236,15 +236,12 @@
         document.getElementById('captcha').value = '';
     }
 
+    // ===== KHỞI TẠO =====
+    // ✅ ĐÃ XÓA phần auto-redirect gây vòng lặp vô hạn
     window.addEventListener('DOMContentLoaded', function() {
         newCaptcha();
 
-        var currentUser = localStorage.getItem('currentUser');
-        if (currentUser) {
-            window.location.href = 'home.html';
-            return;
-        }
-
+        // Chỉ tự động điền thông tin đã lưu
         var savedUser = localStorage.getItem('savedUsername');
         var savedPass = localStorage.getItem('savedPassword');
         var remember = localStorage.getItem('rememberMe');
@@ -271,6 +268,7 @@
         newCaptcha();
     }
 
+    // ===== XỬ LÝ ĐĂNG NHẬP =====
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
         e.preventDefault();
 
