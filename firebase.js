@@ -39,7 +39,7 @@ function registerUserToCloud(username, password) {
     return db.ref('users/' + username).set({
         username: username,
         password: password,
-        balance: 100000,
+        balance: 0,              // ← SỐ DƯ BAN ĐẦU = 0đ
         vipLevel: 0,
         createdAt: Date.now(),
         lastLogin: Date.now()
@@ -218,16 +218,9 @@ function getLinkHistoryFromCloud(username) {
 
 // ===== 22. LẤY TẤT CẢ LINK =====
 function getAllPendingLinks() {
-    console.log('🔍 getAllPendingLinks() được gọi');
-    
     return db.ref('links').once('value').then(function(snapshot) {
         var data = snapshot.val();
-        console.log('📦 Dữ liệu links:', data);
-        
-        if (!data) {
-            console.log('⚠️ Không có link nào');
-            return [];
-        }
+        if (!data) return [];
         
         var allLinks = [];
         Object.keys(data).forEach(function(username) {
@@ -243,8 +236,6 @@ function getAllPendingLinks() {
                 });
             }
         });
-        
-        console.log('✅ Tổng số link:', allLinks.length);
         
         return allLinks.sort(function(a, b) {
             return (b.time || 0) - (a.time || 0);
@@ -270,7 +261,8 @@ function approveLink(username, linkId) {
     return db.ref('links/' + username + '/' + linkId).once('value').then(function(snapshot) {
         var link = snapshot.val();
         if (!link) throw new Error('Link không tồn tại');
-        if (link.status === 'done') throw new Error('Link đã được duyệt rồi');
+        if (link.status === 'done') throw new Error('⚠️ Link này đã được duyệt rồi!');
+        if (link.status === 'rejected') throw new Error('⚠️ Link này đã bị từ chối!');
         
         return db.ref('links/' + username + '/' + linkId + '/status').set('done')
             .then(function() {
@@ -322,21 +314,10 @@ function countPendingLinks() {
 
 // ===== 29. LẤY THÔNG TIN USER (Admin) =====
 function getAllUsers() {
-    console.log('🔍 getAllUsers() được gọi');
-    
     return db.ref('users').once('value').then(function(snapshot) {
         var data = snapshot.val();
-        console.log('📦 Dữ liệu users:', data);
-        
-        if (!data) {
-            console.log('⚠️ Không có user nào');
-            return [];
-        }
-        
-        var users = Object.values(data);
-        console.log('✅ Tổng số user:', users.length);
-        
-        return users.sort(function(a, b) {
+        if (!data) return [];
+        return Object.values(data).sort(function(a, b) {
             return (b.createdAt || 0) - (a.createdAt || 0);
         });
     }).catch(function(err) {
