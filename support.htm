@@ -7,47 +7,135 @@
     <link rel="stylesheet" href="layout.css">
     <style>
         .support-container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
-            text-align: center;
             padding: 40px 20px;
         }
-        .support-container .icon {
-            font-size: 100px;
-            margin-bottom: 20px;
+
+        .support-header {
+            text-align: center;
+            margin-bottom: 40px;
         }
-        .support-container h1 {
+
+        .support-header .icon {
+            font-size: 80px;
+            margin-bottom: 15px;
+        }
+
+        .support-header h1 {
             color: #ffd700;
             font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .support-header p {
+            color: #888;
+            font-size: 15px;
+        }
+
+        .support-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
             margin-bottom: 30px;
         }
-        .support-info {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.05);
+
+        .support-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
-            padding: 30px;
-            color: #ccc;
-            line-height: 2.5;
-            text-align: left;
+            padding: 25px;
+            text-align: center;
+            transition: 0.3s;
         }
-        .support-info .highlight {
-            color: #ffd700;
-            font-weight: bold;
+
+        .support-card:hover {
+            border-color: rgba(255, 215, 0, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.05);
         }
-        .support-info .discord-btn {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #5865F2, #4752c4);
+
+        .support-card .card-icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .support-card .card-title {
             color: #fff;
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .support-card .card-desc {
+            color: #888;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .support-card .card-link {
+            display: inline-block;
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #ffd700, #f0a500);
+            color: #0a0a1a;
             text-decoration: none;
             border-radius: 10px;
             font-weight: 700;
+            font-size: 14px;
             transition: 0.3s;
         }
-        .support-info .discord-btn:hover {
+
+        .support-card .card-link:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(88, 101, 242, 0.4);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .support-card .card-link.discord {
+            background: linear-gradient(135deg, #5865F2, #4752c4);
+            color: #fff;
+        }
+
+        .faq-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .faq-section h2 {
+            color: #ffd700;
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .faq-item {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-item .question {
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .faq-item .answer {
+            color: #888;
+            font-size: 14px;
+            line-height: 1.7;
+            padding-left: 26px;
         }
     </style>
 </head>
@@ -67,7 +155,7 @@
             <li data-page="task"><a href="task.html">📋 Nhiệm vụ</a></li>
             <li data-page="exchange"><a href="exchange.html">🔄 Đổi điểm</a></li>
             <li class="has-sub">
-                <a href="#" onclick="toggleSubMenu(this)">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
+                <a href="#">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
                 <ul class="sub-menu">
                     <li data-page="card"><a href="card.html">💳 Nạp Thẻ Cào</a></li>
                     <li data-page="bank"><a href="bank.html">🏦 Nạp Bank/Momo</a></li>
@@ -75,7 +163,7 @@
                 </ul>
             </li>
             <li class="has-sub">
-                <a href="#" onclick="toggleSubMenu(this)">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
+                <a href="#">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
                 <ul class="sub-menu">
                     <li data-page="redeem"><a href="redeem.html">🔄 Redeem Uphone 4h</a></li>
                     <li data-page="buycloud"><a href="buycloud.html">☁️ Mua Máy Cloud</a></li>
@@ -96,7 +184,7 @@
                 <span class="user-avatar">👤</span>
                 <div>
                     <strong id="usernameDisplay">Khách</strong>
-                    <span>💰 1,000,000đ</span>
+                    <span id="balanceDisplay">💰 Đang tải...</span>
                 </div>
             </div>
             <a href="#" class="logout-btn" onclick="logout()">🚪 Đăng xuất</a>
@@ -105,20 +193,89 @@
 
     <main class="content" id="content">
         <div class="support-container">
-            <div class="icon">⚙️</div>
-            <h1>Trung Tâm Hỗ Trợ</h1>
-            <div class="support-info">
-                <p>📱 <span class="highlight">Zalo:</span> 0909.xxx.xxx</p>
-                <p>💬 <span class="highlight">Discord:</span> NiNiStore#1234</p>
-                <p>📧 <span class="highlight">Email:</span> support@ninistore.com</p>
-                <p>⏰ <span class="highlight">Thời gian:</span> 24/7</p>
-                <p style="color:#555; margin-top:15px;">Luôn sẵn sàng giúp đỡ bạn!</p>
-                <a href="https://discord.gg/QQRygmwpq3" target="_blank" rel="noopener" class="discord-btn">
-                    💬 Tham gia Discord
-                </a>
+            <div class="support-header">
+                <div class="icon">⚙️</div>
+                <h1>Trung Tâm Hỗ Trợ</h1>
+                <p>Chúng tôi luôn sẵn sàng giúp đỡ bạn 24/7</p>
+            </div>
+
+            <div class="support-grid">
+                <div class="support-card">
+                    <div class="card-icon">💬</div>
+                    <div class="card-title">Discord Server</div>
+                    <div class="card-desc">Tham gia cộng đồng, hỏi đáp và nhận hỗ trợ nhanh nhất</div>
+                    <a href="https://discord.gg/QQRygmwpq3" target="_blank" rel="noopener" class="card-link discord">
+                        Tham gia Discord
+                    </a>
+                </div>
+
+                <div class="support-card">
+                    <div class="card-icon">📱</div>
+                    <div class="card-title">Zalo</div>
+                    <div class="card-desc">Liên hệ trực tiếp qua Zalo để được hỗ trợ</div>
+                    <a href="https://zalo.me" target="_blank" rel="noopener" class="card-link">
+                        0909.xxx.xxx
+                    </a>
+                </div>
+
+                <div class="support-card">
+                    <div class="card-icon">📧</div>
+                    <div class="card-title">Email</div>
+                    <div class="card-desc">Gửi email cho chúng tôi nếu cần hỗ trợ chi tiết</div>
+                    <a href="mailto:support@ninistore.com" class="card-link">
+                        support@ninistore.com
+                    </a>
+                </div>
+
+                <div class="support-card">
+                    <div class="card-icon">💬</div>
+                    <div class="card-title">Facebook</div>
+                    <div class="card-desc">Theo dõi fanpage để cập nhật tin tức mới nhất</div>
+                    <a href="https://facebook.com" target="_blank" rel="noopener" class="card-link">
+                        Fanpage NiNi
+                    </a>
+                </div>
+            </div>
+
+            <div class="faq-section">
+                <h2>❓ Câu hỏi thường gặp</h2>
+
+                <div class="faq-item">
+                    <div class="question">🔹 Làm sao để nạp tiền vào tài khoản?</div>
+                    <div class="answer">Vào mục "Nạp Tiền" trong menu bên trái, chọn "Nạp Thẻ Cào" hoặc "Nạp Bank/Momo" và làm theo hướng dẫn.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question">🔹 Tôi quên mật khẩu thì phải làm sao?</div>
+                    <div class="answer">Vui lòng liên hệ admin qua Discord hoặc Zalo để được hỗ trợ đặt lại mật khẩu.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question">🔹 Tại sao tôi không đăng nhập được?</div>
+                    <div class="answer">Kiểm tra lại tài khoản/mật khẩu và captcha. Nếu vẫn không được, liên hệ admin để được hỗ trợ.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question">🔹 Số dư của tôi không cập nhật?</div>
+                    <div class="answer">Thử tải lại trang (F5). Nếu vẫn không được, liên hệ admin để kiểm tra.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question">🔹 Làm sao để đổi điểm lấy quà?</div>
+                    <div class="answer">Vào mục "Đổi điểm" trong menu, chọn phần quà bạn muốn và nhấn "Đổi ngay".</div>
+                </div>
             </div>
         </div>
     </main>
+</div>
+
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup-box">
+        <div class="icon" id="popupIcon">📢</div>
+        <h3 id="popupTitle">Thông báo</h3>
+        <p id="popupMessage">Nội dung thông báo</p>
+        <button class="close-btn" onclick="closePopup()">Đã hiểu</button>
+    </div>
 </div>
 
 <script src="layout.js"></script>
