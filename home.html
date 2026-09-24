@@ -204,10 +204,6 @@
             color: #a855f7;
             font-weight: 700;
         }
-        .notice-card-body .green {
-            color: #10b981;
-            font-weight: 700;
-        }
         .notice-card-footer {
             display: flex;
             gap: 15px;
@@ -294,7 +290,7 @@
             <li data-page="task"><a href="task.html">📋 Nhiệm vụ</a></li>
             <li data-page="exchange"><a href="exchange.html">🔄 Đổi điểm</a></li>
             <li class="has-sub">
-                <a href="#" onclick="toggleSubMenu(this)">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
+                <a href="#">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
                 <ul class="sub-menu">
                     <li data-page="card"><a href="card.html">💳 Nạp Thẻ Cào</a></li>
                     <li data-page="bank"><a href="bank.html">🏦 Nạp Bank/Momo</a></li>
@@ -302,7 +298,7 @@
                 </ul>
             </li>
             <li class="has-sub">
-                <a href="#" onclick="toggleSubMenu(this)">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
+                <a href="#">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
                 <ul class="sub-menu">
                     <li data-page="redeem"><a href="redeem.html">🔄 Redeem Uphone 4h</a></li>
                     <li data-page="buycloud"><a href="buycloud.html">☁️ Mua Máy Cloud</a></li>
@@ -323,7 +319,7 @@
                 <span class="user-avatar">👤</span>
                 <div>
                     <strong id="usernameDisplay">Khách</strong>
-                    <span>💰 1,000,000đ</span>
+                    <span id="balanceDisplay">💰 Đang tải...</span>
                 </div>
             </div>
             <a href="#" class="logout-btn" onclick="logout()">🚪 Đăng xuất</a>
@@ -393,8 +389,6 @@
         </div>
 
         <div class="notice-list">
-
-            <!-- Thông báo 1 -->
             <div class="notice-card new">
                 <div class="notice-card-header">
                     <div class="notice-card-title">
@@ -405,7 +399,7 @@
                     <div class="notice-card-time">2 phút trước</div>
                 </div>
                 <div class="notice-card-body">
-                    Chúng tôi sẽ tiến hành bảo trì hệ thống để nâng cấp dịch vụ và cải thiện hiệu suất. Thời gian bảo trì dự kiến từ <strong>02:00 - 04:00</strong> sáng mai. Trong thời gian này, một số dịch vụ có thể tạm thời gián đoạn.
+                    Chúng tôi sẽ tiến hành bảo trì hệ thống để nâng cấp dịch vụ và cải thiện hiệu suất. Thời gian bảo trì dự kiến từ <strong>02:00 - 04:00</strong> sáng mai.
                     <br><br>
                     Xin vui lòng sắp xếp thời gian hợp lý! 🙏
                 </div>
@@ -415,7 +409,6 @@
                 </div>
             </div>
 
-            <!-- Thông báo 2 -->
             <div class="notice-card">
                 <div class="notice-card-header">
                     <div class="notice-card-title">
@@ -425,7 +418,7 @@
                     <div class="notice-card-time">2 giờ trước</div>
                 </div>
                 <div class="notice-card-body">
-                    Quà thưởng và tổng kết hoạt động của tất cả người dùng đã được cập nhật. Mời các bạn xem ngay <span class="highlight">TẠI ĐÂY</span> để xem có tên mình không nhé.
+                    Quà thưởng và tổng kết hoạt động của tất cả người dùng đã được cập nhật. Mời các bạn xem ngay <span class="highlight">TẠI ĐÂY</span>.
                     <br><br>
                     Nhanh tay nhận thưởng, số lượng có hạn! 🎊
                 </div>
@@ -435,25 +428,6 @@
                 </div>
             </div>
 
-            <!-- Thông báo 3 -->
-            <div class="notice-card">
-                <div class="notice-card-header">
-                    <div class="notice-card-title">
-                        <span class="emoji">⚠️</span>
-                        Thông Báo Bảo Trì
-                    </div>
-                    <div class="notice-card-time">5 giờ trước</div>
-                </div>
-                <div class="notice-card-body">
-                    Đã lên lịch bảo trì để bảo dưỡng định kỳ. Xin thông báo!
-                </div>
-                <div class="notice-card-footer">
-                    <span>❤️ 3</span>
-                    <span>💬 0</span>
-                </div>
-            </div>
-
-            <!-- Thông báo 4 -->
             <div class="notice-card new">
                 <div class="notice-card-header">
                     <div class="notice-card-title">
@@ -464,53 +438,18 @@
                     <div class="notice-card-time">1 ngày trước</div>
                 </div>
                 <div class="notice-card-body">
-                    Chúng tôi đã bổ sung thêm nhiều dịch vụ mới. Bao gồm các tài khoản MMO, ChatGPT, Cloud, ... và sẽ có giá rẻ hơn!
-                    <br><br>
-                    Một số dịch vụ mới đã có sẵn như:
-                    <br>
-                    • <strong>ChatGPT</strong> giá chỉ 20k
-                    <br>
-                    • <strong>Tài khoản Netflix</strong> giá 20k
-                    <br>
-                    • <strong>Hosting, VPS</strong> giá chỉ 10k
-                    <br><br>
-                    Các bạn có thể đón chờ trong thời gian sắp tới! ❤️
+                    Chúng tôi đã bổ sung thêm nhiều dịch vụ mới:
+                    <br>• <strong>ChatGPT</strong> giá chỉ 20k
+                    <br>• <strong>Tài khoản Netflix</strong> giá 20k
+                    <br>• <strong>Hosting, VPS</strong> giá chỉ 10k
                 </div>
                 <div class="notice-card-footer">
                     <span>❤️ 15</span>
                     <span>💬 5</span>
                 </div>
             </div>
-
-            <!-- Thông báo 5 -->
-            <div class="notice-card">
-                <div class="notice-card-header">
-                    <div class="notice-card-title">
-                        <span class="emoji">🎯</span>
-                        Thông Báo Chính Sách
-                    </div>
-                    <div class="notice-card-time">1 ngày trước</div>
-                </div>
-                <div class="notice-card-body">
-                    Chúng tôi có cập nhật một số chính sách mới cho hệ thống:
-                    <br><br>
-                    • Thêm nhiều <strong>tính năng mới</strong> vào hệ thống
-                    <br>
-                    • Các thành viên có <strong>đã được ưu đãi</strong> tốt hơn
-                    <br>
-                    • Nâng cấp <strong>độ ổn định dịch vụ</strong>
-                    <br><br>
-                    Cám ơn các bạn đã ủng hộ! ❤️
-                </div>
-                <div class="notice-card-footer">
-                    <span>❤️ 7</span>
-                    <span>💬 1</span>
-                </div>
-            </div>
-
         </div>
 
-        <!-- ===== XEM THÊM ===== -->
         <a href="taskhistory.html" class="view-more-btn">
             ⚡ Xem thêm các thông báo
         </a>
@@ -527,6 +466,10 @@
     </div>
 </div>
 
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="firebase.js"></script>
 <script src="layout.js"></script>
 
 </body>
