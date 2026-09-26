@@ -84,7 +84,7 @@
             <li data-page="task"><a href="task.html">📋 Nhiệm vụ</a></li>
             <li data-page="exchange" class="active"><a href="exchange.html">🔄 Đổi điểm</a></li>
             <li class="has-sub">
-                <a href="#" onclick="toggleSubMenu(this)">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
+                <a href="#">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
                 <ul class="sub-menu">
                     <li data-page="card"><a href="card.html">💳 Nạp Thẻ Cào</a></li>
                     <li data-page="bank"><a href="bank.html">🏦 Nạp Bank/Momo</a></li>
@@ -92,7 +92,7 @@
                 </ul>
             </li>
             <li class="has-sub">
-                <a href="#" onclick="toggleSubMenu(this)">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
+                <a href="#">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
                 <ul class="sub-menu">
                     <li data-page="redeem"><a href="redeem.html">🔄 Redeem Uphone 4h</a></li>
                     <li data-page="buycloud"><a href="buycloud.html">☁️ Mua Máy Cloud</a></li>
@@ -113,7 +113,7 @@
                 <span class="user-avatar">👤</span>
                 <div>
                     <strong id="usernameDisplay">Khách</strong>
-                    <span>💰 1,000,000đ</span>
+                    <span id="balanceDisplay">💰 Đang tải...</span>
                 </div>
             </div>
             <a href="#" class="logout-btn" onclick="logout()">🚪 Đăng xuất</a>
@@ -159,11 +159,48 @@
     </div>
 </div>
 
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="firebase.js"></script>
 <script src="layout.js"></script>
+
 <script>
-    function exchangeItem(name, cost) {
-        showPopup('✅', 'Đổi thành công!',
-            'Bạn đã đổi "' + name + '" với ' + cost + ' điểm. Phần quà sẽ được gửi đến tài khoản!');
+    async function exchangeItem(name, cost) {
+        var user = localStorage.getItem('currentUser');
+        if (!user) {
+            showPopup('⚠️', 'Lỗi', 'Vui lòng đăng nhập lại!');
+            return;
+        }
+
+        try {
+            // Lấy số dư hiện tại
+            var balance = await getUserBalance(user);
+            
+            if (balance < cost) {
+                showPopup('⚠️', 'Không đủ điểm', 
+                    'Bạn cần ' + cost + ' điểm nhưng chỉ có ' + balance.toLocaleString('vi-VN') + ' điểm!');
+                return;
+            }
+
+            if (!confirm('Bạn có chắc muốn đổi "' + name + '" với ' + cost + ' điểm?')) {
+                return;
+            }
+
+            // Trừ điểm
+            await subtractUserBalance(user, cost);
+            
+            // Lưu lịch sử
+            await savePurchaseToCloud(user, name, cost);
+
+            showPopup('✅', 'Đổi thành công!', 
+                'Bạn đã đổi "' + name + '" với ' + cost + ' điểm!\nSố dư còn lại: ' + 
+                (balance - cost).toLocaleString('vi-VN') + 'đ');
+            
+        } catch (error) {
+            console.error('Lỗi đổi điểm:', error);
+            showPopup('❌', 'Lỗi', 'Không thể đổi. Vui lòng thử lại!');
+        }
     }
 </script>
 
