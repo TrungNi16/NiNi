@@ -6,28 +6,59 @@
     <title>Lịch sử mua hàng - NiNi Store</title>
     <link rel="stylesheet" href="layout.css">
     <style>
-        .history-container { max-width: 700px; margin: 0 auto; text-align: center; padding: 40px 20px; }
-        .history-container .icon { font-size: 100px; margin-bottom: 20px; }
-        .history-container h1 { color: #ffd700; font-size: 32px; margin-bottom: 30px; }
+        .history-container {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .history-container .icon {
+            font-size: 100px;
+            margin-bottom: 20px;
+        }
+
+        .history-container h1 {
+            color: #ffd700;
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+
         .history-list {
-            background: rgba(255,255,255,0.03);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
             padding: 15px 20px;
             text-align: left;
+            min-height: 100px;
         }
+
         .history-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 14px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             color: #ccc;
             flex-wrap: wrap;
             gap: 8px;
         }
-        .history-item:last-child { border-bottom: none; }
-        .history-item .name { color: #fff; }
-        .history-item .price { color: #ffd700; font-weight: 700; font-size: 14px; }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-item .name {
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .history-item .price {
+            color: #ffd700;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
         .empty-state {
             text-align: center;
             color: #555;
@@ -51,7 +82,7 @@
             <li data-page="task"><a href="task.html">📋 Nhiệm vụ</a></li>
             <li data-page="exchange"><a href="exchange.html">🔄 Đổi điểm</a></li>
             <li class="has-sub">
-                <a href="#" onclick="toggleSubMenu(this)">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
+                <a href="#">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
                 <ul class="sub-menu">
                     <li data-page="card"><a href="card.html">💳 Nạp Thẻ Cào</a></li>
                     <li data-page="bank"><a href="bank.html">🏦 Nạp Bank/Momo</a></li>
@@ -59,7 +90,7 @@
                 </ul>
             </li>
             <li class="has-sub">
-                <a href="#" onclick="toggleSubMenu(this)">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
+                <a href="#">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
                 <ul class="sub-menu">
                     <li data-page="redeem"><a href="redeem.html">🔄 Redeem Uphone 4h</a></li>
                     <li data-page="buycloud"><a href="buycloud.html">☁️ Mua Máy Cloud</a></li>
@@ -80,7 +111,7 @@
                 <span class="user-avatar">👤</span>
                 <div>
                     <strong id="usernameDisplay">Khách</strong>
-                    <span id="pointsDisplay">💰 1,000,000đ</span>
+                    <span id="balanceDisplay">💰 Đang tải...</span>
                 </div>
             </div>
             <a href="#" class="logout-btn" onclick="logout()">🚪 Đăng xuất</a>
@@ -91,7 +122,9 @@
         <div class="history-container">
             <div class="icon">📜</div>
             <h1>Lịch sử mua hàng</h1>
-            <div class="history-list" id="historyList"></div>
+            <div class="history-list" id="historyList">
+                <div class="empty-state">⏳ Đang tải...</div>
+            </div>
         </div>
     </main>
 </div>
@@ -105,27 +138,49 @@
     </div>
 </div>
 
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="firebase.js"></script>
 <script src="layout.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Lấy lịch sử mua hàng từ localStorage
-        var history = JSON.parse(localStorage.getItem('purchaseHistory') || '[]');
 
+<script>
+    document.addEventListener('DOMContentLoaded', async function() {
+        var user = localStorage.getItem('currentUser');
         var list = document.getElementById('historyList');
 
-        if (history.length === 0) {
-            list.innerHTML = '<div class="empty-state">📭 Bạn chưa có giao dịch nào</div>';
+        if (!user) {
+            list.innerHTML = '<div class="empty-state">⚠️ Vui lòng đăng nhập lại!</div>';
             return;
         }
 
-        var html = '';
-        history.slice().reverse().forEach(function(item) {
-            html += '<div class="history-item">' +
-                '<span class="name">📦 ' + item.name + '</span>' +
-                '<span class="price">' + item.price.toLocaleString() + 'đ - ' + item.date + '</span>' +
+        try {
+            // Load từ Firebase
+            var history = await getPurchaseHistory(user);
+
+            if (!history || history.length === 0) {
+                list.innerHTML = '<div class="empty-state">📭 Bạn chưa có giao dịch nào</div>';
+                return;
+            }
+
+            var html = '';
+            history.slice(0, 20).forEach(function(item) {
+                var date = new Date(item.time);
+                var dateStr = String(date.getDate()).padStart(2, '0') + '/' +
+                              String(date.getMonth() + 1).padStart(2, '0') + '/' +
+                              date.getFullYear();
+
+                html += '<div class="history-item">' +
+                    '<span class="name">📦 ' + (item.itemName || item.name || 'Sản phẩm') + '</span>' +
+                    '<span class="price">' + (item.price || 0).toLocaleString('vi-VN') + 'đ • ' + dateStr + '</span>' +
                 '</div>';
-        });
-        list.innerHTML = html;
+            });
+            list.innerHTML = html;
+
+        } catch (error) {
+            console.error('Lỗi load lịch sử:', error);
+            list.innerHTML = '<div class="empty-state">❌ Lỗi tải dữ liệu</div>';
+        }
     });
 </script>
 
