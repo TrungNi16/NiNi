@@ -6,41 +6,41 @@
     <title>Admin Panel - NiNi Store</title>
     <link rel="stylesheet" href="layout.css">
     <style>
-        .admin-header { background: linear-gradient(135deg, rgba(255, 0, 100, 0.15), rgba(123, 63, 255, 0.1)); border: 1px solid rgba(255, 0, 100, 0.2); border-radius: 16px; padding: 25px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .admin-header { background: linear-gradient(135deg, rgba(255,0,100,0.15), rgba(123,63,255,0.1)); border: 1px solid rgba(255,0,100,0.2); border-radius: 16px; padding: 25px; margin-bottom: 20px; }
         .admin-header h1 { color: #fff; font-size: 24px; display: flex; align-items: center; gap: 10px; }
-        .admin-header .badge { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+        .admin-header .badge { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; }
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
-        .stat-card { background: rgba(10, 10, 26, 0.95); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 14px; padding: 20px; text-align: center; }
+        .stat-card { background: rgba(10,10,26,0.95); border: 1px solid rgba(255,255,255,0.05); border-radius: 14px; padding: 20px; text-align: center; }
         .stat-card .num { color: #ffd700; font-size: 28px; font-weight: 700; }
-        .stat-card .label { color: #888; font-size: 12px; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        .stat-card .label { color: #888; font-size: 12px; margin-top: 5px; text-transform: uppercase; }
         .stat-card.warning .num { color: #ffaa00; }
         .stat-card.success .num { color: #00ff88; }
         .stat-card.danger .num { color: #ff4444; }
-        .admin-section { background: rgba(10, 10, 26, 0.95); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 20px; margin-bottom: 20px; }
+        .admin-section { background: rgba(10,10,26,0.95); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 20px; margin-bottom: 20px; }
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 12px; }
         .section-header h2 { color: #ffd700; font-size: 18px; }
-        .btn-refresh { padding: 8px 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #aaa; font-size: 13px; cursor: pointer; }
+        .btn-refresh { padding: 8px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #aaa; font-size: 13px; cursor: pointer; }
         .filter-bar { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
-        .filter-btn { padding: 8px 18px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; color: #aaa; font-size: 13px; cursor: pointer; }
+        .filter-btn { padding: 8px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; color: #aaa; font-size: 13px; cursor: pointer; }
         .filter-btn.active { background: linear-gradient(135deg, #7b3fff, #5b2fff); color: #fff; border-color: transparent; }
         .table-wrap { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        thead th { text-align: left; color: #666; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; padding: 12px 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-        tbody td { padding: 14px 10px; color: #ccc; border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
+        thead th { text-align: left; color: #666; font-size: 11px; font-weight: 600; text-transform: uppercase; padding: 12px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        tbody td { padding: 14px 10px; color: #ccc; border-bottom: 1px solid rgba(255,255,255,0.03); }
         .user-cell { display: flex; align-items: center; gap: 8px; }
         .user-avatar-small { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #7b3fff, #5b2fff); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; }
         .td-link { color: #00aaff; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; }
         .td-code-text { color: #ffcc00; font-family: monospace; font-size: 12px; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; }
         .td-points { color: #00ff88; font-weight: 700; }
-        .status-badge { padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
-        .status-pending { background: rgba(255, 200, 0, 0.1); color: #ffcc00; border: 1px solid rgba(255, 200, 0, 0.2); }
-        .status-done { background: rgba(0, 255, 136, 0.1); color: #00ff88; border: 1px solid rgba(0, 255, 136, 0.2); }
-        .status-rejected { background: rgba(255, 50, 50, 0.1); color: #ff6666; border: 1px solid rgba(255, 50, 50, 0.2); }
+        .status-badge { padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+        .status-pending { background: rgba(255,200,0,0.1); color: #ffcc00; border: 1px solid rgba(255,200,0,0.2); }
+        .status-done { background: rgba(0,255,136,0.1); color: #00ff88; border: 1px solid rgba(0,255,136,0.2); }
+        .status-rejected { background: rgba(255,50,50,0.1); color: #ff6666; border: 1px solid rgba(255,50,50,0.2); }
         .action-btns { display: flex; gap: 6px; }
-        .btn-action { padding: 6px 12px; border: none; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap; }
-        .btn-approve { background: rgba(0, 255, 136, 0.15); color: #00ff88; border: 1px solid rgba(0, 255, 136, 0.3); }
-        .btn-reject { background: rgba(255, 50, 50, 0.15); color: #ff6666; border: 1px solid rgba(255, 50, 50, 0.3); }
-        .btn-delete { background: rgba(255, 255, 255, 0.05); color: #888; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .btn-action { padding: 6px 12px; border: none; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; }
+        .btn-approve { background: rgba(0,255,136,0.15); color: #00ff88; border: 1px solid rgba(0,255,136,0.3); }
+        .btn-reject { background: rgba(255,50,50,0.15); color: #ff6666; border: 1px solid rgba(255,50,50,0.3); }
+        .btn-delete { background: rgba(255,255,255,0.05); color: #888; border: 1px solid rgba(255,255,255,0.1); }
         .empty-state { text-align: center; color: #555; padding: 40px 20px; }
         @media (max-width: 768px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
     </style>
@@ -61,7 +61,7 @@
             <li data-page="admin" class="active"><a href="admin.html">👑 Admin Panel</a></li>
             <li data-page="task"><a href="task.html">📋 Nhiệm vụ</a></li>
             <li data-page="exchange"><a href="exchange.html">🔄 Đổi điểm</a></li>
-            <li data-page="support"><a href="support.html">⚙️ Trung Tâm Hỗ Trợ</a></li>
+            <li data-page="support"><a href="support.html">⚙️ Hỗ Trợ</a></li>
         </ul>
         <div class="sidebar-footer">
             <div class="user-info">
@@ -87,75 +87,51 @@
             <div class="stat-card"><div class="num" id="statUsers">0</div><div class="label">Người dùng</div></div>
         </div>
 
-        <!-- DUYỆT GIFTCODE -->
         <div class="admin-section">
-            <div class="section-header">
-                <h2>🎁 Duyệt Giftcode</h2>
-                <button class="btn-refresh" onclick="loadGiftcodes()">🔄 Làm mới</button>
-            </div>
+            <div class="section-header"><h2>🎁 Duyệt Giftcode</h2><button class="btn-refresh" onclick="loadGiftcodes()">🔄 Làm mới</button></div>
             <div class="filter-bar">
                 <button class="filter-btn active" onclick="filterGiftcodes('pending', this)">⏳ Chờ duyệt</button>
                 <button class="filter-btn" onclick="filterGiftcodes('done', this)">✅ Đã duyệt</button>
                 <button class="filter-btn" onclick="filterGiftcodes('all', this)">🌐 Tất cả</button>
             </div>
-            <div class="table-wrap">
-                <table>
-                    <thead><tr><th>User</th><th>Mã Giftcode</th><th>Trạng thái</th><th>Thời gian</th><th>Hành động</th></tr></thead>
-                    <tbody id="giftcodesBody"><tr><td colspan="5" class="empty-state">⏳ Đang tải...</td></tr></tbody>
-                </table>
-            </div>
+            <div class="table-wrap"><table>
+                <thead><tr><th>User</th><th>Mã Giftcode</th><th>Trạng thái</th><th>Thời gian</th><th>Hành động</th></tr></thead>
+                <tbody id="giftcodesBody"><tr><td colspan="5" class="empty-state">⏳ Đang tải...</td></tr></tbody>
+            </table></div>
         </div>
 
-        <!-- DUYỆT NẠP TIỀN -->
         <div class="admin-section">
-            <div class="section-header">
-                <h2>💳 Duyệt Nạp Tiền</h2>
-                <button class="btn-refresh" onclick="loadCards()">🔄 Làm mới</button>
-            </div>
+            <div class="section-header"><h2>💳 Duyệt Nạp Tiền</h2><button class="btn-refresh" onclick="loadCards()">🔄 Làm mới</button></div>
             <div class="filter-bar">
                 <button class="filter-btn active" onclick="filterCards('pending', this)">⏳ Chờ duyệt</button>
                 <button class="filter-btn" onclick="filterCards('done', this)">✅ Đã duyệt</button>
                 <button class="filter-btn" onclick="filterCards('all', this)">🌐 Tất cả</button>
             </div>
-            <div class="table-wrap">
-                <table>
-                    <thead><tr><th>User</th><th>Nhà mạng</th><th>Mệnh giá</th><th>Mã thẻ</th><th>Serial</th><th>Trạng thái</th><th>Hành động</th></tr></thead>
-                    <tbody id="cardsBody"><tr><td colspan="7" class="empty-state">⏳ Đang tải...</td></tr></tbody>
-                </table>
-            </div>
+            <div class="table-wrap"><table>
+                <thead><tr><th>User</th><th>Nhà mạng</th><th>Mệnh giá</th><th>Mã thẻ</th><th>Serial</th><th>Trạng thái</th><th>Hành động</th></tr></thead>
+                <tbody id="cardsBody"><tr><td colspan="7" class="empty-state">⏳ Đang tải...</td></tr></tbody>
+            </table></div>
         </div>
 
-        <!-- DUYỆT LINK -->
         <div class="admin-section">
-            <div class="section-header">
-                <h2>🔗 Duyệt Link</h2>
-                <button class="btn-refresh" onclick="loadLinks()">🔄 Làm mới</button>
-            </div>
+            <div class="section-header"><h2>🔗 Duyệt Link</h2><button class="btn-refresh" onclick="loadLinks()">🔄 Làm mới</button></div>
             <div class="filter-bar">
                 <button class="filter-btn active" onclick="filterLinks('pending', this)">⏳ Chờ duyệt</button>
                 <button class="filter-btn" onclick="filterLinks('done', this)">✅ Đã duyệt</button>
                 <button class="filter-btn" onclick="filterLinks('all', this)">🌐 Tất cả</button>
             </div>
-            <div class="table-wrap">
-                <table>
-                    <thead><tr><th>User</th><th>Dịch vụ</th><th>Link</th><th>Thưởng</th><th>Trạng thái</th><th>Hành động</th></tr></thead>
-                    <tbody id="linksBody"><tr><td colspan="6" class="empty-state">⏳ Đang tải...</td></tr></tbody>
-                </table>
-            </div>
+            <div class="table-wrap"><table>
+                <thead><tr><th>User</th><th>Dịch vụ</th><th>Link</th><th>Thưởng</th><th>Trạng thái</th><th>Hành động</th></tr></thead>
+                <tbody id="linksBody"><tr><td colspan="6" class="empty-state">⏳ Đang tải...</td></tr></tbody>
+            </table></div>
         </div>
 
-        <!-- QUẢN LÝ USER -->
         <div class="admin-section">
-            <div class="section-header">
-                <h2>👥 Quản lý User</h2>
-                <button class="btn-refresh" onclick="loadUsers()">🔄 Làm mới</button>
-            </div>
-            <div class="table-wrap">
-                <table>
-                    <thead><tr><th>Username</th><th>Số dư</th><th>VIP</th><th>Hành động</th></tr></thead>
-                    <tbody id="usersBody"><tr><td colspan="4" class="empty-state">⏳ Đang tải...</td></tr></tbody>
-                </table>
-            </div>
+            <div class="section-header"><h2>👥 Quản lý User</h2><button class="btn-refresh" onclick="loadUsers()">🔄 Làm mới</button></div>
+            <div class="table-wrap"><table>
+                <thead><tr><th>Username</th><th>Số dư</th><th>VIP</th><th>Hành động</th></tr></thead>
+                <tbody id="usersBody"><tr><td colspan="4" class="empty-state">⏳ Đang tải...</td></tr></tbody>
+            </table></div>
         </div>
     </main>
 </div>
@@ -181,29 +157,17 @@ var currentFilter = 'pending';
 var currentCardFilter = 'pending';
 var currentGiftFilter = 'pending';
 
-// ===== KHỞI CHẠY =====
 window.addEventListener('DOMContentLoaded', function() {
     console.log('📄 DOM loaded');
-    
-    var checkInterval = setInterval(function() {
+    var check = setInterval(function() {
         if (typeof db !== 'undefined' && db) {
-            clearInterval(checkInterval);
+            clearInterval(check);
             console.log('✅ Firebase ready');
-            
             var user = localStorage.getItem('currentUser');
-            if (!user) {
-                alert('⚠️ Vui lòng đăng nhập!');
-                window.location.href = 'index.html';
-                return;
-            }
-            
+            if (!user) { alert('⚠️ Chưa đăng nhập!'); window.location.href = 'index.html'; return; }
             checkAdmin(user).then(function(isAdmin) {
-                if (!isAdmin) {
-                    alert('❌ Không có quyền Admin!');
-                    window.location.href = 'home.html';
-                    return;
-                }
-                console.log('✅ Admin verified:', user);
+                if (!isAdmin) { alert('❌ Không có quyền!'); window.location.href = 'home.html'; return; }
+                console.log('✅ Admin verified');
                 loadGiftcodes();
                 loadCards();
                 loadLinks();
@@ -214,348 +178,195 @@ window.addEventListener('DOMContentLoaded', function() {
     }, 100);
 });
 
-// ===== DUYỆT GIFTCODE =====
+// ===== GIFTCODE =====
 function loadGiftcodes() {
     console.log('🔍 Load giftcodes...');
     var tbody = document.getElementById('giftcodesBody');
     tbody.innerHTML = '<tr><td colspan="5" class="empty-state">⏳ Đang tải...</td></tr>';
 
-    db.ref('giftcodes').once('value').then(function(snapshot) {
-        var data = snapshot.val();
+    db.ref('giftcodes').once('value').then(function(snap) {
+        var data = snap.val();
         console.log('📦 Giftcodes:', data);
-
-        if (!data) {
-            tbody.innerHTML = '<tr><td colspan="5" class="empty-state">📭 Không có giftcode nào</td></tr>';
-            return;
-        }
+        if (!data) { tbody.innerHTML = '<tr><td colspan="5" class="empty-state">📭 Không có giftcode</td></tr>'; return; }
 
         var all = [];
-        Object.keys(data).forEach(function(username) {
-            var userGC = data[username];
-            if (userGC && typeof userGC === 'object') {
-                Object.keys(userGC).forEach(function(key) {
-                    var gc = userGC[key];
-                    gc.id = key;
-                    gc.username = username;
-                    all.push(gc);
-                });
-            }
+        Object.keys(data).forEach(function(u) {
+            Object.keys(data[u]).forEach(function(k) {
+                var gc = data[u][k];
+                gc.id = k;
+                gc.username = u;
+                all.push(gc);
+            });
         });
+        all.sort(function(a,b) { return (b.time||0) - (a.time||0); });
+        var filtered = all.filter(function(g) { return currentGiftFilter === 'all' || g.status === currentGiftFilter; });
 
-        all.sort(function(a, b) { return (b.time || 0) - (a.time || 0); });
-        var filtered = all.filter(function(g) {
-            if (currentGiftFilter === 'all') return true;
-            return g.status === currentGiftFilter;
-        });
-
-        if (filtered.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" class="empty-state">📭 Không có giftcode nào</td></tr>';
-            return;
-        }
+        if (filtered.length === 0) { tbody.innerHTML = '<tr><td colspan="5" class="empty-state">📭 Không có giftcode</td></tr>'; return; }
 
         var html = '';
         filtered.forEach(function(gc) {
-            var statusHtml = gc.status === 'pending' ? '<span class="status-badge status-pending">⏳ Chờ duyệt</span>' :
-                             gc.status === 'done' ? '<span class="status-badge status-done">✅ Đã duyệt</span>' :
-                             '<span class="status-badge status-rejected">❌ Từ chối</span>';
-            
+            var s = gc.status === 'pending' ? '<span class="status-badge status-pending">⏳ Chờ duyệt</span>' :
+                    gc.status === 'done' ? '<span class="status-badge status-done">✅ Đã duyệt</span>' :
+                    '<span class="status-badge status-rejected">❌ Từ chối</span>';
             var d = new Date(gc.time);
-            var dateStr = String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0') + ' ' + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
-            
-            var actionBtns = '';
+            var ds = String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0') + ' ' + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+            var btn = '';
             if (gc.status === 'pending') {
-                actionBtns = '<button class="btn-action btn-approve" onclick="approveGiftcode(\'' + gc.username + '\', \'' + gc.id + '\')">✅ Duyệt</button>' +
-                             '<button class="btn-action btn-reject" onclick="rejectGiftcode(\'' + gc.username + '\', \'' + gc.id + '\')">❌ Từ chối</button>';
+                btn = '<button class="btn-action btn-approve" onclick="approveGiftcode(\''+gc.username+'\',\''+gc.id+'\')">✅ Duyệt</button>' +
+                      '<button class="btn-action btn-reject" onclick="rejectGiftcode(\''+gc.username+'\',\''+gc.id+'\')">❌ Từ chối</button>';
             }
-            actionBtns += '<button class="btn-action btn-delete" onclick="deleteGiftcode(\'' + gc.username + '\', \'' + gc.id + '\')">🗑️</button>';
-
-            html += '<tr>' +
-                '<td><div class="user-cell"><div class="user-avatar-small">' + gc.username.charAt(0).toUpperCase() + '</div>' + gc.username + '</div></td>' +
-                '<td><span class="td-code-text">' + (gc.code || '-') + '</span></td>' +
-                '<td>' + statusHtml + '</td>' +
-                '<td>' + dateStr + '</td>' +
-                '<td><div class="action-btns">' + actionBtns + '</div></td>' +
-                '</tr>';
+            btn += '<button class="btn-action btn-delete" onclick="deleteGiftcode(\''+gc.username+'\',\''+gc.id+'\')">🗑️</button>';
+            html += '<tr><td><div class="user-cell"><div class="user-avatar-small">'+gc.username.charAt(0).toUpperCase()+'</div>'+gc.username+'</div></td><td><span class="td-code-text">'+(gc.code||'-')+'</span></td><td>'+s+'</td><td>'+ds+'</td><td><div class="action-btns">'+btn+'</div></td></tr>';
         });
         tbody.innerHTML = html;
     }).catch(function(e) {
-        console.error('Lỗi:', e);
-        tbody.innerHTML = '<tr><td colspan="5" class="empty-state">❌ Lỗi: ' + e.message + '</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5" class="empty-state">❌ Lỗi: '+e.message+'</td></tr>';
     });
 }
+function filterGiftcodes(s, b) { b.closest('.admin-section').querySelectorAll('.filter-btn').forEach(function(x){x.classList.remove('active');}); b.classList.add('active'); currentGiftFilter = s; loadGiftcodes(); }
+function approveGiftcode(u, id) { if (!confirm('Duyệt?')) return; db.ref('giftcodes/'+u+'/'+id+'/status').set('done').then(function(){ showPopup('✅','Thành công!','Đã duyệt'); loadGiftcodes(); }); }
+function rejectGiftcode(u, id) { if (!confirm('Từ chối?')) return; db.ref('giftcodes/'+u+'/'+id+'/status').set('rejected').then(function(){ showPopup('⚠️','Đã từ chối',''); loadGiftcodes(); }); }
+function deleteGiftcode(u, id) { if (!confirm('XÓA?')) return; db.ref('giftcodes/'+u+'/'+id).remove().then(function(){ showPopup('🗑️','Đã xóa',''); loadGiftcodes(); }); }
 
-function filterGiftcodes(status, btn) {
-    var section = btn.closest('.admin-section');
-    section.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
-    btn.classList.add('active');
-    currentGiftFilter = status;
-    loadGiftcodes();
-}
-
-function approveGiftcode(username, gcId) {
-    if (!confirm('Duyệt giftcode của ' + username + '?')) return;
-    db.ref('giftcodes/' + username + '/' + gcId + '/status').set('done').then(function() {
-        showPopup('✅', 'Duyệt thành công!', 'Giftcode đã được duyệt');
-        loadGiftcodes();
-    }).catch(function(e) { showPopup('❌', 'Lỗi', e.message); });
-}
-
-function rejectGiftcode(username, gcId) {
-    if (!confirm('Từ chối giftcode của ' + username + '?')) return;
-    db.ref('giftcodes/' + username + '/' + gcId + '/status').set('rejected').then(function() {
-        showPopup('⚠️', 'Đã từ chối', 'Giftcode đã bị từ chối');
-        loadGiftcodes();
-    }).catch(function(e) { showPopup('❌', 'Lỗi', e.message); });
-}
-
-function deleteGiftcode(username, gcId) {
-    if (!confirm('XÓA giftcode này?')) return;
-    db.ref('giftcodes/' + username + '/' + gcId).remove().then(function() {
-        showPopup('🗑️', 'Đã xóa', 'Giftcode đã được xóa');
-        loadGiftcodes();
-    }).catch(function(e) { showPopup('❌', 'Lỗi', e.message); });
-}
-
-// ===== DUYỆT NẠP TIỀN =====
+// ===== CARDS =====
 function loadCards() {
     console.log('🔍 Load cards...');
     var tbody = document.getElementById('cardsBody');
     tbody.innerHTML = '<tr><td colspan="7" class="empty-state">⏳ Đang tải...</td></tr>';
 
-    db.ref('cards').once('value').then(function(snapshot) {
-        var data = snapshot.val();
+    db.ref('cards').once('value').then(function(snap) {
+        var data = snap.val();
         console.log('📦 Cards:', data);
-
-        if (!data) {
-            tbody.innerHTML = '<tr><td colspan="7" class="empty-state">📭 Không có thẻ nào</td></tr>';
-            return;
-        }
+        if (!data) { tbody.innerHTML = '<tr><td colspan="7" class="empty-state">📭 Không có thẻ</td></tr>'; return; }
 
         var all = [];
-        Object.keys(data).forEach(function(username) {
-            var userCards = data[username];
-            if (userCards && typeof userCards === 'object') {
-                Object.keys(userCards).forEach(function(key) {
-                    var card = userCards[key];
-                    card.id = key;
-                    card.username = username;
-                    all.push(card);
-                });
-            }
+        Object.keys(data).forEach(function(u) {
+            Object.keys(data[u]).forEach(function(k) {
+                var c = data[u][k];
+                c.id = k;
+                c.username = u;
+                all.push(c);
+            });
         });
+        all.sort(function(a,b) { return (b.time||0) - (a.time||0); });
+        var filtered = all.filter(function(c) { return currentCardFilter === 'all' || c.status === currentCardFilter; });
 
-        all.sort(function(a, b) { return (b.time || 0) - (a.time || 0); });
-        var filtered = all.filter(function(c) {
-            if (currentCardFilter === 'all') return true;
-            return c.status === currentCardFilter;
-        });
-
-        if (filtered.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="7" class="empty-state">📭 Không có thẻ nào</td></tr>';
-            return;
-        }
+        if (filtered.length === 0) { tbody.innerHTML = '<tr><td colspan="7" class="empty-state">📭 Không có thẻ</td></tr>'; return; }
 
         var html = '';
-        filtered.forEach(function(card) {
-            var statusHtml = card.status === 'pending' ? '<span class="status-badge status-pending">⏳ Chờ duyệt</span>' :
-                             card.status === 'done' ? '<span class="status-badge status-done">✅ Đã duyệt</span>' :
-                             '<span class="status-badge status-rejected">❌ Từ chối</span>';
-            
-            var actionBtns = '';
-            if (card.status === 'pending') {
-                actionBtns = '<button class="btn-action btn-approve" onclick="approveCard(\'' + card.username + '\', \'' + card.id + '\')">✅ Duyệt</button>' +
-                             '<button class="btn-action btn-reject" onclick="rejectCard(\'' + card.username + '\', \'' + card.id + '\')">❌ Từ chối</button>';
+        filtered.forEach(function(c) {
+            var s = c.status === 'pending' ? '<span class="status-badge status-pending">⏳ Chờ duyệt</span>' :
+                    c.status === 'done' ? '<span class="status-badge status-done">✅ Đã duyệt</span>' :
+                    '<span class="status-badge status-rejected">❌ Từ chối</span>';
+            var btn = '';
+            if (c.status === 'pending') {
+                btn = '<button class="btn-action btn-approve" onclick="approveCard(\''+c.username+'\',\''+c.id+'\')">✅ Duyệt</button>' +
+                      '<button class="btn-action btn-reject" onclick="rejectCard(\''+c.username+'\',\''+c.id+'\')">❌ Từ chối</button>';
             }
-            actionBtns += '<button class="btn-action btn-delete" onclick="deleteCard(\'' + card.username + '\', \'' + card.id + '\')">🗑️</button>';
-
-            html += '<tr>' +
-                '<td><div class="user-cell"><div class="user-avatar-small">' + card.username.charAt(0).toUpperCase() + '</div>' + card.username + '</div></td>' +
-                '<td>' + (card.network || '-') + '</td>' +
-                '<td class="td-points">' + (card.amount || 0).toLocaleString('vi-VN') + 'đ</td>' +
-                '<td><span class="td-code-text">' + (card.code || '-') + '</span></td>' +
-                '<td><span class="td-code-text">' + (card.serial || '-') + '</span></td>' +
-                '<td>' + statusHtml + '</td>' +
-                '<td><div class="action-btns">' + actionBtns + '</div></td>' +
-                '</tr>';
+            btn += '<button class="btn-action btn-delete" onclick="deleteCard(\''+c.username+'\',\''+c.id+'\')">🗑️</button>';
+            html += '<tr><td><div class="user-cell"><div class="user-avatar-small">'+c.username.charAt(0).toUpperCase()+'</div>'+c.username+'</div></td><td>'+(c.network||'-')+'</td><td class="td-points">'+(c.amount||0).toLocaleString('vi-VN')+'đ</td><td><span class="td-code-text">'+(c.code||'-')+'</span></td><td><span class="td-code-text">'+(c.serial||'-')+'</span></td><td>'+s+'</td><td><div class="action-btns">'+btn+'</div></td></tr>';
         });
         tbody.innerHTML = html;
     }).catch(function(e) {
-        console.error('Lỗi:', e);
-        tbody.innerHTML = '<tr><td colspan="7" class="empty-state">❌ Lỗi: ' + e.message + '</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-state">❌ Lỗi: '+e.message+'</td></tr>';
     });
 }
-
-function filterCards(status, btn) {
-    var section = btn.closest('.admin-section');
-    section.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
-    btn.classList.add('active');
-    currentCardFilter = status;
-    loadCards();
-}
-
-function approveCard(username, cardId) {
-    db.ref('cards/' + username + '/' + cardId).once('value').then(function(snap) {
-        var card = snap.val();
-        if (!card) { showPopup('❌', 'Lỗi', 'Thẻ không tồn tại'); return; }
-        if (card.status === 'done') { showPopup('⚠️', 'Đã duyệt rồi', 'Thẻ này đã duyệt'); return; }
-        
-        if (!confirm('Duyệt thẻ ' + card.amount.toLocaleString('vi-VN') + 'đ cho ' + username + '?')) return;
-        
-        db.ref('cards/' + username + '/' + cardId + '/status').set('done').then(function() {
-            return addUserBalance(username, card.amount);
+function filterCards(s, b) { b.closest('.admin-section').querySelectorAll('.filter-btn').forEach(function(x){x.classList.remove('active');}); b.classList.add('active'); currentCardFilter = s; loadCards(); }
+function approveCard(u, id) {
+    db.ref('cards/'+u+'/'+id).once('value').then(function(snap) {
+        var c = snap.val();
+        if (!c) { showPopup('❌','Lỗi','Thẻ không tồn tại'); return; }
+        if (c.status === 'done') { showPopup('⚠️','Đã duyệt rồi',''); return; }
+        if (!confirm('Duyệt '+c.amount.toLocaleString('vi-VN')+'đ cho '+u+'?')) return;
+        db.ref('cards/'+u+'/'+id+'/status').set('done').then(function() {
+            return addUserBalance(u, c.amount);
         }).then(function() {
-            showPopup('✅', 'Duyệt thành công!', 'Đã cộng ' + card.amount.toLocaleString('vi-VN') + 'đ');
-            loadCards();
-            loadStats();
-            loadUsers();
-        }).catch(function(e) { showPopup('❌', 'Lỗi', e.message); });
+            showPopup('✅','Thành công!','Đã cộng '+c.amount.toLocaleString('vi-VN')+'đ');
+            loadCards(); loadStats(); loadUsers();
+        });
     });
 }
+function rejectCard(u, id) { if (!confirm('Từ chối?')) return; db.ref('cards/'+u+'/'+id+'/status').set('rejected').then(function(){ showPopup('⚠️','Đã từ chối',''); loadCards(); }); }
+function deleteCard(u, id) { if (!confirm('XÓA?')) return; db.ref('cards/'+u+'/'+id).remove().then(function(){ showPopup('🗑️','Đã xóa',''); loadCards(); }); }
 
-function rejectCard(username, cardId) {
-    if (!confirm('Từ chối thẻ này?')) return;
-    db.ref('cards/' + username + '/' + cardId + '/status').set('rejected').then(function() {
-        showPopup('⚠️', 'Đã từ chối', 'Thẻ đã bị từ chối');
-        loadCards();
-    });
-}
-
-function deleteCard(username, cardId) {
-    if (!confirm('XÓA thẻ này?')) return;
-    db.ref('cards/' + username + '/' + cardId).remove().then(function() {
-        showPopup('🗑️', 'Đã xóa', 'Thẻ đã được xóa');
-        loadCards();
-    });
-}
-
-// ===== DUYỆT LINK =====
+// ===== LINKS =====
 function loadLinks() {
     console.log('🔍 Load links...');
     var tbody = document.getElementById('linksBody');
     tbody.innerHTML = '<tr><td colspan="6" class="empty-state">⏳ Đang tải...</td></tr>';
 
-    db.ref('links').once('value').then(function(snapshot) {
-        var data = snapshot.val();
+    db.ref('links').once('value').then(function(snap) {
+        var data = snap.val();
         console.log('📦 Links:', data);
-
-        if (!data) {
-            tbody.innerHTML = '<tr><td colspan="6" class="empty-state">📭 Không có link nào</td></tr>';
-            return;
-        }
+        if (!data) { tbody.innerHTML = '<tr><td colspan="6" class="empty-state">📭 Không có link</td></tr>'; return; }
 
         var all = [];
-        Object.keys(data).forEach(function(username) {
-            var userLinks = data[username];
-            if (userLinks && typeof userLinks === 'object') {
-                Object.keys(userLinks).forEach(function(key) {
-                    var link = userLinks[key];
-                    link.id = key;
-                    link.username = username;
-                    all.push(link);
-                });
-            }
+        Object.keys(data).forEach(function(u) {
+            Object.keys(data[u]).forEach(function(k) {
+                var l = data[u][k];
+                l.id = k;
+                l.username = u;
+                all.push(l);
+            });
         });
+        all.sort(function(a,b) { return (b.time||0) - (a.time||0); });
+        var filtered = all.filter(function(l) { return currentFilter === 'all' || l.status === currentFilter; });
 
-        all.sort(function(a, b) { return (b.time || 0) - (a.time || 0); });
-        var filtered = all.filter(function(l) {
-            if (currentFilter === 'all') return true;
-            return l.status === currentFilter;
-        });
-
-        if (filtered.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" class="empty-state">📭 Không có link nào</td></tr>';
-            return;
-        }
+        if (filtered.length === 0) { tbody.innerHTML = '<tr><td colspan="6" class="empty-state">📭 Không có link</td></tr>'; return; }
 
         var html = '';
-        filtered.forEach(function(link) {
-            var statusHtml = link.status === 'pending' ? '<span class="status-badge status-pending">⏳ Chờ duyệt</span>' :
-                             link.status === 'done' ? '<span class="status-badge status-done">✅ Đã duyệt</span>' :
-                             '<span class="status-badge status-rejected">❌ Từ chối</span>';
-            
-            var actionBtns = '';
-            if (link.status === 'pending') {
-                actionBtns = '<button class="btn-action btn-approve" onclick="approveLink(\'' + link.username + '\', \'' + link.id + '\')">✅ Duyệt</button>' +
-                             '<button class="btn-action btn-reject" onclick="rejectLink(\'' + link.username + '\', \'' + link.id + '\')">❌ Từ chối</button>';
+        filtered.forEach(function(l) {
+            var s = l.status === 'pending' ? '<span class="status-badge status-pending">⏳ Chờ duyệt</span>' :
+                    l.status === 'done' ? '<span class="status-badge status-done">✅ Đã duyệt</span>' :
+                    '<span class="status-badge status-rejected">❌ Từ chối</span>';
+            var btn = '';
+            if (l.status === 'pending') {
+                btn = '<button class="btn-action btn-approve" onclick="approveLink(\''+l.username+'\',\''+l.id+'\')">✅ Duyệt</button>' +
+                      '<button class="btn-action btn-reject" onclick="rejectLink(\''+l.username+'\',\''+l.id+'\')">❌ Từ chối</button>';
             }
-            actionBtns += '<button class="btn-action btn-delete" onclick="deleteLinkConfirm(\'' + link.username + '\', \'' + link.id + '\')">🗑️</button>';
-
-            html += '<tr>' +
-                '<td><div class="user-cell"><div class="user-avatar-small">' + link.username.charAt(0).toUpperCase() + '</div>' + link.username + '</div></td>' +
-                '<td>' + link.service + '</td>' +
-                '<td><span class="td-link">' + link.link + '</span></td>' +
-                '<td class="td-points">+' + link.points + 'đ</td>' +
-                '<td>' + statusHtml + '</td>' +
-                '<td><div class="action-btns">' + actionBtns + '</div></td>' +
-                '</tr>';
+            btn += '<button class="btn-action btn-delete" onclick="deleteLinkConfirm(\''+l.username+'\',\''+l.id+'\')">🗑️</button>';
+            html += '<tr><td><div class="user-cell"><div class="user-avatar-small">'+l.username.charAt(0).toUpperCase()+'</div>'+l.username+'</div></td><td>'+l.service+'</td><td><span class="td-link">'+l.link+'</span></td><td class="td-points">+'+l.points+'đ</td><td>'+s+'</td><td><div class="action-btns">'+btn+'</div></td></tr>';
         });
         tbody.innerHTML = html;
     }).catch(function(e) {
-        console.error('Lỗi:', e);
-        tbody.innerHTML = '<tr><td colspan="6" class="empty-state">❌ Lỗi: ' + e.message + '</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" class="empty-state">❌ Lỗi: '+e.message+'</td></tr>';
     });
 }
-
-function filterLinks(status, btn) {
-    var section = btn.closest('.admin-section');
-    section.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
-    btn.classList.add('active');
-    currentFilter = status;
-    loadLinks();
-}
-
-function approveLink(username, linkId) {
-    if (!confirm('Duyệt link cho ' + username + '?')) return;
-    db.ref('links/' + username + '/' + linkId).once('value').then(function(snap) {
-        var link = snap.val();
-        if (!link) { showPopup('❌', 'Lỗi', 'Link không tồn tại'); return; }
-        if (link.status === 'done') { showPopup('⚠️', 'Đã duyệt rồi', ''); return; }
-        
-        db.ref('links/' + username + '/' + linkId + '/status').set('done').then(function() {
-            return addUserBalance(username, link.points);
+function filterLinks(s, b) { b.closest('.admin-section').querySelectorAll('.filter-btn').forEach(function(x){x.classList.remove('active');}); b.classList.add('active'); currentFilter = s; loadLinks(); }
+function approveLink(u, id) {
+    if (!confirm('Duyệt link cho '+u+'?')) return;
+    db.ref('links/'+u+'/'+id).once('value').then(function(snap) {
+        var l = snap.val();
+        if (!l) { showPopup('❌','Lỗi','Link không tồn tại'); return; }
+        if (l.status === 'done') { showPopup('⚠️','Đã duyệt rồi',''); return; }
+        db.ref('links/'+u+'/'+id+'/status').set('done').then(function() {
+            return addUserBalance(u, l.points);
         }).then(function() {
-            showPopup('✅', 'Duyệt thành công!', 'Đã cộng ' + link.points + 'đ');
-            loadLinks();
-            loadStats();
-            loadUsers();
+            showPopup('✅','Thành công!','Đã cộng '+l.points+'đ');
+            loadLinks(); loadStats(); loadUsers();
         });
     });
 }
+function rejectLink(u, id) { if (!confirm('Từ chối?')) return; db.ref('links/'+u+'/'+id+'/status').set('rejected').then(function(){ showPopup('⚠️','Đã từ chối',''); loadLinks(); }); }
+function deleteLinkConfirm(u, id) { if (!confirm('XÓA?')) return; db.ref('links/'+u+'/'+id).remove().then(function(){ showPopup('🗑️','Đã xóa',''); loadLinks(); }); }
 
-function rejectLink(username, linkId) {
-    if (!confirm('Từ chối link này?')) return;
-    db.ref('links/' + username + '/' + linkId + '/status').set('rejected').then(function() {
-        showPopup('⚠️', 'Đã từ chối', '');
-        loadLinks();
-    });
-}
-
-function deleteLinkConfirm(username, linkId) {
-    if (!confirm('XÓA link này?')) return;
-    db.ref('links/' + username + '/' + linkId).remove().then(function() {
-        showPopup('🗑️', 'Đã xóa', '');
-        loadLinks();
-    });
-}
-
-// ===== QUẢN LÝ USER =====
+// ===== STATS & USERS =====
 function loadStats() {
     db.ref('links').once('value').then(function(snap) {
         var data = snap.val() || {};
-        var pending = 0, done = 0, rejected = 0;
+        var p = 0, d = 0, r = 0;
         Object.keys(data).forEach(function(u) {
             Object.keys(data[u]).forEach(function(k) {
                 var s = data[u][k].status;
-                if (s === 'pending') pending++;
-                else if (s === 'done') done++;
-                else if (s === 'rejected') rejected++;
+                if (s === 'pending') p++;
+                else if (s === 'done') d++;
+                else if (s === 'rejected') r++;
             });
         });
-        document.getElementById('statPending').textContent = pending;
-        document.getElementById('statDone').textContent = done;
-        document.getElementById('statRejected').textContent = rejected;
+        document.getElementById('statPending').textContent = p;
+        document.getElementById('statDone').textContent = d;
+        document.getElementById('statRejected').textContent = r;
     });
-    
     db.ref('users').once('value').then(function(snap) {
         var data = snap.val() || {};
         document.getElementById('statUsers').textContent = Object.keys(data).length;
@@ -567,15 +378,47 @@ function loadUsers() {
     var tbody = document.getElementById('usersBody');
     tbody.innerHTML = '<tr><td colspan="4" class="empty-state">⏳ Đang tải...</td></tr>';
 
-    db.ref('users').once('value').then(function(snapshot) {
-        var data = snapshot.val();
+    db.ref('users').once('value').then(function(snap) {
+        var data = snap.val();
         console.log('📦 Users:', data);
+        if (!data) { tbody.innerHTML = '<tr><td colspan="4" class="empty-state">📭 Chưa có user</td></tr>'; return; }
 
-        if (!data) {
-            tbody.innerHTML = '<tr><td colspan="4" class="empty-state">📭 Chưa có user nào</td></tr>';
-            return;
-        }
-
-        var users = Object.values(data);
         var html = '';
-        users.forEach
+        Object.values(data).forEach(function(u) {
+            html += '<tr><td><div class="user-cell"><div class="user-avatar-small">'+u.username.charAt(0).toUpperCase()+'</div>'+u.username+'</div></td><td class="td-points">'+(u.balance||0).toLocaleString('vi-VN')+'đ</td><td>'+(u.vipLevel||0)+'</td><td><div class="action-btns"><button class="btn-action btn-approve" onclick="addBalance(\''+u.username+'\')">💰 Cộng</button><button class="btn-action btn-reject" onclick="subtractBalance(\''+u.username+'\')">💸 Trừ</button></div></td></tr>';
+        });
+        tbody.innerHTML = html;
+    }).catch(function(e) {
+        tbody.innerHTML = '<tr><td colspan="4" class="empty-state">❌ Lỗi: '+e.message+'</td></tr>';
+    });
+}
+
+function addBalance(u) {
+    var a = prompt('Cộng bao nhiêu cho '+u+'?');
+    if (!a) return;
+    a = parseInt(a);
+    if (isNaN(a) || a <= 0) { showPopup('⚠️','Lỗi','Số không hợp lệ'); return; }
+    addUserBalance(u, a).then(function() {
+        showPopup('✅','Thành công!','Đã cộng '+a.toLocaleString('vi-VN')+'đ');
+        loadUsers(); loadStats();
+    });
+}
+
+function subtractBalance(u) {
+    var a = prompt('Trừ bao nhiêu của '+u+'?');
+    if (!a) return;
+    a = parseInt(a);
+    if (isNaN(a) || a <= 0) { showPopup('⚠️','Lỗi','Số không hợp lệ'); return; }
+    getUserBalance(u).then(function(b) {
+        if (b < a) { showPopup('⚠️','Không đủ tiền', u+' chỉ có '+b.toLocaleString('vi-VN')+'đ'); return; }
+        if (!confirm('Trừ '+a.toLocaleString('vi-VN')+'đ?')) return;
+        subtractUserBalance(u, a).then(function() {
+            showPopup('✅','Thành công!','Đã trừ '+a.toLocaleString('vi-VN')+'đ');
+            loadUsers(); loadStats();
+        });
+    });
+}
+</script>
+
+</body>
+</html>
