@@ -120,6 +120,16 @@
             flex-shrink: 0;
         }
         .td-link { color: #00aaff; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; }
+        .td-code-text {
+            color: #ffcc00;
+            font-family: monospace;
+            font-size: 12px;
+            max-width: 130px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: inline-block;
+        }
         .td-points { color: #00ff88; font-weight: 700; }
         .status-badge {
             padding: 4px 10px; border-radius: 6px;
@@ -130,6 +140,7 @@
         .status-pending { background: rgba(255, 200, 0, 0.1); color: #ffcc00; border: 1px solid rgba(255, 200, 0, 0.2); }
         .status-done { background: rgba(0, 255, 136, 0.1); color: #00ff88; border: 1px solid rgba(0, 255, 136, 0.2); }
         .status-rejected { background: rgba(255, 50, 50, 0.1); color: #ff6666; border: 1px solid rgba(255, 50, 50, 0.2); }
+        .status-processing { background: rgba(100, 100, 255, 0.1); color: #88aaff; border: 1px solid rgba(100, 100, 255, 0.2); }
         .action-btns { display: flex; gap: 6px; }
         .btn-action {
             padding: 6px 12px;
@@ -208,6 +219,42 @@
             </div>
         </div>
 
+        <!-- DUYỆT NẠP TIỀN -->
+        <div class="admin-section">
+            <div class="section-header">
+                <h2>💳 Duyệt Nạp Tiền</h2>
+                <button class="btn-refresh" onclick="loadCards()">🔄 Làm mới</button>
+            </div>
+
+            <div class="filter-bar">
+                <button class="filter-btn active" onclick="filterCards('pending', this)">⏳ Chờ duyệt</button>
+                <button class="filter-btn" onclick="filterCards('done', this)">✅ Đã duyệt</button>
+                <button class="filter-btn" onclick="filterCards('rejected', this)">❌ Từ chối</button>
+                <button class="filter-btn" onclick="filterCards('all', this)">🌐 Tất cả</button>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Nhà mạng</th>
+                            <th>Mệnh giá</th>
+                            <th>Mã thẻ</th>
+                            <th>Serial</th>
+                            <th>Trạng thái</th>
+                            <th>Thời gian</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cardsBody">
+                        <tr><td colspan="8" class="empty-state">⏳ Đang tải...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- DUYỆT LINK -->
         <div class="admin-section">
             <div class="section-header">
                 <h2>🔗 Duyệt Link</h2>
@@ -241,6 +288,7 @@
             </div>
         </div>
 
+        <!-- QUẢN LÝ USER -->
         <div class="admin-section">
             <div class="section-header">
                 <h2>👥 Quản lý User</h2>
@@ -282,6 +330,7 @@
 
 <script>
     var currentFilter = 'pending';
+    var currentCardFilter = 'pending';
 
     window.addEventListener('DOMContentLoaded', async function() {
         var user = localStorage.getItem('currentUser');
@@ -301,11 +350,170 @@
         }
 
         console.log('✅ Admin đã xác thực:', user);
+        loadCards();
         loadLinks();
         loadStats();
         loadUsers();
     });
 
+    // ==========================================
+    // DUYỆT NẠP TIỀN
+    // ==========================================
+    async function loadCards() {
+        var tbody = document.getElementById('cardsBody');
+        tbody.innerHTML = '<tr><td colspan="8" class="empty-state">⏳ Đang tải...</td></tr>';
+
+        try {
+            var snapshot = await db.ref('cards').once('value');
+            var data = snapshot.val();
+
+            if (!data) {
+                tbody.innerHTML = '<tr><td colspan="8" class="empty-state">📭 Không có thẻ nào</td></tr>';
+                return;
+            }
+
+            var allCards = [];
+            Object.keys(data).forEach(function(username) {
+                var userCards = data[username];
+                if (userCards && typeof userCards === 'object') {
+                    Object.keys(userCards).forEach(function(key) {
+                        var card = userCards[key];
+                        if (card && typeof card === 'object') {
+                            card.id = key;
+                            card.username = username;
+                            allCards.push(card);
+                        }
+                    });
+                }
+            });
+
+            allCards.sort(function(a, b) {
+                return (b.time || 0) - (a.time || 0);
+            });
+
+            var filtered = allCards.filter(function(c) {
+                if (currentCardFilter === 'all') return true;
+                return c.status === currentCardFilter;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="empty-state">📭 Không có thẻ nào</td></tr>';
+                return;
+            }
+
+            var html = '';
+            filtered.forEach(function(card) {
+                var statusHtml = '';
+                if (card.status === 'pending') {
+                    statusHtml = '<span class="status-badge status-pending">⏳ Chờ duyệt</span>';
+                } else if (card.status === 'done') {
+                    statusHtml = '<span class="status-badge status-done">✅ Đã duyệt</span>';
+                } else if (card.status === 'processing') {
+                    statusHtml = '<span class="status-badge status-processing">🔄 Đang xử lý</span>';
+                } else {
+                    statusHtml = '<span class="status-badge status-rejected">❌ Từ chối</span>';
+                }
+
+                var date = new Date(card.time);
+                var dateStr = date.getFullYear() + '-' + 
+                    String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+                    String(date.getDate()).padStart(2, '0');
+                var timeStr = String(date.getHours()).padStart(2, '0') + ':' + 
+                    String(date.getMinutes()).padStart(2, '0');
+
+                var actionBtns = '';
+                if (card.status === 'pending') {
+                    actionBtns = 
+                        '<button class="btn-action btn-approve" onclick="approveCard(\'' + card.username + '\', \'' + card.id + '\')">✅ Duyệt</button>' +
+                        '<button class="btn-action btn-reject" onclick="rejectCard(\'' + card.username + '\', \'' + card.id + '\')">❌ Từ chối</button>';
+                }
+                actionBtns += '<button class="btn-action btn-delete" onclick="deleteCard(\'' + card.username + '\', \'' + card.id + '\')">🗑️</button>';
+
+                html += '<tr>' +
+                    '<td><div class="user-cell"><div class="user-avatar-small">' + card.username.charAt(0).toUpperCase() + '</div>' + card.username + '</div></td>' +
+                    '<td>' + (card.network || '-') + '</td>' +
+                    '<td class="td-points">' + (card.amount || 0).toLocaleString('vi-VN') + 'đ</td>' +
+                    '<td><span class="td-code-text" title="' + (card.code || '') + '">' + (card.code || '-') + '</span></td>' +
+                    '<td><span class="td-code-text" title="' + (card.serial || '') + '">' + (card.serial || '-') + '</span></td>' +
+                    '<td>' + statusHtml + '</td>' +
+                    '<td>' + dateStr + '<br><span style="color:#888;font-size:11px;">' + timeStr + '</span></td>' +
+                    '<td><div class="action-btns">' + actionBtns + '</div></td>' +
+                    '</tr>';
+            });
+            tbody.innerHTML = html;
+
+        } catch (e) {
+            console.error('Lỗi load cards:', e);
+            tbody.innerHTML = '<tr><td colspan="8" class="empty-state">❌ Lỗi: ' + e.message + '</td></tr>';
+        }
+    }
+
+    function filterCards(status, btn) {
+        var section = btn.closest('.admin-section');
+        section.querySelectorAll('.filter-btn').forEach(function(b) {
+            b.classList.remove('active');
+        });
+        btn.classList.add('active');
+        currentCardFilter = status;
+        loadCards();
+    }
+
+    async function approveCard(username, cardId) {
+        var card = await db.ref('cards/' + username + '/' + cardId).once('value').then(function(s) { return s.val(); });
+        if (!card) { showPopup('❌', 'Lỗi', 'Thẻ không tồn tại!'); return; }
+        if (card.status === 'done') { showPopup('⚠️', 'Đã duyệt rồi', 'Thẻ này đã được duyệt!'); return; }
+        
+        if (!confirm('XÁC NHẬN DUYỆT THẺ\n\n' +
+                     'User: ' + username + '\n' +
+                     'Nhà mạng: ' + card.network + '\n' +
+                     'Mệnh giá: ' + card.amount.toLocaleString('vi-VN') + 'đ\n\n' +
+                     'Cộng ' + card.amount.toLocaleString('vi-VN') + 'đ cho user?')) {
+            return;
+        }
+
+        try {
+            await db.ref('cards/' + username + '/' + cardId + '/status').set('processing');
+            await addUserBalance(username, card.amount);
+            await db.ref('cards/' + username + '/' + cardId + '/status').set('done');
+            
+            showPopup('✅', 'Duyệt thành công!', 
+                'Đã cộng ' + card.amount.toLocaleString('vi-VN') + 'đ cho ' + username);
+            
+            loadCards();
+            loadStats();
+            loadUsers();
+        } catch (e) {
+            showPopup('❌', 'Lỗi', e.message);
+        }
+    }
+
+    async function rejectCard(username, cardId) {
+        if (!confirm('Từ chối thẻ này của ' + username + '?')) return;
+        try {
+            await db.ref('cards/' + username + '/' + cardId + '/status').set('rejected');
+            showPopup('⚠️', 'Đã từ chối', 'Thẻ của ' + username + ' đã bị từ chối');
+            loadCards();
+            loadStats();
+        } catch (e) {
+            showPopup('❌', 'Lỗi', e.message);
+        }
+    }
+
+    async function deleteCard(username, cardId) {
+        if (!confirm('XÓA VĨNH VIỄN thẻ này?\nKhông thể khôi phục!')) return;
+        try {
+            await db.ref('cards/' + username + '/' + cardId).remove();
+            showPopup('🗑️', 'Đã xóa', 'Thẻ đã được xóa vĩnh viễn');
+            loadCards();
+            loadStats();
+        } catch (e) {
+            showPopup('❌', 'Lỗi', e.message);
+        }
+    }
+
+    // ==========================================
+    // DUYỆT LINK
+    // ==========================================
     async function loadStats() {
         try {
             var links = await getAllPendingLinks();
@@ -418,7 +626,8 @@
     }
 
     function filterLinks(status, btn) {
-        document.querySelectorAll('.filter-btn').forEach(function(b) {
+        var section = btn.closest('.admin-section');
+        section.querySelectorAll('.filter-btn').forEach(function(b) {
             b.classList.remove('active');
         });
         btn.classList.add('active');
@@ -426,6 +635,9 @@
         loadLinks();
     }
 
+    // ==========================================
+    // QUẢN LÝ USER
+    // ==========================================
     async function loadUsers() {
         var tbody = document.getElementById('usersBody');
         tbody.innerHTML = '<tr><td colspan="5" class="empty-state">⏳ Đang tải...</td></tr>';
