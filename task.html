@@ -6,7 +6,6 @@
     <title>Nhiệm vụ - NiNi Store</title>
     <link rel="stylesheet" href="layout.css">
     <style>
-        /* ===== THÔNG BÁO ===== */
         .notice-bar {
             background: rgba(10, 10, 26, 0.9);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -41,7 +40,6 @@
             font-weight: 700;
         }
 
-        /* ===== ĐẶC QUYỀN ===== */
         .privilege-bar {
             background: rgba(10, 10, 26, 0.9);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -71,7 +69,6 @@
         }
         .discord-link:hover { color: #66ccff; }
 
-        /* ===== CARDS GRID ===== */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -88,7 +85,6 @@
         .card:hover {
             border-color: rgba(150, 100, 255, 0.3);
             transform: translateY(-3px);
-            box-shadow: 0 10px 40px rgba(150, 100, 255, 0.1);
         }
         .card-header {
             display: flex;
@@ -122,7 +118,6 @@
         .tag-gtraffic { color: #00ff88; border-color: rgba(0, 255, 136, 0.3); background: rgba(0, 255, 136, 0.1); }
         .tag-gtraffic-direct { color: #00ff88; border-color: rgba(0, 255, 136, 0.3); background: rgba(0, 255, 136, 0.1); }
         .tag-badge-sumi { color: #ff44aa; border-color: rgba(255, 68, 170, 0.3); background: rgba(255, 68, 170, 0.1); }
-        .tag-badge-booster { color: #aa66ff; border-color: rgba(170, 102, 255, 0.3); background: rgba(170, 102, 255, 0.1); }
         .card-price { text-align: right; }
         .card-price .current { color: #00ff88; font-size: 22px; font-weight: 700; }
         .card-price .unit { color: #888; font-size: 12px; }
@@ -179,7 +174,6 @@
             transform: none;
         }
 
-        /* ===== LỊCH SỬ ===== */
         .history-box {
             background: rgba(10, 10, 26, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -224,7 +218,6 @@
             border-color: transparent;
         }
 
-        /* ===== BẢNG ===== */
         .table-wrap { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; font-size: 13px; }
         thead th {
@@ -344,7 +337,6 @@
     </nav>
 
     <main class="content" id="content">
-
         <div class="notice-bar">
             <div class="notice-item">
                 <div class="notice-icon blue">🕐</div>
@@ -379,7 +371,6 @@
         </div>
 
         <div class="cards-grid">
-            <!-- Card Layma -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-logo-wrap">
@@ -394,18 +385,12 @@
                 </div>
                 <h3 class="card-title">Vượt link Layma</h3>
                 <div class="card-limit">
-                    <div class="limit-row">
-                        <span>Hạn ngạch hôm nay</span>
-                        <span class="count" id="count-Layma">0/2 Lượt</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progress-Layma" style="width:0%;"></div>
-                    </div>
+                    <div class="limit-row"><span>Hạn ngạch hôm nay</span><span class="count" id="count-Layma">0/2 Lượt</span></div>
+                    <div class="progress-bar"><div class="progress-fill" id="progress-Layma" style="width:0%;"></div></div>
                 </div>
                 <button class="btn-create" id="btn-Layma" onclick="createLink('Layma', 510)">➜ Tạo link Layma (510đ)</button>
             </div>
 
-            <!-- Card TrafficVN -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-logo-wrap">
@@ -420,18 +405,12 @@
                 </div>
                 <h3 class="card-title">Vượt link TrafficVN</h3>
                 <div class="card-limit">
-                    <div class="limit-row">
-                        <span>Hạn ngạch hôm nay</span>
-                        <span class="count" id="count-TrafficVN">0/2 Lượt</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progress-TrafficVN" style="width:0%;"></div>
-                    </div>
+                    <div class="limit-row"><span>Hạn ngạch hôm nay</span><span class="count" id="count-TrafficVN">0/2 Lượt</span></div>
+                    <div class="progress-bar"><div class="progress-fill" id="progress-TrafficVN" style="width:0%;"></div></div>
                 </div>
                 <button class="btn-create" id="btn-TrafficVN" onclick="createLink('TrafficVN', 260)">➜ Tạo link TrafficVN (260đ)</button>
             </div>
 
-            <!-- Card Gtraffic -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-logo-wrap">
@@ -446,18 +425,12 @@
                 </div>
                 <h3 class="card-title">Vượt link Gtraffic</h3>
                 <div class="card-limit">
-                    <div class="limit-row">
-                        <span>Hạn ngạch hôm nay</span>
-                        <span class="count" id="count-Gtraffic">0/2 Lượt</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progress-Gtraffic" style="width:0%;"></div>
-                    </div>
+                    <div class="limit-row"><span>Hạn ngạch hôm nay</span><span class="count" id="count-Gtraffic">0/2 Lượt</span></div>
+                    <div class="progress-bar"><div class="progress-fill" id="progress-Gtraffic" style="width:0%;"></div></div>
                 </div>
                 <button class="btn-create" id="btn-Gtraffic" onclick="createLink('Gtraffic', 360)">➜ Tạo link Gtraffic (360đ)</button>
             </div>
 
-            <!-- Card Gtraffic Direct -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-logo-wrap">
@@ -472,13 +445,8 @@
                 </div>
                 <h3 class="card-title">Vượt link Gtraffic Direct</h3>
                 <div class="card-limit">
-                    <div class="limit-row">
-                        <span>Hạn ngạch hôm nay</span>
-                        <span class="count" id="count-GtrafficDirect">0/2 Lượt</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progress-GtrafficDirect" style="width:0%;"></div>
-                    </div>
+                    <div class="limit-row"><span>Hạn ngạch hôm nay</span><span class="count" id="count-GtrafficDirect">0/2 Lượt</span></div>
+                    <div class="progress-bar"><div class="progress-fill" id="progress-GtrafficDirect" style="width:0%;"></div></div>
                 </div>
                 <button class="btn-create" id="btn-GtrafficDirect" onclick="createLink('Gtraffic Direct', 360)">➜ Tạo link Gtraffic Direct (360đ)</button>
             </div>
@@ -512,7 +480,6 @@
                 </table>
             </div>
         </div>
-
     </main>
 </div>
 
@@ -534,7 +501,7 @@
 <script>
     var currentFilter = 'all';
     var currentUser = localStorage.getItem('currentUser');
-    var MAX_LIMIT = 2; // Tối đa 2 lượt/ngày
+    var MAX_LIMIT = 2;
 
     // ===== LẤY NGÀY HÔM NAY =====
     function getTodayStr() {
@@ -544,7 +511,7 @@
                String(d.getDate()).padStart(2, '0');
     }
 
-    // ===== LẤY SỐ LƯỢT ĐÃ DÙNG HÔM NAY =====
+    // ===== LẤY SỐ LƯỢT ĐÃ DÙNG =====
     async function getUsedCount(service) {
         try {
             var todayStr = getTodayStr();
@@ -556,7 +523,7 @@
         }
     }
 
-    // ===== CẬP NHẬT UI HẠN NGẠCH =====
+    // ===== CẬP NHẬT UI =====
     async function updateAllLimits() {
         var services = [
             { name: 'Layma', id: 'Layma', price: 510 },
@@ -575,20 +542,14 @@
 
             if (countEl) {
                 countEl.textContent = used + '/' + MAX_LIMIT + ' Lượt';
-                if (used >= MAX_LIMIT) {
-                    countEl.classList.add('full');
-                } else {
-                    countEl.classList.remove('full');
-                }
+                if (used >= MAX_LIMIT) countEl.classList.add('full');
+                else countEl.classList.remove('full');
             }
 
             if (progressEl) {
                 progressEl.style.width = (used / MAX_LIMIT * 100) + '%';
-                if (used >= MAX_LIMIT) {
-                    progressEl.classList.add('full');
-                } else {
-                    progressEl.classList.remove('full');
-                }
+                if (used >= MAX_LIMIT) progressEl.classList.add('full');
+                else progressEl.classList.remove('full');
             }
 
             if (btnEl) {
@@ -603,7 +564,7 @@
         }
     }
 
-    // ===== TẠO LINK (TRỪ 1 LƯỢT) =====
+    // ===== TẠO LINK =====
     async function createLink(service, points) {
         if (!currentUser) {
             showPopup('⚠️', 'Lỗi', 'Vui lòng đăng nhập lại!');
@@ -611,39 +572,34 @@
         }
 
         try {
-            // Kiểm tra số lượt còn lại
             var used = await getUsedCount(service);
 
             if (used >= MAX_LIMIT) {
                 showPopup('⚠️', 'Hết lượt',
                     'Bạn đã dùng hết ' + MAX_LIMIT + ' lượt cho ' + service + ' hôm nay!\n\n' +
-                    'Vui lòng quay lại vào ngày mai sau 00:00.');
+                    'Vui lòng quay lại sau 00:00.');
                 return;
             }
 
-            // Tạo link ngẫu nhiên
             var link = 'https://' + service.toLowerCase().replace(/\s/g, '') + '.net/' + 
                        Math.random().toString(36).substring(2, 11);
 
-            // Lưu link lên Firebase
             await saveLinkHistoryToCloud(currentUser, service, link, points, 'pending');
 
-            // Tăng số lượt đã dùng
             var todayStr = getTodayStr();
             await db.ref('dailyLinks/' + currentUser + '/' + todayStr + '/' + service).set(used + 1);
 
-            showPopup('🔗', 'Tạo link ' + service + ' thành công!',
+            showPopup('🔗', 'Tạo link thành công!',
                 'Link: ' + link + '\n\n' +
-                '📊 Đã dùng: ' + (used + 1) + '/' + MAX_LIMIT + ' lượt hôm nay.\n' +
-                '💰 Bạn sẽ được cộng ' + points + 'đ sau khi admin duyệt!');
+                '📊 Đã dùng: ' + (used + 1) + '/' + MAX_LIMIT + ' lượt.\n' +
+                '💰 Chờ admin duyệt để nhận ' + points + 'đ!');
 
-            // Cập nhật UI + lịch sử
             await updateAllLimits();
             loadHistory();
 
         } catch (error) {
             console.error('❌ Lỗi tạo link:', error);
-            showPopup('❌', 'Lỗi', 'Không thể tạo link. Vui lòng thử lại!');
+            showPopup('❌', 'Lỗi', 'Không thể tạo link: ' + error.message);
         }
     }
 
@@ -665,4 +621,39 @@
                 return item.status === currentFilter;
             });
 
-            if (filtered.length === 0
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#555;padding:40px;">📭 Không có dữ liệu</td></tr>';
+                return;
+            }
+
+            filtered = filtered.slice(0, 5);
+
+            var html = '';
+            filtered.forEach(function(item) {
+                var logoClass = 'code-logo';
+                var logo = '?';
+                
+                if (item.service === 'Layma') { logo = 'L'; logoClass += ' layma'; }
+                else if (item.service === 'TrafficVN') { logo = '⚡'; }
+                else if (item.service === 'Gtraffic') { logo = 'G'; logoClass += ' gtraffic'; }
+                else if (item.service === 'Gtraffic Direct') { logo = 'G'; logoClass += ' gtraffic-direct'; }
+
+                var statusHtml = '';
+                if (item.status === 'pending') {
+                    statusHtml = '<span class="status-badge status-pending">⏳ Chờ duyệt</span>';
+                } else if (item.status === 'done') {
+                    statusHtml = '<span class="status-badge status-done">✅ Đã duyệt</span>';
+                } else {
+                    statusHtml = '<span class="status-badge status-rejected">❌ Từ chối</span>';
+                }
+
+                var date = new Date(item.time);
+                var dateStr = date.getFullYear() + '-' + 
+                    String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+                    String(date.getDate()).padStart(2, '0');
+                var timeStr = String(date.getHours()).padStart(2, '0') + ':' + 
+                    String(date.getMinutes()).padStart(2, '0') + ':' + 
+                    String(date.getSeconds()).padStart(2, '0');
+
+                html += '<tr>' +
+                    '<
