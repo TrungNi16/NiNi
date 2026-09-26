@@ -10,14 +10,15 @@
         .card { background: rgba(10,10,26,0.95); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 20px; }
         .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
         .card-logo { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; }
-        .card-logo.layma { background: #ffd700; }
-        .card-logo.trafficvn { background: #fff; }
+        .card-logo.layma { background: #ffd700; color: #000; }
+        .card-logo.trafficvn { background: #fff; color: #000; }
         .card-logo.gtraffic { background: #00aaff; color: #fff; }
-        .card-logo.gtraffic-direct { background: #fff; }
+        .card-logo.gtraffic-direct { background: #00ff88; color: #000; }
         .card-tag { padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; margin-left: 8px; }
         .tag-layma { color: #00aaff; border: 1px solid rgba(0,170,255,0.3); background: rgba(0,170,255,0.1); }
         .tag-trafficvn { color: #ff44aa; border: 1px solid rgba(255,68,170,0.3); background: rgba(255,68,170,0.1); }
         .tag-gtraffic { color: #00ff88; border: 1px solid rgba(0,255,136,0.3); background: rgba(0,255,136,0.1); }
+        .tag-gtraffic-direct { color: #00ff88; border: 1px solid rgba(0,255,136,0.3); background: rgba(0,255,136,0.1); }
         .card-price .current { color: #00ff88; font-size: 22px; font-weight: 700; }
         .card-price .unit { color: #888; font-size: 12px; }
         .card-title { color: #fff; font-size: 17px; font-weight: 700; margin-bottom: 16px; }
@@ -31,6 +32,19 @@
         .btn-create { width: 100%; padding: 13px; background: linear-gradient(135deg, #7b3fff, #5b2fff); color: #fff; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; }
         .btn-create:hover:not(:disabled) { transform: scale(1.02); }
         .btn-create:disabled { opacity: 0.4; cursor: not-allowed; background: #333; }
+
+        .history-box { background: rgba(10,10,26,0.95); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 20px; margin-top: 20px; }
+        .history-title { color: #ffd700; font-size: 18px; font-weight: 700; margin-bottom: 15px; }
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        thead th { text-align: left; color: #666; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; padding: 12px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        tbody td { padding: 14px 10px; color: #ccc; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .td-link { color: #00aaff; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; }
+        .td-points { color: #00ff88; font-weight: 700; }
+        .status-badge { padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+        .status-pending { background: rgba(255,200,0,0.1); color: #ffcc00; border: 1px solid rgba(255,200,0,0.2); }
+        .status-done { background: rgba(0,255,136,0.1); color: #00ff88; border: 1px solid rgba(0,255,136,0.2); }
+        .status-rejected { background: rgba(255,50,50,0.1); color: #ff6666; border: 1px solid rgba(255,50,50,0.2); }
     </style>
 </head>
 <body>
@@ -56,6 +70,15 @@
                     <li><a href="recharge-history.html">📜 Lịch sử nạp tiền</a></li>
                 </ul>
             </li>
+            <li class="has-sub">
+                <a href="#">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
+                <ul class="sub-menu">
+                    <li><a href="redeem.html">🔄 Redeem Uphone 4h</a></li>
+                    <li><a href="buycloud.html">☁️ Mua Máy Cloud</a></li>
+                    <li><a href="checkcloud.html">🔍 Check Máy Uphone</a></li>
+                    <li><a href="codelogin.html">🔑 Code Login Cloud</a></li>
+                </ul>
+            </li>
             <li><a href="giftcode.html">🎁 Nhập Giftcode</a></li>
             <li><a href="flashsale.html">⚡ Flash Sale Cloud</a></li>
             <li><a href="ranking.html">🏆 Bảng Xếp Hạng</a></li>
@@ -77,10 +100,11 @@
     </nav>
 
     <main class="content" id="content">
-        <h2 style="color:#ffd700; margin-bottom:20px;">📋 Nhiệm vụ</h2>
+        <h2 style="color:#ffd700; margin-bottom:10px;">📋 Nhiệm vụ</h2>
         <p style="color:#888; margin-bottom:20px;">Tạo link vượt để kiếm tiền. Mỗi dịch vụ tối đa 2 lượt/ngày.</p>
 
         <div class="cards-grid">
+            <!-- Card Layma -->
             <div class="card">
                 <div class="card-header">
                     <div style="display:flex; align-items:center;">
@@ -96,9 +120,10 @@
                     <div class="limit-row"><span>Hạn ngạch</span><span class="count" id="count-Layma">0/2 Lượt</span></div>
                     <div class="progress-bar"><div class="progress-fill" id="progress-Layma" style="width:0%;"></div></div>
                 </div>
-                <button class="btn-create" id="btn-Layma" onclick="createLink('Layma', 510)">➜ Tạo link (510đ)</button>
+                <button class="btn-create" id="btn-Layma" onclick="createLink('Layma', 510)">➜ Tạo link Layma (510đ)</button>
             </div>
 
+            <!-- Card TrafficVN -->
             <div class="card">
                 <div class="card-header">
                     <div style="display:flex; align-items:center;">
@@ -114,9 +139,10 @@
                     <div class="limit-row"><span>Hạn ngạch</span><span class="count" id="count-TrafficVN">0/2 Lượt</span></div>
                     <div class="progress-bar"><div class="progress-fill" id="progress-TrafficVN" style="width:0%;"></div></div>
                 </div>
-                <button class="btn-create" id="btn-TrafficVN" onclick="createLink('TrafficVN', 260)">➜ Tạo link (260đ)</button>
+                <button class="btn-create" id="btn-TrafficVN" onclick="createLink('TrafficVN', 260)">➜ Tạo link TrafficVN (260đ)</button>
             </div>
 
+            <!-- Card Gtraffic -->
             <div class="card">
                 <div class="card-header">
                     <div style="display:flex; align-items:center;">
@@ -132,14 +158,15 @@
                     <div class="limit-row"><span>Hạn ngạch</span><span class="count" id="count-Gtraffic">0/2 Lượt</span></div>
                     <div class="progress-bar"><div class="progress-fill" id="progress-Gtraffic" style="width:0%;"></div></div>
                 </div>
-                <button class="btn-create" id="btn-Gtraffic" onclick="createLink('Gtraffic', 360)">➜ Tạo link (360đ)</button>
+                <button class="btn-create" id="btn-Gtraffic" onclick="createLink('Gtraffic', 360)">➜ Tạo link Gtraffic (360đ)</button>
             </div>
 
+            <!-- Card Gtraffic Direct - ĐÃ SỬA -->
             <div class="card">
                 <div class="card-header">
                     <div style="display:flex; align-items:center;">
                         <div class="card-logo gtraffic-direct">G</div>
-                        <span class="card-tag tag-gtraffic">Gtraffic Direct</span>
+                        <span class="card-tag tag-gtraffic-direct">Gtraffic Direct</span>
                     </div>
                     <div class="card-price">
                         <div><span class="current">+360đ</span> <span class="unit">/ link</span></div>
@@ -150,7 +177,27 @@
                     <div class="limit-row"><span>Hạn ngạch</span><span class="count" id="count-GtrafficDirect">0/2 Lượt</span></div>
                     <div class="progress-bar"><div class="progress-fill" id="progress-GtrafficDirect" style="width:0%;"></div></div>
                 </div>
-                <button class="btn-create" id="btn-GtrafficDirect" onclick="createLink('Gtraffic Direct', 360)">➜ Tạo link (360đ)</button>
+                <button class="btn-create" id="btn-GtrafficDirect" onclick="createLink('Gtraffic Direct', 360)">➜ Tạo link Gtraffic Direct (360đ)</button>
+            </div>
+        </div>
+
+        <div class="history-box">
+            <div class="history-title">📜 Lượt vượt link gần đây</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Dịch vụ</th>
+                            <th>Link rút gọn</th>
+                            <th>Thưởng</th>
+                            <th>Trạng thái</th>
+                            <th>Thời gian</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyBody">
+                        <tr><td colspan="5" style="text-align:center;color:#555;padding:40px;">⏳ Đang tải...</td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </main>
@@ -171,6 +218,8 @@
 <script src="layout.js"></script>
 
 <script>
+console.log('🚀 task.html script bắt đầu');
+
 var MAX_LIMIT = 2;
 
 function getTodayStr() {
@@ -221,12 +270,13 @@ async function updateAllLimits() {
 }
 
 async function createLink(service, points) {
+    console.log('🔗 Tạo link:', service, points);
     var currentUser = localStorage.getItem('currentUser');
     if (!currentUser) { alert('⚠️ Vui lòng đăng nhập lại!'); return; }
     try {
         var used = await getUsedCount(service);
         if (used >= MAX_LIMIT) {
-            showPopup('⚠️', 'Hết lượt', 'Bạn đã dùng hết ' + MAX_LIMIT + ' lượt cho ' + service + ' hôm nay!\nQuay lại sau 00:00.');
+            showPopup('⚠️', 'Hết lượt', 'Bạn đã dùng hết ' + MAX_LIMIT + ' lượt cho ' + service + ' hôm nay!');
             return;
         }
         var link = 'https://' + service.toLowerCase().replace(/\s/g, '') + '.net/' + Math.random().toString(36).substring(2, 11);
@@ -234,14 +284,56 @@ async function createLink(service, points) {
         await db.ref('dailyLinks/' + currentUser + '/' + getTodayStr() + '/' + service).set(used + 1);
         showPopup('🔗', 'Tạo link thành công!', 'Link: ' + link + '\n\nĐã dùng ' + (used + 1) + '/' + MAX_LIMIT + ' lượt.');
         await updateAllLimits();
+        await loadHistory();
     } catch(error) {
+        console.error('❌ Lỗi:', error);
         showPopup('❌', 'Lỗi', 'Không thể tạo link: ' + error.message);
     }
 }
 
+async function loadHistory() {
+    var tbody = document.getElementById('historyBody');
+    var currentUser = localStorage.getItem('currentUser');
+    if (!currentUser) return;
+    try {
+        var history = await getLinkHistoryFromCloud(currentUser);
+        if (!history || history.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#555;padding:40px;">📭 Chưa có lượt vượt link nào</td></tr>';
+            return;
+        }
+        var html = '';
+        history.slice(0, 5).forEach(function(item) {
+            var statusHtml = '';
+            if (item.status === 'pending') statusHtml = '<span class="status-badge status-pending">⏳ Chờ duyệt</span>';
+            else if (item.status === 'done') statusHtml = '<span class="status-badge status-done">✅ Đã duyệt</span>';
+            else statusHtml = '<span class="status-badge status-rejected">❌ Từ chối</span>';
+            
+            var date = new Date(item.time);
+            var dateStr = String(date.getDate()).padStart(2,'0') + '/' + String(date.getMonth()+1).padStart(2,'0') + ' ' + String(date.getHours()).padStart(2,'0') + ':' + String(date.getMinutes()).padStart(2,'0');
+            
+            html += '<tr>' +
+                '<td>' + item.service + '</td>' +
+                '<td><span class="td-link">' + item.link + '</span></td>' +
+                '<td class="td-points">+' + item.points + 'đ</td>' +
+                '<td>' + statusHtml + '</td>' +
+                '<td>' + dateStr + '</td>' +
+                '</tr>';
+        });
+        tbody.innerHTML = html;
+    } catch(e) {
+        console.error('Lỗi load history:', e);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(updateAllLimits, 500);
+    console.log('📄 DOM loaded');
+    setTimeout(function() {
+        updateAllLimits();
+        loadHistory();
+    }, 500);
 });
+
+console.log('✅ task.html script đã load xong');
 </script>
 
 </body>
