@@ -4,42 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redeem Uphone - NiNi Store</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="layout.css">
     <style>
         .redeem-container {
             max-width: 500px;
-            margin: 60px auto;
+            margin: 0 auto;
             text-align: center;
-            padding: 20px;
+            padding: 40px 20px;
         }
+
         .redeem-container .icon {
             font-size: 80px;
             margin-bottom: 20px;
         }
+
         .redeem-container h1 {
             color: #ffd700;
             font-size: 32px;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
+
         .redeem-form {
-            background: rgba(255,255,255,0.03);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
             padding: 30px;
         }
+
         .redeem-form input {
             width: 100%;
-            padding: 12px 16px;
-            margin-bottom: 15px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.08);
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 10px;
             color: #fff;
             font-size: 15px;
+            margin-bottom: 15px;
+            transition: 0.3s;
         }
+
         .redeem-form input:focus {
             border-color: #ffd700;
             outline: none;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
         }
+
+        .redeem-form input::placeholder {
+            color: #555;
+        }
+
         .btn-submit {
             width: 100%;
             padding: 14px;
@@ -52,35 +65,141 @@
             cursor: pointer;
             transition: 0.3s;
         }
+
         .btn-submit:hover {
             transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
         }
-        .back-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 30px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
-            color: #888;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-        .back-btn:hover {
-            background: rgba(255,215,0,0.05);
-            color: #fff;
+
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
     </style>
 </head>
 <body>
-    <div class="redeem-container">
-        <div class="icon">🔄</div>
-        <h1>Redeem Uphone 4H</h1>
-        <div class="redeem-form">
-            <input type="text" placeholder="Nhập mã code Uphone 4H">
-            <button class="btn-submit" onclick="alert('✅ Redeem thành công! Bạn đã nhận được Uphone 4H.')">Xác nhận</button>
+
+<button class="hamburger" onclick="toggleSidebar()" title="Ẩn/Hiện menu">☰</button>
+<div class="overlay" id="overlay" onclick="closeMobileSidebar()"></div>
+
+<div class="container">
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <h2>🌟 NINI STORE</h2>
+            <div class="sub">Free Fire Code Shop</div>
         </div>
-        <a href="home.html" class="back-btn">⬅ Quay lại trang chủ</a>
+        <ul class="sidebar-menu">
+            <li data-page="home"><a href="home.html">🏠 Trang chủ</a></li>
+            <li data-page="task"><a href="task.html">📋 Nhiệm vụ</a></li>
+            <li data-page="exchange"><a href="exchange.html">🔄 Đổi điểm</a></li>
+            <li class="has-sub">
+                <a href="#">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
+                <ul class="sub-menu">
+                    <li data-page="card"><a href="card.html">💳 Nạp Thẻ Cào</a></li>
+                    <li data-page="bank"><a href="bank.html">🏦 Nạp Bank/Momo</a></li>
+                    <li data-page="recharge-history"><a href="recharge-history.html">📜 Lịch sử nạp tiền</a></li>
+                </ul>
+            </li>
+            <li class="has-sub">
+                <a href="#">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
+                <ul class="sub-menu">
+                    <li data-page="redeem" class="active"><a href="redeem.html">🔄 Redeem Uphone 4h</a></li>
+                    <li data-page="buycloud"><a href="buycloud.html">☁️ Mua Máy Cloud</a></li>
+                    <li data-page="checkcloud"><a href="checkcloud.html">🔍 Check Máy Uphone</a></li>
+                    <li data-page="codelogin"><a href="codelogin.html">🔑 Code Login Cloud</a></li>
+                </ul>
+            </li>
+            <li data-page="giftcode"><a href="giftcode.html">🎁 Nhập Giftcode</a></li>
+            <li data-page="flashsale"><a href="flashsale.html">⚡ Flash Sale Cloud</a></li>
+            <li data-page="ranking"><a href="ranking.html">🏆 Bảng Xếp Hạng</a></li>
+            <li data-page="history"><a href="history.html">📜 Lịch sử mua hàng</a></li>
+            <li data-page="taskhistory"><a href="taskhistory.html">📜 Lịch sử nhiệm vụ</a></li>
+            <li data-page="cloudfree"><a href="cloudfree.html">☁️ Cloud Free Mỗi Ngày</a></li>
+            <li data-page="support"><a href="support.html">⚙️ Trung Tâm Hỗ Trợ</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <span class="user-avatar">👤</span>
+                <div>
+                    <strong id="usernameDisplay">Khách</strong>
+                    <span id="balanceDisplay">💰 Đang tải...</span>
+                </div>
+            </div>
+            <a href="#" class="logout-btn" onclick="logout()">🚪 Đăng xuất</a>
+        </div>
+    </nav>
+
+    <main class="content" id="content">
+        <div class="redeem-container">
+            <div class="icon">🔄</div>
+            <h1>Redeem Uphone 4H</h1>
+            <div class="redeem-form">
+                <input type="text" id="redeemCode" placeholder="Nhập mã code Uphone 4H">
+                <button class="btn-submit" id="submitBtn" onclick="submitRedeem()">Xác nhận</button>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup-box">
+        <div class="icon" id="popupIcon">📢</div>
+        <h3 id="popupTitle">Thông báo</h3>
+        <p id="popupMessage">Nội dung thông báo</p>
+        <button class="close-btn" onclick="closePopup()">Đã hiểu</button>
     </div>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="firebase.js"></script>
+<script src="layout.js"></script>
+
+<script>
+    async function submitRedeem() {
+        var user = localStorage.getItem('currentUser');
+        if (!user) {
+            showPopup('⚠️', 'Lỗi', 'Vui lòng đăng nhập lại!');
+            return;
+        }
+
+        var input = document.getElementById('redeemCode');
+        var code = input.value.trim();
+
+        if (!code) {
+            showPopup('⚠️', 'Thiếu mã', 'Vui lòng nhập mã code Uphone 4H!');
+            return;
+        }
+
+        var btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.textContent = '⏳ Đang xử lý...';
+
+        try {
+            var redeemRef = db.ref('redeems/' + user).push();
+            await redeemRef.set({
+                code: code,
+                type: 'uphone_4h',
+                status: 'pending',
+                time: Date.now()
+            });
+
+            showPopup('✅', 'Gửi thành công!',
+                'Mã "' + code + '" đã được gửi.\nVui lòng chờ admin xử lý trong vòng 1-5 phút!');
+
+            input.value = '';
+
+        } catch (error) {
+            console.error('Lỗi redeem:', error);
+            showPopup('❌', 'Lỗi', 'Không thể gửi. Vui lòng thử lại!');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Xác nhận';
+        }
+    }
+</script>
+
 </body>
 </html>
