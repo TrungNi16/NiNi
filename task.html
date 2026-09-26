@@ -6,116 +6,39 @@
     <title>Nhiệm vụ - NiNi Store</title>
     <link rel="stylesheet" href="layout.css">
     <style>
-        /* ===== STATS CARDS ===== */
         .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
-        .stat-box {
-            background: rgba(10, 10, 26, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 20px;
-            position: relative;
-        }
-        .stat-box .stat-label {
-            color: #666;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        .stat-box .stat-value {
-            color: #00ff88;
-            font-size: 28px;
-            font-weight: 900;
-            font-family: 'Courier New', monospace;
-            margin-bottom: 8px;
-        }
+        .stat-box { background: rgba(10, 10, 26, 0.95); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 20px; position: relative; }
+        .stat-box .stat-label { color: #666; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 12px; }
+        .stat-box .stat-value { color: #00ff88; font-size: 28px; font-weight: 900; font-family: 'Courier New', monospace; margin-bottom: 8px; }
         .stat-box .stat-value.blue { color: #00ccff; }
         .stat-box .stat-value.purple { color: #a855f7; }
         .stat-box .stat-desc { color: #888; font-size: 12px; line-height: 1.5; }
         .stat-box .stat-desc strong { color: #ffd700; }
-        .stat-box .stat-icon {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 32px;
-            height: 32px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
+        .stat-box .stat-icon { position: absolute; top: 20px; right: 20px; width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
         .stat-icon.green { background: rgba(0, 255, 136, 0.1); border: 1px solid rgba(0, 255, 136, 0.2); }
         .stat-icon.blue { background: rgba(0, 200, 255, 0.1); border: 1px solid rgba(0, 200, 255, 0.2); }
         .stat-icon.purple { background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.2); }
 
-        /* ===== NOTICE BAR ===== */
-        .notice-bar {
-            background: rgba(10, 10, 26, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 20px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 16px;
-        }
+        .notice-bar { background: rgba(10, 10, 26, 0.9); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 16px; }
         .notice-item { display: flex; gap: 12px; align-items: flex-start; }
-        .notice-icon {
-            width: 42px; height: 42px; min-width: 42px;
-            border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 20px;
-        }
+        .notice-icon { width: 42px; height: 42px; min-width: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
         .notice-icon.blue { background: rgba(0, 150, 255, 0.1); border: 1px solid rgba(0, 150, 255, 0.2); }
         .notice-icon.red { background: rgba(255, 50, 50, 0.1); border: 1px solid rgba(255, 50, 50, 0.2); }
         .notice-icon.yellow { background: rgba(255, 200, 0, 0.1); border: 1px solid rgba(255, 200, 0, 0.2); }
-        .notice-content h4 {
-            color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 4px;
-            display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-        }
+        .notice-content h4 { color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .notice-content p { color: #888; font-size: 12px; line-height: 1.5; }
-        .timer-badge {
-            background: rgba(0, 150, 255, 0.15);
-            color: #00aaff;
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-        }
+        .timer-badge { background: rgba(0, 150, 255, 0.15); color: #00aaff; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; }
 
-        /* ===== PRIVILEGE BAR ===== */
-        .privilege-bar {
-            background: rgba(10, 10, 26, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
+        .privilege-bar { background: rgba(10, 10, 26, 0.9); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
         .privilege-left { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
         .privilege-title { color: #ffd700; font-size: 14px; font-weight: 700; }
-        .badge-item {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 5px 12px; border-radius: 20px;
-            font-size: 13px; color: #fff;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
+        .badge-item { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 20px; font-size: 13px; color: #fff; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.05); }
         .badge-item.green { background: rgba(0, 255, 136, 0.1); border-color: rgba(0, 255, 136, 0.2); color: #00ff88; }
         .badge-item .time { color: #ffd700; font-weight: 700; font-size: 12px; }
-        .discord-link { color: #00aaff; text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 6px; transition: 0.3s; }
-        .discord-link:hover { color: #66ccff; }
+        .discord-link { color: #00aaff; text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 6px; }
 
-        /* ===== CARDS GRID ===== */
         .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
-        .card { background: rgba(10,10,26,0.95); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 20px; transition: 0.3s; }
-        .card:hover { border-color: rgba(150,100,255,0.3); transform: translateY(-3px); }
+        .card { background: rgba(10,10,26,0.95); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 20px; }
         .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
         .card-logo { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; }
         .card-logo.layma { background: #ffd700; color: #000; }
@@ -126,7 +49,6 @@
         .tag-layma { color: #00aaff; border: 1px solid rgba(0,170,255,0.3); background: rgba(0,170,255,0.1); }
         .tag-trafficvn { color: #ff44aa; border: 1px solid rgba(255,68,170,0.3); background: rgba(255,68,170,0.1); }
         .tag-gtraffic { color: #00ff88; border: 1px solid rgba(0,255,136,0.3); background: rgba(0,255,136,0.1); }
-        .tag-gtraffic-direct { color: #00ff88; border: 1px solid rgba(0,255,136,0.3); background: rgba(0,255,136,0.1); }
         .card-price { text-align: right; }
         .card-price .current { color: #00ff88; font-size: 22px; font-weight: 700; }
         .card-price .unit { color: #888; font-size: 12px; }
@@ -134,15 +56,12 @@
         .card-limit { background: rgba(255,255,255,0.03); border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; }
         .limit-row { display: flex; justify-content: space-between; color: #aaa; font-size: 13px; margin-bottom: 8px; }
         .limit-row .count { color: #fff; font-weight: 700; }
-        .limit-row .count.full { color: #ff4444; }
         .progress-bar { height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; }
         .progress-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, #00aaff, #66ccff); transition: width 0.3s; }
-        .progress-fill.full { background: linear-gradient(90deg, #ff4444, #ff6666); }
         .btn-create { width: 100%; padding: 13px; background: linear-gradient(135deg, #7b3fff, #5b2fff); color: #fff; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; }
-        .btn-create:hover:not(:disabled) { transform: scale(1.02); }
+        .btn-create:hover { transform: scale(1.02); }
         .btn-create:disabled { opacity: 0.4; cursor: not-allowed; background: #333; }
 
-        /* ===== HISTORY ===== */
         .history-box { background: rgba(10,10,26,0.95); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 20px; }
         .history-title { color: #ffd700; font-size: 18px; font-weight: 700; margin-bottom: 15px; }
         .table-wrap { overflow-x: auto; }
@@ -155,15 +74,6 @@
         .status-pending { background: rgba(255,200,0,0.1); color: #ffcc00; border: 1px solid rgba(255,200,0,0.2); }
         .status-done { background: rgba(0,255,136,0.1); color: #00ff88; border: 1px solid rgba(0,255,136,0.2); }
         .status-rejected { background: rgba(255,50,50,0.1); color: #ff6666; border: 1px solid rgba(255,50,50,0.2); }
-
-        @media (max-width: 992px) {
-            .stats-row, .notice-bar { grid-template-columns: 1fr; }
-            .cards-grid { grid-template-columns: 1fr 1fr; }
-        }
-        @media (max-width: 600px) {
-            .cards-grid { grid-template-columns: 1fr; }
-            .privilege-bar { flex-direction: column; align-items: flex-start; }
-        }
     </style>
 </head>
 <body>
@@ -189,15 +99,6 @@
                     <li><a href="recharge-history.html">📜 Lịch sử nạp tiền</a></li>
                 </ul>
             </li>
-            <li class="has-sub">
-                <a href="#">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
-                <ul class="sub-menu">
-                    <li><a href="redeem.html">🔄 Redeem Uphone 4h</a></li>
-                    <li><a href="buycloud.html">☁️ Mua Máy Cloud</a></li>
-                    <li><a href="checkcloud.html">🔍 Check Máy Uphone</a></li>
-                    <li><a href="codelogin.html">🔑 Code Login Cloud</a></li>
-                </ul>
-            </li>
             <li><a href="giftcode.html">🎁 Nhập Giftcode</a></li>
             <li><a href="flashsale.html">⚡ Flash Sale Cloud</a></li>
             <li><a href="ranking.html">🏆 Bảng Xếp Hạng</a></li>
@@ -219,8 +120,6 @@
     </nav>
 
     <main class="content" id="content">
-
-        <!-- 3 THẺ THỐNG KÊ -->
         <div class="stats-row">
             <div class="stat-box">
                 <div class="stat-icon green">💎</div>
@@ -228,14 +127,12 @@
                 <div class="stat-value" id="statBalance">0 đ</div>
                 <div class="stat-desc">Dùng để rút tiền hoặc đổi code cloud phone</div>
             </div>
-
             <div class="stat-box">
                 <div class="stat-icon blue">👤</div>
                 <div class="stat-label">Tổng đã kiếm</div>
                 <div class="stat-value blue" id="statTotalEarned">0 đ</div>
                 <div class="stat-desc">Thu nhập tích lũy toàn thời gian</div>
             </div>
-
             <div class="stat-box">
                 <div class="stat-icon purple">📈</div>
                 <div class="stat-label">Hôm nay</div>
@@ -244,7 +141,6 @@
             </div>
         </div>
 
-        <!-- THÔNG BÁO -->
         <div class="notice-bar">
             <div class="notice-item">
                 <div class="notice-icon blue">🕐</div>
@@ -269,7 +165,6 @@
             </div>
         </div>
 
-        <!-- THANH ĐẶC QUYỀN -->
         <div class="privilege-bar">
             <div class="privilege-left">
                 <span class="privilege-title">✨ Đặc quyền:</span>
@@ -280,7 +175,6 @@
             <a href="https://discord.gg/QQRygmwpq3" target="_blank" rel="noopener" class="discord-link">Server Discord ↗</a>
         </div>
 
-        <!-- CARDS -->
         <div class="cards-grid">
             <div class="card">
                 <div class="card-header">
@@ -334,7 +228,7 @@
                 <div class="card-header">
                     <div style="display:flex; align-items:center;">
                         <div class="card-logo gtraffic-direct">G</div>
-                        <span class="card-tag tag-gtraffic-direct">Gtraffic Direct</span>
+                        <span class="card-tag tag-gtraffic">Gtraffic Direct</span>
                     </div>
                     <div class="card-price"><div><span class="current">+360đ</span> <span class="unit">/ link</span></div></div>
                 </div>
@@ -347,7 +241,6 @@
             </div>
         </div>
 
-        <!-- LỊCH SỬ -->
         <div class="history-box">
             <div class="history-title">📜 Lượt vượt link gần đây</div>
             <div class="table-wrap">
@@ -385,8 +278,6 @@
 <script src="layout.js"></script>
 
 <script>
-console.log('🚀 task.html script bắt đầu');
-
 var MAX_LIMIT = 2;
 
 function getTodayStr() {
@@ -394,67 +285,44 @@ function getTodayStr() {
     return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 }
 
-// ===== ĐỒNG HỒ ĐẾM NGƯỢC ĐẾN 00:00 =====
 function startCountdown() {
     var el = document.getElementById('timerBadge');
-    if (!el) {
-        console.error('❌ Không tìm thấy timerBadge');
-        return;
-    }
-    
+    if (!el) return;
     function update() {
         var now = new Date();
         var midnight = new Date();
-        midnight.setHours(24, 0, 0, 0); // 00:00 ngày mai
-        
+        midnight.setHours(24, 0, 0, 0);
         var diff = Math.floor((midnight - now) / 1000);
         if (diff < 0) diff = 0;
-        
         var h = Math.floor(diff / 3600);
         var m = Math.floor((diff % 3600) / 60);
         var s = diff % 60;
-        
-        el.textContent = 
-            String(h).padStart(2, '0') + ':' +
-            String(m).padStart(2, '0') + ':' +
-            String(s).padStart(2, '0');
+        el.textContent = String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
     }
-    
     update();
     setInterval(update, 1000);
-    console.log('✅ Đồng hồ đã khởi động');
 }
 
-// ===== LOAD STATS THẬT TỪ FIREBASE =====
 async function loadStats() {
     var currentUser = localStorage.getItem('currentUser');
     if (!currentUser) return;
-
     try {
-        // Số dư
         var balance = await getUserBalance(currentUser);
-        document.getElementById('statBalance').textContent = 
-            (balance || 0).toLocaleString('vi-VN') + ' đ';
+        document.getElementById('statBalance').textContent = (balance || 0).toLocaleString('vi-VN') + ' đ';
 
-        // Tổng đã kiếm + hôm nay
         var snap = await db.ref('links/' + currentUser).once('value');
         var links = snap.val() || {};
-        
-        var totalEarned = 0;
-        var todayEarned = 0;
-        var todayCount = 0;
+        var totalEarned = 0, todayEarned = 0, todayCount = 0;
         var todayStr = getTodayStr();
         
         Object.keys(links).forEach(function(key) {
             var link = links[key];
             if (link.status === 'done') {
                 totalEarned += Number(link.points) || 0;
-                
                 var linkDate = new Date(link.time);
                 var linkDateStr = linkDate.getFullYear() + '-' + 
                                   String(linkDate.getMonth() + 1).padStart(2, '0') + '-' + 
                                   String(linkDate.getDate()).padStart(2, '0');
-                
                 if (linkDateStr === todayStr) {
                     todayEarned += Number(link.points) || 0;
                     todayCount++;
@@ -462,20 +330,12 @@ async function loadStats() {
             }
         });
 
-        document.getElementById('statTotalEarned').textContent = 
-            totalEarned.toLocaleString('vi-VN') + ' đ';
-        document.getElementById('statToday').textContent = 
-            '+' + todayEarned.toLocaleString('vi-VN') + ' đ';
+        document.getElementById('statTotalEarned').textContent = totalEarned.toLocaleString('vi-VN') + ' đ';
+        document.getElementById('statToday').textContent = '+' + todayEarned.toLocaleString('vi-VN') + ' đ';
         document.getElementById('statTodayCount').textContent = todayCount;
-
-        console.log('✅ Stats loaded:', { balance, totalEarned, todayEarned, todayCount });
-
-    } catch(e) {
-        console.error('❌ Lỗi load stats:', e);
-    }
+    } catch(e) { console.error('Lỗi load stats:', e); }
 }
 
-// ===== LẤY LƯỢT ĐÃ DÙNG =====
 async function getUsedCount(service) {
     var currentUser = localStorage.getItem('currentUser');
     if (!currentUser) return 0;
@@ -485,7 +345,6 @@ async function getUsedCount(service) {
     } catch(e) { return 0; }
 }
 
-// ===== CẬP NHẬT HẠN NGẠCH =====
 async function updateAllLimits() {
     var services = [
         { name: 'Layma', id: 'Layma', price: 510 },
@@ -499,14 +358,8 @@ async function updateAllLimits() {
         var countEl = document.getElementById('count-' + svc.id);
         var progressEl = document.getElementById('progress-' + svc.id);
         var btnEl = document.getElementById('btn-' + svc.id);
-        if (countEl) {
-            countEl.textContent = used + '/' + MAX_LIMIT + ' Lượt';
-            if (used >= MAX_LIMIT) countEl.classList.add('full'); else countEl.classList.remove('full');
-        }
-        if (progressEl) {
-            progressEl.style.width = (used / MAX_LIMIT * 100) + '%';
-            if (used >= MAX_LIMIT) progressEl.classList.add('full'); else progressEl.classList.remove('full');
-        }
+        if (countEl) countEl.textContent = used + '/' + MAX_LIMIT + ' Lượt';
+        if (progressEl) progressEl.style.width = (used / MAX_LIMIT * 100) + '%';
         if (btnEl) {
             if (used >= MAX_LIMIT) {
                 btnEl.disabled = true;
@@ -519,9 +372,7 @@ async function updateAllLimits() {
     }
 }
 
-// ===== TẠO LINK =====
 async function createLink(service, points) {
-    console.log('🔗 Tạo link:', service, points);
     var currentUser = localStorage.getItem('currentUser');
     if (!currentUser) { alert('⚠️ Vui lòng đăng nhập lại!'); return; }
     try {
@@ -538,11 +389,49 @@ async function createLink(service, points) {
         await loadHistory();
         await loadStats();
     } catch(error) {
-        console.error('❌ Lỗi:', error);
         showPopup('❌', 'Lỗi', 'Không thể tạo link: ' + error.message);
     }
 }
 
-// ===== LỊCH SỬ =====
 async function loadHistory() {
-    var
+    var tbody = document.getElementById('historyBody');
+    var currentUser = localStorage.getItem('currentUser');
+    if (!currentUser) return;
+    try {
+        var history = await getLinkHistoryFromCloud(currentUser);
+        if (!history || history.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#555;padding:40px;">📭 Chưa có lượt vượt link nào</td></tr>';
+            return;
+        }
+        var html = '';
+        history.slice(0, 5).forEach(function(item) {
+            var statusHtml = '';
+            if (item.status === 'pending') statusHtml = '<span class="status-badge status-pending">⏳ Chờ duyệt</span>';
+            else if (item.status === 'done') statusHtml = '<span class="status-badge status-done">✅ Đã duyệt</span>';
+            else statusHtml = '<span class="status-badge status-rejected">❌ Từ chối</span>';
+            var date = new Date(item.time);
+            var dateStr = String(date.getDate()).padStart(2,'0') + '/' + String(date.getMonth()+1).padStart(2,'0') + ' ' + String(date.getHours()).padStart(2,'0') + ':' + String(date.getMinutes()).padStart(2,'0');
+            html += '<tr>' +
+                '<td>' + item.service + '</td>' +
+                '<td><span class="td-link">' + item.link + '</span></td>' +
+                '<td class="td-points">+' + item.points + 'đ</td>' +
+                '<td>' + statusHtml + '</td>' +
+                '<td>' + dateStr + '</td>' +
+                '</tr>';
+        });
+        tbody.innerHTML = html;
+    } catch(e) { console.error('Lỗi load history:', e); }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    startCountdown();
+    setTimeout(function() {
+        updateAllLimits();
+        loadHistory();
+        loadStats();
+    }, 500);
+});
+</script>
+
+</body>
+</html>
