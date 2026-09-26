@@ -1,307 +1,287 @@
-<?php
-session_start();
-
-// Tạo CAPTCHA
-if (!isset($_SESSION['captcha_answer'])) {
-    $a = rand(1, 15);
-    $b = rand(1, 19 - $a);
-    $_SESSION['captcha_answer'] = $a + $b;
-    $_SESSION['captcha_question'] = "$a + $b = ?";
-}
-?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mua Cloud - CloudVIP</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Mua Máy Cloud - NiNi Store</title>
+    <link rel="stylesheet" href="layout.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0f172a;
-            color: #e2e8f0;
-            min-height: 100vh;
-        }
-        .header {
-            background: #1e293b;
-            padding: 15px 30px;
-            border-bottom: 1px solid #334155;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo { display: flex; align-items: center; gap: 10px; }
-        .logo h1 { color: #60a5fa; font-size: 20px; }
-        .container {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-        }
-        .page-title {
-            grid-column: 1 / -1;
+        .buycloud-container {
+            max-width: 700px;
+            margin: 0 auto;
             text-align: center;
+            padding: 40px 20px;
+        }
+
+        .buycloud-container .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .buycloud-container h1 {
+            color: #ffd700;
+            font-size: 32px;
             margin-bottom: 10px;
         }
-        .page-title h2 {
-            font-size: 28px;
-            background: linear-gradient(135deg, #60a5fa, #a78bfa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
+
+        .buycloud-container .subtitle {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 30px;
         }
-        .page-title p {
-            color: #94a3b8;
-            font-size: 13px;
+
+        .cloud-list {
+            display: grid;
+            gap: 15px;
         }
-        .card {
-            background: #1e293b;
+
+        .cloud-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
-            padding: 25px;
-            border: 1px solid #334155;
-        }
-        .card h3 {
-            color: #e2e8f0;
-            font-size: 15px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .localstorage-box {
-            background: #0f172a;
-            border-radius: 10px;
-            padding: 15px;
-            border: 1px solid #334155;
-            margin-bottom: 20px;
-        }
-        .localstorage-header {
+            padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
-        }
-        .localstorage-header span {
-            color: #60a5fa;
-            font-size: 12px;
-            font-family: monospace;
-        }
-        .localstorage-header button {
-            background: #3b82f6;
-            color: white;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-size: 11px;
-            cursor: pointer;
-        }
-        .localstorage-box textarea {
-            width: 100%;
-            min-height: 180px;
-            background: transparent;
-            border: none;
-            color: #e2e8f0;
-            font-family: monospace;
-            font-size: 13px;
-            resize: vertical;
-            outline: none;
-        }
-        .region-section {
-            margin-bottom: 20px;
-        }
-        .region-section h4 {
-            color: #94a3b8;
-            font-size: 13px;
-            margin-bottom: 12px;
-        }
-        .region-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-        .region-item {
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 10px;
-            padding: 12px;
-            cursor: pointer;
+            flex-wrap: wrap;
+            gap: 15px;
             transition: 0.3s;
         }
-        .region-item:hover {
-            border-color: #60a5fa;
+
+        .cloud-item:hover {
+            border-color: rgba(255, 215, 0, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.1);
         }
-        .region-item.selected {
-            border-color: #3b82f6;
-            background: #1e3a5f;
+
+        .cloud-item .info {
+            text-align: left;
+            flex: 1;
+            min-width: 200px;
         }
-        .region-item .region-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+
+        .cloud-item .name {
+            color: #fff;
+            font-size: 17px;
+            font-weight: 700;
             margin-bottom: 5px;
         }
-        .region-item .region-name {
-            font-weight: 600;
+
+        .cloud-item .desc {
+            color: #888;
             font-size: 13px;
+            line-height: 1.5;
         }
-        .region-item .region-ping {
-            color: #10b981;
-            font-size: 11px;
+
+        .cloud-item .price-box {
+            text-align: right;
         }
-        .region-item .region-info {
-            color: #64748b;
-            font-size: 11px;
-        }
-        .captcha-box {
-            background: #0f172a;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .captcha-box .question {
-            color: #a78bfa;
+
+        .cloud-item .price {
+            color: #ffd700;
             font-size: 20px;
             font-weight: 700;
-            font-family: monospace;
+            display: block;
+            margin-bottom: 8px;
         }
-        .captcha-box input {
-            width: 120px;
-            padding: 10px;
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 8px;
-            color: #e2e8f0;
-            text-align: center;
-            outline: none;
-        }
-        .btn-launch {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            color: white;
+
+        .cloud-item .btn-buy {
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #ffd700, #f0a500);
+            color: #0a0a1a;
             border: none;
             border-radius: 10px;
             font-weight: 700;
-            font-size: 15px;
+            font-size: 14px;
             cursor: pointer;
             transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            white-space: nowrap;
         }
-        .btn-launch:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+
+        .cloud-item .btn-buy:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
         }
-        /* Right panel */
-        .telemetry-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
+
+        .cloud-item .btn-buy:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
-        .telemetry-header .live-dot {
-            width: 10px;
-            height: 10px;
-            background: #10b981;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
+    </style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" title="Ẩn/Hiện menu">☰</button>
+<div class="overlay" id="overlay" onclick="closeMobileSidebar()"></div>
+
+<div class="container">
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <h2>🌟 NINI STORE</h2>
+            <div class="sub">Free Fire Code Shop</div>
+        </div>
+        <ul class="sidebar-menu">
+            <li data-page="home"><a href="home.html">🏠 Trang chủ</a></li>
+            <li data-page="task"><a href="task.html">📋 Nhiệm vụ</a></li>
+            <li data-page="exchange"><a href="exchange.html">🔄 Đổi điểm</a></li>
+            <li class="has-sub">
+                <a href="#">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
+                <ul class="sub-menu">
+                    <li data-page="card"><a href="card.html">💳 Nạp Thẻ Cào</a></li>
+                    <li data-page="bank"><a href="bank.html">🏦 Nạp Bank/Momo</a></li>
+                    <li data-page="recharge-history"><a href="recharge-history.html">📜 Lịch sử nạp tiền</a></li>
+                </ul>
+            </li>
+            <li class="has-sub">
+                <a href="#">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
+                <ul class="sub-menu">
+                    <li data-page="redeem"><a href="redeem.html">🔄 Redeem Uphone 4h</a></li>
+                    <li data-page="buycloud" class="active"><a href="buycloud.html">☁️ Mua Máy Cloud</a></li>
+                    <li data-page="checkcloud"><a href="checkcloud.html">🔍 Check Máy Uphone</a></li>
+                    <li data-page="codelogin"><a href="codelogin.html">🔑 Code Login Cloud</a></li>
+                </ul>
+            </li>
+            <li data-page="giftcode"><a href="giftcode.html">🎁 Nhập Giftcode</a></li>
+            <li data-page="flashsale"><a href="flashsale.html">⚡ Flash Sale Cloud</a></li>
+            <li data-page="ranking"><a href="ranking.html">🏆 Bảng Xếp Hạng</a></li>
+            <li data-page="history"><a href="history.html">📜 Lịch sử mua hàng</a></li>
+            <li data-page="taskhistory"><a href="taskhistory.html">📜 Lịch sử nhiệm vụ</a></li>
+            <li data-page="cloudfree"><a href="cloudfree.html">☁️ Cloud Free Mỗi Ngày</a></li>
+            <li data-page="support"><a href="support.html">⚙️ Trung Tâm Hỗ Trợ</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <span class="user-avatar">👤</span>
+                <div>
+                    <strong id="usernameDisplay">Khách</strong>
+                    <span id="balanceDisplay">💰 Đang tải...</span>
+                </div>
+            </div>
+            <a href="#" class="logout-btn" onclick="logout()">🚪 Đăng xuất</a>
+        </div>
+    </nav>
+
+    <main class="content" id="content">
+        <div class="buycloud-container">
+            <div class="icon">☁️</div>
+            <h1>Mua Máy Cloud</h1>
+            <p class="subtitle">Chọn gói Cloud phù hợp với nhu cầu của bạn</p>
+
+            <div class="cloud-list">
+                <div class="cloud-item">
+                    <div class="info">
+                        <div class="name">🖥️ Máy Cloud 1 Ngày</div>
+                        <div class="desc">Dùng thử 1 ngày, phù hợp trải nghiệm</div>
+                    </div>
+                    <div class="price-box">
+                        <span class="price">10,000đ</span>
+                        <button class="btn-buy" onclick="buyCloud('Máy Cloud 1 Ngày', 10000)">Mua ngay</button>
+                    </div>
+                </div>
+
+                <div class="cloud-item">
+                    <div class="info">
+                        <div class="name">🖥️ Máy Cloud 7 Ngày</div>
+                        <div class="desc">Tiết kiệm hơn, dùng 1 tuần liên tục</div>
+                    </div>
+                    <div class="price-box">
+                        <span class="price">50,000đ</span>
+                        <button class="btn-buy" onclick="buyCloud('Máy Cloud 7 Ngày', 50000)">Mua ngay</button>
+                    </div>
+                </div>
+
+                <div class="cloud-item">
+                    <div class="info">
+                        <div class="name">🖥️ Máy Cloud 30 Ngày</div>
+                        <div class="desc">Gói dài hạn, tiết kiệm nhất - giảm 50%</div>
+                    </div>
+                    <div class="price-box">
+                        <span class="price">150,000đ</span>
+                        <button class="btn-buy" onclick="buyCloud('Máy Cloud 30 Ngày', 150000)">Mua ngay</button>
+                    </div>
+                </div>
+
+                <div class="cloud-item">
+                    <div class="info">
+                        <div class="name">🚀 Máy Cloud VIP</div>
+                        <div class="desc">Cấu hình cao, ưu tiên hỗ trợ, ping thấp</div>
+                    </div>
+                    <div class="price-box">
+                        <span class="price">300,000đ</span>
+                        <button class="btn-buy" onclick="buyCloud('Máy Cloud VIP', 300000)">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup-box">
+        <div class="icon" id="popupIcon">📢</div>
+        <h3 id="popupTitle">Thông báo</h3>
+        <p id="popupMessage">Nội dung thông báo</p>
+        <button class="close-btn" onclick="closePopup()">Đã hiểu</button>
+    </div>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="firebase.js"></script>
+<script src="layout.js"></script>
+
+<script>
+    async function buyCloud(name, price) {
+        var user = localStorage.getItem('currentUser');
+        if (!user) {
+            showPopup('⚠️', 'Lỗi', 'Vui lòng đăng nhập lại!');
+            return;
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+
+        try {
+            // Kiểm tra số dư
+            var balance = await getUserBalance(user);
+
+            if (balance < price) {
+                showPopup('⚠️', 'Không đủ tiền',
+                    'Bạn cần ' + price.toLocaleString('vi-VN') + 'đ\n' +
+                    'Số dư hiện tại: ' + balance.toLocaleString('vi-VN') + 'đ\n' +
+                    'Vui lòng nạp thêm tiền!');
+                return;
+            }
+
+            // Xác nhận
+            if (!confirm('Bạn có chắc muốn mua "' + name + '"?\nGiá: ' + price.toLocaleString('vi-VN') + 'đ')) {
+                return;
+            }
+
+            // Trừ tiền
+            await subtractUserBalance(user, price);
+
+            // Lưu lịch sử mua
+            await savePurchaseToCloud(user, name, price);
+
+            // Lưu đơn hàng cloud
+            var orderRef = db.ref('cloudOrders/' + user).push();
+            await orderRef.set({
+                name: name,
+                price: price,
+                status: 'pending',
+                time: Date.now()
+            });
+
+            showPopup('✅', 'Mua thành công!',
+                'Bạn đã mua "' + name + '" với ' + price.toLocaleString('vi-VN') + 'đ\n' +
+                'Vui lòng chờ admin xử lý trong vòng 1-5 phút!');
+
+        } catch (error) {
+            console.error('Lỗi mua cloud:', error);
+            showPopup('❌', 'Lỗi', 'Không thể mua. Vui lòng thử lại!');
         }
-        .telemetry-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .telemetry-item {
-            background: #0f172a;
-            border-radius: 8px;
-            padding: 12px;
-            border: 1px solid #334155;
-        }
-        .telemetry-item .label {
-            color: #64748b;
-            font-size: 10px;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
-        .telemetry-item .value {
-            color: #60a5fa;
-            font-weight: 600;
-            font-size: 14px;
-        }
-        .progress-item {
-            margin-bottom: 12px;
-        }
-        .progress-item .progress-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-        }
-        .progress-item .progress-label {
-            color: #94a3b8;
-            font-size: 12px;
-        }
-        .progress-item .progress-value {
-            color: #60a5fa;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        .progress-bar {
-            height: 6px;
-            background: #0f172a;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        .progress-bar .progress-fill {
-            height: 100%;
-            border-radius: 3px;
-            transition: width 0.5s;
-        }
-        .progress-fill.blue { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
-        .progress-fill.purple { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
-        .progress-fill.green { background: linear-gradient(90deg, #10b981, #34d399); }
-        .console-log {
-            background: #0f172a;
-            border-radius: 10px;
-            padding: 15px;
-            max-height: 300px;
-            overflow-y: auto;
-            border: 1px solid #334155;
-        }
-        .console-log h4 {
-            color: #94a3b8;
-            font-size: 12px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-        .log-entry {
-            font-family: monospace;
-            font-size: 11px;
-            padding: 6px 0;
-            border-bottom: 1px solid #1e293b;
-            display: flex;
-            gap: 10px;
-        }
-        .log-entry .log-time { color: #64748b; }
-        .log-entry .log-type {
-            padding: 1px 6px;
-            border-radius: 3px;
-            font-size: 10px;
-        }
-        .log-type.info { background: #1e3a5f; color: #60a5fa; }
-        .log-type.success { background: #064e3b; color: #34d399; }
-        .log-type.warn { background: #78350f; color: #fbbf24; }
-        .log-entry .log-msg
+    }
+</script>
+
+</body>
+</html>
