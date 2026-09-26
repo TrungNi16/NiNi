@@ -124,7 +124,7 @@
             color: #ffcc00;
             font-family: monospace;
             font-size: 12px;
-            max-width: 130px;
+            max-width: 200px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -216,6 +216,38 @@
             <div class="stat-card">
                 <div class="num" id="statUsers">0</div>
                 <div class="label">Người dùng</div>
+            </div>
+        </div>
+
+        <!-- DUYỆT GIFTCODE (MỚI) -->
+        <div class="admin-section">
+            <div class="section-header">
+                <h2>🎁 Duyệt Giftcode</h2>
+                <button class="btn-refresh" onclick="loadGiftcodes()">🔄 Làm mới</button>
+            </div>
+
+            <div class="filter-bar">
+                <button class="filter-btn active" onclick="filterGiftcodes('pending', this)">⏳ Chờ duyệt</button>
+                <button class="filter-btn" onclick="filterGiftcodes('done', this)">✅ Đã duyệt</button>
+                <button class="filter-btn" onclick="filterGiftcodes('rejected', this)">❌ Từ chối</button>
+                <button class="filter-btn" onclick="filterGiftcodes('all', this)">🌐 Tất cả</button>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Mã Giftcode</th>
+                            <th>Trạng thái</th>
+                            <th>Thời gian</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="giftcodesBody">
+                        <tr><td colspan="5" class="empty-state">⏳ Đang tải...</td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -331,6 +363,7 @@
 <script>
     var currentFilter = 'pending';
     var currentCardFilter = 'pending';
+    var currentGiftFilter = 'pending';
 
     window.addEventListener('DOMContentLoaded', async function() {
         var user = localStorage.getItem('currentUser');
@@ -350,11 +383,142 @@
         }
 
         console.log('✅ Admin đã xác thực:', user);
+        loadGiftcodes();
         loadCards();
         loadLinks();
         loadStats();
         loadUsers();
     });
+
+    // ==========================================
+    // DUYỆT GIFTCODE
+    // ==========================================
+    async function loadGiftcodes() {
+        var tbody = document.getElementById('giftcodesBody');
+        tbody.innerHTML = '<tr><td colspan="5" class="empty-state">⏳ Đang tải...</td></tr>';
+
+        try {
+            var snapshot = await db.ref('giftcodes').once('value');
+            var data = snapshot.val();
+
+            if (!data) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">📭 Không có giftcode nào</td></tr>';
+                return;
+            }
+
+            var allGiftcodes = [];
+            Object.keys(data).forEach(function(username) {
+                var userGiftcodes = data[username];
+                if (userGiftcodes && typeof userGiftcodes === 'object') {
+                    Object.keys(userGiftcodes).forEach(function(key) {
+                        var gc = userGiftcodes[key];
+                        if (gc && typeof gc === 'object') {
+                            gc.id = key;
+                            gc.username = username;
+                            allGiftcodes.push(gc);
+                        }
+                    });
+                }
+            });
+
+            allGiftcodes.sort(function(a, b) {
+                return (b.time || 0) - (a.time || 0);
+            });
+
+            var filtered = allGiftcodes.filter(function(g) {
+                if (currentGiftFilter === 'all') return true;
+                return g.status === currentGiftFilter;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">📭 Không có giftcode nào</td></tr>';
+                return;
+            }
+
+            var html = '';
+            filtered.forEach(function(gc) {
+                var statusHtml = '';
+                if (gc.status === 'pending') {
+                    statusHtml = '<span class="status-badge status-pending">⏳ Chờ duyệt</span>';
+                } else if (gc.status === 'done') {
+                    statusHtml = '<span class="status-badge status-done">✅ Đã duyệt</span>';
+                } else {
+                    statusHtml = '<span class="status-badge status-rejected">❌ Từ chối</span>';
+                }
+
+                var date = new Date(gc.time);
+                var dateStr = date.getFullYear() + '-' + 
+                    String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+                    String(date.getDate()).padStart(2, '0');
+                var timeStr = String(date.getHours()).padStart(2, '0') + ':' + 
+                    String(date.getMinutes()).padStart(2, '0');
+
+                var actionBtns = '';
+                if (gc.status === 'pending') {
+                    actionBtns = 
+                        '<button class="btn-action btn-approve" onclick="approveGiftcode(\'' + gc.username + '\', \'' + gc.id + '\')">✅ Duyệt</button>' +
+                        '<button class="btn-action btn-reject" onclick="rejectGiftcode(\'' + gc.username + '\', \'' + gc.id + '\')">❌ Từ chối</button>';
+                }
+                actionBtns += '<button class="btn-action btn-delete" onclick="deleteGiftcode(\'' + gc.username + '\', \'' + gc.id + '\')">🗑️</button>';
+
+                html += '<tr>' +
+                    '<td><div class="user-cell"><div class="user-avatar-small">' + gc.username.charAt(0).toUpperCase() + '</div>' + gc.username + '</div></td>' +
+                    '<td><span class="td-code-text" title="' + (gc.code || '') + '">' + (gc.code || '-') + '</span></td>' +
+                    '<td>' + statusHtml + '</td>' +
+                    '<td>' + dateStr + '<br><span style="color:#888;font-size:11px;">' + timeStr + '</span></td>' +
+                    '<td><div class="action-btns">' + actionBtns + '</div></td>' +
+                    '</tr>';
+            });
+            tbody.innerHTML = html;
+
+        } catch (e) {
+            console.error('Lỗi load giftcodes:', e);
+            tbody.innerHTML = '<tr><td colspan="5" class="empty-state">❌ Lỗi: ' + e.message + '</td></tr>';
+        }
+    }
+
+    function filterGiftcodes(status, btn) {
+        var section = btn.closest('.admin-section');
+        section.querySelectorAll('.filter-btn').forEach(function(b) {
+            b.classList.remove('active');
+        });
+        btn.classList.add('active');
+        currentGiftFilter = status;
+        loadGiftcodes();
+    }
+
+    async function approveGiftcode(username, gcId) {
+        if (!confirm('Duyệt giftcode này của ' + username + '?\n\nSau khi duyệt, admin cần tự cộng tiền/quà cho user.')) return;
+        try {
+            await db.ref('giftcodes/' + username + '/' + gcId + '/status').set('done');
+            showPopup('✅', 'Duyệt thành công!', 'Giftcode của ' + username + ' đã được duyệt');
+            loadGiftcodes();
+        } catch (e) {
+            showPopup('❌', 'Lỗi', e.message);
+        }
+    }
+
+    async function rejectGiftcode(username, gcId) {
+        if (!confirm('Từ chối giftcode này của ' + username + '?')) return;
+        try {
+            await db.ref('giftcodes/' + username + '/' + gcId + '/status').set('rejected');
+            showPopup('⚠️', 'Đã từ chối', 'Giftcode của ' + username + ' đã bị từ chối');
+            loadGiftcodes();
+        } catch (e) {
+            showPopup('❌', 'Lỗi', e.message);
+        }
+    }
+
+    async function deleteGiftcode(username, gcId) {
+        if (!confirm('XÓA VĨNH VIỄN giftcode này?')) return;
+        try {
+            await db.ref('giftcodes/' + username + '/' + gcId).remove();
+            showPopup('🗑️', 'Đã xóa', 'Giftcode đã được xóa vĩnh viễn');
+            loadGiftcodes();
+        } catch (e) {
+            showPopup('❌', 'Lỗi', e.message);
+        }
+    }
 
     // ==========================================
     // DUYỆT NẠP TIỀN
@@ -567,177 +731,4 @@
                 if (link.status === 'pending') {
                     actionBtns = 
                         '<button class="btn-action btn-approve" onclick="approve(\'' + link.username + '\', \'' + link.id + '\')">✅ Duyệt</button>' +
-                        '<button class="btn-action btn-reject" onclick="reject(\'' + link.username + '\', \'' + link.id + '\')">❌ Từ chối</button>';
-                }
-                actionBtns += '<button class="btn-action btn-delete" onclick="deleteLinkConfirm(\'' + link.username + '\', \'' + link.id + '\')">🗑️</button>';
-
-                html += '<tr>' +
-                    '<td><div class="user-cell"><div class="user-avatar-small">' + link.username.charAt(0).toUpperCase() + '</div>' + link.username + '</div></td>' +
-                    '<td>' + link.service + '</td>' +
-                    '<td><span class="td-link" title="' + link.link + '">' + link.link + '</span></td>' +
-                    '<td class="td-points">+' + link.points + 'đ</td>' +
-                    '<td>' + statusHtml + '</td>' +
-                    '<td>' + dateStr + '<br><span style="color:#888;font-size:11px;">' + timeStr + '</span></td>' +
-                    '<td><div class="action-btns">' + actionBtns + '</div></td>' +
-                    '</tr>';
-            });
-            tbody.innerHTML = html;
-
-        } catch (e) {
-            console.error('Lỗi load links:', e);
-            tbody.innerHTML = '<tr><td colspan="7" class="empty-state">❌ Lỗi: ' + e.message + '</td></tr>';
-        }
-    }
-
-    async function approve(username, linkId) {
-        if (!confirm('Duyệt link này và cộng tiền cho ' + username + '?')) return;
-        try {
-            await approveLink(username, linkId);
-            showPopup('✅', 'Duyệt thành công!', 'Đã duyệt link và cộng tiền cho ' + username);
-            loadLinks();
-            loadStats();
-        } catch (e) {
-            showPopup('❌', 'Lỗi', e.message);
-        }
-    }
-
-    async function reject(username, linkId) {
-        if (!confirm('Từ chối link này của ' + username + '?')) return;
-        try {
-            await rejectLink(username, linkId);
-            showPopup('⚠️', 'Đã từ chối', 'Link của ' + username + ' đã bị từ chối');
-            loadLinks();
-            loadStats();
-        } catch (e) {
-            showPopup('❌', 'Lỗi', e.message);
-        }
-    }
-
-    async function deleteLinkConfirm(username, linkId) {
-        if (!confirm('XÓA VĨNH VIỄN link này?\nKhông thể khôi phục!')) return;
-        try {
-            await deleteLink(username, linkId);
-            showPopup('🗑️', 'Đã xóa', 'Link đã được xóa vĩnh viễn');
-            loadLinks();
-            loadStats();
-        } catch (e) {
-            showPopup('❌', 'Lỗi', e.message);
-        }
-    }
-
-    function filterLinks(status, btn) {
-        var section = btn.closest('.admin-section');
-        section.querySelectorAll('.filter-btn').forEach(function(b) {
-            b.classList.remove('active');
-        });
-        btn.classList.add('active');
-        currentFilter = status;
-        loadLinks();
-    }
-
-    // ==========================================
-    // QUẢN LÝ USER
-    // ==========================================
-    async function loadUsers() {
-        var tbody = document.getElementById('usersBody');
-        tbody.innerHTML = '<tr><td colspan="5" class="empty-state">⏳ Đang tải...</td></tr>';
-
-        try {
-            var users = await getAllUsers();
-
-            if (users.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">📭 Chưa có user nào</td></tr>';
-                return;
-            }
-
-            var html = '';
-            users.forEach(function(u) {
-                var date = new Date(u.createdAt || Date.now());
-                var dateStr = date.getFullYear() + '-' + 
-                    String(date.getMonth() + 1).padStart(2, '0') + '-' + 
-                    String(date.getDate()).padStart(2, '0');
-
-                html += '<tr>' +
-                    '<td><div class="user-cell"><div class="user-avatar-small">' + u.username.charAt(0).toUpperCase() + '</div>' + u.username + '</div></td>' +
-                    '<td class="td-points">' + (u.balance || 0).toLocaleString('vi-VN') + 'đ</td>' +
-                    '<td>' + (u.vipLevel || 0) + '</td>' +
-                    '<td>' + dateStr + '</td>' +
-                    '<td>' +
-                        '<div class="action-btns">' +
-                            '<button class="btn-action btn-approve" onclick="addBalance(\'' + u.username + '\')">💰 Cộng tiền</button>' +
-                            '<button class="btn-action btn-reject" onclick="subtractBalance(\'' + u.username + '\')">💸 Trừ tiền</button>' +
-                        '</div>' +
-                    '</td>' +
-                    '</tr>';
-            });
-            tbody.innerHTML = html;
-
-        } catch (e) {
-            console.error('Lỗi load users:', e);
-            tbody.innerHTML = '<tr><td colspan="5" class="empty-state">❌ Lỗi: ' + e.message + '</td></tr>';
-        }
-    }
-
-    async function addBalance(username) {
-        var amount = prompt('Nhập số tiền muốn CỘNG cho ' + username + ' (VNĐ):');
-        if (!amount) return;
-        
-        amount = parseInt(amount);
-        if (isNaN(amount) || amount <= 0) {
-            showPopup('⚠️', 'Lỗi', 'Số tiền không hợp lệ!');
-            return;
-        }
-
-        try {
-            await addUserBalance(username, amount);
-            showPopup('✅', 'Thành công!', 'Đã cộng ' + amount.toLocaleString('vi-VN') + 'đ cho ' + username);
-            loadUsers();
-            loadStats();
-        } catch (e) {
-            showPopup('❌', 'Lỗi', e.message);
-        }
-    }
-
-    async function subtractBalance(username) {
-        var amount = prompt('Nhập số tiền muốn TRỪ của ' + username + ' (VNĐ):');
-        if (!amount) return;
-        
-        amount = parseInt(amount);
-        if (isNaN(amount) || amount <= 0) {
-            showPopup('⚠️', 'Lỗi', 'Số tiền không hợp lệ!');
-            return;
-        }
-
-        try {
-            var currentBalance = await getUserBalance(username);
-            
-            if (currentBalance < amount) {
-                showPopup('⚠️', 'Không đủ tiền',
-                    username + ' chỉ có ' + currentBalance.toLocaleString('vi-VN') + 'đ\n' +
-                    'Không thể trừ ' + amount.toLocaleString('vi-VN') + 'đ!');
-                return;
-            }
-
-            if (!confirm('Bạn có chắc muốn TRỪ ' + amount.toLocaleString('vi-VN') + 'đ của ' + username + '?')) {
-                return;
-            }
-
-            await subtractUserBalance(username, amount);
-            
-            showPopup('✅', 'Thành công!',
-                'Đã trừ ' + amount.toLocaleString('vi-VN') + 'đ của ' + username + '\n' +
-                'Số dư còn lại: ' + (currentBalance - amount).toLocaleString('vi-VN') + 'đ');
-            
-            loadUsers();
-            loadStats();
-
-        } catch (e) {
-            showPopup('❌', 'Lỗi', e.message);
-        }
-    }
-
-    setInterval(loadStats, 30000);
-</script>
-
-</body>
-</html>
+                        '<button class="btn-action btn-reject" onclick="reject(\''
