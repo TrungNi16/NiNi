@@ -139,6 +139,7 @@
             color: #aaa; font-size: 13px; margin-bottom: 8px;
         }
         .limit-row .count { color: #fff; font-weight: 700; }
+        .limit-row .count.full { color: #ff4444; }
         .progress-bar {
             height: 6px;
             background: rgba(255, 255, 255, 0.05);
@@ -149,6 +150,10 @@
             height: 100%;
             border-radius: 10px;
             background: linear-gradient(90deg, #00aaff, #66ccff);
+            transition: width 0.3s;
+        }
+        .progress-fill.full {
+            background: linear-gradient(90deg, #ff4444, #ff6666);
         }
         .btn-create {
             width: 100%;
@@ -162,10 +167,16 @@
             cursor: pointer;
             transition: 0.3s;
         }
-        .btn-create:hover {
+        .btn-create:hover:not(:disabled) {
             background: linear-gradient(135deg, #8b4fff, #6b3fff);
             transform: scale(1.02);
             box-shadow: 0 0 30px rgba(123, 63, 255, 0.4);
+        }
+        .btn-create:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background: #333;
+            transform: none;
         }
 
         /* ===== LỊCH SỬ ===== */
@@ -368,6 +379,7 @@
         </div>
 
         <div class="cards-grid">
+            <!-- Card Layma -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-logo-wrap">
@@ -382,12 +394,18 @@
                 </div>
                 <h3 class="card-title">Vượt link Layma</h3>
                 <div class="card-limit">
-                    <div class="limit-row"><span>Hạn ngạch hôm nay</span><span class="count">0/2 Lượt</span></div>
-                    <div class="progress-bar"><div class="progress-fill" style="width:0%;"></div></div>
+                    <div class="limit-row">
+                        <span>Hạn ngạch hôm nay</span>
+                        <span class="count" id="count-Layma">0/2 Lượt</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-Layma" style="width:0%;"></div>
+                    </div>
                 </div>
-                <button class="btn-create" onclick="createLink('Layma', 510)">➜ Tạo link Layma (510đ)</button>
+                <button class="btn-create" id="btn-Layma" onclick="createLink('Layma', 510)">➜ Tạo link Layma (510đ)</button>
             </div>
 
+            <!-- Card TrafficVN -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-logo-wrap">
@@ -402,12 +420,18 @@
                 </div>
                 <h3 class="card-title">Vượt link TrafficVN</h3>
                 <div class="card-limit">
-                    <div class="limit-row"><span>Hạn ngạch hôm nay</span><span class="count">0/2 Lượt</span></div>
-                    <div class="progress-bar"><div class="progress-fill" style="width:0%;"></div></div>
+                    <div class="limit-row">
+                        <span>Hạn ngạch hôm nay</span>
+                        <span class="count" id="count-TrafficVN">0/2 Lượt</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-TrafficVN" style="width:0%;"></div>
+                    </div>
                 </div>
-                <button class="btn-create" onclick="createLink('TrafficVN', 260)">➜ Tạo link TrafficVN (260đ)</button>
+                <button class="btn-create" id="btn-TrafficVN" onclick="createLink('TrafficVN', 260)">➜ Tạo link TrafficVN (260đ)</button>
             </div>
 
+            <!-- Card Gtraffic -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-logo-wrap">
@@ -422,12 +446,18 @@
                 </div>
                 <h3 class="card-title">Vượt link Gtraffic</h3>
                 <div class="card-limit">
-                    <div class="limit-row"><span>Hạn ngạch hôm nay</span><span class="count">0/2 Lượt</span></div>
-                    <div class="progress-bar"><div class="progress-fill" style="width:0%;"></div></div>
+                    <div class="limit-row">
+                        <span>Hạn ngạch hôm nay</span>
+                        <span class="count" id="count-Gtraffic">0/2 Lượt</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-Gtraffic" style="width:0%;"></div>
+                    </div>
                 </div>
-                <button class="btn-create" onclick="createLink('Gtraffic', 360)">➜ Tạo link Gtraffic (360đ)</button>
+                <button class="btn-create" id="btn-Gtraffic" onclick="createLink('Gtraffic', 360)">➜ Tạo link Gtraffic (360đ)</button>
             </div>
 
+            <!-- Card Gtraffic Direct -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-logo-wrap">
@@ -442,10 +472,15 @@
                 </div>
                 <h3 class="card-title">Vượt link Gtraffic Direct</h3>
                 <div class="card-limit">
-                    <div class="limit-row"><span>Hạn ngạch hôm nay</span><span class="count">0/2 Lượt</span></div>
-                    <div class="progress-bar"><div class="progress-fill" style="width:0%;"></div></div>
+                    <div class="limit-row">
+                        <span>Hạn ngạch hôm nay</span>
+                        <span class="count" id="count-GtrafficDirect">0/2 Lượt</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-GtrafficDirect" style="width:0%;"></div>
+                    </div>
                 </div>
-                <button class="btn-create" onclick="createLink('Gtraffic Direct', 360)">➜ Tạo link Gtraffic Direct (360đ)</button>
+                <button class="btn-create" id="btn-GtrafficDirect" onclick="createLink('Gtraffic Direct', 360)">➜ Tạo link Gtraffic Direct (360đ)</button>
             </div>
         </div>
 
@@ -490,6 +525,7 @@
     </div>
 </div>
 
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 <script src="firebase.js"></script>
@@ -498,26 +534,111 @@
 <script>
     var currentFilter = 'all';
     var currentUser = localStorage.getItem('currentUser');
+    var MAX_LIMIT = 2; // Tối đa 2 lượt/ngày
 
-    // ===== TẠO LINK =====
+    // ===== LẤY NGÀY HÔM NAY =====
+    function getTodayStr() {
+        var d = new Date();
+        return d.getFullYear() + '-' + 
+               String(d.getMonth() + 1).padStart(2, '0') + '-' + 
+               String(d.getDate()).padStart(2, '0');
+    }
+
+    // ===== LẤY SỐ LƯỢT ĐÃ DÙNG HÔM NAY =====
+    async function getUsedCount(service) {
+        try {
+            var todayStr = getTodayStr();
+            var snapshot = await db.ref('dailyLinks/' + currentUser + '/' + todayStr + '/' + service).once('value');
+            return snapshot.val() || 0;
+        } catch (e) {
+            console.error('Lỗi lấy lượt dùng:', e);
+            return 0;
+        }
+    }
+
+    // ===== CẬP NHẬT UI HẠN NGẠCH =====
+    async function updateAllLimits() {
+        var services = [
+            { name: 'Layma', id: 'Layma', price: 510 },
+            { name: 'TrafficVN', id: 'TrafficVN', price: 260 },
+            { name: 'Gtraffic', id: 'Gtraffic', price: 360 },
+            { name: 'Gtraffic Direct', id: 'GtrafficDirect', price: 360 }
+        ];
+
+        for (var i = 0; i < services.length; i++) {
+            var svc = services[i];
+            var used = await getUsedCount(svc.name);
+            
+            var countEl = document.getElementById('count-' + svc.id);
+            var progressEl = document.getElementById('progress-' + svc.id);
+            var btnEl = document.getElementById('btn-' + svc.id);
+
+            if (countEl) {
+                countEl.textContent = used + '/' + MAX_LIMIT + ' Lượt';
+                if (used >= MAX_LIMIT) {
+                    countEl.classList.add('full');
+                } else {
+                    countEl.classList.remove('full');
+                }
+            }
+
+            if (progressEl) {
+                progressEl.style.width = (used / MAX_LIMIT * 100) + '%';
+                if (used >= MAX_LIMIT) {
+                    progressEl.classList.add('full');
+                } else {
+                    progressEl.classList.remove('full');
+                }
+            }
+
+            if (btnEl) {
+                if (used >= MAX_LIMIT) {
+                    btnEl.disabled = true;
+                    btnEl.textContent = '❌ Hết lượt hôm nay';
+                } else {
+                    btnEl.disabled = false;
+                    btnEl.textContent = '➜ Tạo link ' + svc.name + ' (' + svc.price + 'đ)';
+                }
+            }
+        }
+    }
+
+    // ===== TẠO LINK (TRỪ 1 LƯỢT) =====
     async function createLink(service, points) {
         if (!currentUser) {
             showPopup('⚠️', 'Lỗi', 'Vui lòng đăng nhập lại!');
             return;
         }
 
-        // Tạo link ngẫu nhiên
-        var link = 'https://' + service.toLowerCase().replace(/\s/g, '') + '.net/' + 
-                   Math.random().toString(36).substring(2, 11);
-
         try {
-            // Lưu lên Firebase
+            // Kiểm tra số lượt còn lại
+            var used = await getUsedCount(service);
+
+            if (used >= MAX_LIMIT) {
+                showPopup('⚠️', 'Hết lượt',
+                    'Bạn đã dùng hết ' + MAX_LIMIT + ' lượt cho ' + service + ' hôm nay!\n\n' +
+                    'Vui lòng quay lại vào ngày mai sau 00:00.');
+                return;
+            }
+
+            // Tạo link ngẫu nhiên
+            var link = 'https://' + service.toLowerCase().replace(/\s/g, '') + '.net/' + 
+                       Math.random().toString(36).substring(2, 11);
+
+            // Lưu link lên Firebase
             await saveLinkHistoryToCloud(currentUser, service, link, points, 'pending');
-            
+
+            // Tăng số lượt đã dùng
+            var todayStr = getTodayStr();
+            await db.ref('dailyLinks/' + currentUser + '/' + todayStr + '/' + service).set(used + 1);
+
             showPopup('🔗', 'Tạo link ' + service + ' thành công!',
-                'Link: ' + link + '\n\nĐang chờ admin duyệt. Bạn sẽ được cộng ' + points + 'đ sau khi duyệt!');
-            
-            // Reload lịch sử
+                'Link: ' + link + '\n\n' +
+                '📊 Đã dùng: ' + (used + 1) + '/' + MAX_LIMIT + ' lượt hôm nay.\n' +
+                '💰 Bạn sẽ được cộng ' + points + 'đ sau khi admin duyệt!');
+
+            // Cập nhật UI + lịch sử
+            await updateAllLimits();
             loadHistory();
 
         } catch (error) {
@@ -533,113 +654,15 @@
 
         try {
             var history = await getLinkHistoryFromCloud(currentUser);
-            console.log('📦 Lịch sử link:', history);
 
             if (!history || history.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#555;padding:40px;">📭 Bạn chưa có lượt vượt link nào</td></tr>';
                 return;
             }
 
-            // Lọc theo currentFilter
             var filtered = history.filter(function(item) {
                 if (currentFilter === 'all') return true;
                 return item.status === currentFilter;
             });
 
-            if (filtered.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#555;padding:40px;">📭 Không có dữ liệu</td></tr>';
-                return;
-            }
-
-            // Chỉ hiển thị 5 cái mới nhất
-            filtered = filtered.slice(0, 5);
-
-            var html = '';
-            filtered.forEach(function(item) {
-                var logoClass = 'code-logo';
-                var logo = '?';
-                
-                if (item.service === 'Layma') { logo = 'L'; logoClass += ' layma'; }
-                else if (item.service === 'TrafficVN') { logo = '⚡'; }
-                else if (item.service === 'Gtraffic') { logo = 'G'; logoClass += ' gtraffic'; }
-                else if (item.service === 'Gtraffic Direct') { logo = 'G'; logoClass += ' gtraffic-direct'; }
-
-                var statusHtml = '';
-                if (item.status === 'pending') {
-                    statusHtml = '<span class="status-badge status-pending">⏳ Chờ duyệt</span>';
-                } else if (item.status === 'done') {
-                    statusHtml = '<span class="status-badge status-done">✅ Đã duyệt</span>';
-                } else {
-                    statusHtml = '<span class="status-badge status-rejected">❌ Từ chối</span>';
-                }
-
-                var date = new Date(item.time);
-                var dateStr = date.getFullYear() + '-' + 
-                    String(date.getMonth() + 1).padStart(2, '0') + '-' + 
-                    String(date.getDate()).padStart(2, '0');
-                var timeStr = String(date.getHours()).padStart(2, '0') + ':' + 
-                    String(date.getMinutes()).padStart(2, '0') + ':' + 
-                    String(date.getSeconds()).padStart(2, '0');
-
-                html += '<tr>' +
-                    '<td><div class="td-code"><div class="' + logoClass + '">' + logo + '</div><span>' + item.service + '</span></div></td>' +
-                    '<td><span class="td-link">' + item.link + '</span></td>' +
-                    '<td class="td-points">+' + item.points + 'đ</td>' +
-                    '<td>' + statusHtml + '</td>' +
-                    '<td><div class="time-cell"><span class="date">' + dateStr + '</span><span class="time">' + timeStr + '</span></div></td>' +
-                    '</tr>';
-            });
-            tbody.innerHTML = html;
-
-        } catch (error) {
-            console.error('❌ Lỗi load lịch sử:', error);
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#ff6666;padding:40px;">❌ Lỗi tải dữ liệu</td></tr>';
-        }
-    }
-
-    // ===== LỌC LỊCH SỬ =====
-    function filterHistory(type, btn) {
-        document.querySelectorAll('.filter-btn').forEach(function(b) {
-            b.classList.remove('active');
-        });
-        btn.classList.add('active');
-        currentFilter = type;
-        loadHistory();
-    }
-
-    // ===== ĐỒNG HỒ ĐẾM NGƯỢC =====
-    function startCountdown() {
-        var el = document.getElementById('timerBadge');
-        if (!el) return;
-
-        function update() {
-            var now = new Date();
-            var midnight = new Date();
-            midnight.setHours(24, 0, 0, 0);
-
-            var diff = Math.floor((midnight - now) / 1000);
-            if (diff < 0) diff = 0;
-
-            var h = Math.floor(diff / 3600);
-            var m = Math.floor((diff % 3600) / 60);
-            var s = diff % 60;
-
-            el.textContent =
-                String(h).padStart(2, '0') + ':' +
-                String(m).padStart(2, '0') + ':' +
-                String(s).padStart(2, '0');
-        }
-
-        update();
-        setInterval(update, 1000);
-    }
-
-    // ===== KHỞI CHẠY =====
-    document.addEventListener('DOMContentLoaded', function() {
-        startCountdown();
-        loadHistory();
-    });
-</script>
-
-</body>
-</html>
+            if (filtered.length === 0
