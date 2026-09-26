@@ -3,99 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lịch sử nạp tiền - NINI STORE</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/style.css">
+    <title>Lịch sử nạp tiền - NiNi Store</title>
+    <link rel="stylesheet" href="layout.css">
+    <style>
+        .history-container {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .history-container .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .history-container h1 {
+            color: #ffd700;
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+
+        .history-list {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: left;
+            min-height: 100px;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-item .info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .history-item .amount {
+            color: #00ff88;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .history-item .meta {
+            color: #888;
+            font-size: 12px;
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .status-done {
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .status-pending {
+            background: rgba(255, 200, 0, 0.1);
+            color: #ffcc00;
+            border: 1px solid rgba(255, 200, 0, 0.2);
+        }
+
+        .status-rejected {
+            background: rgba(255, 50, 50, 0.1);
+            color: #ff6666;
+            border: 1px solid rgba(255, 50, 50, 0.2);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #555;
+            padding: 40px 20px;
+        }
+    </style>
 </head>
 <body>
-    <button class="menu-toggle" id="menuToggle" onclick="toggleSidebar()">
-        <i class="fas fa-bars"></i>
-    </button>
 
-    <div class="overlay" id="overlay"></div>
+<button class="hamburger" onclick="toggleSidebar()" title="Ẩn/Hiện menu">☰</button>
+<div class="overlay" id="overlay" onclick="closeMobileSidebar()"></div>
 
-    <aside class="sidebar" id="sidebar">
+<div class="container">
+    <nav class="sidebar" id="sidebar">
         <div class="sidebar-brand">
-            <h1>⭐ NINI STORE</h1>
-            <p>Free Fire Code Shop</p>
+            <h2>🌟 NINI STORE</h2>
+            <div class="sub">Free Fire Code Shop</div>
         </div>
-        <nav class="sidebar-nav">
-            <a href="index.html"><i class="fas fa-home"></i> Trang chủ</a>
-            <a href="#"><i class="fas fa-tasks"></i> Nhiệm vụ</a>
-            <a href="#"><i class="fas fa-gift"></i> Đổi điểm</a>
-            <div class="has-submenu">
-                <a href="#" onclick="toggleSubmenu(this); return false;">
-                    <i class="fas fa-wallet"></i> Nạp Tiền
-                </a>
-                <div class="submenu">
-                    <a href="card.html"><i class="fas fa-credit-card"></i> Nạp Thẻ Cào</a>
-                    <a href="bank.html"><i class="fas fa-university"></i> Nạp Bank/Momo</a>
+        <ul class="sidebar-menu">
+            <li data-page="home"><a href="home.html">🏠 Trang chủ</a></li>
+            <li data-page="task"><a href="task.html">📋 Nhiệm vụ</a></li>
+            <li data-page="exchange"><a href="exchange.html">🔄 Đổi điểm</a></li>
+            <li class="has-sub">
+                <a href="#">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
+                <ul class="sub-menu">
+                    <li data-page="card"><a href="card.html">💳 Nạp Thẻ Cào</a></li>
+                    <li data-page="bank"><a href="bank.html">🏦 Nạp Bank/Momo</a></li>
+                    <li data-page="recharge-history" class="active"><a href="recharge-history.html">📜 Lịch sử nạp tiền</a></li>
+                </ul>
+            </li>
+            <li class="has-sub">
+                <a href="#">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
+                <ul class="sub-menu">
+                    <li data-page="redeem"><a href="redeem.html">🔄 Redeem Uphone 4h</a></li>
+                    <li data-page="buycloud"><a href="buycloud.html">☁️ Mua Máy Cloud</a></li>
+                    <li data-page="checkcloud"><a href="checkcloud.html">🔍 Check Máy Uphone</a></li>
+                    <li data-page="codelogin"><a href="codelogin.html">🔑 Code Login Cloud</a></li>
+                </ul>
+            </li>
+            <li data-page="giftcode"><a href="giftcode.html">🎁 Nhập Giftcode</a></li>
+            <li data-page="flashsale"><a href="flashsale.html">⚡ Flash Sale Cloud</a></li>
+            <li data-page="ranking"><a href="ranking.html">🏆 Bảng Xếp Hạng</a></li>
+            <li data-page="history"><a href="history.html">📜 Lịch sử mua hàng</a></li>
+            <li data-page="taskhistory"><a href="taskhistory.html">📜 Lịch sử nhiệm vụ</a></li>
+            <li data-page="cloudfree"><a href="cloudfree.html">☁️ Cloud Free Mỗi Ngày</a></li>
+            <li data-page="support"><a href="support.html">⚙️ Trung Tâm Hỗ Trợ</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <span class="user-avatar">👤</span>
+                <div>
+                    <strong id="usernameDisplay">Khách</strong>
+                    <span id="balanceDisplay">💰 Đang tải...</span>
                 </div>
             </div>
-            <a href="recharge-history.html" class="active"><i class="fas fa-history"></i> Lịch sử nạp tiền</a>
-            <div class="has-submenu">
-                <a href="#" onclick="toggleSubmenu(this); return false;">
-                    <i class="fas fa-tools"></i> Công Cụ
-                </a>
-                <div class="submenu">
-                    <a href="redeeem.html"><i class="fas fa-sync-alt"></i> Redeem Uphone 4H</a>
-                    <a href="codelogin.html"><i class="fas fa-key"></i> Code Login Cloud</a>
-                    <a href="#"><i class="fas fa-server"></i> Mua Máy Cloud</a>
-                </div>
+            <a href="#" class="logout-btn" onclick="logout()">🚪 Đăng xuất</a>
+        </div>
+    </nav>
+
+    <main class="content" id="content">
+        <div class="history-container">
+            <div class="icon">📜</div>
+            <h1>Lịch sử nạp tiền</h1>
+            <div class="history-list" id="historyList">
+                <div class="empty-state">⏳ Đang tải...</div>
             </div>
-            <a href="#"><i class="fas fa-gift"></i> Nhập Giftcode</a>
-            <a href="#"><i class="fas fa-bolt"></i> Flash Sale Cloud</a>
-            <a href="#"><i class="fas fa-trophy"></i> Bảng Xếp Hạng</a>
-            <a href="#"><i class="fas fa-history"></i> Lịch sử mua hàng</a>
-            <a href="#"><i class="fas fa-history"></i> Lịch sử nhiệm vụ</a>
-            <a href="cloudfree.html"><i class="fas fa-cloud"></i> Cloud Free Mỗi Ngày</a>
-            <a href="support.html"><i class="fas fa-headset"></i> Trung Tâm Hỗ Trợ</a>
-        </nav>
-    </aside>
-
-    <main class="main-content" id="mainContent">
-        <div class="page-centered">
-            <div class="page-icon">📜</div>
-            <h1 class="page-title">Lịch sử nạp tiền</h1>
-
-            <div class="card-box wide">
-                <div class="history-list">
-                    <div class="history-item">
-                        <div class="left">
-                            <span class="amount">💧 +100,000đ</span>
-                            <span class="date">- 01/01/2026</span>
-                        </div>
-                        <span class="status-success">
-                            <i class="fas fa-check-square"></i> Thành công
-                        </span>
-                    </div>
-                    <div class="history-item">
-                        <div class="left">
-                            <span class="amount">💧 +50,000đ</span>
-                            <span class="date">- 28/12/2025</span>
-                        </div>
-                        <span class="status-success">
-                            <i class="fas fa-check-square"></i> Thành công
-                        </span>
-                    </div>
-                    <div class="history-item">
-                        <div class="left">
-                            <span class="amount">💧 +20,000đ</span>
-                            <span class="date">- 20/12/2025</span>
-                        </div>
-                        <span class="status-failed">
-                            <i class="fas fa-times"></i> Thất bại
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <a href="index.html" class="btn btn-back">
-                <i class="fas fa-arrow-left"></i> Quay lại trang chủ
-            </a>
         </div>
     </main>
+</div>
 
-    <script src="assets/sidebar.js"></script>
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup-box">
+        <div class="icon" id="popupIcon">📢</div>
+        <h3 id="popupTitle">Thông báo</h3>
+        <p id="popupMessage">Nội dung thông báo</p>
+        <button class="close-btn" onclick="closePopup()">Đã hiểu</button>
+    </div>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="firebase.js"></script>
+<script src="layout.js"></script>
+
+<script>
+    // ===== LOAD LỊCH SỬ NẠP TIỀN TỪ FIREBASE =====
+    document.addEventListener('DOMContentLoaded', async function() {
+        var user = localStorage.getItem('currentUser');
+        var list = document.getElementById('historyList');
+        
+        if (!user) {
+            list.innerHTML = '<div class="empty-state">⚠️ Vui lòng đăng nhập lại!</div>';
+            return;
+        }
+
+        try {
+            // Lấy từ collection 'cards' trên Firebase
+            var snapshot = await db.ref('cards/' + user).once('value');
+            var cards = snapshot.val();
+
+            if (!cards) {
+                list.innerHTML = '<div class="empty-state">📭 Bạn chưa có giao dịch nào</div>';
+                return;
+            }
+
+            // Chuyển object thành array và sắp xếp mới nhất lên đầu
+            var items = Object.values(cards).sort(function(a, b) {
+                return (b.time || 0) - (a.time || 0);
+            });
+
+            var html = '';
+            items.forEach(function(item) {
+                var date = new Date(item.time);
+                var dateStr = String(date.getDate()).padStart(2, '0') + '/' +
+                              String(date.getMonth() + 1).padStart(2, '0') + '/' +
+                              date.getFullYear();
+
+                var statusClass = 'status-pending';
+                var statusText = '⏳ Chờ duyệt';
+
+                if (item.status === 'done') {
+                    statusClass = 'status-done';
+                    statusText = '✅ Thành công';
+                } else if (item.status === 'rejected') {
+                    statusClass = 'status-rejected';
+                    statusText = '❌ Thất bại';
+                }
+
+                html += '<div class="history-item">' +
+                    '<div class="info">' +
+                        '<span class="amount">+' + (item.amount || 0).toLocaleString('vi-VN') + 'đ</span>' +
+                        '<span class="meta">' + (item.network || 'Thẻ cào') + ' • ' + dateStr + '</span>' +
+                    '</div>' +
+                    '<span class="status-badge ' + statusClass + '">' + statusText + '</span>' +
+                '</div>';
+            });
+
+            list.innerHTML = html;
+
+        } catch (error) {
+            console.error('Lỗi load lịch sử nạp tiền:', error);
+            list.innerHTML = '<div class="empty-state">❌ Lỗi tải dữ liệu. Vui lòng thử lại!</div>';
+        }
+    });
+</script>
+
 </body>
 </html>
