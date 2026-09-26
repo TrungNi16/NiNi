@@ -6,8 +6,142 @@
     <title>Nhiệm vụ - NiNi Store</title>
     <link rel="stylesheet" href="layout.css">
     <style>
+        /* ===== STATS CARDS ===== */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: rgba(10, 10, 26, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .stat-box .stat-label {
+            color: #666;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .stat-box .stat-value {
+            color: #00ff88;
+            font-size: 28px;
+            font-weight: 900;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 8px;
+        }
+
+        .stat-box .stat-value.blue { color: #00ccff; }
+        .stat-box .stat-value.purple { color: #a855f7; }
+
+        .stat-box .stat-desc {
+            color: #888;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .stat-box .stat-desc strong {
+            color: #ffd700;
+        }
+
+        .stat-box .stat-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .stat-icon.green { background: rgba(0, 255, 136, 0.1); border: 1px solid rgba(0, 255, 136, 0.2); }
+        .stat-icon.blue { background: rgba(0, 200, 255, 0.1); border: 1px solid rgba(0, 200, 255, 0.2); }
+        .stat-icon.purple { background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.2); }
+
+        /* ===== NOTICE BAR ===== */
+        .notice-bar {
+            background: rgba(10, 10, 26, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 16px;
+        }
+        .notice-item { display: flex; gap: 12px; align-items: flex-start; }
+        .notice-icon {
+            width: 42px; height: 42px; min-width: 42px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px;
+        }
+        .notice-icon.blue { background: rgba(0, 150, 255, 0.1); border: 1px solid rgba(0, 150, 255, 0.2); }
+        .notice-icon.red { background: rgba(255, 50, 50, 0.1); border: 1px solid rgba(255, 50, 50, 0.2); }
+        .notice-icon.yellow { background: rgba(255, 200, 0, 0.1); border: 1px solid rgba(255, 200, 0, 0.2); }
+        .notice-content h4 {
+            color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 4px;
+            display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+        }
+        .notice-content p { color: #888; font-size: 12px; line-height: 1.5; }
+        .timer-badge {
+            background: rgba(0, 150, 255, 0.15);
+            color: #00aaff;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        /* ===== PRIVILEGE BAR ===== */
+        .privilege-bar {
+            background: rgba(10, 10, 26, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .privilege-left { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+        .privilege-title { color: #ffd700; font-size: 14px; font-weight: 700; }
+        .badge-item {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 5px 12px; border-radius: 20px;
+            font-size: 13px; color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .badge-item.green {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+        }
+        .badge-item .time { color: #ffd700; font-weight: 700; font-size: 12px; }
+        .discord-link {
+            color: #00aaff; text-decoration: none; font-size: 14px;
+            display: flex; align-items: center; gap: 6px; transition: 0.3s;
+        }
+        .discord-link:hover { color: #66ccff; }
+
+        /* ===== CARDS GRID ===== */
         .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
-        .card { background: rgba(10,10,26,0.95); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 20px; }
+        .card { background: rgba(10,10,26,0.95); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 20px; transition: 0.3s; }
+        .card:hover { border-color: rgba(150,100,255,0.3); transform: translateY(-3px); }
         .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
         .card-logo { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; }
         .card-logo.layma { background: #ffd700; color: #000; }
@@ -19,6 +153,7 @@
         .tag-trafficvn { color: #ff44aa; border: 1px solid rgba(255,68,170,0.3); background: rgba(255,68,170,0.1); }
         .tag-gtraffic { color: #00ff88; border: 1px solid rgba(0,255,136,0.3); background: rgba(0,255,136,0.1); }
         .tag-gtraffic-direct { color: #00ff88; border: 1px solid rgba(0,255,136,0.3); background: rgba(0,255,136,0.1); }
+        .card-price { text-align: right; }
         .card-price .current { color: #00ff88; font-size: 22px; font-weight: 700; }
         .card-price .unit { color: #888; font-size: 12px; }
         .card-title { color: #fff; font-size: 17px; font-weight: 700; margin-bottom: 16px; }
@@ -33,7 +168,8 @@
         .btn-create:hover:not(:disabled) { transform: scale(1.02); }
         .btn-create:disabled { opacity: 0.4; cursor: not-allowed; background: #333; }
 
-        .history-box { background: rgba(10,10,26,0.95); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 20px; margin-top: 20px; }
+        /* ===== HISTORY ===== */
+        .history-box { background: rgba(10,10,26,0.95); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 20px; }
         .history-title { color: #ffd700; font-size: 18px; font-weight: 700; margin-bottom: 15px; }
         .table-wrap { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -45,6 +181,15 @@
         .status-pending { background: rgba(255,200,0,0.1); color: #ffcc00; border: 1px solid rgba(255,200,0,0.2); }
         .status-done { background: rgba(0,255,136,0.1); color: #00ff88; border: 1px solid rgba(0,255,136,0.2); }
         .status-rejected { background: rgba(255,50,50,0.1); color: #ff6666; border: 1px solid rgba(255,50,50,0.2); }
+
+        @media (max-width: 992px) {
+            .stats-row, .notice-bar { grid-template-columns: 1fr; }
+            .cards-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 600px) {
+            .cards-grid { grid-template-columns: 1fr; }
+            .privilege-bar { flex-direction: column; align-items: flex-start; }
+        }
     </style>
 </head>
 <body>
@@ -100,11 +245,69 @@
     </nav>
 
     <main class="content" id="content">
-        <h2 style="color:#ffd700; margin-bottom:10px;">📋 Nhiệm vụ</h2>
-        <p style="color:#888; margin-bottom:20px;">Tạo link vượt để kiếm tiền. Mỗi dịch vụ tối đa 2 lượt/ngày.</p>
 
+        <!-- ===== 3 THẺ THỐNG KÊ ===== -->
+        <div class="stats-row">
+            <div class="stat-box">
+                <div class="stat-icon green">💎</div>
+                <div class="stat-label">Số dư khả dụng</div>
+                <div class="stat-value" id="statBalance">1.010 đ</div>
+                <div class="stat-desc">Dùng để rút tiền hoặc đổi code cloud phone</div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-icon blue">👤</div>
+                <div class="stat-label">Tổng đã kiếm</div>
+                <div class="stat-value blue" id="statTotalEarned">1.010 đ</div>
+                <div class="stat-desc">Thu nhập tích lũy toàn thời gian</div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-icon purple">📈</div>
+                <div class="stat-label">Hôm nay</div>
+                <div class="stat-value purple" id="statToday">+0 đ</div>
+                <div class="stat-desc">Đã hoàn thành <strong>0</strong> link</div>
+            </div>
+        </div>
+
+        <!-- ===== THÔNG BÁO ===== -->
+        <div class="notice-bar">
+            <div class="notice-item">
+                <div class="notice-icon blue">🕐</div>
+                <div class="notice-content">
+                    <h4>Làm mới sau <span class="timer-badge" id="timerBadge">00:32:40</span></h4>
+                    <p>Hạn ngạch số lượt của mỗi dịch vụ tự động reset vào 00:00 hàng ngày.</p>
+                </div>
+            </div>
+            <div class="notice-item">
+                <div class="notice-icon red">🛡️</div>
+                <div class="notice-content">
+                    <h4>Nghiêm cấm tool / bypass</h4>
+                    <p>Dùng phần mềm gian lận để vượt link sẽ bị khoá tài khoản vĩnh viễn.</p>
+                </div>
+            </div>
+            <div class="notice-item">
+                <div class="notice-icon yellow">👥</div>
+                <div class="notice-content">
+                    <h4>Nghiêm cấm clone account</h4>
+                    <p>Mỗi địa chỉ IP chỉ được phép dùng cho 1 tài khoản duy nhất. Dùng nhiều tài khoản trên cùng IP sẽ bị khoá vĩnh viễn.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== THANH ĐẶC QUYỀN ===== -->
+        <div class="privilege-bar">
+            <div class="privilege-left">
+                <span class="privilege-title">✨ Đặc quyền:</span>
+                <span class="badge-item green">+18đ / link</span>
+                <span class="badge-item"><span>🌸</span> Sumi <span class="time">+18đ</span> ✅</span>
+                <span class="badge-item"><span>🔺</span> Booster <span class="time">+25đ</span></span>
+            </div>
+            <a href="https://discord.gg/QQRygmwpq3" target="_blank" rel="noopener" class="discord-link">Server Discord ↗</a>
+        </div>
+
+        <!-- ===== CARDS ===== -->
         <div class="cards-grid">
-            <!-- Card Layma -->
             <div class="card">
                 <div class="card-header">
                     <div style="display:flex; align-items:center;">
@@ -123,7 +326,6 @@
                 <button class="btn-create" id="btn-Layma" onclick="createLink('Layma', 510)">➜ Tạo link Layma (510đ)</button>
             </div>
 
-            <!-- Card TrafficVN -->
             <div class="card">
                 <div class="card-header">
                     <div style="display:flex; align-items:center;">
@@ -142,7 +344,6 @@
                 <button class="btn-create" id="btn-TrafficVN" onclick="createLink('TrafficVN', 260)">➜ Tạo link TrafficVN (260đ)</button>
             </div>
 
-            <!-- Card Gtraffic -->
             <div class="card">
                 <div class="card-header">
                     <div style="display:flex; align-items:center;">
@@ -161,7 +362,6 @@
                 <button class="btn-create" id="btn-Gtraffic" onclick="createLink('Gtraffic', 360)">➜ Tạo link Gtraffic (360đ)</button>
             </div>
 
-            <!-- Card Gtraffic Direct - ĐÃ SỬA -->
             <div class="card">
                 <div class="card-header">
                     <div style="display:flex; align-items:center;">
@@ -181,6 +381,7 @@
             </div>
         </div>
 
+        <!-- ===== LỊCH SỬ ===== -->
         <div class="history-box">
             <div class="history-title">📜 Lượt vượt link gần đây</div>
             <div class="table-wrap">
@@ -218,8 +419,6 @@
 <script src="layout.js"></script>
 
 <script>
-console.log('🚀 task.html script bắt đầu');
-
 var MAX_LIMIT = 2;
 
 function getTodayStr() {
@@ -227,6 +426,52 @@ function getTodayStr() {
     return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 }
 
+function formatMoney(n) {
+    return (n || 0).toLocaleString('vi-VN') + ' đ';
+}
+
+// ===== LOAD STATS =====
+async function loadStats() {
+    var currentUser = localStorage.getItem('currentUser');
+    if (!currentUser) return;
+
+    try {
+        // Số dư khả dụng
+        var balance = await getUserBalance(currentUser);
+        document.getElementById('statBalance').textContent = formatMoney(balance);
+        document.getElementById('statTotalEarned').textContent = formatMoney(balance);
+
+        // Hôm nay
+        var todayStr = getTodayStr();
+        var snap = await db.ref('links/' + currentUser).once('value');
+        var links = snap.val() || {};
+        
+        var todayEarned = 0;
+        var todayCount = 0;
+        
+        Object.keys(links).forEach(function(key) {
+            var link = links[key];
+            var linkDate = new Date(link.time);
+            var linkDateStr = linkDate.getFullYear() + '-' + 
+                              String(linkDate.getMonth() + 1).padStart(2, '0') + '-' + 
+                              String(linkDate.getDate()).padStart(2, '0');
+            
+            if (linkDateStr === todayStr && link.status === 'done') {
+                todayEarned += link.points || 0;
+                todayCount++;
+            }
+        });
+
+        document.getElementById('statToday').textContent = '+' + todayEarned.toLocaleString('vi-VN') + ' đ';
+        document.querySelector('.stat-box:last-child .stat-desc').innerHTML = 
+            'Đã hoàn thành <strong>' + todayCount + '</strong> link';
+
+    } catch(e) {
+        console.error('Lỗi load stats:', e);
+    }
+}
+
+// ===== LẤY SỐ LƯỢT ĐÃ DÙNG =====
 async function getUsedCount(service) {
     var currentUser = localStorage.getItem('currentUser');
     if (!currentUser) return 0;
@@ -236,6 +481,7 @@ async function getUsedCount(service) {
     } catch(e) { return 0; }
 }
 
+// ===== CẬP NHẬT HẠN NGẠCH =====
 async function updateAllLimits() {
     var services = [
         { name: 'Layma', id: 'Layma', price: 510 },
@@ -269,8 +515,8 @@ async function updateAllLimits() {
     }
 }
 
+// ===== TẠO LINK =====
 async function createLink(service, points) {
-    console.log('🔗 Tạo link:', service, points);
     var currentUser = localStorage.getItem('currentUser');
     if (!currentUser) { alert('⚠️ Vui lòng đăng nhập lại!'); return; }
     try {
@@ -285,12 +531,14 @@ async function createLink(service, points) {
         showPopup('🔗', 'Tạo link thành công!', 'Link: ' + link + '\n\nĐã dùng ' + (used + 1) + '/' + MAX_LIMIT + ' lượt.');
         await updateAllLimits();
         await loadHistory();
+        await loadStats();
     } catch(error) {
         console.error('❌ Lỗi:', error);
         showPopup('❌', 'Lỗi', 'Không thể tạo link: ' + error.message);
     }
 }
 
+// ===== LỊCH SỬ =====
 async function loadHistory() {
     var tbody = document.getElementById('historyBody');
     var currentUser = localStorage.getItem('currentUser');
@@ -325,16 +573,26 @@ async function loadHistory() {
     }
 }
 
+// ===== ĐỒNG HỒ ĐẾM NGƯỢC =====
+function startCountdown() {
+    var el = document.getElementById('timerBadge');
+    if (!el) return;
+    function update() {
+        var now = new Date();
+        var midnight = new Date();
+        midnight.setHours(24, 0, 0, 0);
+        var diff = Math.floor((midnight - now) / 1000);
+        if (diff < 0) diff = 0;
+        var h = Math.floor(diff / 3600);
+        var m = Math.floor((diff % 3600) / 60);
+        var s = diff % 60;
+        el.textContent = String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    }
+    update();
+    setInterval(update, 1000);
+}
+
+// ===== KHỞI CHẠY =====
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('📄 DOM loaded');
+    startCountdown();
     setTimeout(function() {
-        updateAllLimits();
-        loadHistory();
-    }, 500);
-});
-
-console.log('✅ task.html script đã load xong');
-</script>
-
-</body>
-</html>
