@@ -18,37 +18,18 @@
             flex-wrap: wrap;
             gap: 15px;
         }
-        .admin-header h1 {
-            color: #fff;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .admin-header h1 { color: #fff; font-size: 24px; display: flex; align-items: center; gap: 10px; }
         .admin-header .badge {
             background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: #fff;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
+            color: #fff; padding: 4px 12px; border-radius: 20px;
+            font-size: 11px; font-weight: 700; text-transform: uppercase;
         }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
-        }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
         .stat-card {
             background: rgba(10, 10, 26, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 14px;
-            padding: 20px;
-            text-align: center;
-            transition: 0.3s;
+            border-radius: 14px; padding: 20px; text-align: center;
         }
-        .stat-card:hover { transform: translateY(-3px); }
         .stat-card .num { color: #ffd700; font-size: 28px; font-weight: 700; }
         .stat-card .label { color: #888; font-size: 12px; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; }
         .stat-card.warning .num { color: #ffaa00; }
@@ -58,84 +39,49 @@
         .admin-section {
             background: rgba(10, 10, 26, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border-radius: 16px; padding: 20px; margin-bottom: 20px;
         }
         .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-            gap: 12px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 15px; flex-wrap: wrap; gap: 12px;
         }
         .section-header h2 { color: #ffd700; font-size: 18px; }
         .btn-refresh {
-            padding: 8px 16px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: #aaa;
-            font-size: 13px;
-            cursor: pointer;
-            transition: 0.3s;
+            padding: 8px 16px; background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px;
+            color: #aaa; font-size: 13px; cursor: pointer;
         }
         .btn-refresh:hover { background: rgba(255, 215, 0, 0.05); color: #ffd700; }
         .filter-bar { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
         .filter-btn {
-            padding: 8px 18px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            color: #aaa;
-            font-size: 13px;
-            cursor: pointer;
-            transition: 0.3s;
+            padding: 8px 18px; background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px;
+            color: #aaa; font-size: 13px; cursor: pointer;
         }
         .filter-btn.active { background: linear-gradient(135deg, #7b3fff, #5b2fff); color: #fff; border-color: transparent; }
-        .filter-btn:hover:not(.active) { background: rgba(255, 255, 255, 0.08); color: #fff; }
 
         .table-wrap { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; font-size: 13px; }
         thead th {
-            text-align: left; color: #666; font-size: 11px;
-            font-weight: 600; text-transform: uppercase;
-            letter-spacing: 1px; padding: 12px 10px;
+            text-align: left; color: #666; font-size: 11px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1px; padding: 12px 10px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
-        tbody td {
-            padding: 14px 10px; color: #ccc;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-        }
+        tbody td { padding: 14px 10px; color: #ccc; border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
         tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
         .user-cell { display: flex; align-items: center; gap: 8px; }
         .user-avatar-small {
-            width: 28px; height: 28px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #7b3fff, #5b2fff);
-            color: #fff;
+            width: 28px; height: 28px; border-radius: 50%;
+            background: linear-gradient(135deg, #7b3fff, #5b2fff); color: #fff;
             display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: 12px;
-            flex-shrink: 0;
+            font-weight: 700; font-size: 12px; flex-shrink: 0;
         }
         .td-link { color: #00aaff; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; }
-        .td-code-text {
-            color: #ffcc00;
-            font-family: monospace;
-            font-size: 12px;
-            max-width: 200px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            display: inline-block;
-        }
+        .td-code-text { color: #ffcc00; font-family: monospace; font-size: 12px; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; }
         .td-points { color: #00ff88; font-weight: 700; }
         .status-badge {
-            padding: 4px 10px; border-radius: 6px;
-            font-size: 11px; font-weight: 700;
-            display: inline-flex; align-items: center; gap: 4px;
-            white-space: nowrap;
+            padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700;
+            display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;
         }
         .status-pending { background: rgba(255, 200, 0, 0.1); color: #ffcc00; border: 1px solid rgba(255, 200, 0, 0.2); }
         .status-done { background: rgba(0, 255, 136, 0.1); color: #00ff88; border: 1px solid rgba(0, 255, 136, 0.2); }
@@ -143,14 +89,8 @@
         .status-processing { background: rgba(100, 100, 255, 0.1); color: #88aaff; border: 1px solid rgba(100, 100, 255, 0.2); }
         .action-btns { display: flex; gap: 6px; }
         .btn-action {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-            white-space: nowrap;
+            padding: 6px 12px; border: none; border-radius: 6px;
+            font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;
         }
         .btn-approve { background: rgba(0, 255, 136, 0.15); color: #00ff88; border: 1px solid rgba(0, 255, 136, 0.3); }
         .btn-approve:hover { background: rgba(0, 255, 136, 0.3); }
@@ -219,20 +159,18 @@
             </div>
         </div>
 
-        <!-- DUYỆT GIFTCODE (MỚI) -->
+        <!-- DUYỆT GIFTCODE -->
         <div class="admin-section">
             <div class="section-header">
                 <h2>🎁 Duyệt Giftcode</h2>
                 <button class="btn-refresh" onclick="loadGiftcodes()">🔄 Làm mới</button>
             </div>
-
             <div class="filter-bar">
                 <button class="filter-btn active" onclick="filterGiftcodes('pending', this)">⏳ Chờ duyệt</button>
                 <button class="filter-btn" onclick="filterGiftcodes('done', this)">✅ Đã duyệt</button>
                 <button class="filter-btn" onclick="filterGiftcodes('rejected', this)">❌ Từ chối</button>
                 <button class="filter-btn" onclick="filterGiftcodes('all', this)">🌐 Tất cả</button>
             </div>
-
             <div class="table-wrap">
                 <table>
                     <thead>
@@ -257,14 +195,12 @@
                 <h2>💳 Duyệt Nạp Tiền</h2>
                 <button class="btn-refresh" onclick="loadCards()">🔄 Làm mới</button>
             </div>
-
             <div class="filter-bar">
                 <button class="filter-btn active" onclick="filterCards('pending', this)">⏳ Chờ duyệt</button>
                 <button class="filter-btn" onclick="filterCards('done', this)">✅ Đã duyệt</button>
                 <button class="filter-btn" onclick="filterCards('rejected', this)">❌ Từ chối</button>
                 <button class="filter-btn" onclick="filterCards('all', this)">🌐 Tất cả</button>
             </div>
-
             <div class="table-wrap">
                 <table>
                     <thead>
@@ -292,14 +228,12 @@
                 <h2>🔗 Duyệt Link</h2>
                 <button class="btn-refresh" onclick="loadLinks()">🔄 Làm mới</button>
             </div>
-
             <div class="filter-bar">
                 <button class="filter-btn active" onclick="filterLinks('pending', this)">⏳ Chờ duyệt</button>
                 <button class="filter-btn" onclick="filterLinks('done', this)">✅ Đã duyệt</button>
                 <button class="filter-btn" onclick="filterLinks('rejected', this)">❌ Từ chối</button>
                 <button class="filter-btn" onclick="filterLinks('all', this)">🌐 Tất cả</button>
             </div>
-
             <div class="table-wrap">
                 <table>
                     <thead>
@@ -361,374 +295,367 @@
 <script src="layout.js"></script>
 
 <script>
-    var currentFilter = 'pending';
-    var currentCardFilter = 'pending';
-    var currentGiftFilter = 'pending';
+console.log('🚀 admin.html script bắt đầu');
 
-    window.addEventListener('DOMContentLoaded', async function() {
-        var user = localStorage.getItem('currentUser');
-        
-        if (!user) {
-            alert('⚠️ Vui lòng đăng nhập!');
-            window.location.href = 'index.html';
+var currentFilter = 'pending';
+var currentCardFilter = 'pending';
+var currentGiftFilter = 'pending';
+
+window.addEventListener('DOMContentLoaded', async function() {
+    console.log('📄 DOM loaded');
+    var user = localStorage.getItem('currentUser');
+    
+    if (!user) {
+        alert('⚠️ Vui lòng đăng nhập!');
+        window.location.href = 'index.html';
+        return;
+    }
+
+    var isAdmin = await checkAdmin(user);
+    
+    if (!isAdmin) {
+        alert('❌ Bạn không có quyền truy cập trang Admin!');
+        window.location.href = 'home.html';
+        return;
+    }
+
+    console.log('✅ Admin đã xác thực:', user);
+    
+    // Load tất cả
+    loadGiftcodes();
+    loadCards();
+    loadLinks();
+    loadStats();
+    loadUsers();
+});
+
+// ==========================================
+// DUYỆT GIFTCODE
+// ==========================================
+async function loadGiftcodes() {
+    console.log('🔍 Load giftcodes...');
+    var tbody = document.getElementById('giftcodesBody');
+    tbody.innerHTML = '<tr><td colspan="5" class="empty-state">⏳ Đang tải...</td></tr>';
+
+    try {
+        var snapshot = await db.ref('giftcodes').once('value');
+        var data = snapshot.val();
+
+        if (!data) {
+            tbody.innerHTML = '<tr><td colspan="5" class="empty-state">📭 Không có giftcode nào</td></tr>';
             return;
         }
 
-        var isAdmin = await checkAdmin(user);
-        
-        if (!isAdmin) {
-            alert('❌ Bạn không có quyền truy cập trang Admin!');
-            window.location.href = 'home.html';
+        var allGiftcodes = [];
+        Object.keys(data).forEach(function(username) {
+            var userGiftcodes = data[username];
+            if (userGiftcodes && typeof userGiftcodes === 'object') {
+                Object.keys(userGiftcodes).forEach(function(key) {
+                    var gc = userGiftcodes[key];
+                    if (gc && typeof gc === 'object') {
+                        gc.id = key;
+                        gc.username = username;
+                        allGiftcodes.push(gc);
+                    }
+                });
+            }
+        });
+
+        allGiftcodes.sort(function(a, b) {
+            return (b.time || 0) - (a.time || 0);
+        });
+
+        var filtered = allGiftcodes.filter(function(g) {
+            if (currentGiftFilter === 'all') return true;
+            return g.status === currentGiftFilter;
+        });
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" class="empty-state">📭 Không có giftcode nào</td></tr>';
             return;
         }
 
-        console.log('✅ Admin đã xác thực:', user);
+        var html = '';
+        filtered.forEach(function(gc) {
+            var statusHtml = '';
+            if (gc.status === 'pending') {
+                statusHtml = '<span class="status-badge status-pending">⏳ Chờ duyệt</span>';
+            } else if (gc.status === 'done') {
+                statusHtml = '<span class="status-badge status-done">✅ Đã duyệt</span>';
+            } else {
+                statusHtml = '<span class="status-badge status-rejected">❌ Từ chối</span>';
+            }
+
+            var date = new Date(gc.time);
+            var dateStr = date.getFullYear() + '-' + 
+                String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+                String(date.getDate()).padStart(2, '0');
+            var timeStr = String(date.getHours()).padStart(2, '0') + ':' + 
+                String(date.getMinutes()).padStart(2, '0');
+
+            var actionBtns = '';
+            if (gc.status === 'pending') {
+                actionBtns = 
+                    '<button class="btn-action btn-approve" onclick="approveGiftcode(\'' + gc.username + '\', \'' + gc.id + '\')">✅ Duyệt</button>' +
+                    '<button class="btn-action btn-reject" onclick="rejectGiftcode(\'' + gc.username + '\', \'' + gc.id + '\')">❌ Từ chối</button>';
+            }
+            actionBtns += '<button class="btn-action btn-delete" onclick="deleteGiftcode(\'' + gc.username + '\', \'' + gc.id + '\')">🗑️</button>';
+
+            html += '<tr>' +
+                '<td><div class="user-cell"><div class="user-avatar-small">' + gc.username.charAt(0).toUpperCase() + '</div>' + gc.username + '</div></td>' +
+                '<td><span class="td-code-text" title="' + (gc.code || '') + '">' + (gc.code || '-') + '</span></td>' +
+                '<td>' + statusHtml + '</td>' +
+                '<td>' + dateStr + '<br><span style="color:#888;font-size:11px;">' + timeStr + '</span></td>' +
+                '<td><div class="action-btns">' + actionBtns + '</div></td>' +
+                '</tr>';
+        });
+        tbody.innerHTML = html;
+        console.log('✅ Giftcodes loaded:', filtered.length);
+
+    } catch (e) {
+        console.error('❌ Lỗi load giftcodes:', e);
+        tbody.innerHTML = '<tr><td colspan="5" class="empty-state">❌ Lỗi: ' + e.message + '</td></tr>';
+    }
+}
+
+function filterGiftcodes(status, btn) {
+    var section = btn.closest('.admin-section');
+    section.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    currentGiftFilter = status;
+    loadGiftcodes();
+}
+
+async function approveGiftcode(username, gcId) {
+    if (!confirm('Duyệt giftcode này của ' + username + '?')) return;
+    try {
+        await db.ref('giftcodes/' + username + '/' + gcId + '/status').set('done');
+        showPopup('✅', 'Duyệt thành công!', 'Giftcode của ' + username + ' đã được duyệt');
         loadGiftcodes();
+    } catch (e) {
+        showPopup('❌', 'Lỗi', e.message);
+    }
+}
+
+async function rejectGiftcode(username, gcId) {
+    if (!confirm('Từ chối giftcode này của ' + username + '?')) return;
+    try {
+        await db.ref('giftcodes/' + username + '/' + gcId + '/status').set('rejected');
+        showPopup('⚠️', 'Đã từ chối', 'Giftcode của ' + username + ' đã bị từ chối');
+        loadGiftcodes();
+    } catch (e) {
+        showPopup('❌', 'Lỗi', e.message);
+    }
+}
+
+async function deleteGiftcode(username, gcId) {
+    if (!confirm('XÓA VĨNH VIỄN giftcode này?')) return;
+    try {
+        await db.ref('giftcodes/' + username + '/' + gcId).remove();
+        showPopup('🗑️', 'Đã xóa', 'Giftcode đã được xóa vĩnh viễn');
+        loadGiftcodes();
+    } catch (e) {
+        showPopup('❌', 'Lỗi', e.message);
+    }
+}
+
+// ==========================================
+// DUYỆT NẠP TIỀN
+// ==========================================
+async function loadCards() {
+    console.log('🔍 Load cards...');
+    var tbody = document.getElementById('cardsBody');
+    tbody.innerHTML = '<tr><td colspan="8" class="empty-state">⏳ Đang tải...</td></tr>';
+
+    try {
+        var snapshot = await db.ref('cards').once('value');
+        var data = snapshot.val();
+
+        if (!data) {
+            tbody.innerHTML = '<tr><td colspan="8" class="empty-state">📭 Không có thẻ nào</td></tr>';
+            return;
+        }
+
+        var allCards = [];
+        Object.keys(data).forEach(function(username) {
+            var userCards = data[username];
+            if (userCards && typeof userCards === 'object') {
+                Object.keys(userCards).forEach(function(key) {
+                    var card = userCards[key];
+                    if (card && typeof card === 'object') {
+                        card.id = key;
+                        card.username = username;
+                        allCards.push(card);
+                    }
+                });
+            }
+        });
+
+        allCards.sort(function(a, b) {
+            return (b.time || 0) - (a.time || 0);
+        });
+
+        var filtered = allCards.filter(function(c) {
+            if (currentCardFilter === 'all') return true;
+            return c.status === currentCardFilter;
+        });
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" class="empty-state">📭 Không có thẻ nào</td></tr>';
+            return;
+        }
+
+        var html = '';
+        filtered.forEach(function(card) {
+            var statusHtml = '';
+            if (card.status === 'pending') {
+                statusHtml = '<span class="status-badge status-pending">⏳ Chờ duyệt</span>';
+            } else if (card.status === 'done') {
+                statusHtml = '<span class="status-badge status-done">✅ Đã duyệt</span>';
+            } else if (card.status === 'processing') {
+                statusHtml = '<span class="status-badge status-processing">🔄 Đang xử lý</span>';
+            } else {
+                statusHtml = '<span class="status-badge status-rejected">❌ Từ chối</span>';
+            }
+
+            var date = new Date(card.time);
+            var dateStr = date.getFullYear() + '-' + 
+                String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+                String(date.getDate()).padStart(2, '0');
+            var timeStr = String(date.getHours()).padStart(2, '0') + ':' + 
+                String(date.getMinutes()).padStart(2, '0');
+
+            var actionBtns = '';
+            if (card.status === 'pending') {
+                actionBtns = 
+                    '<button class="btn-action btn-approve" onclick="approveCard(\'' + card.username + '\', \'' + card.id + '\')">✅ Duyệt</button>' +
+                    '<button class="btn-action btn-reject" onclick="rejectCard(\'' + card.username + '\', \'' + card.id + '\')">❌ Từ chối</button>';
+            }
+            actionBtns += '<button class="btn-action btn-delete" onclick="deleteCard(\'' + card.username + '\', \'' + card.id + '\')">🗑️</button>';
+
+            html += '<tr>' +
+                '<td><div class="user-cell"><div class="user-avatar-small">' + card.username.charAt(0).toUpperCase() + '</div>' + card.username + '</div></td>' +
+                '<td>' + (card.network || '-') + '</td>' +
+                '<td class="td-points">' + (card.amount || 0).toLocaleString('vi-VN') + 'đ</td>' +
+                '<td><span class="td-code-text" title="' + (card.code || '') + '">' + (card.code || '-') + '</span></td>' +
+                '<td><span class="td-code-text" title="' + (card.serial || '') + '">' + (card.serial || '-') + '</span></td>' +
+                '<td>' + statusHtml + '</td>' +
+                '<td>' + dateStr + '<br><span style="color:#888;font-size:11px;">' + timeStr + '</span></td>' +
+                '<td><div class="action-btns">' + actionBtns + '</div></td>' +
+                '</tr>';
+        });
+        tbody.innerHTML = html;
+        console.log('✅ Cards loaded:', filtered.length);
+
+    } catch (e) {
+        console.error('❌ Lỗi load cards:', e);
+        tbody.innerHTML = '<tr><td colspan="8" class="empty-state">❌ Lỗi: ' + e.message + '</td></tr>';
+    }
+}
+
+function filterCards(status, btn) {
+    var section = btn.closest('.admin-section');
+    section.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    currentCardFilter = status;
+    loadCards();
+}
+
+async function approveCard(username, cardId) {
+    var card = await db.ref('cards/' + username + '/' + cardId).once('value').then(function(s) { return s.val(); });
+    if (!card) { showPopup('❌', 'Lỗi', 'Thẻ không tồn tại!'); return; }
+    if (card.status === 'done') { showPopup('⚠️', 'Đã duyệt rồi', 'Thẻ này đã được duyệt!'); return; }
+    
+    if (!confirm('XÁC NHẬN DUYỆT THẺ\n\nUser: ' + username + '\nMệnh giá: ' + card.amount.toLocaleString('vi-VN') + 'đ\n\nCộng tiền?')) return;
+
+    try {
+        await db.ref('cards/' + username + '/' + cardId + '/status').set('processing');
+        await addUserBalance(username, card.amount);
+        await db.ref('cards/' + username + '/' + cardId + '/status').set('done');
+        showPopup('✅', 'Duyệt thành công!', 'Đã cộng ' + card.amount.toLocaleString('vi-VN') + 'đ cho ' + username);
         loadCards();
-        loadLinks();
         loadStats();
         loadUsers();
-    });
-
-    // ==========================================
-    // DUYỆT GIFTCODE
-    // ==========================================
-    async function loadGiftcodes() {
-        var tbody = document.getElementById('giftcodesBody');
-        tbody.innerHTML = '<tr><td colspan="5" class="empty-state">⏳ Đang tải...</td></tr>';
-
-        try {
-            var snapshot = await db.ref('giftcodes').once('value');
-            var data = snapshot.val();
-
-            if (!data) {
-                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">📭 Không có giftcode nào</td></tr>';
-                return;
-            }
-
-            var allGiftcodes = [];
-            Object.keys(data).forEach(function(username) {
-                var userGiftcodes = data[username];
-                if (userGiftcodes && typeof userGiftcodes === 'object') {
-                    Object.keys(userGiftcodes).forEach(function(key) {
-                        var gc = userGiftcodes[key];
-                        if (gc && typeof gc === 'object') {
-                            gc.id = key;
-                            gc.username = username;
-                            allGiftcodes.push(gc);
-                        }
-                    });
-                }
-            });
-
-            allGiftcodes.sort(function(a, b) {
-                return (b.time || 0) - (a.time || 0);
-            });
-
-            var filtered = allGiftcodes.filter(function(g) {
-                if (currentGiftFilter === 'all') return true;
-                return g.status === currentGiftFilter;
-            });
-
-            if (filtered.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">📭 Không có giftcode nào</td></tr>';
-                return;
-            }
-
-            var html = '';
-            filtered.forEach(function(gc) {
-                var statusHtml = '';
-                if (gc.status === 'pending') {
-                    statusHtml = '<span class="status-badge status-pending">⏳ Chờ duyệt</span>';
-                } else if (gc.status === 'done') {
-                    statusHtml = '<span class="status-badge status-done">✅ Đã duyệt</span>';
-                } else {
-                    statusHtml = '<span class="status-badge status-rejected">❌ Từ chối</span>';
-                }
-
-                var date = new Date(gc.time);
-                var dateStr = date.getFullYear() + '-' + 
-                    String(date.getMonth() + 1).padStart(2, '0') + '-' + 
-                    String(date.getDate()).padStart(2, '0');
-                var timeStr = String(date.getHours()).padStart(2, '0') + ':' + 
-                    String(date.getMinutes()).padStart(2, '0');
-
-                var actionBtns = '';
-                if (gc.status === 'pending') {
-                    actionBtns = 
-                        '<button class="btn-action btn-approve" onclick="approveGiftcode(\'' + gc.username + '\', \'' + gc.id + '\')">✅ Duyệt</button>' +
-                        '<button class="btn-action btn-reject" onclick="rejectGiftcode(\'' + gc.username + '\', \'' + gc.id + '\')">❌ Từ chối</button>';
-                }
-                actionBtns += '<button class="btn-action btn-delete" onclick="deleteGiftcode(\'' + gc.username + '\', \'' + gc.id + '\')">🗑️</button>';
-
-                html += '<tr>' +
-                    '<td><div class="user-cell"><div class="user-avatar-small">' + gc.username.charAt(0).toUpperCase() + '</div>' + gc.username + '</div></td>' +
-                    '<td><span class="td-code-text" title="' + (gc.code || '') + '">' + (gc.code || '-') + '</span></td>' +
-                    '<td>' + statusHtml + '</td>' +
-                    '<td>' + dateStr + '<br><span style="color:#888;font-size:11px;">' + timeStr + '</span></td>' +
-                    '<td><div class="action-btns">' + actionBtns + '</div></td>' +
-                    '</tr>';
-            });
-            tbody.innerHTML = html;
-
-        } catch (e) {
-            console.error('Lỗi load giftcodes:', e);
-            tbody.innerHTML = '<tr><td colspan="5" class="empty-state">❌ Lỗi: ' + e.message + '</td></tr>';
-        }
+    } catch (e) {
+        showPopup('❌', 'Lỗi', e.message);
     }
+}
 
-    function filterGiftcodes(status, btn) {
-        var section = btn.closest('.admin-section');
-        section.querySelectorAll('.filter-btn').forEach(function(b) {
-            b.classList.remove('active');
-        });
-        btn.classList.add('active');
-        currentGiftFilter = status;
-        loadGiftcodes();
-    }
-
-    async function approveGiftcode(username, gcId) {
-        if (!confirm('Duyệt giftcode này của ' + username + '?\n\nSau khi duyệt, admin cần tự cộng tiền/quà cho user.')) return;
-        try {
-            await db.ref('giftcodes/' + username + '/' + gcId + '/status').set('done');
-            showPopup('✅', 'Duyệt thành công!', 'Giftcode của ' + username + ' đã được duyệt');
-            loadGiftcodes();
-        } catch (e) {
-            showPopup('❌', 'Lỗi', e.message);
-        }
-    }
-
-    async function rejectGiftcode(username, gcId) {
-        if (!confirm('Từ chối giftcode này của ' + username + '?')) return;
-        try {
-            await db.ref('giftcodes/' + username + '/' + gcId + '/status').set('rejected');
-            showPopup('⚠️', 'Đã từ chối', 'Giftcode của ' + username + ' đã bị từ chối');
-            loadGiftcodes();
-        } catch (e) {
-            showPopup('❌', 'Lỗi', e.message);
-        }
-    }
-
-    async function deleteGiftcode(username, gcId) {
-        if (!confirm('XÓA VĨNH VIỄN giftcode này?')) return;
-        try {
-            await db.ref('giftcodes/' + username + '/' + gcId).remove();
-            showPopup('🗑️', 'Đã xóa', 'Giftcode đã được xóa vĩnh viễn');
-            loadGiftcodes();
-        } catch (e) {
-            showPopup('❌', 'Lỗi', e.message);
-        }
-    }
-
-    // ==========================================
-    // DUYỆT NẠP TIỀN
-    // ==========================================
-    async function loadCards() {
-        var tbody = document.getElementById('cardsBody');
-        tbody.innerHTML = '<tr><td colspan="8" class="empty-state">⏳ Đang tải...</td></tr>';
-
-        try {
-            var snapshot = await db.ref('cards').once('value');
-            var data = snapshot.val();
-
-            if (!data) {
-                tbody.innerHTML = '<tr><td colspan="8" class="empty-state">📭 Không có thẻ nào</td></tr>';
-                return;
-            }
-
-            var allCards = [];
-            Object.keys(data).forEach(function(username) {
-                var userCards = data[username];
-                if (userCards && typeof userCards === 'object') {
-                    Object.keys(userCards).forEach(function(key) {
-                        var card = userCards[key];
-                        if (card && typeof card === 'object') {
-                            card.id = key;
-                            card.username = username;
-                            allCards.push(card);
-                        }
-                    });
-                }
-            });
-
-            allCards.sort(function(a, b) {
-                return (b.time || 0) - (a.time || 0);
-            });
-
-            var filtered = allCards.filter(function(c) {
-                if (currentCardFilter === 'all') return true;
-                return c.status === currentCardFilter;
-            });
-
-            if (filtered.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" class="empty-state">📭 Không có thẻ nào</td></tr>';
-                return;
-            }
-
-            var html = '';
-            filtered.forEach(function(card) {
-                var statusHtml = '';
-                if (card.status === 'pending') {
-                    statusHtml = '<span class="status-badge status-pending">⏳ Chờ duyệt</span>';
-                } else if (card.status === 'done') {
-                    statusHtml = '<span class="status-badge status-done">✅ Đã duyệt</span>';
-                } else if (card.status === 'processing') {
-                    statusHtml = '<span class="status-badge status-processing">🔄 Đang xử lý</span>';
-                } else {
-                    statusHtml = '<span class="status-badge status-rejected">❌ Từ chối</span>';
-                }
-
-                var date = new Date(card.time);
-                var dateStr = date.getFullYear() + '-' + 
-                    String(date.getMonth() + 1).padStart(2, '0') + '-' + 
-                    String(date.getDate()).padStart(2, '0');
-                var timeStr = String(date.getHours()).padStart(2, '0') + ':' + 
-                    String(date.getMinutes()).padStart(2, '0');
-
-                var actionBtns = '';
-                if (card.status === 'pending') {
-                    actionBtns = 
-                        '<button class="btn-action btn-approve" onclick="approveCard(\'' + card.username + '\', \'' + card.id + '\')">✅ Duyệt</button>' +
-                        '<button class="btn-action btn-reject" onclick="rejectCard(\'' + card.username + '\', \'' + card.id + '\')">❌ Từ chối</button>';
-                }
-                actionBtns += '<button class="btn-action btn-delete" onclick="deleteCard(\'' + card.username + '\', \'' + card.id + '\')">🗑️</button>';
-
-                html += '<tr>' +
-                    '<td><div class="user-cell"><div class="user-avatar-small">' + card.username.charAt(0).toUpperCase() + '</div>' + card.username + '</div></td>' +
-                    '<td>' + (card.network || '-') + '</td>' +
-                    '<td class="td-points">' + (card.amount || 0).toLocaleString('vi-VN') + 'đ</td>' +
-                    '<td><span class="td-code-text" title="' + (card.code || '') + '">' + (card.code || '-') + '</span></td>' +
-                    '<td><span class="td-code-text" title="' + (card.serial || '') + '">' + (card.serial || '-') + '</span></td>' +
-                    '<td>' + statusHtml + '</td>' +
-                    '<td>' + dateStr + '<br><span style="color:#888;font-size:11px;">' + timeStr + '</span></td>' +
-                    '<td><div class="action-btns">' + actionBtns + '</div></td>' +
-                    '</tr>';
-            });
-            tbody.innerHTML = html;
-
-        } catch (e) {
-            console.error('Lỗi load cards:', e);
-            tbody.innerHTML = '<tr><td colspan="8" class="empty-state">❌ Lỗi: ' + e.message + '</td></tr>';
-        }
-    }
-
-    function filterCards(status, btn) {
-        var section = btn.closest('.admin-section');
-        section.querySelectorAll('.filter-btn').forEach(function(b) {
-            b.classList.remove('active');
-        });
-        btn.classList.add('active');
-        currentCardFilter = status;
+async function rejectCard(username, cardId) {
+    if (!confirm('Từ chối thẻ này?')) return;
+    try {
+        await db.ref('cards/' + username + '/' + cardId + '/status').set('rejected');
+        showPopup('⚠️', 'Đã từ chối', 'Thẻ đã bị từ chối');
         loadCards();
-    }
+    } catch (e) { showPopup('❌', 'Lỗi', e.message); }
+}
 
-    async function approveCard(username, cardId) {
-        var card = await db.ref('cards/' + username + '/' + cardId).once('value').then(function(s) { return s.val(); });
-        if (!card) { showPopup('❌', 'Lỗi', 'Thẻ không tồn tại!'); return; }
-        if (card.status === 'done') { showPopup('⚠️', 'Đã duyệt rồi', 'Thẻ này đã được duyệt!'); return; }
-        
-        if (!confirm('XÁC NHẬN DUYỆT THẺ\n\n' +
-                     'User: ' + username + '\n' +
-                     'Nhà mạng: ' + card.network + '\n' +
-                     'Mệnh giá: ' + card.amount.toLocaleString('vi-VN') + 'đ\n\n' +
-                     'Cộng ' + card.amount.toLocaleString('vi-VN') + 'đ cho user?')) {
+async function deleteCard(username, cardId) {
+    if (!confirm('XÓA VĨNH VIỄN thẻ này?')) return;
+    try {
+        await db.ref('cards/' + username + '/' + cardId).remove();
+        showPopup('🗑️', 'Đã xóa', 'Thẻ đã được xóa');
+        loadCards();
+    } catch (e) { showPopup('❌', 'Lỗi', e.message); }
+}
+
+// ==========================================
+// DUYỆT LINK
+// ==========================================
+async function loadStats() {
+    try {
+        var links = await getAllPendingLinks();
+        var users = await getAllUsers();
+
+        var pending = links.filter(function(l) { return l.status === 'pending'; }).length;
+        var done = links.filter(function(l) { return l.status === 'done'; }).length;
+        var rejected = links.filter(function(l) { return l.status === 'rejected'; }).length;
+
+        document.getElementById('statPending').textContent = pending;
+        document.getElementById('statDone').textContent = done;
+        document.getElementById('statRejected').textContent = rejected;
+        document.getElementById('statUsers').textContent = users.length;
+    } catch (e) {
+        console.error('Lỗi load stats:', e);
+    }
+}
+
+async function loadLinks() {
+    console.log('🔍 Load links...');
+    var tbody = document.getElementById('linksBody');
+    tbody.innerHTML = '<tr><td colspan="7" class="empty-state">⏳ Đang tải...</td></tr>';
+
+    try {
+        var links = await getLinksByStatus(currentFilter);
+
+        if (links.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" class="empty-state">📭 Không có link nào</td></tr>';
             return;
         }
 
-        try {
-            await db.ref('cards/' + username + '/' + cardId + '/status').set('processing');
-            await addUserBalance(username, card.amount);
-            await db.ref('cards/' + username + '/' + cardId + '/status').set('done');
-            
-            showPopup('✅', 'Duyệt thành công!', 
-                'Đã cộng ' + card.amount.toLocaleString('vi-VN') + 'đ cho ' + username);
-            
-            loadCards();
-            loadStats();
-            loadUsers();
-        } catch (e) {
-            showPopup('❌', 'Lỗi', e.message);
-        }
-    }
-
-    async function rejectCard(username, cardId) {
-        if (!confirm('Từ chối thẻ này của ' + username + '?')) return;
-        try {
-            await db.ref('cards/' + username + '/' + cardId + '/status').set('rejected');
-            showPopup('⚠️', 'Đã từ chối', 'Thẻ của ' + username + ' đã bị từ chối');
-            loadCards();
-            loadStats();
-        } catch (e) {
-            showPopup('❌', 'Lỗi', e.message);
-        }
-    }
-
-    async function deleteCard(username, cardId) {
-        if (!confirm('XÓA VĨNH VIỄN thẻ này?\nKhông thể khôi phục!')) return;
-        try {
-            await db.ref('cards/' + username + '/' + cardId).remove();
-            showPopup('🗑️', 'Đã xóa', 'Thẻ đã được xóa vĩnh viễn');
-            loadCards();
-            loadStats();
-        } catch (e) {
-            showPopup('❌', 'Lỗi', e.message);
-        }
-    }
-
-    // ==========================================
-    // DUYỆT LINK
-    // ==========================================
-    async function loadStats() {
-        try {
-            var links = await getAllPendingLinks();
-            var users = await getAllUsers();
-
-            var pending = links.filter(function(l) { return l.status === 'pending'; }).length;
-            var done = links.filter(function(l) { return l.status === 'done'; }).length;
-            var rejected = links.filter(function(l) { return l.status === 'rejected'; }).length;
-
-            document.getElementById('statPending').textContent = pending;
-            document.getElementById('statDone').textContent = done;
-            document.getElementById('statRejected').textContent = rejected;
-            document.getElementById('statUsers').textContent = users.length;
-        } catch (e) {
-            console.error('Lỗi load stats:', e);
-        }
-    }
-
-    async function loadLinks() {
-        var tbody = document.getElementById('linksBody');
-        tbody.innerHTML = '<tr><td colspan="7" class="empty-state">⏳ Đang tải...</td></tr>';
-
-        try {
-            var links = await getLinksByStatus(currentFilter);
-
-            if (links.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" class="empty-state">📭 Không có link nào</td></tr>';
-                return;
+        var html = '';
+        links.forEach(function(link) {
+            var statusHtml = '';
+            if (link.status === 'pending') {
+                statusHtml = '<span class="status-badge status-pending">⏳ Chờ duyệt</span>';
+            } else if (link.status === 'done') {
+                statusHtml = '<span class="status-badge status-done">✅ Đã duyệt</span>';
+            } else if (link.status === 'processing') {
+                statusHtml = '<span class="status-badge status-processing">🔄 Đang xử lý</span>';
+            } else {
+                statusHtml = '<span class="status-badge status-rejected">❌ Từ chối</span>';
             }
 
-            var html = '';
-            links.forEach(function(link) {
-                var statusHtml = '';
-                if (link.status === 'pending') {
-                    statusHtml = '<span class="status-badge status-pending">⏳ Chờ duyệt</span>';
-                } else if (link.status === 'done') {
-                    statusHtml = '<span class="status-badge status-done">✅ Đã duyệt</span>';
-                } else {
-                    statusHtml = '<span class="status-badge status-rejected">❌ Từ chối</span>';
-                }
+            var date = new Date(link.time);
+            var dateStr = date.getFullYear() + '-' + 
+                String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+                String(date.getDate()).padStart(2, '0');
+            var timeStr = String(date.getHours()).padStart(2, '0') + ':' + 
+                String(date.getMinutes()).padStart(2, '0');
 
-                var date = new Date(link.time);
-                var dateStr = date.getFullYear() + '-' + 
-                    String(date.getMonth() + 1).padStart(2, '0') + '-' + 
-                    String(date.getDate()).padStart(2, '0');
-                var timeStr = String(date.getHours()).padStart(2, '0') + ':' + 
-                    String(date.getMinutes()).padStart(2, '0') + ':' + 
-                    String(date.getSeconds()).padStart(2, '0');
-
-                var actionBtns = '';
-                if (link.status === 'pending') {
-                    actionBtns = 
-                        '<button class="btn-action btn-approve" onclick="approve(\'' + link.username + '\', \'' + link.id + '\')">✅ Duyệt</button>' +
-                        '<button class="btn-action btn-reject" onclick="reject(\''
+            var actionBtns = '';
+            if (link.status === 'pending') {
+                actionBtns = 
+                    '<button class="btn-action btn-approve" onclick="approve(\'' + link.username + '\', \'' + link.id + '\')">✅ Duyệt</button>' +
+                    '<button class="btn-action btn-reject" onclick="reject(\'' + link.username + '\', \'' + link.id + '\')">❌ Từ chối</button>';
+            }
