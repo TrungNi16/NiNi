@@ -7,13 +7,7 @@
     <link rel="stylesheet" href="layout.css">
     <style>
         /* ===== STATS CARDS ===== */
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-
+        .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
         .stat-box {
             background: rgba(10, 10, 26, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -21,7 +15,6 @@
             padding: 20px;
             position: relative;
         }
-
         .stat-box .stat-label {
             color: #666;
             font-size: 11px;
@@ -30,7 +23,6 @@
             font-weight: 700;
             margin-bottom: 12px;
         }
-
         .stat-box .stat-value {
             color: #00ff88;
             font-size: 28px;
@@ -38,20 +30,10 @@
             font-family: 'Courier New', monospace;
             margin-bottom: 8px;
         }
-
         .stat-box .stat-value.blue { color: #00ccff; }
         .stat-box .stat-value.purple { color: #a855f7; }
-
-        .stat-box .stat-desc {
-            color: #888;
-            font-size: 12px;
-            line-height: 1.5;
-        }
-
-        .stat-box .stat-desc strong {
-            color: #ffd700;
-        }
-
+        .stat-box .stat-desc { color: #888; font-size: 12px; line-height: 1.5; }
+        .stat-box .stat-desc strong { color: #ffd700; }
         .stat-box .stat-icon {
             position: absolute;
             top: 20px;
@@ -64,7 +46,6 @@
             justify-content: center;
             font-size: 16px;
         }
-
         .stat-icon.green { background: rgba(0, 255, 136, 0.1); border: 1px solid rgba(0, 255, 136, 0.2); }
         .stat-icon.blue { background: rgba(0, 200, 255, 0.1); border: 1px solid rgba(0, 200, 255, 0.2); }
         .stat-icon.purple { background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.2); }
@@ -126,16 +107,9 @@
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .badge-item.green {
-            background: rgba(0, 255, 136, 0.1);
-            border-color: rgba(0, 255, 136, 0.2);
-            color: #00ff88;
-        }
+        .badge-item.green { background: rgba(0, 255, 136, 0.1); border-color: rgba(0, 255, 136, 0.2); color: #00ff88; }
         .badge-item .time { color: #ffd700; font-weight: 700; font-size: 12px; }
-        .discord-link {
-            color: #00aaff; text-decoration: none; font-size: 14px;
-            display: flex; align-items: center; gap: 6px; transition: 0.3s;
-        }
+        .discord-link { color: #00aaff; text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 6px; transition: 0.3s; }
         .discord-link:hover { color: #66ccff; }
 
         /* ===== CARDS GRID ===== */
@@ -246,19 +220,19 @@
 
     <main class="content" id="content">
 
-        <!-- ===== 3 THẺ THỐNG KÊ ===== -->
+        <!-- 3 THẺ THỐNG KÊ -->
         <div class="stats-row">
             <div class="stat-box">
                 <div class="stat-icon green">💎</div>
                 <div class="stat-label">Số dư khả dụng</div>
-                <div class="stat-value" id="statBalance">1.010 đ</div>
+                <div class="stat-value" id="statBalance">0 đ</div>
                 <div class="stat-desc">Dùng để rút tiền hoặc đổi code cloud phone</div>
             </div>
 
             <div class="stat-box">
                 <div class="stat-icon blue">👤</div>
                 <div class="stat-label">Tổng đã kiếm</div>
-                <div class="stat-value blue" id="statTotalEarned">1.010 đ</div>
+                <div class="stat-value blue" id="statTotalEarned">0 đ</div>
                 <div class="stat-desc">Thu nhập tích lũy toàn thời gian</div>
             </div>
 
@@ -266,16 +240,16 @@
                 <div class="stat-icon purple">📈</div>
                 <div class="stat-label">Hôm nay</div>
                 <div class="stat-value purple" id="statToday">+0 đ</div>
-                <div class="stat-desc">Đã hoàn thành <strong>0</strong> link</div>
+                <div class="stat-desc">Đã hoàn thành <strong id="statTodayCount">0</strong> link</div>
             </div>
         </div>
 
-        <!-- ===== THÔNG BÁO ===== -->
+        <!-- THÔNG BÁO -->
         <div class="notice-bar">
             <div class="notice-item">
                 <div class="notice-icon blue">🕐</div>
                 <div class="notice-content">
-                    <h4>Làm mới sau <span class="timer-badge" id="timerBadge">00:32:40</span></h4>
+                    <h4>Làm mới sau <span class="timer-badge" id="timerBadge">00:00:00</span></h4>
                     <p>Hạn ngạch số lượt của mỗi dịch vụ tự động reset vào 00:00 hàng ngày.</p>
                 </div>
             </div>
@@ -290,12 +264,12 @@
                 <div class="notice-icon yellow">👥</div>
                 <div class="notice-content">
                     <h4>Nghiêm cấm clone account</h4>
-                    <p>Mỗi địa chỉ IP chỉ được phép dùng cho 1 tài khoản duy nhất. Dùng nhiều tài khoản trên cùng IP sẽ bị khoá vĩnh viễn.</p>
+                    <p>Mỗi địa chỉ IP chỉ được phép dùng cho 1 tài khoản duy nhất.</p>
                 </div>
             </div>
         </div>
 
-        <!-- ===== THANH ĐẶC QUYỀN ===== -->
+        <!-- THANH ĐẶC QUYỀN -->
         <div class="privilege-bar">
             <div class="privilege-left">
                 <span class="privilege-title">✨ Đặc quyền:</span>
@@ -306,7 +280,7 @@
             <a href="https://discord.gg/QQRygmwpq3" target="_blank" rel="noopener" class="discord-link">Server Discord ↗</a>
         </div>
 
-        <!-- ===== CARDS ===== -->
+        <!-- CARDS -->
         <div class="cards-grid">
             <div class="card">
                 <div class="card-header">
@@ -314,9 +288,7 @@
                         <div class="card-logo layma">L</div>
                         <span class="card-tag tag-layma">Layma</span>
                     </div>
-                    <div class="card-price">
-                        <div><span class="current">+510đ</span> <span class="unit">/ link</span></div>
-                    </div>
+                    <div class="card-price"><div><span class="current">+510đ</span> <span class="unit">/ link</span></div></div>
                 </div>
                 <h3 class="card-title">Vượt link Layma</h3>
                 <div class="card-limit">
@@ -332,9 +304,7 @@
                         <div class="card-logo trafficvn">⚡</div>
                         <span class="card-tag tag-trafficvn">TrafficVN</span>
                     </div>
-                    <div class="card-price">
-                        <div><span class="current">+260đ</span> <span class="unit">/ link</span></div>
-                    </div>
+                    <div class="card-price"><div><span class="current">+260đ</span> <span class="unit">/ link</span></div></div>
                 </div>
                 <h3 class="card-title">Vượt link TrafficVN</h3>
                 <div class="card-limit">
@@ -350,9 +320,7 @@
                         <div class="card-logo gtraffic">G</div>
                         <span class="card-tag tag-gtraffic">Gtraffic</span>
                     </div>
-                    <div class="card-price">
-                        <div><span class="current">+360đ</span> <span class="unit">/ link</span></div>
-                    </div>
+                    <div class="card-price"><div><span class="current">+360đ</span> <span class="unit">/ link</span></div></div>
                 </div>
                 <h3 class="card-title">Vượt link Gtraffic</h3>
                 <div class="card-limit">
@@ -368,9 +336,7 @@
                         <div class="card-logo gtraffic-direct">G</div>
                         <span class="card-tag tag-gtraffic-direct">Gtraffic Direct</span>
                     </div>
-                    <div class="card-price">
-                        <div><span class="current">+360đ</span> <span class="unit">/ link</span></div>
-                    </div>
+                    <div class="card-price"><div><span class="current">+360đ</span> <span class="unit">/ link</span></div></div>
                 </div>
                 <h3 class="card-title">Vượt link Gtraffic Direct</h3>
                 <div class="card-limit">
@@ -381,7 +347,7 @@
             </div>
         </div>
 
-        <!-- ===== LỊCH SỬ ===== -->
+        <!-- LỊCH SỬ -->
         <div class="history-box">
             <div class="history-title">📜 Lượt vượt link gần đây</div>
             <div class="table-wrap">
@@ -419,6 +385,8 @@
 <script src="layout.js"></script>
 
 <script>
+console.log('🚀 task.html script bắt đầu');
+
 var MAX_LIMIT = 2;
 
 function getTodayStr() {
@@ -426,52 +394,88 @@ function getTodayStr() {
     return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 }
 
-function formatMoney(n) {
-    return (n || 0).toLocaleString('vi-VN') + ' đ';
+// ===== ĐỒNG HỒ ĐẾM NGƯỢC ĐẾN 00:00 =====
+function startCountdown() {
+    var el = document.getElementById('timerBadge');
+    if (!el) {
+        console.error('❌ Không tìm thấy timerBadge');
+        return;
+    }
+    
+    function update() {
+        var now = new Date();
+        var midnight = new Date();
+        midnight.setHours(24, 0, 0, 0); // 00:00 ngày mai
+        
+        var diff = Math.floor((midnight - now) / 1000);
+        if (diff < 0) diff = 0;
+        
+        var h = Math.floor(diff / 3600);
+        var m = Math.floor((diff % 3600) / 60);
+        var s = diff % 60;
+        
+        el.textContent = 
+            String(h).padStart(2, '0') + ':' +
+            String(m).padStart(2, '0') + ':' +
+            String(s).padStart(2, '0');
+    }
+    
+    update();
+    setInterval(update, 1000);
+    console.log('✅ Đồng hồ đã khởi động');
 }
 
-// ===== LOAD STATS =====
+// ===== LOAD STATS THẬT TỪ FIREBASE =====
 async function loadStats() {
     var currentUser = localStorage.getItem('currentUser');
     if (!currentUser) return;
 
     try {
-        // Số dư khả dụng
+        // Số dư
         var balance = await getUserBalance(currentUser);
-        document.getElementById('statBalance').textContent = formatMoney(balance);
-        document.getElementById('statTotalEarned').textContent = formatMoney(balance);
+        document.getElementById('statBalance').textContent = 
+            (balance || 0).toLocaleString('vi-VN') + ' đ';
 
-        // Hôm nay
-        var todayStr = getTodayStr();
+        // Tổng đã kiếm + hôm nay
         var snap = await db.ref('links/' + currentUser).once('value');
         var links = snap.val() || {};
         
+        var totalEarned = 0;
         var todayEarned = 0;
         var todayCount = 0;
+        var todayStr = getTodayStr();
         
         Object.keys(links).forEach(function(key) {
             var link = links[key];
-            var linkDate = new Date(link.time);
-            var linkDateStr = linkDate.getFullYear() + '-' + 
-                              String(linkDate.getMonth() + 1).padStart(2, '0') + '-' + 
-                              String(linkDate.getDate()).padStart(2, '0');
-            
-            if (linkDateStr === todayStr && link.status === 'done') {
-                todayEarned += link.points || 0;
-                todayCount++;
+            if (link.status === 'done') {
+                totalEarned += Number(link.points) || 0;
+                
+                var linkDate = new Date(link.time);
+                var linkDateStr = linkDate.getFullYear() + '-' + 
+                                  String(linkDate.getMonth() + 1).padStart(2, '0') + '-' + 
+                                  String(linkDate.getDate()).padStart(2, '0');
+                
+                if (linkDateStr === todayStr) {
+                    todayEarned += Number(link.points) || 0;
+                    todayCount++;
+                }
             }
         });
 
-        document.getElementById('statToday').textContent = '+' + todayEarned.toLocaleString('vi-VN') + ' đ';
-        document.querySelector('.stat-box:last-child .stat-desc').innerHTML = 
-            'Đã hoàn thành <strong>' + todayCount + '</strong> link';
+        document.getElementById('statTotalEarned').textContent = 
+            totalEarned.toLocaleString('vi-VN') + ' đ';
+        document.getElementById('statToday').textContent = 
+            '+' + todayEarned.toLocaleString('vi-VN') + ' đ';
+        document.getElementById('statTodayCount').textContent = todayCount;
+
+        console.log('✅ Stats loaded:', { balance, totalEarned, todayEarned, todayCount });
 
     } catch(e) {
-        console.error('Lỗi load stats:', e);
+        console.error('❌ Lỗi load stats:', e);
     }
 }
 
-// ===== LẤY SỐ LƯỢT ĐÃ DÙNG =====
+// ===== LẤY LƯỢT ĐÃ DÙNG =====
 async function getUsedCount(service) {
     var currentUser = localStorage.getItem('currentUser');
     if (!currentUser) return 0;
@@ -517,6 +521,7 @@ async function updateAllLimits() {
 
 // ===== TẠO LINK =====
 async function createLink(service, points) {
+    console.log('🔗 Tạo link:', service, points);
     var currentUser = localStorage.getItem('currentUser');
     if (!currentUser) { alert('⚠️ Vui lòng đăng nhập lại!'); return; }
     try {
@@ -540,59 +545,4 @@ async function createLink(service, points) {
 
 // ===== LỊCH SỬ =====
 async function loadHistory() {
-    var tbody = document.getElementById('historyBody');
-    var currentUser = localStorage.getItem('currentUser');
-    if (!currentUser) return;
-    try {
-        var history = await getLinkHistoryFromCloud(currentUser);
-        if (!history || history.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#555;padding:40px;">📭 Chưa có lượt vượt link nào</td></tr>';
-            return;
-        }
-        var html = '';
-        history.slice(0, 5).forEach(function(item) {
-            var statusHtml = '';
-            if (item.status === 'pending') statusHtml = '<span class="status-badge status-pending">⏳ Chờ duyệt</span>';
-            else if (item.status === 'done') statusHtml = '<span class="status-badge status-done">✅ Đã duyệt</span>';
-            else statusHtml = '<span class="status-badge status-rejected">❌ Từ chối</span>';
-            
-            var date = new Date(item.time);
-            var dateStr = String(date.getDate()).padStart(2,'0') + '/' + String(date.getMonth()+1).padStart(2,'0') + ' ' + String(date.getHours()).padStart(2,'0') + ':' + String(date.getMinutes()).padStart(2,'0');
-            
-            html += '<tr>' +
-                '<td>' + item.service + '</td>' +
-                '<td><span class="td-link">' + item.link + '</span></td>' +
-                '<td class="td-points">+' + item.points + 'đ</td>' +
-                '<td>' + statusHtml + '</td>' +
-                '<td>' + dateStr + '</td>' +
-                '</tr>';
-        });
-        tbody.innerHTML = html;
-    } catch(e) {
-        console.error('Lỗi load history:', e);
-    }
-}
-
-// ===== ĐỒNG HỒ ĐẾM NGƯỢC =====
-function startCountdown() {
-    var el = document.getElementById('timerBadge');
-    if (!el) return;
-    function update() {
-        var now = new Date();
-        var midnight = new Date();
-        midnight.setHours(24, 0, 0, 0);
-        var diff = Math.floor((midnight - now) / 1000);
-        if (diff < 0) diff = 0;
-        var h = Math.floor(diff / 3600);
-        var m = Math.floor((diff % 3600) / 60);
-        var s = diff % 60;
-        el.textContent = String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
-    }
-    update();
-    setInterval(update, 1000);
-}
-
-// ===== KHỞI CHẠY =====
-document.addEventListener('DOMContentLoaded', function() {
-    startCountdown();
-    setTimeout(function() {
+    var
