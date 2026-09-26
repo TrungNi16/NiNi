@@ -189,7 +189,6 @@
             <div style="color:#888;font-size:13px;">Quản lý hệ thống NiNi Store</div>
         </div>
 
-        <!-- THỐNG KÊ -->
         <div class="stats-grid">
             <div class="stat-card warning">
                 <div class="num" id="statPending">0</div>
@@ -209,7 +208,6 @@
             </div>
         </div>
 
-        <!-- DUYỆT LINK -->
         <div class="admin-section">
             <div class="section-header">
                 <h2>🔗 Duyệt Link</h2>
@@ -243,7 +241,6 @@
             </div>
         </div>
 
-        <!-- QUẢN LÝ USER -->
         <div class="admin-section">
             <div class="section-header">
                 <h2>👥 Quản lý User</h2>
@@ -453,7 +450,12 @@
                     '<td class="td-points">' + (u.balance || 0).toLocaleString('vi-VN') + 'đ</td>' +
                     '<td>' + (u.vipLevel || 0) + '</td>' +
                     '<td>' + dateStr + '</td>' +
-                    '<td><button class="btn-action btn-approve" onclick="addBalance(\'' + u.username + '\')">💰 Cộng tiền</button></td>' +
+                    '<td>' +
+                        '<div class="action-btns">' +
+                            '<button class="btn-action btn-approve" onclick="addBalance(\'' + u.username + '\')">💰 Cộng tiền</button>' +
+                            '<button class="btn-action btn-reject" onclick="subtractBalance(\'' + u.username + '\')">💸 Trừ tiền</button>' +
+                        '</div>' +
+                    '</td>' +
                     '</tr>';
             });
             tbody.innerHTML = html;
@@ -465,7 +467,7 @@
     }
 
     async function addBalance(username) {
-        var amount = prompt('Nhập số tiền muốn cộng cho ' + username + ' (VNĐ):');
+        var amount = prompt('Nhập số tiền muốn CỘNG cho ' + username + ' (VNĐ):');
         if (!amount) return;
         
         amount = parseInt(amount);
@@ -478,6 +480,45 @@
             await addUserBalance(username, amount);
             showPopup('✅', 'Thành công!', 'Đã cộng ' + amount.toLocaleString('vi-VN') + 'đ cho ' + username);
             loadUsers();
+            loadStats();
+        } catch (e) {
+            showPopup('❌', 'Lỗi', e.message);
+        }
+    }
+
+    async function subtractBalance(username) {
+        var amount = prompt('Nhập số tiền muốn TRỪ của ' + username + ' (VNĐ):');
+        if (!amount) return;
+        
+        amount = parseInt(amount);
+        if (isNaN(amount) || amount <= 0) {
+            showPopup('⚠️', 'Lỗi', 'Số tiền không hợp lệ!');
+            return;
+        }
+
+        try {
+            var currentBalance = await getUserBalance(username);
+            
+            if (currentBalance < amount) {
+                showPopup('⚠️', 'Không đủ tiền',
+                    username + ' chỉ có ' + currentBalance.toLocaleString('vi-VN') + 'đ\n' +
+                    'Không thể trừ ' + amount.toLocaleString('vi-VN') + 'đ!');
+                return;
+            }
+
+            if (!confirm('Bạn có chắc muốn TRỪ ' + amount.toLocaleString('vi-VN') + 'đ của ' + username + '?')) {
+                return;
+            }
+
+            await subtractUserBalance(username, amount);
+            
+            showPopup('✅', 'Thành công!',
+                'Đã trừ ' + amount.toLocaleString('vi-VN') + 'đ của ' + username + '\n' +
+                'Số dư còn lại: ' + (currentBalance - amount).toLocaleString('vi-VN') + 'đ');
+            
+            loadUsers();
+            loadStats();
+
         } catch (e) {
             showPopup('❌', 'Lỗi', e.message);
         }
