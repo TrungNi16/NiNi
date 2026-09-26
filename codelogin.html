@@ -3,87 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Login Cloud - NINI STORE</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/style.css">
+    <title>Code Login Cloud - NiNi Store</title>
+    <link rel="stylesheet" href="layout.css">
+    <style>
+        .codelogin-container {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .codelogin-container .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .codelogin-container h1 {
+            color: #ffd700;
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+
+        .codelogin-form {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+        }
+
+        .codelogin-form input {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 15px;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+
+        .codelogin-form input:focus {
+            border-color: #ffd700;
+            outline: none;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+        }
+
+        .codelogin-form input::placeholder {
+            color: #555;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #ffd700, #f0a500);
+            color: #0a0a1a;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-submit:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+    </style>
 </head>
 <body>
-    <button class="menu-toggle" id="menuToggle" onclick="toggleSidebar()">
-        <i class="fas fa-bars"></i>
-    </button>
 
-    <div class="overlay" id="overlay"></div>
+<button class="hamburger" onclick="toggleSidebar()" title="Ẩn/Hiện menu">☰</button>
+<div class="overlay" id="overlay" onclick="closeMobileSidebar()"></div>
 
-    <aside class="sidebar" id="sidebar">
+<div class="container">
+    <nav class="sidebar" id="sidebar">
         <div class="sidebar-brand">
-            <h1>⭐ NINI STORE</h1>
-            <p>Free Fire Code Shop</p>
+            <h2>🌟 NINI STORE</h2>
+            <div class="sub">Free Fire Code Shop</div>
         </div>
-        <nav class="sidebar-nav">
-            <a href="index.html"><i class="fas fa-home"></i> Trang chủ</a>
-            <a href="#"><i class="fas fa-tasks"></i> Nhiệm vụ</a>
-            <a href="#"><i class="fas fa-gift"></i> Đổi điểm</a>
-            <div class="has-submenu">
-                <a href="#" onclick="toggleSubmenu(this); return false;">
-                    <i class="fas fa-wallet"></i> Nạp Tiền
-                </a>
-                <div class="submenu">
-                    <a href="card.html"><i class="fas fa-credit-card"></i> Nạp Thẻ Cào</a>
-                    <a href="bank.html"><i class="fas fa-university"></i> Nạp Bank/Momo</a>
+        <ul class="sidebar-menu">
+            <li data-page="home"><a href="home.html">🏠 Trang chủ</a></li>
+            <li data-page="task"><a href="task.html">📋 Nhiệm vụ</a></li>
+            <li data-page="exchange"><a href="exchange.html">🔄 Đổi điểm</a></li>
+            <li class="has-sub">
+                <a href="#">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
+                <ul class="sub-menu">
+                    <li data-page="card"><a href="card.html">💳 Nạp Thẻ Cào</a></li>
+                    <li data-page="bank"><a href="bank.html">🏦 Nạp Bank/Momo</a></li>
+                    <li data-page="recharge-history"><a href="recharge-history.html">📜 Lịch sử nạp tiền</a></li>
+                </ul>
+            </li>
+            <li class="has-sub">
+                <a href="#">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
+                <ul class="sub-menu">
+                    <li data-page="redeem"><a href="redeem.html">🔄 Redeem Uphone 4h</a></li>
+                    <li data-page="buycloud"><a href="buycloud.html">☁️ Mua Máy Cloud</a></li>
+                    <li data-page="checkcloud"><a href="checkcloud.html">🔍 Check Máy Uphone</a></li>
+                    <li data-page="codelogin" class="active"><a href="codelogin.html">🔑 Code Login Cloud</a></li>
+                </ul>
+            </li>
+            <li data-page="giftcode"><a href="giftcode.html">🎁 Nhập Giftcode</a></li>
+            <li data-page="flashsale"><a href="flashsale.html">⚡ Flash Sale Cloud</a></li>
+            <li data-page="ranking"><a href="ranking.html">🏆 Bảng Xếp Hạng</a></li>
+            <li data-page="history"><a href="history.html">📜 Lịch sử mua hàng</a></li>
+            <li data-page="taskhistory"><a href="taskhistory.html">📜 Lịch sử nhiệm vụ</a></li>
+            <li data-page="cloudfree"><a href="cloudfree.html">☁️ Cloud Free Mỗi Ngày</a></li>
+            <li data-page="support"><a href="support.html">⚙️ Trung Tâm Hỗ Trợ</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <span class="user-avatar">👤</span>
+                <div>
+                    <strong id="usernameDisplay">Khách</strong>
+                    <span id="balanceDisplay">💰 Đang tải...</span>
                 </div>
             </div>
-            <a href="recharge-history.html"><i class="fas fa-history"></i> Lịch sử nạp tiền</a>
-            <div class="has-submenu">
-                <a href="#" onclick="toggleSubmenu(this); return false;">
-                    <i class="fas fa-tools"></i> Công Cụ
-                </a>
-                <div class="submenu">
-                    <a href="redeeem.html"><i class="fas fa-sync-alt"></i> Redeem Uphone 4H</a>
-                    <a href="codelogin.html" class="active"><i class="fas fa-key"></i> Code Login Cloud</a>
-                    <a href="#"><i class="fas fa-server"></i> Mua Máy Cloud</a>
-                </div>
+            <a href="#" class="logout-btn" onclick="logout()">🚪 Đăng xuất</a>
+        </div>
+    </nav>
+
+    <main class="content" id="content">
+        <div class="codelogin-container">
+            <div class="icon">🔑</div>
+            <h1>Code Login Cloud</h1>
+            <div class="codelogin-form">
+                <input type="text" id="loginCode" placeholder="Nhập mã login Cloud">
+                <button class="btn-submit" id="submitBtn" onclick="submitLoginCode()">✅ Xác nhận</button>
             </div>
-            <a href="#"><i class="fas fa-gift"></i> Nhập Giftcode</a>
-            <a href="#"><i class="fas fa-bolt"></i> Flash Sale Cloud</a>
-            <a href="#"><i class="fas fa-trophy"></i> Bảng Xếp Hạng</a>
-            <a href="#"><i class="fas fa-history"></i> Lịch sử mua hàng</a>
-            <a href="#"><i class="fas fa-history"></i> Lịch sử nhiệm vụ</a>
-            <a href="cloudfree.html"><i class="fas fa-cloud"></i> Cloud Free Mỗi Ngày</a>
-            <a href="support.html"><i class="fas fa-headset"></i> Trung Tâm Hỗ Trợ</a>
-        </nav>
-    </aside>
-
-    <main class="main-content" id="mainContent">
-        <div class="page-centered">
-            <div class="page-icon">🔑</div>
-            <h1 class="page-title">Code Login Cloud</h1>
-
-            <div class="card-box">
-                <div class="form-group">
-                    <input type="text" id="loginCode" placeholder="Nhập mã login Cloud">
-                </div>
-                <button class="btn btn-yellow" onclick="submitLoginCode()">
-                    <i class="fas fa-check"></i> Xác nhận
-                </button>
-            </div>
-
-            <a href="index.html" class="btn btn-back">
-                <i class="fas fa-arrow-left"></i> Quay lại trang chủ
-            </a>
         </div>
     </main>
+</div>
 
-    <script src="assets/sidebar.js"></script>
-    <script>
-        function submitLoginCode() {
-            const code = document.getElementById('loginCode').value.trim();
-            if (!code) {
-                alert('❌ Vui lòng nhập mã login!');
-                return;
-            }
-            alert('⏳ Đang xử lý login: ' + code);
-            // TODO: Gọi API login
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup-box">
+        <div class="icon" id="popupIcon">📢</div>
+        <h3 id="popupTitle">Thông báo</h3>
+        <p id="popupMessage">Nội dung thông báo</p>
+        <button class="close-btn" onclick="closePopup()">Đã hiểu</button>
+    </div>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="firebase.js"></script>
+<script src="layout.js"></script>
+
+<script>
+    async function submitLoginCode() {
+        var user = localStorage.getItem('currentUser');
+        if (!user) {
+            showPopup('⚠️', 'Lỗi', 'Vui lòng đăng nhập lại!');
+            return;
         }
-    </script>
+
+        var input = document.getElementById('loginCode');
+        var code = input.value.trim();
+
+        if (!code) {
+            showPopup('⚠️', 'Thiếu mã', 'Vui lòng nhập mã login Cloud!');
+            return;
+        }
+
+        var btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.textContent = '⏳ Đang xử lý...';
+
+        try {
+            var ref = db.ref('codelogins/' + user).push();
+            await ref.set({
+                code: code,
+                status: 'pending',
+                time: Date.now()
+            });
+
+            showPopup('✅', 'Gửi thành công!',
+                'Mã login "' + code + '" đã được gửi.\nVui lòng chờ admin xử lý!');
+
+            input.value = '';
+
+        } catch (error) {
+            console.error('Lỗi gửi mã login:', error);
+            showPopup('❌', 'Lỗi', 'Không thể gửi. Vui lòng thử lại!');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = '✅ Xác nhận';
+        }
+    }
+</script>
+
 </body>
 </html>
