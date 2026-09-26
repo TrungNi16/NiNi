@@ -6,287 +6,36 @@
     <title>Nhiệm vụ - NiNi Store</title>
     <link rel="stylesheet" href="layout.css">
     <style>
-        .notice-bar {
-            background: rgba(10, 10, 26, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 20px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 16px;
-        }
-        .notice-item { display: flex; gap: 12px; align-items: flex-start; }
-        .notice-icon {
-            width: 42px; height: 42px; min-width: 42px;
-            border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 20px;
-        }
-        .notice-icon.blue { background: rgba(0, 150, 255, 0.1); border: 1px solid rgba(0, 150, 255, 0.2); }
-        .notice-icon.red { background: rgba(255, 50, 50, 0.1); border: 1px solid rgba(255, 50, 50, 0.2); }
-        .notice-icon.yellow { background: rgba(255, 200, 0, 0.1); border: 1px solid rgba(255, 200, 0, 0.2); }
-        .notice-content h4 {
-            color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 4px;
-            display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-        }
-        .notice-content p { color: #888; font-size: 12px; line-height: 1.5; }
-        .timer-badge {
-            background: rgba(0, 150, 255, 0.15);
-            color: #00aaff;
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        .privilege-bar {
-            background: rgba(10, 10, 26, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        .privilege-left { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-        .privilege-title { color: #ffd700; font-size: 14px; font-weight: 700; }
-        .privilege-title .status { color: #888; font-weight: 400; font-size: 13px; }
-        .badge-item {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 5px 12px; border-radius: 20px;
-            font-size: 13px; color: #fff;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .badge-item .time { color: #ffd700; font-weight: 700; font-size: 12px; }
-        .discord-link {
-            color: #00aaff; text-decoration: none; font-size: 14px;
-            display: flex; align-items: center; gap: 6px; transition: 0.3s;
-        }
-        .discord-link:hover { color: #66ccff; }
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-        .card {
-            background: rgba(10, 10, 26, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 20px;
-            transition: 0.3s;
-        }
-        .card:hover {
-            border-color: rgba(150, 100, 255, 0.3);
-            transform: translateY(-3px);
-        }
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .card-logo-wrap { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .card-logo {
-            width: 38px; height: 38px;
-            border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 18px; font-weight: bold; color: #000;
-            background: #fff;
-        }
+        .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+        .card { background: rgba(10,10,26,0.95); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 20px; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .card-logo { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; }
         .card-logo.layma { background: #ffd700; }
         .card-logo.trafficvn { background: #fff; }
         .card-logo.gtraffic { background: #00aaff; color: #fff; }
-        .card-logo.gtraffic-direct { background: #ffffff; color: #000; }
-        .card-tag {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            border: 1px solid;
-        }
-        .tag-layma { color: #00aaff; border-color: rgba(0, 170, 255, 0.3); background: rgba(0, 170, 255, 0.1); }
-        .tag-trafficvn { color: #ff44aa; border-color: rgba(255, 68, 170, 0.3); background: rgba(255, 68, 170, 0.1); }
-        .tag-gtraffic { color: #00ff88; border-color: rgba(0, 255, 136, 0.3); background: rgba(0, 255, 136, 0.1); }
-        .tag-gtraffic-direct { color: #00ff88; border-color: rgba(0, 255, 136, 0.3); background: rgba(0, 255, 136, 0.1); }
-        .tag-badge-sumi { color: #ff44aa; border-color: rgba(255, 68, 170, 0.3); background: rgba(255, 68, 170, 0.1); }
-        .card-price { text-align: right; }
+        .card-logo.gtraffic-direct { background: #fff; }
+        .card-tag { padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; margin-left: 8px; }
+        .tag-layma { color: #00aaff; border: 1px solid rgba(0,170,255,0.3); background: rgba(0,170,255,0.1); }
+        .tag-trafficvn { color: #ff44aa; border: 1px solid rgba(255,68,170,0.3); background: rgba(255,68,170,0.1); }
+        .tag-gtraffic { color: #00ff88; border: 1px solid rgba(0,255,136,0.3); background: rgba(0,255,136,0.1); }
         .card-price .current { color: #00ff88; font-size: 22px; font-weight: 700; }
         .card-price .unit { color: #888; font-size: 12px; }
-        .card-price .original { color: #555; font-size: 11px; text-decoration: line-through; }
         .card-title { color: #fff; font-size: 17px; font-weight: 700; margin-bottom: 16px; }
-        .card-limit {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 10px;
-            padding: 12px 16px;
-            margin-bottom: 16px;
-        }
-        .limit-row {
-            display: flex; justify-content: space-between;
-            color: #aaa; font-size: 13px; margin-bottom: 8px;
-        }
+        .card-limit { background: rgba(255,255,255,0.03); border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; }
+        .limit-row { display: flex; justify-content: space-between; color: #aaa; font-size: 13px; margin-bottom: 8px; }
         .limit-row .count { color: #fff; font-weight: 700; }
         .limit-row .count.full { color: #ff4444; }
-        .progress-bar {
-            height: 6px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            border-radius: 10px;
-            background: linear-gradient(90deg, #00aaff, #66ccff);
-            transition: width 0.3s;
-        }
-        .progress-fill.full {
-            background: linear-gradient(90deg, #ff4444, #ff6666);
-        }
-        .btn-create {
-            width: 100%;
-            padding: 13px;
-            background: linear-gradient(135deg, #7b3fff, #5b2fff);
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .btn-create:hover:not(:disabled) {
-            background: linear-gradient(135deg, #8b4fff, #6b3fff);
-            transform: scale(1.02);
-            box-shadow: 0 0 30px rgba(123, 63, 255, 0.4);
-        }
-        .btn-create:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            background: #333;
-            transform: none;
-        }
-
-        .history-box {
-            background: rgba(10, 10, 26, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 20px;
-        }
-        .history-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 8px;
-        }
-        .history-title { color: #ffd700; font-size: 18px; font-weight: 700; }
-        .history-desc { color: #888; font-size: 13px; margin-bottom: 16px; }
-        .btn-refresh {
-            padding: 8px 16px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: #aaa;
-            font-size: 13px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .btn-refresh:hover { background: rgba(255, 215, 0, 0.05); color: #ffd700; }
-        .filter-bar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
-        .filter-btn {
-            padding: 8px 18px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            color: #aaa;
-            font-size: 13px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .filter-btn.active {
-            background: linear-gradient(135deg, #7b3fff, #5b2fff);
-            color: #fff;
-            border-color: transparent;
-        }
-
-        .table-wrap { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        thead th {
-            text-align: left; color: #666; font-size: 11px;
-            font-weight: 600; text-transform: uppercase;
-            letter-spacing: 1px; padding: 12px 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        tbody td {
-            padding: 14px 10px; color: #ccc;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-        }
-        tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
-        .td-code { display: flex; align-items: center; gap: 10px; }
-        .code-logo {
-            width: 28px; height: 28px;
-            border-radius: 8px;
-            background: #ffd700;
-            color: #000;
-            font-weight: bold;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 12px;
-            flex-shrink: 0;
-        }
-        .code-logo.gtraffic { background: #fff; }
-        .code-logo.gtraffic-direct { background: #fff; }
-        .td-link {
-            color: #00aaff; max-width: 200px;
-            overflow: hidden; text-overflow: ellipsis;
-            white-space: nowrap; display: inline-block;
-        }
-        .td-points { color: #00ff88; font-weight: 700; }
-        .status-badge {
-            padding: 4px 10px; border-radius: 6px;
-            font-size: 11px; font-weight: 700;
-            display: inline-flex; align-items: center; gap: 4px;
-        }
-        .status-pending {
-            background: rgba(255, 200, 0, 0.1);
-            color: #ffcc00;
-            border: 1px solid rgba(255, 200, 0, 0.2);
-        }
-        .status-done {
-            background: rgba(0, 255, 136, 0.1);
-            color: #00ff88;
-            border: 1px solid rgba(0, 255, 136, 0.2);
-        }
-        .status-rejected {
-            background: rgba(255, 50, 50, 0.1);
-            color: #ff6666;
-            border: 1px solid rgba(255, 50, 50, 0.2);
-        }
-        .time-cell { display: flex; flex-direction: column; gap: 2px; }
-        .time-cell .date { color: #888; font-size: 11px; }
-        .time-cell .time { color: #ccc; font-size: 12px; }
-
-        @media (max-width: 992px) {
-            .notice-bar { grid-template-columns: 1fr; }
-            .cards-grid { grid-template-columns: 1fr 1fr; }
-        }
-        @media (max-width: 600px) {
-            .cards-grid { grid-template-columns: 1fr; }
-            .privilege-bar { flex-direction: column; align-items: flex-start; }
-        }
+        .progress-bar { height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, #00aaff, #66ccff); transition: width 0.3s; }
+        .progress-fill.full { background: linear-gradient(90deg, #ff4444, #ff6666); }
+        .btn-create { width: 100%; padding: 13px; background: linear-gradient(135deg, #7b3fff, #5b2fff); color: #fff; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .btn-create:hover:not(:disabled) { transform: scale(1.02); }
+        .btn-create:disabled { opacity: 0.4; cursor: not-allowed; background: #333; }
     </style>
 </head>
 <body>
 
-<button class="hamburger" onclick="toggleSidebar()" title="Ẩn/Hiện menu">☰</button>
+<button class="hamburger" onclick="toggleSidebar()">☰</button>
 <div class="overlay" id="overlay" onclick="closeMobileSidebar()"></div>
 
 <div class="container">
@@ -302,27 +51,18 @@
             <li class="has-sub">
                 <a href="#">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
                 <ul class="sub-menu">
-                    <li data-page="card"><a href="card.html">💳 Nạp Thẻ Cào</a></li>
-                    <li data-page="bank"><a href="bank.html">🏦 Nạp Bank/Momo</a></li>
-                    <li data-page="recharge-history"><a href="recharge-history.html">📜 Lịch sử nạp tiền</a></li>
+                    <li><a href="card.html">💳 Nạp Thẻ Cào</a></li>
+                    <li><a href="bank.html">🏦 Nạp Bank/Momo</a></li>
+                    <li><a href="recharge-history.html">📜 Lịch sử nạp tiền</a></li>
                 </ul>
             </li>
-            <li class="has-sub">
-                <a href="#">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
-                <ul class="sub-menu">
-                    <li data-page="redeem"><a href="redeem.html">🔄 Redeem Uphone 4h</a></li>
-                    <li data-page="buycloud"><a href="buycloud.html">☁️ Mua Máy Cloud</a></li>
-                    <li data-page="checkcloud"><a href="checkcloud.html">🔍 Check Máy Uphone</a></li>
-                    <li data-page="codelogin"><a href="codelogin.html">🔑 Code Login Cloud</a></li>
-                </ul>
-            </li>
-            <li data-page="giftcode"><a href="giftcode.html">🎁 Nhập Giftcode</a></li>
-            <li data-page="flashsale"><a href="flashsale.html">⚡ Flash Sale Cloud</a></li>
-            <li data-page="ranking"><a href="ranking.html">🏆 Bảng Xếp Hạng</a></li>
-            <li data-page="history"><a href="history.html">📜 Lịch sử mua hàng</a></li>
-            <li data-page="taskhistory"><a href="taskhistory.html">📜 Lịch sử nhiệm vụ</a></li>
-            <li data-page="cloudfree"><a href="cloudfree.html">☁️ Cloud Free Mỗi Ngày</a></li>
-            <li data-page="support"><a href="support.html">⚙️ Trung Tâm Hỗ Trợ</a></li>
+            <li><a href="giftcode.html">🎁 Nhập Giftcode</a></li>
+            <li><a href="flashsale.html">⚡ Flash Sale Cloud</a></li>
+            <li><a href="ranking.html">🏆 Bảng Xếp Hạng</a></li>
+            <li><a href="history.html">📜 Lịch sử mua hàng</a></li>
+            <li><a href="taskhistory.html">📜 Lịch sử nhiệm vụ</a></li>
+            <li><a href="cloudfree.html">☁️ Cloud Free</a></li>
+            <li><a href="support.html">⚙️ Trung Tâm Hỗ Trợ</a></li>
         </ul>
         <div class="sidebar-footer">
             <div class="user-info">
@@ -337,147 +77,80 @@
     </nav>
 
     <main class="content" id="content">
-        <div class="notice-bar">
-            <div class="notice-item">
-                <div class="notice-icon blue">🕐</div>
-                <div class="notice-content">
-                    <h4>Làm mới sau <span class="timer-badge" id="timerBadge">00:00:00</span></h4>
-                    <p>Hạn ngạch số lượt của mỗi dịch vụ tự động reset vào 00:00 hàng ngày.</p>
-                </div>
-            </div>
-            <div class="notice-item">
-                <div class="notice-icon red">🛡️</div>
-                <div class="notice-content">
-                    <h4>Nghiêm cấm tool / bypass</h4>
-                    <p>Dùng phần mềm gian lận để vượt link sẽ bị khoá tài khoản vĩnh viễn.</p>
-                </div>
-            </div>
-            <div class="notice-item">
-                <div class="notice-icon yellow">👥</div>
-                <div class="notice-content">
-                    <h4>Nghiêm cấm clone account</h4>
-                    <p>Mỗi địa chỉ IP chỉ được phép dùng cho 1 tài khoản duy nhất.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="privilege-bar">
-            <div class="privilege-left">
-                <span class="privilege-title">✨ Đặc quyền: <span class="status">Chưa kích hoạt</span></span>
-                <span class="badge-item"><span>🌸</span> NiNi <span class="time">+10đ</span></span>
-                <span class="badge-item"><span>🔺</span> Booster <span class="time">+25đ</span></span>
-            </div>
-            <a href="https://discord.gg/QQRygmwpq3" target="_blank" rel="noopener" class="discord-link">Server Discord ↗</a>
-        </div>
+        <h2 style="color:#ffd700; margin-bottom:20px;">📋 Nhiệm vụ</h2>
+        <p style="color:#888; margin-bottom:20px;">Tạo link vượt để kiếm tiền. Mỗi dịch vụ tối đa 2 lượt/ngày.</p>
 
         <div class="cards-grid">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-logo-wrap">
+                    <div style="display:flex; align-items:center;">
                         <div class="card-logo layma">L</div>
                         <span class="card-tag tag-layma">Layma</span>
-                        <span class="card-tag tag-badge-sumi">🌸</span>
                     </div>
                     <div class="card-price">
                         <div><span class="current">+510đ</span> <span class="unit">/ link</span></div>
-                        <div class="original">+500đ gốc</div>
                     </div>
                 </div>
                 <h3 class="card-title">Vượt link Layma</h3>
                 <div class="card-limit">
-                    <div class="limit-row"><span>Hạn ngạch hôm nay</span><span class="count" id="count-Layma">0/2 Lượt</span></div>
+                    <div class="limit-row"><span>Hạn ngạch</span><span class="count" id="count-Layma">0/2 Lượt</span></div>
                     <div class="progress-bar"><div class="progress-fill" id="progress-Layma" style="width:0%;"></div></div>
                 </div>
-                <button class="btn-create" id="btn-Layma" onclick="createLink('Layma', 510)">➜ Tạo link Layma (510đ)</button>
+                <button class="btn-create" id="btn-Layma" onclick="createLink('Layma', 510)">➜ Tạo link (510đ)</button>
             </div>
 
             <div class="card">
                 <div class="card-header">
-                    <div class="card-logo-wrap">
+                    <div style="display:flex; align-items:center;">
                         <div class="card-logo trafficvn">⚡</div>
                         <span class="card-tag tag-trafficvn">TrafficVN</span>
-                        <span class="card-tag tag-badge-sumi">🌸</span>
                     </div>
                     <div class="card-price">
                         <div><span class="current">+260đ</span> <span class="unit">/ link</span></div>
-                        <div class="original">+250đ gốc</div>
                     </div>
                 </div>
                 <h3 class="card-title">Vượt link TrafficVN</h3>
                 <div class="card-limit">
-                    <div class="limit-row"><span>Hạn ngạch hôm nay</span><span class="count" id="count-TrafficVN">0/2 Lượt</span></div>
+                    <div class="limit-row"><span>Hạn ngạch</span><span class="count" id="count-TrafficVN">0/2 Lượt</span></div>
                     <div class="progress-bar"><div class="progress-fill" id="progress-TrafficVN" style="width:0%;"></div></div>
                 </div>
-                <button class="btn-create" id="btn-TrafficVN" onclick="createLink('TrafficVN', 260)">➜ Tạo link TrafficVN (260đ)</button>
+                <button class="btn-create" id="btn-TrafficVN" onclick="createLink('TrafficVN', 260)">➜ Tạo link (260đ)</button>
             </div>
 
             <div class="card">
                 <div class="card-header">
-                    <div class="card-logo-wrap">
+                    <div style="display:flex; align-items:center;">
                         <div class="card-logo gtraffic">G</div>
                         <span class="card-tag tag-gtraffic">Gtraffic</span>
-                        <span class="card-tag tag-badge-sumi">🌸</span>
                     </div>
                     <div class="card-price">
                         <div><span class="current">+360đ</span> <span class="unit">/ link</span></div>
-                        <div class="original">+350đ gốc</div>
                     </div>
                 </div>
                 <h3 class="card-title">Vượt link Gtraffic</h3>
                 <div class="card-limit">
-                    <div class="limit-row"><span>Hạn ngạch hôm nay</span><span class="count" id="count-Gtraffic">0/2 Lượt</span></div>
+                    <div class="limit-row"><span>Hạn ngạch</span><span class="count" id="count-Gtraffic">0/2 Lượt</span></div>
                     <div class="progress-bar"><div class="progress-fill" id="progress-Gtraffic" style="width:0%;"></div></div>
                 </div>
-                <button class="btn-create" id="btn-Gtraffic" onclick="createLink('Gtraffic', 360)">➜ Tạo link Gtraffic (360đ)</button>
+                <button class="btn-create" id="btn-Gtraffic" onclick="createLink('Gtraffic', 360)">➜ Tạo link (360đ)</button>
             </div>
 
             <div class="card">
                 <div class="card-header">
-                    <div class="card-logo-wrap">
+                    <div style="display:flex; align-items:center;">
                         <div class="card-logo gtraffic-direct">G</div>
-                        <span class="card-tag tag-gtraffic-direct">Gtraffic Direct</span>
-                        <span class="card-tag tag-badge-sumi">🌸</span>
+                        <span class="card-tag tag-gtraffic">Gtraffic Direct</span>
                     </div>
                     <div class="card-price">
                         <div><span class="current">+360đ</span> <span class="unit">/ link</span></div>
-                        <div class="original">+350đ gốc</div>
                     </div>
                 </div>
                 <h3 class="card-title">Vượt link Gtraffic Direct</h3>
                 <div class="card-limit">
-                    <div class="limit-row"><span>Hạn ngạch hôm nay</span><span class="count" id="count-GtrafficDirect">0/2 Lượt</span></div>
+                    <div class="limit-row"><span>Hạn ngạch</span><span class="count" id="count-GtrafficDirect">0/2 Lượt</span></div>
                     <div class="progress-bar"><div class="progress-fill" id="progress-GtrafficDirect" style="width:0%;"></div></div>
                 </div>
-                <button class="btn-create" id="btn-GtrafficDirect" onclick="createLink('Gtraffic Direct', 360)">➜ Tạo link Gtraffic Direct (360đ)</button>
-            </div>
-        </div>
-
-        <div class="history-box">
-            <div class="history-header">
-                <div class="history-title">📜 Lượt vượt link gần đây</div>
-                <button class="btn-refresh" onclick="loadHistory()">🔄 Làm mới</button>
-            </div>
-            <div class="history-desc">Hiển thị tối đa 5 lượt gần nhất (cả thành công lẫn thất bại).</div>
-
-            <div class="filter-bar">
-                <button class="filter-btn active" onclick="filterHistory('all', this)">🌐 Tất cả</button>
-                <button class="filter-btn" onclick="filterHistory('done', this)">✅ Đã duyệt</button>
-                <button class="filter-btn" onclick="filterHistory('pending', this)">⏳ Chờ duyệt</button>
-            </div>
-
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Dịch vụ</th>
-                            <th>Link rút gọn</th>
-                            <th>Thưởng</th>
-                            <th>Trạng thái</th>
-                            <th>Thời gian</th>
-                        </tr>
-                    </thead>
-                    <tbody id="historyBody"></tbody>
-                </table>
+                <button class="btn-create" id="btn-GtrafficDirect" onclick="createLink('Gtraffic Direct', 360)">➜ Tạo link (360đ)</button>
             </div>
         </div>
     </main>
@@ -492,168 +165,84 @@
     </div>
 </div>
 
-<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 <script src="firebase.js"></script>
 <script src="layout.js"></script>
 
 <script>
-    var currentFilter = 'all';
+var MAX_LIMIT = 2;
+
+function getTodayStr() {
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+
+async function getUsedCount(service) {
     var currentUser = localStorage.getItem('currentUser');
-    var MAX_LIMIT = 2;
+    if (!currentUser) return 0;
+    try {
+        var snap = await db.ref('dailyLinks/' + currentUser + '/' + getTodayStr() + '/' + service).once('value');
+        return snap.val() || 0;
+    } catch(e) { return 0; }
+}
 
-    // ===== LẤY NGÀY HÔM NAY =====
-    function getTodayStr() {
-        var d = new Date();
-        return d.getFullYear() + '-' + 
-               String(d.getMonth() + 1).padStart(2, '0') + '-' + 
-               String(d.getDate()).padStart(2, '0');
-    }
-
-    // ===== LẤY SỐ LƯỢT ĐÃ DÙNG =====
-    async function getUsedCount(service) {
-        try {
-            var todayStr = getTodayStr();
-            var snapshot = await db.ref('dailyLinks/' + currentUser + '/' + todayStr + '/' + service).once('value');
-            return snapshot.val() || 0;
-        } catch (e) {
-            console.error('Lỗi lấy lượt dùng:', e);
-            return 0;
+async function updateAllLimits() {
+    var services = [
+        { name: 'Layma', id: 'Layma', price: 510 },
+        { name: 'TrafficVN', id: 'TrafficVN', price: 260 },
+        { name: 'Gtraffic', id: 'Gtraffic', price: 360 },
+        { name: 'Gtraffic Direct', id: 'GtrafficDirect', price: 360 }
+    ];
+    for (var i = 0; i < services.length; i++) {
+        var svc = services[i];
+        var used = await getUsedCount(svc.name);
+        var countEl = document.getElementById('count-' + svc.id);
+        var progressEl = document.getElementById('progress-' + svc.id);
+        var btnEl = document.getElementById('btn-' + svc.id);
+        if (countEl) {
+            countEl.textContent = used + '/' + MAX_LIMIT + ' Lượt';
+            if (used >= MAX_LIMIT) countEl.classList.add('full'); else countEl.classList.remove('full');
         }
-    }
-
-    // ===== CẬP NHẬT UI =====
-    async function updateAllLimits() {
-        var services = [
-            { name: 'Layma', id: 'Layma', price: 510 },
-            { name: 'TrafficVN', id: 'TrafficVN', price: 260 },
-            { name: 'Gtraffic', id: 'Gtraffic', price: 360 },
-            { name: 'Gtraffic Direct', id: 'GtrafficDirect', price: 360 }
-        ];
-
-        for (var i = 0; i < services.length; i++) {
-            var svc = services[i];
-            var used = await getUsedCount(svc.name);
-            
-            var countEl = document.getElementById('count-' + svc.id);
-            var progressEl = document.getElementById('progress-' + svc.id);
-            var btnEl = document.getElementById('btn-' + svc.id);
-
-            if (countEl) {
-                countEl.textContent = used + '/' + MAX_LIMIT + ' Lượt';
-                if (used >= MAX_LIMIT) countEl.classList.add('full');
-                else countEl.classList.remove('full');
-            }
-
-            if (progressEl) {
-                progressEl.style.width = (used / MAX_LIMIT * 100) + '%';
-                if (used >= MAX_LIMIT) progressEl.classList.add('full');
-                else progressEl.classList.remove('full');
-            }
-
-            if (btnEl) {
-                if (used >= MAX_LIMIT) {
-                    btnEl.disabled = true;
-                    btnEl.textContent = '❌ Hết lượt hôm nay';
-                } else {
-                    btnEl.disabled = false;
-                    btnEl.textContent = '➜ Tạo link ' + svc.name + ' (' + svc.price + 'đ)';
-                }
+        if (progressEl) {
+            progressEl.style.width = (used / MAX_LIMIT * 100) + '%';
+            if (used >= MAX_LIMIT) progressEl.classList.add('full'); else progressEl.classList.remove('full');
+        }
+        if (btnEl) {
+            if (used >= MAX_LIMIT) {
+                btnEl.disabled = true;
+                btnEl.textContent = '❌ Hết lượt hôm nay';
+            } else {
+                btnEl.disabled = false;
+                btnEl.textContent = '➜ Tạo link ' + svc.name + ' (' + svc.price + 'đ)';
             }
         }
     }
+}
 
-    // ===== TẠO LINK =====
-    async function createLink(service, points) {
-        if (!currentUser) {
-            showPopup('⚠️', 'Lỗi', 'Vui lòng đăng nhập lại!');
+async function createLink(service, points) {
+    var currentUser = localStorage.getItem('currentUser');
+    if (!currentUser) { alert('⚠️ Vui lòng đăng nhập lại!'); return; }
+    try {
+        var used = await getUsedCount(service);
+        if (used >= MAX_LIMIT) {
+            showPopup('⚠️', 'Hết lượt', 'Bạn đã dùng hết ' + MAX_LIMIT + ' lượt cho ' + service + ' hôm nay!\nQuay lại sau 00:00.');
             return;
         }
-
-        try {
-            var used = await getUsedCount(service);
-
-            if (used >= MAX_LIMIT) {
-                showPopup('⚠️', 'Hết lượt',
-                    'Bạn đã dùng hết ' + MAX_LIMIT + ' lượt cho ' + service + ' hôm nay!\n\n' +
-                    'Vui lòng quay lại sau 00:00.');
-                return;
-            }
-
-            var link = 'https://' + service.toLowerCase().replace(/\s/g, '') + '.net/' + 
-                       Math.random().toString(36).substring(2, 11);
-
-            await saveLinkHistoryToCloud(currentUser, service, link, points, 'pending');
-
-            var todayStr = getTodayStr();
-            await db.ref('dailyLinks/' + currentUser + '/' + todayStr + '/' + service).set(used + 1);
-
-            showPopup('🔗', 'Tạo link thành công!',
-                'Link: ' + link + '\n\n' +
-                '📊 Đã dùng: ' + (used + 1) + '/' + MAX_LIMIT + ' lượt.\n' +
-                '💰 Chờ admin duyệt để nhận ' + points + 'đ!');
-
-            await updateAllLimits();
-            loadHistory();
-
-        } catch (error) {
-            console.error('❌ Lỗi tạo link:', error);
-            showPopup('❌', 'Lỗi', 'Không thể tạo link: ' + error.message);
-        }
+        var link = 'https://' + service.toLowerCase().replace(/\s/g, '') + '.net/' + Math.random().toString(36).substring(2, 11);
+        await saveLinkHistoryToCloud(currentUser, service, link, points, 'pending');
+        await db.ref('dailyLinks/' + currentUser + '/' + getTodayStr() + '/' + service).set(used + 1);
+        showPopup('🔗', 'Tạo link thành công!', 'Link: ' + link + '\n\nĐã dùng ' + (used + 1) + '/' + MAX_LIMIT + ' lượt.');
+        await updateAllLimits();
+    } catch(error) {
+        showPopup('❌', 'Lỗi', 'Không thể tạo link: ' + error.message);
     }
+}
 
-    // ===== LOAD LỊCH SỬ =====
-    async function loadHistory() {
-        var tbody = document.getElementById('historyBody');
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#555;padding:40px;">⏳ Đang tải...</td></tr>';
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(updateAllLimits, 500);
+});
+</script>
 
-        try {
-            var history = await getLinkHistoryFromCloud(currentUser);
-
-            if (!history || history.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#555;padding:40px;">📭 Bạn chưa có lượt vượt link nào</td></tr>';
-                return;
-            }
-
-            var filtered = history.filter(function(item) {
-                if (currentFilter === 'all') return true;
-                return item.status === currentFilter;
-            });
-
-            if (filtered.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#555;padding:40px;">📭 Không có dữ liệu</td></tr>';
-                return;
-            }
-
-            filtered = filtered.slice(0, 5);
-
-            var html = '';
-            filtered.forEach(function(item) {
-                var logoClass = 'code-logo';
-                var logo = '?';
-                
-                if (item.service === 'Layma') { logo = 'L'; logoClass += ' layma'; }
-                else if (item.service === 'TrafficVN') { logo = '⚡'; }
-                else if (item.service === 'Gtraffic') { logo = 'G'; logoClass += ' gtraffic'; }
-                else if (item.service === 'Gtraffic Direct') { logo = 'G'; logoClass += ' gtraffic-direct'; }
-
-                var statusHtml = '';
-                if (item.status === 'pending') {
-                    statusHtml = '<span class="status-badge status-pending">⏳ Chờ duyệt</span>';
-                } else if (item.status === 'done') {
-                    statusHtml = '<span class="status-badge status-done">✅ Đã duyệt</span>';
-                } else {
-                    statusHtml = '<span class="status-badge status-rejected">❌ Từ chối</span>';
-                }
-
-                var date = new Date(item.time);
-                var dateStr = date.getFullYear() + '-' + 
-                    String(date.getMonth() + 1).padStart(2, '0') + '-' + 
-                    String(date.getDate()).padStart(2, '0');
-                var timeStr = String(date.getHours()).padStart(2, '0') + ':' + 
-                    String(date.getMinutes()).padStart(2, '0') + ':' + 
-                    String(date.getSeconds()).padStart(2, '0');
-
-                html += '<tr>' +
-                    '<
+</body>
+</html>
