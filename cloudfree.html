@@ -3,33 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud Free - NiNi Store</title>
+    <title>Cloud Free Mỗi Ngày - NiNi Store</title>
     <link rel="stylesheet" href="layout.css">
     <style>
-        .cloudfree-container { max-width: 700px; margin: 0 auto; text-align: center; padding: 40px 20px; }
-        .cloudfree-container .icon { font-size: 100px; margin-bottom: 20px; }
-        .cloudfree-container h1 { color: #ffd700; font-size: 32px; margin-bottom: 30px; }
+        .cloudfree-container {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .cloudfree-container .icon {
+            font-size: 100px;
+            margin-bottom: 20px;
+        }
+
+        .cloudfree-container h1 {
+            color: #ffd700;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .cloudfree-container .subtitle {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
         .cloudfree-list {
-            background: rgba(255,255,255,0.03);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
             padding: 15px 20px;
             text-align: left;
             margin-bottom: 20px;
         }
+
         .cloudfree-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 14px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             color: #ccc;
             flex-wrap: wrap;
             gap: 8px;
         }
-        .cloudfree-item:last-child { border-bottom: none; }
-        .cloudfree-item .name { color: #fff; }
-        .cloudfree-item .status { color: #00ff88; font-weight: 700; font-size: 13px; }
-        .cloudfree-item .status.locked { color: #555; }
+
+        .cloudfree-item:last-child {
+            border-bottom: none;
+        }
+
+        .cloudfree-item .name {
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .cloudfree-item .status {
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .cloudfree-item .status.done {
+            color: #00ff88;
+        }
+
+        .cloudfree-item .status.locked {
+            color: #555;
+        }
+
         .btn-claim {
             padding: 14px 40px;
             background: linear-gradient(135deg, #ffd700, #f0a500);
@@ -41,7 +83,12 @@
             cursor: pointer;
             transition: 0.3s;
         }
-        .btn-claim:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(255,215,0,0.3); }
+
+        .btn-claim:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+
         .btn-claim:disabled {
             opacity: 0.5;
             cursor: not-allowed;
@@ -65,7 +112,7 @@
             <li data-page="task"><a href="task.html">📋 Nhiệm vụ</a></li>
             <li data-page="exchange"><a href="exchange.html">🔄 Đổi điểm</a></li>
             <li class="has-sub">
-                <a href="#" onclick="toggleSubMenu(this)">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
+                <a href="#">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
                 <ul class="sub-menu">
                     <li data-page="card"><a href="card.html">💳 Nạp Thẻ Cào</a></li>
                     <li data-page="bank"><a href="bank.html">🏦 Nạp Bank/Momo</a></li>
@@ -73,7 +120,7 @@
                 </ul>
             </li>
             <li class="has-sub">
-                <a href="#" onclick="toggleSubMenu(this)">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
+                <a href="#">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
                 <ul class="sub-menu">
                     <li data-page="redeem"><a href="redeem.html">🔄 Redeem Uphone 4h</a></li>
                     <li data-page="buycloud"><a href="buycloud.html">☁️ Mua Máy Cloud</a></li>
@@ -86,4 +133,105 @@
             <li data-page="ranking"><a href="ranking.html">🏆 Bảng Xếp Hạng</a></li>
             <li data-page="history"><a href="history.html">📜 Lịch sử mua hàng</a></li>
             <li data-page="taskhistory"><a href="taskhistory.html">📜 Lịch sử nhiệm vụ</a></li>
-            <li data-page="cloudfree" class="active"><a href="cloudfree.html">
+            <li data-page="cloudfree" class="active"><a href="cloudfree.html">☁️ Cloud Free Mỗi Ngày</a></li>
+            <li data-page="support"><a href="support.html">⚙️ Trung Tâm Hỗ Trợ</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <span class="user-avatar">👤</span>
+                <div>
+                    <strong id="usernameDisplay">Khách</strong>
+                    <span id="balanceDisplay">💰 Đang tải...</span>
+                </div>
+            </div>
+            <a href="#" class="logout-btn" onclick="logout()">🚪 Đăng xuất</a>
+        </div>
+    </nav>
+
+    <main class="content" id="content">
+        <div class="cloudfree-container">
+            <div class="icon">☁️</div>
+            <h1>Cloud Free Mỗi Ngày</h1>
+            <p class="subtitle">Nhận quà miễn phí mỗi ngày - Tích lũy điểm đổi quà</p>
+
+            <div class="cloudfree-list">
+                <div class="cloudfree-item">
+                    <span class="name">🎁 Ngày 1: Code Vimos 1 Day</span>
+                    <span class="status done">✅ Đã nhận</span>
+                </div>
+                <div class="cloudfree-item">
+                    <span class="name">🎁 Ngày 2: Code Vipplayer 1 Ngày</span>
+                    <span class="status done">✅ Đã nhận</span>
+                </div>
+                <div class="cloudfree-item">
+                    <span class="name">🎁 Ngày 3: Code Ughearna 4H</span>
+                    <span class="status done">✅ Đã nhận</span>
+                </div>
+                <div class="cloudfree-item">
+                    <span class="name">🎁 Ngày 4: Máy Cloud 1 ngày</span>
+                    <span class="status locked">🔒 Chưa nhận</span>
+                </div>
+                <div class="cloudfree-item">
+                    <span class="name">🎁 Ngày 5: Code Vimos 3 Day</span>
+                    <span class="status locked">🔒 Chưa nhận</span>
+                </div>
+            </div>
+
+            <button class="btn-claim" onclick="claimDaily()">🎁 Nhận ngay</button>
+        </div>
+    </main>
+</div>
+
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup-box">
+        <div class="icon" id="popupIcon">📢</div>
+        <h3 id="popupTitle">Thông báo</h3>
+        <p id="popupMessage">Nội dung thông báo</p>
+        <button class="close-btn" onclick="closePopup()">Đã hiểu</button>
+    </div>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="firebase.js"></script>
+<script src="layout.js"></script>
+
+<script>
+    async function claimDaily() {
+        var user = localStorage.getItem('currentUser');
+        if (!user) {
+            showPopup('⚠️', 'Lỗi', 'Vui lòng đăng nhập lại!');
+            return;
+        }
+
+        try {
+            var today = new Date().toDateString();
+            var lastClaim = await db.ref('dailyClaims/' + user + '/lastClaim').once('value').then(function(s) { return s.val(); });
+
+            if (lastClaim === today) {
+                showPopup('⚠️', 'Đã nhận rồi', 'Bạn đã nhận quà hôm nay rồi!\nVui lòng quay lại vào ngày mai.');
+                return;
+            }
+
+            // Lưu lượt nhận
+            await db.ref('dailyClaims/' + user).set({
+                lastClaim: today,
+                time: Date.now()
+            });
+
+            // Cộng 50 điểm cho user
+            await addUserBalance(user, 50);
+
+            showPopup('✅', 'Nhận thành công!',
+                'Bạn đã nhận được +50 điểm!\nSố dư đã được cập nhật.');
+
+        } catch (error) {
+            console.error('Lỗi nhận quà:', error);
+            showPopup('❌', 'Lỗi', 'Không thể nhận quà. Vui lòng thử lại!');
+        }
+    }
+</script>
+
+</body>
+</html>
