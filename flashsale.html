@@ -7,94 +7,280 @@
     <link rel="stylesheet" href="layout.css">
     <style>
         .flash-container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* ===== HEADER BANNER ===== */
+        .flash-banner {
+            background: linear-gradient(135deg, rgba(255, 100, 0, 0.15), rgba(255, 215, 0, 0.1));
+            border: 2px solid rgba(255, 150, 0, 0.3);
+            border-radius: 24px;
+            padding: 40px 30px;
             text-align: center;
-            padding: 40px 20px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            animation: glow 2s ease-in-out infinite alternate;
         }
 
-        .flash-container .icon {
-            font-size: 100px;
-            margin-bottom: 20px;
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(255, 150, 0, 0.1); }
+            to { box-shadow: 0 0 40px rgba(255, 150, 0, 0.3); }
         }
 
-        .flash-container h1 {
+        .flash-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1), transparent 60%);
+            animation: rotate 10s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .flash-banner .icon {
+            font-size: 80px;
+            margin-bottom: 15px;
+            animation: bounce 1s ease-in-out infinite alternate;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        .flash-banner h1 {
             color: #ffd700;
-            font-size: 32px;
+            font-size: 38px;
+            font-weight: 900;
             margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            position: relative;
+            z-index: 1;
+            letter-spacing: 1px;
         }
 
-        .flash-container .subtitle {
+        .flash-banner .subtitle {
+            color: #ff9944;
+            font-size: 15px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .countdown {
+            display: inline-flex;
+            gap: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .countdown-item {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            padding: 8px 15px;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .countdown-item .num {
+            color: #ffd700;
+            font-size: 24px;
+            font-weight: 900;
+            font-family: monospace;
+        }
+
+        .countdown-item .label {
             color: #888;
-            font-size: 14px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ===== SECTION TITLE ===== */
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffd700;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-left: 10px;
+            border-left: 4px solid #ffd700;
+        }
+
+        /* ===== FLASH GRID ===== */
+        .flash-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
             margin-bottom: 30px;
         }
 
-        .flash-item {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 215, 0, 0.1);
-            border-radius: 16px;
+        .flash-card {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(255, 100, 0, 0.03));
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            border-radius: 20px;
             padding: 20px;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
-        .flash-item:hover {
-            border-color: rgba(255, 215, 0, 0.3);
-            transform: translateY(-3px);
+        .flash-card::before {
+            content: '🔥';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            opacity: 0.5;
         }
 
-        .flash-item .info {
-            text-align: left;
-            flex: 1;
-            min-width: 200px;
+        .flash-card:hover {
+            border-color: rgba(255, 215, 0, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 150, 0, 0.2);
         }
 
-        .flash-item .name {
+        .flash-card .badge-discount {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(135deg, #ff4444, #cc0000);
             color: #fff;
-            font-size: 17px;
-            font-weight: 700;
-            margin-bottom: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            box-shadow: 0 3px 10px rgba(255, 0, 0, 0.4);
         }
 
-        .flash-item .old-price {
-            color: #ff4444;
+        .flash-card .product-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .flash-card .product-name {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            min-height: 40px;
+            line-height: 1.3;
+        }
+
+        .flash-card .price-wrap {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .flash-card .old-price {
+            color: #666;
             text-decoration: line-through;
-            margin-right: 10px;
             font-size: 14px;
         }
 
-        .flash-item .new-price {
+        .flash-card .new-price {
             color: #ffd700;
-            font-size: 18px;
-            font-weight: 700;
+            font-size: 24px;
+            font-weight: 900;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
         }
 
-        .flash-item .btn-buy {
-            padding: 10px 25px;
-            background: linear-gradient(135deg, #ffd700, #f0a500);
+        .flash-card .sold-bar {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            height: 6px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .flash-card .sold-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff4444, #ffd700);
+            border-radius: 10px;
+            transition: width 0.5s;
+        }
+
+        .flash-card .sold-text {
+            color: #888;
+            font-size: 11px;
+            margin-bottom: 10px;
+        }
+
+        .flash-card .btn-buy {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
             color: #0a0a1a;
             border: none;
-            border-radius: 10px;
-            font-weight: 700;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 14px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .flash-item .btn-buy:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        .flash-card .btn-buy:hover:not(:disabled) {
+            transform: scale(1.03);
+            box-shadow: 0 5px 25px rgba(255, 215, 0, 0.5);
         }
 
-        .flash-item .btn-buy:disabled {
-            opacity: 0.5;
+        .flash-card .btn-buy:disabled {
+            opacity: 0.4;
             cursor: not-allowed;
-            transform: none;
+            background: #333;
+        }
+
+        /* ===== NOTICE FOOTER ===== */
+        .flash-notice {
+            background: rgba(255, 100, 0, 0.05);
+            border: 1px solid rgba(255, 150, 0, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            color: #ff9944;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .flash-notice strong {
+            color: #ffd700;
+        }
+
+        @media (max-width: 768px) {
+            .flash-banner h1 { font-size: 26px; }
+            .flash-banner .icon { font-size: 60px; }
+            .countdown-item { padding: 6px 10px; min-width: 50px; }
+            .countdown-item .num { font-size: 18px; }
+            .flash-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -152,41 +338,120 @@
 
     <main class="content" id="content">
         <div class="flash-container">
-            <div class="icon">⚡</div>
-            <h1>Flash Sale - Giảm giá sốc!</h1>
-            <p class="subtitle">Chỉ áp dụng hôm nay - Số lượng có hạn</p>
 
-            <div class="flash-item">
-                <div class="info">
-                    <div class="name">🔥 Code Ughearna 4H</div>
-                    <div><span class="old-price">50,000đ</span> <span class="new-price">25,000đ</span></div>
+            <!-- BANNER -->
+            <div class="flash-banner">
+                <div class="icon">⚡</div>
+                <h1>FLASH SALE</h1>
+                <p class="subtitle">🔥 Giảm giá sốc - Chỉ áp dụng hôm nay - Số lượng có hạn 🔥</p>
+                <div class="countdown">
+                    <div class="countdown-item">
+                        <div class="num" id="cd-hours">00</div>
+                        <div class="label">Giờ</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="num" id="cd-mins">00</div>
+                        <div class="label">Phút</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="num" id="cd-secs">00</div>
+                        <div class="label">Giây</div>
+                    </div>
                 </div>
-                <button class="btn-buy" onclick="buyItem('Code Ughearna 4H', 25000)">Mua ngay</button>
             </div>
 
-            <div class="flash-item">
-                <div class="info">
-                    <div class="name">🔥 Code Vipplayer 1 Ngày</div>
-                    <div><span class="old-price">20,000đ</span> <span class="new-price">10,000đ</span></div>
+            <!-- SECTION TITLE -->
+            <div class="section-title">💎 Sản phẩm khuyến mãi</div>
+
+            <!-- GRID -->
+            <div class="flash-grid">
+
+                <div class="flash-card">
+                    <div class="badge-discount">-50%</div>
+                    <div class="product-icon">🔥</div>
+                    <div class="product-name">Code Ughearna 4H</div>
+                    <div class="price-wrap">
+                        <span class="old-price">50,000đ</span>
+                        <span class="new-price">25,000đ</span>
+                    </div>
+                    <div class="sold-text">Đã bán: 45/50</div>
+                    <div class="sold-bar"><div class="sold-fill" style="width:90%;"></div></div>
+                    <button class="btn-buy" onclick="buyItem('Code Ughearna 4H', 25000)">🛒 Mua ngay</button>
                 </div>
-                <button class="btn-buy" onclick="buyItem('Code Vipplayer 1 Ngày', 10000)">Mua ngay</button>
+
+                <div class="flash-card">
+                    <div class="badge-discount">-50%</div>
+                    <div class="product-icon">⚡</div>
+                    <div class="product-name">Code Vipplayer 1 Ngày</div>
+                    <div class="price-wrap">
+                        <span class="old-price">20,000đ</span>
+                        <span class="new-price">10,000đ</span>
+                    </div>
+                    <div class="sold-text">Đã bán: 78/100</div>
+                    <div class="sold-bar"><div class="sold-fill" style="width:78%;"></div></div>
+                    <button class="btn-buy" onclick="buyItem('Code Vipplayer 1 Ngày', 10000)">🛒 Mua ngay</button>
+                </div>
+
+                <div class="flash-card">
+                    <div class="badge-discount">-50%</div>
+                    <div class="product-icon">☁️</div>
+                    <div class="product-name">Máy Cloud 1 Ngày</div>
+                    <div class="price-wrap">
+                        <span class="old-price">10,000đ</span>
+                        <span class="new-price">5,000đ</span>
+                    </div>
+                    <div class="sold-text">Đã bán: 120/200</div>
+                    <div class="sold-bar"><div class="sold-fill" style="width:60%;"></div></div>
+                    <button class="btn-buy" onclick="buyItem('Máy Cloud 1 Ngày', 5000)">🛒 Mua ngay</button>
+                </div>
+
+                <div class="flash-card">
+                    <div class="badge-discount">-50%</div>
+                    <div class="product-icon">🎁</div>
+                    <div class="product-name">Code Vimos 1 Day</div>
+                    <div class="price-wrap">
+                        <span class="old-price">30,000đ</span>
+                        <span class="new-price">15,000đ</span>
+                    </div>
+                    <div class="sold-text">Đã bán: 30/50</div>
+                    <div class="sold-bar"><div class="sold-fill" style="width:60%;"></div></div>
+                    <button class="btn-buy" onclick="buyItem('Code Vimos 1 Day', 15000)">🛒 Mua ngay</button>
+                </div>
+
+                <div class="flash-card">
+                    <div class="badge-discount">-40%</div>
+                    <div class="product-icon">👑</div>
+                    <div class="product-name">VIP 7 Ngày</div>
+                    <div class="price-wrap">
+                        <span class="old-price">100,000đ</span>
+                        <span class="new-price">60,000đ</span>
+                    </div>
+                    <div class="sold-text">Đã bán: 15/30</div>
+                    <div class="sold-bar"><div class="sold-fill" style="width:50%;"></div></div>
+                    <button class="btn-buy" onclick="buyItem('VIP 7 Ngày', 60000)">🛒 Mua ngay</button>
+                </div>
+
+                <div class="flash-card">
+                    <div class="badge-discount">-30%</div>
+                    <div class="product-icon">🎨</div>
+                    <div class="product-name">App Mod Skin</div>
+                    <div class="price-wrap">
+                        <span class="old-price">80,000đ</span>
+                        <span class="new-price">56,000đ</span>
+                    </div>
+                    <div class="sold-text">Đã bán: 20/40</div>
+                    <div class="sold-bar"><div class="sold-fill" style="width:50%;"></div></div>
+                    <button class="btn-buy" onclick="buyItem('App Mod Skin', 56000)">🛒 Mua ngay</button>
+                </div>
+
             </div>
 
-            <div class="flash-item">
-                <div class="info">
-                    <div class="name">🔥 Máy Cloud 1 ngày</div>
-                    <div><span class="old-price">10,000đ</span> <span class="new-price">5,000đ</span></div>
-                </div>
-                <button class="btn-buy" onclick="buyItem('Máy Cloud 1 ngày', 5000)">Mua ngay</button>
+            <!-- NOTICE -->
+            <div class="flash-notice">
+                ⚠️ <strong>Lưu ý:</strong> Flash Sale chỉ áp dụng trong ngày hôm nay. Sau khi hết thời gian, giá sẽ trở về bình thường.<br>
+                💎 Số lượng có hạn, mua nhanh kẻo lỡ!
             </div>
 
-            <div class="flash-item">
-                <div class="info">
-                    <div class="name">🔥 Code Vimos 1 Day</div>
-                    <div><span class="old-price">30,000đ</span> <span class="new-price">15,000đ</span></div>
-                </div>
-                <button class="btn-buy" onclick="buyItem('Code Vimos 1 Day', 15000)">Mua ngay</button>
-            </div>
         </div>
     </main>
 </div>
@@ -207,6 +472,25 @@
 <script src="layout.js"></script>
 
 <script>
+    // ===== ĐỒNG HỒ ĐẾM NGƯỢC =====
+    function updateCountdown() {
+        var now = new Date();
+        var endOfDay = new Date();
+        endOfDay.setHours(23, 59, 59, 999);
+        
+        var diff = Math.floor((endOfDay - now) / 1000);
+        if (diff < 0) diff = 0;
+        
+        var h = Math.floor(diff / 3600);
+        var m = Math.floor((diff % 3600) / 60);
+        var s = diff % 60;
+        
+        document.getElementById('cd-hours').textContent = String(h).padStart(2, '0');
+        document.getElementById('cd-mins').textContent = String(m).padStart(2, '0');
+        document.getElementById('cd-secs').textContent = String(s).padStart(2, '0');
+    }
+
+    // ===== MUA HÀNG =====
     async function buyItem(name, price) {
         var user = localStorage.getItem('currentUser');
         if (!user) {
@@ -220,29 +504,39 @@
             if (balance < price) {
                 showPopup('⚠️', 'Không đủ tiền',
                     'Bạn cần ' + price.toLocaleString('vi-VN') + 'đ\n' +
-                    'Số dư hiện tại: ' + balance.toLocaleString('vi-VN') + 'đ');
+                    'Số dư hiện tại: ' + balance.toLocaleString('vi-VN') + 'đ\n\n' +
+                    'Vui lòng nạp thêm tiền!');
                 return;
             }
 
-            if (!confirm('Mua "' + name + '" với ' + price.toLocaleString('vi-VN') + 'đ?')) {
+            if (!confirm('XÁC NHẬN MUA HÀNG\n\n' +
+                         'Sản phẩm: ' + name + '\n' +
+                         'Giá: ' + price.toLocaleString('vi-VN') + 'đ\n' +
+                         'Số dư sau khi mua: ' + (balance - price).toLocaleString('vi-VN') + 'đ\n\n' +
+                         'Bạn có chắc chắn?')) {
                 return;
             }
 
-            // Trừ tiền
             await subtractUserBalance(user, price);
-
-            // Lưu lịch sử mua
             await savePurchaseToCloud(user, name, price);
 
             showPopup('✅', 'Mua thành công!',
-                'Bạn đã mua "' + name + '" với ' + price.toLocaleString('vi-VN') + 'đ!\n' +
-                'Kiểm tra lịch sử tại "Lịch sử mua hàng".');
+                'Bạn đã mua "' + name + '"\n' +
+                'Giá: ' + price.toLocaleString('vi-VN') + 'đ\n' +
+                'Số dư còn lại: ' + (balance - price).toLocaleString('vi-VN') + 'đ\n\n' +
+                'Kiểm tra "Lịch sử mua hàng" để xem chi tiết.');
 
         } catch (error) {
             console.error('Lỗi mua hàng:', error);
             showPopup('❌', 'Lỗi', 'Không thể mua. Vui lòng thử lại!');
         }
     }
+
+    // ===== KHỞI CHẠY =====
+    document.addEventListener('DOMContentLoaded', function() {
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    });
 </script>
 
 </body>
