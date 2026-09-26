@@ -6,32 +6,70 @@
     <title>Bảng xếp hạng - NiNi Store</title>
     <link rel="stylesheet" href="layout.css">
     <style>
-        .ranking-container { max-width: 700px; margin: 0 auto; text-align: center; padding: 40px 20px; }
-        .ranking-container .icon { font-size: 100px; margin-bottom: 20px; }
-        .ranking-container h1 { color: #ffd700; font-size: 32px; margin-bottom: 30px; }
+        .ranking-container {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .ranking-container .icon {
+            font-size: 100px;
+            margin-bottom: 20px;
+        }
+
+        .ranking-container h1 {
+            color: #ffd700;
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+
         .ranking-list {
-            background: rgba(255,255,255,0.03);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
             padding: 15px 20px;
             text-align: left;
+            min-height: 100px;
         }
+
         .rank-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 14px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             color: #ccc;
         }
-        .rank-item:last-child { border-bottom: none; }
-        .rank-item .name { color: #fff; }
-        .rank-item .points { color: #ffd700; font-weight: 700; }
+
+        .rank-item:last-child {
+            border-bottom: none;
+        }
+
+        .rank-item .name {
+            color: #fff;
+        }
+
+        .rank-item .points {
+            color: #ffd700;
+            font-weight: 700;
+        }
+
         .rank-item.me {
-            background: rgba(255,215,0,0.05);
+            background: rgba(255, 215, 0, 0.05);
             border-radius: 8px;
             padding: 14px 15px;
         }
-        .rank-item.me .name { color: #ffd700; }
+
+        .rank-item.me .name {
+            color: #ffd700;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #555;
+            padding: 40px 20px;
+        }
     </style>
 </head>
 <body>
@@ -50,7 +88,7 @@
             <li data-page="task"><a href="task.html">📋 Nhiệm vụ</a></li>
             <li data-page="exchange"><a href="exchange.html">🔄 Đổi điểm</a></li>
             <li class="has-sub">
-                <a href="#" onclick="toggleSubMenu(this)">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
+                <a href="#">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
                 <ul class="sub-menu">
                     <li data-page="card"><a href="card.html">💳 Nạp Thẻ Cào</a></li>
                     <li data-page="bank"><a href="bank.html">🏦 Nạp Bank/Momo</a></li>
@@ -58,7 +96,7 @@
                 </ul>
             </li>
             <li class="has-sub">
-                <a href="#" onclick="toggleSubMenu(this)">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
+                <a href="#">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
                 <ul class="sub-menu">
                     <li data-page="redeem"><a href="redeem.html">🔄 Redeem Uphone 4h</a></li>
                     <li data-page="buycloud"><a href="buycloud.html">☁️ Mua Máy Cloud</a></li>
@@ -79,7 +117,7 @@
                 <span class="user-avatar">👤</span>
                 <div>
                     <strong id="usernameDisplay">Khách</strong>
-                    <span id="pointsDisplay">💰 1,000,000đ</span>
+                    <span id="balanceDisplay">💰 Đang tải...</span>
                 </div>
             </div>
             <a href="#" class="logout-btn" onclick="logout()">🚪 Đăng xuất</a>
@@ -90,7 +128,9 @@
         <div class="ranking-container">
             <div class="icon">🏆</div>
             <h1>Bảng xếp hạng</h1>
-            <div class="ranking-list" id="rankingList"></div>
+            <div class="ranking-list" id="rankingList">
+                <div class="empty-state">⏳ Đang tải...</div>
+            </div>
         </div>
     </main>
 </div>
@@ -104,29 +144,49 @@
     </div>
 </div>
 
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="firebase.js"></script>
 <script src="layout.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Lấy username thật từ sessionStorage
-        var currentUser = sessionStorage.getItem('currentUser') || 'Bạn';
-        
-        // Danh sách người dùng (mẫu) + user thật
-        var rankingData = [
-            { name: 'Người chơi A', points: 10000, medal: '🥇' },
-            { name: 'Người chơi B', points: 8000, medal: '🥈' },
-            { name: 'Người chơi C', points: 5000, medal: '🥉' },
-            { name: 'Người chơi D', points: 3000, medal: '4.' },
-            { name: currentUser, points: 1000, medal: '🏅', isMe: true }
-        ];
 
-        var html = '';
-        rankingData.forEach(function(item) {
-            html += '<div class="rank-item' + (item.isMe ? ' me' : '') + '">' +
-                '<span>' + item.medal + ' <span class="name">' + item.name + '</span></span>' +
-                '<span class="points">' + item.points.toLocaleString() + ' điểm</span>' +
+<script>
+    document.addEventListener('DOMContentLoaded', async function() {
+        var currentUser = localStorage.getItem('currentUser') || 'Bạn';
+        var list = document.getElementById('rankingList');
+
+        try {
+            // Lấy tất cả user từ Firebase
+            var users = await getAllUsers();
+
+            if (!users || users.length === 0) {
+                list.innerHTML = '<div class="empty-state">📭 Chưa có dữ liệu xếp hạng</div>';
+                return;
+            }
+
+            // Sắp xếp theo số dư giảm dần
+            users.sort(function(a, b) {
+                return (b.balance || 0) - (a.balance || 0);
+            });
+
+            // Chỉ lấy top 10
+            var top10 = users.slice(0, 10);
+            var medals = ['🥇', '🥈', '🥉', '4.', '5.', '6.', '7.', '8.', '9.', '10.'];
+
+            var html = '';
+            top10.forEach(function(item, index) {
+                var isMe = item.username === currentUser;
+                html += '<div class="rank-item' + (isMe ? ' me' : '') + '">' +
+                    '<span>' + medals[index] + ' <span class="name">' + (item.username || 'Ẩn danh') + '</span></span>' +
+                    '<span class="points">' + (item.balance || 0).toLocaleString('vi-VN') + 'đ</span>' +
                 '</div>';
-        });
-        document.getElementById('rankingList').innerHTML = html;
+            });
+            list.innerHTML = html;
+
+        } catch (error) {
+            console.error('Lỗi load ranking:', error);
+            list.innerHTML = '<div class="empty-state">❌ Lỗi tải dữ liệu</div>';
+        }
     });
 </script>
 
