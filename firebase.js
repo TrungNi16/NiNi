@@ -39,7 +39,7 @@ function registerUserToCloud(username, password) {
     return db.ref('users/' + username).set({
         username: username,
         password: password,
-        balance: 0,              // ← SỐ DƯ BAN ĐẦU = 0đ
+        balance: 0,
         vipLevel: 0,
         createdAt: Date.now(),
         lastLogin: Date.now()
@@ -110,28 +110,48 @@ function generateToken() {
 function getUserBalance(username) {
     return db.ref('users/' + username + '/balance').once('value').then(function(snapshot) {
         var balance = snapshot.val();
-        return balance !== null ? balance : 0;
+        return Number(balance) || 0;
     });
 }
 
 // ===== 11. CẬP NHẬT SỐ DƯ USER =====
 function updateUserBalance(username, newBalance) {
-    return db.ref('users/' + username + '/balance').set(newBalance);
+    return db.ref('users/' + username + '/balance').set(Number(newBalance) || 0);
 }
 
-// ===== 12. CỘNG TIỀN CHO USER =====
+// ===== 12. CỘNG TIỀN CHO USER (ĐÃ SỬA) =====
 function addUserBalance(username, amount) {
     return db.ref('users/' + username + '/balance').transaction(function(current) {
-        return (current || 0) + amount;
+        var balance = Number(current) || 0;
+        var amt = Number(amount) || 0;
+        
+        if (amt <= 0) return balance;
+        
+        return balance + amt;
+    }).then(function(result) {
+        return Number(result.snapshot.val()) || 0;
     });
 }
 
-// ===== 13. TRỪ TIỀN USER =====
+// ===== 13. TRỪ TIỀN USER (ĐÃ SỬA - QUAN TRỌNG) =====
 function subtractUserBalance(username, amount) {
     return db.ref('users/' + username + '/balance').transaction(function(current) {
-        var balance = current || 0;
-        if (balance < amount) return;
-        return balance - amount;
+        var balance = Number(current) || 0;
+        var amt = Number(amount) || 0;
+        
+        // Nếu số tiền <= 0 → Không làm gì
+        if (amt <= 0) return balance;
+        
+        // Nếu không đủ tiền → Giữ nguyên (KHÔNG return undefined!)
+        if (balance < amt) return balance;
+        
+        // Trừ tiền
+        return balance - amt;
+    }).then(function(result) {
+        if (!result.committed) {
+            throw new Error('Giao dịch bị hủy');
+        }
+        return Number(result.snapshot.val()) || 0;
     });
 }
 
@@ -256,17 +276,24 @@ function getLinksByStatus(status) {
     });
 }
 
-// ===== 24. DUYỆT LINK =====
+// ===== 24. DUYỆT LINK (ĐÃ SỬA - CHỐNG DOUBLE CLICK) =====
 function approveLink(username, linkId) {
     return db.ref('links/' + username + '/' + linkId).once('value').then(function(snapshot) {
         var link = snapshot.val();
         if (!link) throw new Error('Link không tồn tại');
         if (link.status === 'done') throw new Error('⚠️ Link này đã được duyệt rồi!');
         if (link.status === 'rejected') throw new Error('⚠️ Link này đã bị từ chối!');
+        if (link.status === 'processing') throw new Error('⚠️ Link đang được xử lý!');
         
-        return db.ref('links/' + username + '/' + linkId + '/status').set('done')
+        // Đánh dấu đang xử lý để chặn double-click
+        return db.ref('links/' + username + '/' + linkId + '/status').set('processing')
             .then(function() {
+                // Cộng tiền
                 return addUserBalance(username, link.points);
+            })
+            .then(function() {
+                // Đánh dấu đã duyệt
+                return db.ref('links/' + username + '/' + linkId + '/status').set('done');
             })
             .then(function() {
                 console.log('✅ Đã duyệt link và cộng', link.points, 'đ cho', username);
@@ -317,7 +344,16 @@ function getAllUsers() {
     return db.ref('users').once('value').then(function(snapshot) {
         var data = snapshot.val();
         if (!data) return [];
-        return Object.values(data).sort(function(a, b) {
+        
+        // Chuyển object thành array + sửa balance thành Number
+        var users = Object.keys(data).map(function(username) {
+            var user = data[username];
+            user.balance = Number(user.balance) || 0;
+            user.vipLevel = Number(user.vipLevel) || 0;
+            return user;
+        });
+        
+        return users.sort(function(a, b) {
             return (b.createdAt || 0) - (a.createdAt || 0);
         });
     }).catch(function(err) {
@@ -329,6 +365,28 @@ function getAllUsers() {
 // ===== 30. CẬP NHẬT QUYỀN ADMIN =====
 function setAdmin(username, isAdmin) {
     return db.ref('users/' + username + '/isAdmin').set(isAdmin);
+}
+
+// ==========================================
+// RESET FUNCTIONS (Dùng trong Console)
+// ==========================================
+
+// ===== 31. RESET SỐ DƯ TẤT CẢ USER =====
+function resetAllBalances() {
+    return db.ref('users').once('value').then(function(snapshot) {
+        var users = snapshot.val();
+        if (!users) return 0;
+        
+        var updates = {};
+        Object.keys(users).forEach(function(username) {
+            updates['users/' + username + '/balance'] = 0;
+        });
+        
+        return db.ref().update(updates).then(function() {
+            console.log('✅ Đã reset tất cả user về 0đ');
+            return Object.keys(users).length;
+        });
+    });
 }
 
 console.log('✅ File firebase.js đã load xong!');
