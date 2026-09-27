@@ -7,106 +7,217 @@
     <link rel="stylesheet" href="layout.css">
     <style>
         .buycloud-container {
-            max-width: 700px;
+            max-width: 900px;
             margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .page-header {
             text-align: center;
-            padding: 40px 20px;
+            margin-bottom: 40px;
         }
 
-        .buycloud-container .icon {
+        .page-header .icon {
             font-size: 80px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
         }
 
-        .buycloud-container h1 {
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .page-header h1 {
             color: #ffd700;
             font-size: 32px;
             margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
         }
 
-        .buycloud-container .subtitle {
+        .page-header p {
             color: #888;
             font-size: 14px;
-            margin-bottom: 30px;
         }
 
         .cloud-list {
             display: grid;
-            gap: 15px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
         }
 
         .cloud-item {
-            background: rgba(255, 255, 255, 0.03);
+            background: linear-gradient(135deg, rgba(10, 10, 26, 0.95), rgba(20, 15, 40, 0.95));
             border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 20px;
+            border-radius: 20px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            transition: 0.3s;
+            flex-direction: column;
+        }
+
+        .cloud-item::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 200, 255, 0.08), transparent 70%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
         .cloud-item:hover {
-            border-color: rgba(255, 215, 0, 0.3);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.1);
+            border-color: rgba(0, 200, 255, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 150, 255, 0.15);
         }
 
-        .cloud-item .info {
-            text-align: left;
-            flex: 1;
-            min-width: 200px;
+        .cloud-item:hover::before {
+            opacity: 1;
         }
 
-        .cloud-item .name {
+        .cloud-item.vip {
+            border-color: rgba(255, 215, 0, 0.15);
+            background: linear-gradient(135deg, rgba(30, 20, 10, 0.95), rgba(40, 25, 5, 0.95));
+        }
+
+        .cloud-item.vip::before {
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1), transparent 70%);
+        }
+
+        .cloud-item.vip:hover {
+            border-color: rgba(255, 215, 0, 0.4);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.2);
+        }
+
+        .cloud-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+
+        .badge-hot {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
             color: #fff;
-            font-size: 17px;
-            font-weight: 700;
-            margin-bottom: 5px;
+            box-shadow: 0 3px 15px rgba(255, 0, 0, 0.4);
         }
 
-        .cloud-item .desc {
+        .badge-save {
+            background: linear-gradient(135deg, #00ff88, #00aa55);
+            color: #0a0a1a;
+            box-shadow: 0 3px 15px rgba(0, 255, 136, 0.4);
+        }
+
+        .badge-vip {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #0a0a1a;
+            box-shadow: 0 3px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .cloud-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            flex-shrink: 0;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .cloud-icon.blue { background: linear-gradient(135deg, #00ccff, #0066ff); }
+        .cloud-icon.green { background: linear-gradient(135deg, #00ff88, #00aa55); }
+        .cloud-icon.purple { background: linear-gradient(135deg, #a855f7, #7c3aed); }
+        .cloud-icon.gold { background: linear-gradient(135deg, #ffd700, #ff8c00); }
+
+        .cloud-name {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cloud-desc {
             color: #888;
             font-size: 13px;
-            line-height: 1.5;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            min-height: 42px;
+            position: relative;
+            z-index: 1;
+            flex: 1;
         }
 
-        .cloud-item .price-box {
-            text-align: right;
+        .cloud-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            z-index: 1;
         }
 
-        .cloud-item .price {
+        .cloud-price {
+            color: #00ff88;
+            font-size: 22px;
+            font-weight: 900;
+            text-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .cloud-price.vip {
             color: #ffd700;
-            font-size: 20px;
-            font-weight: 700;
-            display: block;
-            margin-bottom: 8px;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
         }
 
-        .cloud-item .btn-buy {
-            padding: 10px 25px;
+        .btn-buy {
+            padding: 11px 22px;
             background: linear-gradient(135deg, #ffd700, #f0a500);
             color: #0a0a1a;
             border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 14px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 13px;
             cursor: pointer;
             transition: 0.3s;
             white-space: nowrap;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .cloud-item .btn-buy:hover {
+        .btn-buy:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+            box-shadow: 0 5px 25px rgba(255, 215, 0, 0.4);
         }
 
-        .cloud-item .btn-buy:disabled {
-            opacity: 0.5;
+        .btn-buy:disabled {
+            opacity: 0.4;
             cursor: not-allowed;
             transform: none;
+        }
+
+        @media (max-width: 600px) {
+            .cloud-list { grid-template-columns: 1fr; }
+            .page-header h1 { font-size: 24px; }
+            .page-header .icon { font-size: 60px; }
         }
     </style>
 </head>
@@ -164,54 +275,61 @@
 
     <main class="content" id="content">
         <div class="buycloud-container">
-            <div class="icon">☁️</div>
-            <h1>Mua Máy Cloud</h1>
-            <p class="subtitle">Chọn gói Cloud phù hợp với nhu cầu của bạn</p>
+            <div class="page-header">
+                <div class="icon">☁️</div>
+                <h1>Mua Máy Cloud</h1>
+                <p>Chọn gói Cloud phù hợp với nhu cầu của bạn</p>
+            </div>
 
             <div class="cloud-list">
+
+                <!-- Gói 1 Ngày -->
                 <div class="cloud-item">
-                    <div class="info">
-                        <div class="name">🖥️ Máy Cloud 1 Ngày</div>
-                        <div class="desc">Dùng thử 1 ngày, phù hợp trải nghiệm</div>
-                    </div>
-                    <div class="price-box">
-                        <span class="price">10,000đ</span>
-                        <button class="btn-buy" onclick="buyCloud('Máy Cloud 1 Ngày', 10000)">Mua ngay</button>
+                    <div class="cloud-badge badge-hot">🔥 HOT</div>
+                    <div class="cloud-icon blue">💻</div>
+                    <div class="cloud-name">Máy Cloud 1 Ngày</div>
+                    <div class="cloud-desc">Dùng thử 1 ngày, phù hợp trải nghiệm. Cấu hình ổn định, ping thấp.</div>
+                    <div class="cloud-bottom">
+                        <span class="cloud-price">10,000đ</span>
+                        <button class="btn-buy" onclick="buyCloud('Máy Cloud 1 Ngày', 10000)">🛒 Mua ngay</button>
                     </div>
                 </div>
 
+                <!-- Gói 7 Ngày -->
                 <div class="cloud-item">
-                    <div class="info">
-                        <div class="name">🖥️ Máy Cloud 7 Ngày</div>
-                        <div class="desc">Tiết kiệm hơn, dùng 1 tuần liên tục</div>
-                    </div>
-                    <div class="price-box">
-                        <span class="price">50,000đ</span>
-                        <button class="btn-buy" onclick="buyCloud('Máy Cloud 7 Ngày', 50000)">Mua ngay</button>
+                    <div class="cloud-icon green">💻</div>
+                    <div class="cloud-name">Máy Cloud 7 Ngày</div>
+                    <div class="cloud-desc">Tiết kiệm hơn, dùng 1 tuần liên tục. Hỗ trợ treo game, làm nhiệm vụ.</div>
+                    <div class="cloud-bottom">
+                        <span class="cloud-price">50,000đ</span>
+                        <button class="btn-buy" onclick="buyCloud('Máy Cloud 7 Ngày', 50000)">🛒 Mua ngay</button>
                     </div>
                 </div>
 
+                <!-- Gói 30 Ngày -->
                 <div class="cloud-item">
-                    <div class="info">
-                        <div class="name">🖥️ Máy Cloud 30 Ngày</div>
-                        <div class="desc">Gói dài hạn, tiết kiệm nhất - giảm 50%</div>
-                    </div>
-                    <div class="price-box">
-                        <span class="price">150,000đ</span>
-                        <button class="btn-buy" onclick="buyCloud('Máy Cloud 30 Ngày', 150000)">Mua ngay</button>
+                    <div class="cloud-badge badge-save">💚 TIẾT KIỆM 50%</div>
+                    <div class="cloud-icon purple">💻</div>
+                    <div class="cloud-name">Máy Cloud 30 Ngày</div>
+                    <div class="cloud-desc">Gói dài hạn, tiết kiệm nhất - giảm 50%. Dùng thoải mái cả tháng.</div>
+                    <div class="cloud-bottom">
+                        <span class="cloud-price">150,000đ</span>
+                        <button class="btn-buy" onclick="buyCloud('Máy Cloud 30 Ngày', 150000)">🛒 Mua ngay</button>
                     </div>
                 </div>
 
-                <div class="cloud-item">
-                    <div class="info">
-                        <div class="name">🚀 Máy Cloud VIP</div>
-                        <div class="desc">Cấu hình cao, ưu tiên hỗ trợ, ping thấp</div>
-                    </div>
-                    <div class="price-box">
-                        <span class="price">300,000đ</span>
-                        <button class="btn-buy" onclick="buyCloud('Máy Cloud VIP', 300000)">Mua ngay</button>
+                <!-- Gói VIP -->
+                <div class="cloud-item vip">
+                    <div class="cloud-badge badge-vip">👑 VIP</div>
+                    <div class="cloud-icon gold">🚀</div>
+                    <div class="cloud-name">Máy Cloud VIP</div>
+                    <div class="cloud-desc">Cấu hình cao, ưu tiên hỗ trợ, ping cực thấp. Phù hợp treo game 24/7.</div>
+                    <div class="cloud-bottom">
+                        <span class="cloud-price vip">300,000đ</span>
+                        <button class="btn-buy" onclick="buyCloud('Máy Cloud VIP', 300000)">🛒 Mua ngay</button>
                     </div>
                 </div>
+
             </div>
         </div>
     </main>
@@ -226,7 +344,6 @@
     </div>
 </div>
 
-<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 <script src="firebase.js"></script>
@@ -241,29 +358,27 @@
         }
 
         try {
-            // Kiểm tra số dư
             var balance = await getUserBalance(user);
 
             if (balance < price) {
                 showPopup('⚠️', 'Không đủ tiền',
                     'Bạn cần ' + price.toLocaleString('vi-VN') + 'đ\n' +
-                    'Số dư hiện tại: ' + balance.toLocaleString('vi-VN') + 'đ\n' +
+                    'Số dư hiện tại: ' + balance.toLocaleString('vi-VN') + 'đ\n\n' +
                     'Vui lòng nạp thêm tiền!');
                 return;
             }
 
-            // Xác nhận
-            if (!confirm('Bạn có chắc muốn mua "' + name + '"?\nGiá: ' + price.toLocaleString('vi-VN') + 'đ')) {
+            if (!confirm('XÁC NHẬN MUA HÀNG\n\n' +
+                         'Sản phẩm: ' + name + '\n' +
+                         'Giá: ' + price.toLocaleString('vi-VN') + 'đ\n' +
+                         'Số dư sau khi mua: ' + (balance - price).toLocaleString('vi-VN') + 'đ\n\n' +
+                         'Bạn có chắc chắn?')) {
                 return;
             }
 
-            // Trừ tiền
             await subtractUserBalance(user, price);
-
-            // Lưu lịch sử mua
             await savePurchaseToCloud(user, name, price);
 
-            // Lưu đơn hàng cloud
             var orderRef = db.ref('cloudOrders/' + user).push();
             await orderRef.set({
                 name: name,
@@ -273,7 +388,9 @@
             });
 
             showPopup('✅', 'Mua thành công!',
-                'Bạn đã mua "' + name + '" với ' + price.toLocaleString('vi-VN') + 'đ\n' +
+                'Bạn đã mua "' + name + '"\n' +
+                'Giá: ' + price.toLocaleString('vi-VN') + 'đ\n' +
+                'Số dư còn lại: ' + (balance - price).toLocaleString('vi-VN') + 'đ\n\n' +
                 'Vui lòng chờ admin xử lý trong vòng 1-5 phút!');
 
         } catch (error) {
