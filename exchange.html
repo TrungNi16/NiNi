@@ -7,64 +7,170 @@
     <link rel="stylesheet" href="layout.css">
     <style>
         .exchange-container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .page-header {
             text-align: center;
-            padding: 40px 20px;
+            margin-bottom: 40px;
         }
-        .exchange-container .icon {
+
+        .page-header .icon {
             font-size: 80px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            display: inline-block;
+            animation: spin 4s linear infinite;
         }
-        .exchange-container h1 {
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .page-header h1 {
             color: #ffd700;
             font-size: 32px;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
         }
+
+        .page-header p {
+            color: #888;
+            font-size: 14px;
+        }
+
         .exchange-list {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
+
         .exchange-item {
-            background: rgba(255, 255, 255, 0.03);
+            background: linear-gradient(135deg, rgba(10, 10, 26, 0.95), rgba(20, 15, 40, 0.95));
             border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
+            border-radius: 20px;
             padding: 25px;
-            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
+
+        .exchange-item::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.08), transparent 70%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
         .exchange-item:hover {
-            border-color: rgba(255, 215, 0, 0.2);
-            transform: translateY(-3px);
+            border-color: rgba(255, 215, 0, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.15);
         }
-        .exchange-item .name {
-            color: #fff;
-            font-size: 18px;
-            margin-bottom: 10px;
+
+        .exchange-item:hover::before {
+            opacity: 1;
         }
-        .exchange-item .cost {
-            color: #ffd700;
-            font-size: 16px;
+
+        .item-top {
+            display: flex;
+            align-items: center;
+            gap: 15px;
             margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
         }
-        .exchange-item .btn-exchange {
-            padding: 10px 30px;
+
+        .item-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            flex-shrink: 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .item-icon.code { background: linear-gradient(135deg, #ffd700, #ff8c00); }
+        .item-icon.skin { background: linear-gradient(135deg, #ff44aa, #a855f7); }
+        .item-icon.vip { background: linear-gradient(135deg, #00ccff, #0066ff); }
+        .item-icon.cloud { background: linear-gradient(135deg, #00ff88, #00aa55); }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-info .name {
+            color: #fff;
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .item-info .cost {
+            color: #00ccff;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .item-info .cost .unit {
+            color: #888;
+            font-size: 12px;
+            font-weight: 400;
+        }
+
+        .item-desc {
+            color: #888;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            min-height: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-exchange {
+            width: 100%;
+            padding: 13px;
             background: linear-gradient(135deg, #ffd700, #f0a500);
             color: #0a0a1a;
             border: none;
-            border-radius: 10px;
-            font-weight: 700;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 14px;
             cursor: pointer;
             transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
         }
-        .exchange-item .btn-exchange:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+
+        .btn-exchange:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 25px rgba(255, 215, 0, 0.4);
         }
+
+        .btn-exchange:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         @media (max-width: 600px) {
-            .exchange-list {
-                grid-template-columns: 1fr;
-            }
+            .exchange-list { grid-template-columns: 1fr; }
+            .page-header h1 { font-size: 24px; }
+            .page-header .icon { font-size: 60px; }
         }
     </style>
 </head>
@@ -122,29 +228,62 @@
 
     <main class="content" id="content">
         <div class="exchange-container">
-            <div class="icon">🔄</div>
-            <h1>Đổi điểm lấy quà</h1>
+            <div class="page-header">
+                <div class="icon">🔄</div>
+                <h1>Đổi điểm lấy quà</h1>
+                <p>Tích lũy điểm và đổi lấy những phần quà hấp dẫn</p>
+            </div>
+
             <div class="exchange-list">
+
                 <div class="exchange-item">
-                    <div class="name">🎁 Code Free Fire</div>
-                    <div class="cost">💎 100 điểm</div>
-                    <button class="btn-exchange" onclick="exchangeItem('Code Free Fire', 100)">Đổi ngay</button>
+                    <div class="item-top">
+                        <div class="item-icon code">🎁</div>
+                        <div class="item-info">
+                            <div class="name">Code Free Fire</div>
+                            <div class="cost">💎 100 <span class="unit">điểm</span></div>
+                        </div>
+                    </div>
+                    <div class="item-desc">Đổi 100 điểm để nhận 1 code Free Fire ngẫu nhiên (Vimos, Vipplayer, ...)</div>
+                    <button class="btn-exchange" onclick="exchangeItem('Code Free Fire', 100)">🔄 Đổi ngay</button>
                 </div>
+
                 <div class="exchange-item">
-                    <div class="name">🎨 Skin hiếm</div>
-                    <div class="cost">💎 500 điểm</div>
-                    <button class="btn-exchange" onclick="exchangeItem('Skin hiếm', 500)">Đổi ngay</button>
+                    <div class="item-top">
+                        <div class="item-icon skin">🎨</div>
+                        <div class="item-info">
+                            <div class="name">Skin Hiếm</div>
+                            <div class="cost">💎 500 <span class="unit">điểm</span></div>
+                        </div>
+                    </div>
+                    <div class="item-desc">Đổi 500 điểm để nhận 1 skin hiếm bất kỳ (AK, M4A1, ...)</div>
+                    <button class="btn-exchange" onclick="exchangeItem('Skin hiếm', 500)">🔄 Đổi ngay</button>
                 </div>
+
                 <div class="exchange-item">
-                    <div class="name">👑 VIP 1 tháng</div>
-                    <div class="cost">💎 1000 điểm</div>
-                    <button class="btn-exchange" onclick="exchangeItem('VIP 1 tháng', 1000)">Đổi ngay</button>
+                    <div class="item-top">
+                        <div class="item-icon vip">👑</div>
+                        <div class="item-info">
+                            <div class="name">VIP 1 Tháng</div>
+                            <div class="cost">💎 1000 <span class="unit">điểm</span></div>
+                        </div>
+                    </div>
+                    <div class="item-desc">Nâng cấp VIP 1 tháng - Nhận nhiều đặc quyền và ưu đãi hấp dẫn</div>
+                    <button class="btn-exchange" onclick="exchangeItem('VIP 1 tháng', 1000)">🔄 Đổi ngay</button>
                 </div>
+
                 <div class="exchange-item">
-                    <div class="name">☁️ Máy Cloud 1 ngày</div>
-                    <div class="cost">💎 200 điểm</div>
-                    <button class="btn-exchange" onclick="exchangeItem('Máy Cloud 1 ngày', 200)">Đổi ngay</button>
+                    <div class="item-top">
+                        <div class="item-icon cloud">☁️</div>
+                        <div class="item-info">
+                            <div class="name">Máy Cloud 1 Ngày</div>
+                            <div class="cost">💎 200 <span class="unit">điểm</span></div>
+                        </div>
+                    </div>
+                    <div class="item-desc">Thuê máy Cloud 1 ngày để treo game, làm nhiệm vụ</div>
+                    <button class="btn-exchange" onclick="exchangeItem('Máy Cloud 1 ngày', 200)">🔄 Đổi ngay</button>
                 </div>
+
             </div>
         </div>
     </main>
@@ -159,7 +298,6 @@
     </div>
 </div>
 
-<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 <script src="firebase.js"></script>
@@ -174,29 +312,40 @@
         }
 
         try {
-            // Lấy số dư hiện tại
             var balance = await getUserBalance(user);
-            
+
             if (balance < cost) {
-                showPopup('⚠️', 'Không đủ điểm', 
-                    'Bạn cần ' + cost + ' điểm nhưng chỉ có ' + balance.toLocaleString('vi-VN') + ' điểm!');
+                showPopup('⚠️', 'Không đủ điểm',
+                    'Bạn cần ' + cost.toLocaleString('vi-VN') + ' điểm\n' +
+                    'Số dư hiện tại: ' + balance.toLocaleString('vi-VN') + ' điểm\n\n' +
+                    'Vui lòng nạp thêm điểm!');
                 return;
             }
 
-            if (!confirm('Bạn có chắc muốn đổi "' + name + '" với ' + cost + ' điểm?')) {
+            if (!confirm('XÁC NHẬN ĐỔI\n\n' +
+                         'Phần quà: ' + name + '\n' +
+                         'Giá: ' + cost.toLocaleString('vi-VN') + ' điểm\n' +
+                         'Số dư sau khi đổi: ' + (balance - cost).toLocaleString('vi-VN') + ' điểm\n\n' +
+                         'Bạn có chắc chắn?')) {
                 return;
             }
 
-            // Trừ điểm
             await subtractUserBalance(user, cost);
-            
-            // Lưu lịch sử
-            await savePurchaseToCloud(user, name, cost);
+            await savePurchaseToCloud(user, 'Đổi: ' + name, cost);
 
-            showPopup('✅', 'Đổi thành công!', 
-                'Bạn đã đổi "' + name + '" với ' + cost + ' điểm!\nSố dư còn lại: ' + 
-                (balance - cost).toLocaleString('vi-VN') + 'đ');
-            
+            var orderRef = db.ref('exchangeOrders/' + user).push();
+            await orderRef.set({
+                itemName: name,
+                cost: cost,
+                status: 'pending',
+                time: Date.now()
+            });
+
+            showPopup('✅', 'Đổi thành công!',
+                'Bạn đã đổi "' + name + '"\n' +
+                'Số điểm còn lại: ' + (balance - cost).toLocaleString('vi-VN') + ' điểm\n\n' +
+                'Vui lòng liên hệ admin để nhận quà!');
+
         } catch (error) {
             console.error('Lỗi đổi điểm:', error);
             showPopup('❌', 'Lỗi', 'Không thể đổi. Vui lòng thử lại!');
