@@ -16,12 +16,20 @@
         .bank-container .icon {
             font-size: 80px;
             margin-bottom: 20px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .bank-container h1 {
             color: #ffd700;
             font-size: 32px;
             margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
         }
 
         .bank-info {
@@ -38,6 +46,12 @@
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 15px;
+            transition: 0.3s;
+        }
+
+        .bank-section:hover {
+            border-color: rgba(255, 215, 0, 0.3);
+            background: rgba(255, 215, 0, 0.05);
         }
 
         .bank-section h4 {
@@ -49,15 +63,44 @@
             gap: 8px;
         }
 
+        .bank-section h4 .status-badge {
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            margin-left: auto;
+            font-weight: 400;
+        }
+
         .bank-section p {
             color: #ccc;
             font-size: 14px;
             line-height: 1.9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .bank-section .value {
             color: #fff;
             font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .bank-section .value:hover {
+            color: #ffd700;
+            text-decoration: underline;
+        }
+
+        .copy-hint {
+            font-size: 11px;
+            color: #666;
+            font-style: italic;
+            margin-left: 5px;
+            font-weight: 400;
         }
 
         .note-warning {
@@ -73,6 +116,9 @@
 
         .note-warning strong {
             color: #fff;
+            font-size: 15px;
+            display: block;
+            margin-top: 5px;
         }
 
         .note-info {
@@ -81,6 +127,25 @@
             margin-top: 15px;
             text-align: center;
             line-height: 1.6;
+        }
+
+        .btn-contact {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: rgba(0, 170, 255, 0.1);
+            color: #00aaff;
+            border: 1px solid rgba(0, 170, 255, 0.3);
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-contact:hover {
+            background: rgba(0, 170, 255, 0.2);
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -143,23 +208,45 @@
 
             <div class="bank-info">
                 <div class="bank-section">
-                    <h4>🏛️ Vietcombank</h4>
-                    <p>STK: <span class="value">1234 5678 9012</span></p>
-                    <p>Chủ TK: <span class="value">NINI STORE</span></p>
+                    <h4>🏛️ Vietcombank <span class="status-badge">Hoạt động</span></h4>
+                    <p>
+                        <span>STK:</span> 
+                        <span class="value" onclick="copyToClipboard('123456789012')" title="Bấm để sao chép">
+                            1234 5678 9012 <span class="copy-hint">(copy)</span>
+                        </span>
+                    </p>
+                    <p>
+                        <span>Chủ TK:</span> 
+                        <span class="value" onclick="copyToClipboard('NINI STORE')" title="Bấm để sao chép">
+                            NINI STORE <span class="copy-hint">(copy)</span>
+                        </span>
+                    </p>
                 </div>
 
                 <div class="bank-section">
-                    <h4>💳 MoMo / ZaloPay</h4>
-                    <p>SĐT: <span class="value">0909.xxx.xxx</span></p>
+                    <h4>💳 MoMo / ZaloPay <span class="status-badge">Hoạt động</span></h4>
+                    <p>
+                        <span>SĐT:</span> 
+                        <span class="value" onclick="copyToClipboard('0909123456')" title="Bấm để sao chép">
+                            0909.123.456 <span class="copy-hint">(copy)</span>
+                        </span>
+                    </p>
                 </div>
 
                 <div class="note-warning">
-                    ⚠️ Nội dung chuyển khoản: <strong>[Tên đăng nhập]</strong>
+                    ⚠️ Nội dung chuyển khoản bắt buộc:
+                    <strong id="transferContent">[Tên đăng nhập]</strong>
+                    <button onclick="copyToClipboard(document.getElementById('transferContent').textContent)" style="margin-top:10px; padding:5px 15px; background:#ffd700; border:none; border-radius:5px; font-weight:bold; cursor:pointer;">📋 Copy nội dung</button>
                 </div>
 
-                <p class="note-info">
-                    ⏳ Sau khi chuyển, liên hệ admin để cập nhật!
-                </p>
+                <div class="note-info">
+                    ⏳ Sau khi chuyển khoản, vui lòng chờ 1-5 phút để admin duyệt.<br>
+                    Nếu quá lâu chưa được cộng tiền, hãy liên hệ Admin.
+                </div>
+                
+                <div style="text-align: center;">
+                    <a href="https://discord.gg/wc35VfsAce" target="_blank" class="btn-contact">💬 Liên hệ Admin (Discord)</a>
+                </div>
             </div>
         </div>
     </main>
@@ -179,6 +266,47 @@
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 <script src="firebase.js"></script>
 <script src="layout.js"></script>
+
+<script>
+    // Hàm sao chép vào clipboard
+    function copyToClipboard(text) {
+        // Tạo một phần tử input tạm thời
+        var tempInput = document.createElement("input");
+        tempInput.value = text;
+        document.body.appendChild(tempInput);
+        
+        // Chọn và sao chép
+        tempInput.select();
+        tempInput.setSelectionRange(0, 99999); // Cho mobile
+        
+        try {
+            var successful = document.execCommand('copy');
+            if (successful) {
+                showPopup('✅', 'Đã sao chép!', 'Nội dung "' + text + '" đã được sao chép vào clipboard.');
+            } else {
+                showPopup('❌', 'Lỗi', 'Không thể sao chép. Vui lòng thử lại!');
+            }
+        } catch (err) {
+            console.error('Lỗi copy:', err);
+            showPopup('❌', 'Lỗi', 'Trình duyệt không hỗ trợ sao chép tự động!');
+        }
+        
+        // Xóa phần tử tạm
+        document.body.removeChild(tempInput);
+    }
+
+    // Tự động điền tên đăng nhập vào nội dung chuyển khoản khi tải trang
+    document.addEventListener('DOMContentLoaded', function() {
+        var currentUser = localStorage.getItem('currentUser');
+        var transferContentEl = document.getElementById('transferContent');
+        
+        if (currentUser && transferContentEl) {
+            transferContentEl.textContent = currentUser;
+        } else if (transferContentEl) {
+            transferContentEl.textContent = 'guest_' + Math.floor(Math.random() * 1000);
+        }
+    });
+</script>
 
 </body>
 </html>
