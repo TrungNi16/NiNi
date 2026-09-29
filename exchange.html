@@ -162,9 +162,11 @@
         }
 
         .btn-exchange:disabled {
-            opacity: 0.4;
+            opacity: 0.6;
             cursor: not-allowed;
             transform: none;
+            background: #555;
+            color: #ccc;
         }
 
         @media (max-width: 600px) {
@@ -245,7 +247,7 @@
                         </div>
                     </div>
                     <div class="item-desc">Đổi 100 điểm để nhận 1 code Free Fire ngẫu nhiên (Vimos, Vipplayer, ...)</div>
-                    <button class="btn-exchange" onclick="exchangeItem('Code Free Fire', 100)">🔄 Đổi ngay</button>
+                    <button class="btn-exchange" onclick="exchangeItem(this, 'Code Free Fire', 100)">🔄 Đổi ngay</button>
                 </div>
 
                 <div class="exchange-item">
@@ -257,7 +259,7 @@
                         </div>
                     </div>
                     <div class="item-desc">Đổi 500 điểm để nhận 1 skin hiếm bất kỳ (AK, M4A1, ...)</div>
-                    <button class="btn-exchange" onclick="exchangeItem('Skin hiếm', 500)">🔄 Đổi ngay</button>
+                    <button class="btn-exchange" onclick="exchangeItem(this, 'Skin hiếm', 500)">🔄 Đổi ngay</button>
                 </div>
 
                 <div class="exchange-item">
@@ -269,7 +271,7 @@
                         </div>
                     </div>
                     <div class="item-desc">Nâng cấp VIP 1 tháng - Nhận nhiều đặc quyền và ưu đãi hấp dẫn</div>
-                    <button class="btn-exchange" onclick="exchangeItem('VIP 1 tháng', 1000)">🔄 Đổi ngay</button>
+                    <button class="btn-exchange" onclick="exchangeItem(this, 'VIP 1 tháng', 1000)">🔄 Đổi ngay</button>
                 </div>
 
                 <div class="exchange-item">
@@ -281,7 +283,7 @@
                         </div>
                     </div>
                     <div class="item-desc">Thuê máy Cloud 1 ngày để treo game, làm nhiệm vụ</div>
-                    <button class="btn-exchange" onclick="exchangeItem('Máy Cloud 1 ngày', 200)">🔄 Đổi ngay</button>
+                    <button class="btn-exchange" onclick="exchangeItem(this, 'Máy Cloud 1 ngày', 200)">🔄 Đổi ngay</button>
                 </div>
 
             </div>
@@ -304,12 +306,23 @@
 <script src="layout.js"></script>
 
 <script>
-    async function exchangeItem(name, cost) {
+    async function exchangeItem(btnElement, name, cost) {
         var user = localStorage.getItem('currentUser');
         if (!user) {
             showPopup('⚠️', 'Lỗi', 'Vui lòng đăng nhập lại!');
             return;
         }
+
+        // Kiểm tra xem các hàm Firebase đã tải chưa
+        if (typeof getUserBalance !== 'function' || typeof subtractUserBalance !== 'function' || typeof savePurchaseToCloud !== 'function') {
+            showPopup('❌', 'Lỗi hệ thống', 'Không thể kết nối đến máy chủ. Vui lòng tải lại trang!');
+            return;
+        }
+
+        // Vô hiệu hóa nút và đổi text để tránh spam
+        var originalText = btnElement.innerHTML;
+        btnElement.disabled = true;
+        btnElement.innerHTML = '⏳ Đang xử lý...';
 
         try {
             var balance = await getUserBalance(user);
@@ -319,20 +332,29 @@
                     'Bạn cần ' + cost.toLocaleString('vi-VN') + ' điểm\n' +
                     'Số dư hiện tại: ' + balance.toLocaleString('vi-VN') + ' điểm\n\n' +
                     'Vui lòng nạp thêm điểm!');
+                // Khôi phục nút
+                btnElement.disabled = false;
+                btnElement.innerHTML = originalText;
                 return;
             }
 
+            // Xác nhận trước khi trừ tiền
             if (!confirm('XÁC NHẬN ĐỔI\n\n' +
                          'Phần quà: ' + name + '\n' +
                          'Giá: ' + cost.toLocaleString('vi-VN') + ' điểm\n' +
                          'Số dư sau khi đổi: ' + (balance - cost).toLocaleString('vi-VN') + ' điểm\n\n' +
                          'Bạn có chắc chắn?')) {
+                // Người dùng hủy, khôi phục nút
+                btnElement.disabled = false;
+                btnElement.innerHTML = originalText;
                 return;
             }
 
+            // Thực hiện trừ tiền và lưu lịch sử
             await subtractUserBalance(user, cost);
             await savePurchaseToCloud(user, 'Đổi: ' + name, cost);
 
+            // Lưu đơn hàng vào Firebase
             var orderRef = db.ref('exchangeOrders/' + user).push();
             await orderRef.set({
                 itemName: name,
@@ -348,7 +370,15 @@
 
         } catch (error) {
             console.error('Lỗi đổi điểm:', error);
-            showPopup('❌', 'Lỗi', 'Không thể đổi. Vui lòng thử lại!');
+            showPopup('❌', 'Lỗi', 'Không thể đổi. Vui lòng thử lại sau!');
+        } finally {
+            // Luôn khôi phục nút sau khi xử lý xong (dù thành công hay thất bại)
+            // Trừ trường hợp thành công thì có thể giữ nguyên trạng thái disabled nếu muốn
+            // Nhưng ở đây ta khôi phục để người dùng có thể đổi tiếp nếu muốn
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerHTML = originalText;
+            }
         }
     }
 </script>
