@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quick Login Ugphone - NiNi Store</title>
+    <link rel="stylesheet" href="layout.css">
+    <style>
+        .quick-container { max-width: 800px; margin: 0 auto; padding: 30px 20px; }
+        .page-header { text-align: center; margin-bottom: 30px; }
+        .page-header .icon { font-size: 80px; margin-bottom: 15px; display: inline-block; }
+        .page-header h1 { color: #ffd700; font-size: 32px; margin-bottom: 10px; }
+        .page-header p { color: #888; font-size: 14px; }
+        
+        .guide-box {
+            background: rgba(255,215,0,0.05);
+            border: 1px solid rgba(255,215,0,0.15);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .guide-box h3 { color: #ffd700; font-size: 16px; margin-bottom: 12px; }
+        .guide-box ol { color: #ccc; font-size: 14px; line-height: 2; padding-left: 20px; }
+        .guide-box ol strong { color: #ffd700; }
+        
+        .form-box {
+            background: linear-gradient(135deg, rgba(10,10,26,0.95), rgba(20,15,40,0.95));
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 30px;
+        }
+        .form-box label {
+            display: block; color: #aaa; font-size: 13px;
+            font-weight: 700; margin-bottom: 8px;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .form-box textarea {
+            width: 100%; min-height: 200px;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            color: #fff; font-size: 13px;
+            font-family: 'Courier New', monospace;
+            resize: vertical; transition: 0.3s;
+        }
+        .form-box textarea:focus {
+            border-color: #ffd700;
+            outline: none;
+            box-shadow: 0 0 25px rgba(255,215,0,0.15);
+        }
+        .btn-create {
+            width: 100%; padding: 16px;
+            background: linear-gradient(135deg, #ffd700, #f0a500);
+            color: #0a0a1a; border: none;
+            border-radius: 12px; font-weight: 900;
+            font-size: 16px; cursor: pointer;
+            transition: 0.3s; margin-top: 15px;
+            text-transform: uppercase;
+        }
+        .btn-create:hover { transform: scale(1.02); }
+        
+        .result-box {
+            display: none; margin-top: 20px;
+            background: rgba(0,255,136,0.1);
+            border: 1px solid rgba(0,255,136,0.3);
+            border-radius: 12px; padding: 20px;
+            text-align: center;
+        }
+        .result-box .code {
+            font-size: 32px; font-weight: 900;
+            color: #00ff88; letter-spacing: 3px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0; padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+        }
+        .result-box .copy-btn {
+            padding: 10px 25px;
+            background: rgba(0,255,136,0.2);
+            border: 1px solid rgba(0,255,136,0.3);
+            border-radius: 8px; color: #00ff88;
+            font-weight: 700; cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()">☰</button>
+<div class="overlay" id="overlay" onclick="closeMobileSidebar()"></div>
+
+<div class="container">
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <h2>🌟 NINI STORE</h2>
+            <div class="sub">Free Fire Code Shop</div>
+        </div>
+        <ul class="sidebar-menu">
+            <li data-page="home"><a href="home.html">🏠 Trang chủ</a></li>
+            <li data-page="task"><a href="task.html">📋 Nhiệm vụ</a></li>
+            <li data-page="exchange"><a href="exchange.html">🔄 Đổi điểm</a></li>
+            <li class="has-sub">
+                <a href="#">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
+                <ul class="sub-menu">
+                    <li><a href="card.html">💳 Nạp Thẻ Cào</a></li>
+                    <li><a href="bank.html">🏦 Nạp Bank/Momo</a></li>
+                    <li><a href="recharge-history.html">📜 Lịch sử nạp tiền</a></li>
+                </ul>
+            </li>
+            <li class="has-sub">
+                <a href="#">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
+                <ul class="sub-menu">
+                    <li><a href="redeem.html">🔄 Redeem Uphone 4h</a></li>
+                    <li><a href="buycloud.html">☁️ Mua Máy Cloud</a></li>
+                    <li><a href="checkcloud.html">🔍 Check Máy Uphone</a></li>
+                    <li><a href="codelogin.html">🔑 Code Login Cloud</a></li>
+                    <li class="active"><a href="quick-login.html">⚡ Quick Login</a></li>
+                </ul>
+            </li>
+            <li><a href="giftcode.html">🎁 Nhập Giftcode</a></li>
+            <li><a href="flashsale.html">⚡ Flash Sale Cloud</a></li>
+            <li><a href="ranking.html">🏆 Bảng Xếp Hạng</a></li>
+            <li><a href="history.html">📜 Lịch sử mua hàng</a></li>
+            <li><a href="taskhistory.html">📜 Lịch sử nhiệm vụ</a></li>
+            <li><a href="cloudfree.html">☁️ Cloud Free Mỗi Ngày</a></li>
+            <li><a href="support.html">⚙️ Trung Tâm Hỗ Trợ</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <span class="user-avatar">👤</span>
+                <div>
+                    <strong id="usernameDisplay">Khách</strong>
+                    <span id="balanceDisplay">💰 Đang tải...</span>
+                </div>
+            </div>
+            <a href="#" class="logout-btn" onclick="logout()">🚪 Đăng xuất</a>
+        </div>
+    </nav>
+
+    <main class="content" id="content">
+        <div class="quick-container">
+            <div class="page-header">
+                <div class="icon">⚡</div>
+                <h1>Quick Login Ugphone</h1>
+                <p>Tạo code đăng nhập nhanh vào máy Cloud</p>
+            </div>
+
+            <div class="guide-box">
+                <h3>📖 Hướng dẫn:</h3>
+                <ol>
+                    <li>Đăng nhập <strong>Ugphone</strong> trên trình duyệt</li>
+                    <li>Nhấn <strong>F12</strong> → <strong>Application</strong> → <strong>Local Storage</strong></li>
+                    <li>Copy toàn bộ JSON</li>
+                    <li>Dán vào ô bên dưới → Bấm <strong>Tạo Code</strong></li>
+                    <li>Gửi code cho người khác để họ đăng nhập</li>
+                </ol>
+            </div>
+
+            <div class="form-box">
+                <label>📋 Nhập Local Storage JSON</label>
+                <textarea id="jsonInput" placeholder='{"key":"value","another_key":"another_value"}'></textarea>
+                <button class="btn-create" onclick="createCode()">✨ Tạo Code</button>
+                
+                <div class="result-box" id="resultBox">
+                    <div style="color:#00ff88; font-size:14px; margin-bottom:5px;">✅ Code của bạn:</div>
+                    <div class="code" id="codeResult">ABC123XYZ</div>
+                    <button class="copy-btn" onclick="copyCode()">📋 Copy Code</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup-box">
+        <div class="icon" id="popupIcon">📢</div>
+        <h3 id="popupTitle">Thông báo</h3>
+        <p id="popupMessage">Nội dung thông báo</p>
+        <button class="close-btn" onclick="closePopup()">Đã hiểu</button>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="firebase.js"></script>
+<script src="layout.js"></script>
+
+<script>
+    async function createCode() {
+        var user = localStorage.getItem('currentUser');
+        if (!user) { showPopup('⚠️', 'Lỗi', 'Vui lòng đăng nhập!'); return; }
+
+        var jsonInput = document.getElementById('jsonInput').value.trim();
+        if (!jsonInput) { showPopup('⚠️', 'Thiếu dữ liệu', 'Vui lòng dán JSON!'); return; }
+
+        // Kiểm tra JSON hợp lệ
+        try {
+            JSON.parse(jsonInput);
+        } catch(e) {
+            showPopup('❌', 'JSON không hợp lệ', 'Vui lòng kiểm tra lại định dạng JSON!');
+            return;
+        }
+
+        try {
+            // Tạo code ngẫu nhiên 10 ký tự
+            var code = 'NINI' + Math.random().toString(36).substring(2, 8).toUpperCase();
+
+            await db.ref('quickLoginCodes/' + code).set({
+                data: jsonInput,
+                createdBy: user,
+                createdAt: Date.now(),
+                expiresAt: Date.now() + (24 * 60 * 60 * 1000),
+                usedCount: 0
+            });
+
+            document.getElementById('codeResult').textContent = code;
+            document.getElementById('resultBox').style.display = 'block';
+
+            showPopup('✅', 'Thành công!', 'Code đã được tạo. Gửi cho người khác để đăng nhập!');
+        } catch(e) {
+            showPopup('❌', 'Lỗi', e.message);
+        }
+    }
+
+    function copyCode() {
+        var code = document.getElementById('codeResult').textContent;
+        navigator.clipboard.writeText(code).then(function() {
+            showPopup('📋', 'Đã copy!', 'Code "' + code + '" đã được copy vào clipboard.');
+        });
+    }
+</script>
+
+</body>
+</html>
