@@ -90,9 +90,11 @@
         }
 
         .btn-submit:disabled {
-            opacity: 0.5;
+            opacity: 0.6;
             cursor: not-allowed;
             transform: none;
+            background: #555;
+            color: #ccc;
         }
 
         .note {
@@ -192,10 +194,10 @@
                 </select>
 
                 <label>🔢 Mã thẻ</label>
-                <input type="text" id="cardCode" placeholder="Nhập mã thẻ">
+                <input type="text" id="cardCode" placeholder="Nhập mã thẻ" inputmode="numeric" maxlength="20">
 
                 <label>🔑 Số serial</label>
-                <input type="text" id="cardSerial" placeholder="Nhập số serial">
+                <input type="text" id="cardSerial" placeholder="Nhập số serial" inputmode="numeric" maxlength="20">
 
                 <button class="btn-submit" id="submitBtn" onclick="submitCard()">
                     ✅ Xác nhận nạp thẻ
@@ -230,18 +232,20 @@
 
 <script>
     async function submitCard() {
+        // 1. Kiểm tra đăng nhập
         var user = localStorage.getItem('currentUser');
         if (!user) {
-            showPopup('⚠️', 'Lỗi', 'Vui lòng đăng nhập lại!');
+            showPopup('⚠️', 'Lỗi', 'Vui lòng đăng nhập lại để thực hiện!');
             return;
         }
 
+        // 2. Lấy dữ liệu từ form
         var network = document.getElementById('network').value;
         var amount = document.getElementById('amount').value;
         var code = document.getElementById('cardCode').value.trim();
         var serial = document.getElementById('cardSerial').value.trim();
 
-        // Kiểm tra
+        // 3. Validate dữ liệu
         if (!network) {
             showPopup('⚠️', 'Thiếu thông tin', 'Vui lòng chọn nhà mạng!');
             return;
@@ -259,13 +263,39 @@
             return;
         }
 
-        // Vô hiệu hóa nút để tránh submit nhiều lần
+        // Kiểm tra định dạng số (chỉ cho phép số)
+        if (!/^\d+$/.test(code)) {
+            showPopup('⚠️', 'Sai định dạng', 'Mã thẻ chỉ được chứa số!');
+            return;
+        }
+        if (!/^\d+$/.test(serial)) {
+            showPopup('⚠️', 'Sai định dạng', 'Số serial chỉ được chứa số!');
+            return;
+        }
+
+        // Kiểm tra độ dài hợp lý (thẻ VN thường 12-15 số)
+        if (code.length < 10 || code.length > 20) {
+            showPopup('⚠️', 'Sai định dạng', 'Mã thẻ không hợp lệ (độ dài từ 10-20 ký tự)!');
+            return;
+        }
+        if (serial.length < 10 || serial.length > 20) {
+            showPopup('⚠️', 'Sai định dạng', 'Số serial không hợp lệ (độ dài từ 10-20 ký tự)!');
+            return;
+        }
+
+        // 4. Vô hiệu hóa nút để tránh submit nhiều lần
         var btn = document.getElementById('submitBtn');
+        var originalText = btn.textContent;
         btn.disabled = true;
         btn.textContent = '⏳ Đang xử lý...';
 
         try {
-            // Lưu vào Firebase (collection riêng cho thẻ cào)
+            // Kiểm tra kết nối Firebase
+            if (typeof db === 'undefined') {
+                throw new Error('Không thể kết nối đến máy chủ!');
+            }
+
+            // 5. Lưu vào Firebase
             var cardRef = db.ref('cards/' + user).push();
             await cardRef.set({
                 network: network,
@@ -276,12 +306,13 @@
                 time: Date.now()
             });
 
+            // 6. Thông báo thành công
             showPopup('✅', 'Gửi thành công!',
                 'Thẻ ' + network + ' mệnh giá ' + parseInt(amount).toLocaleString('vi-VN') + 'đ\n' +
                 'Đã được gửi lên hệ thống.\n' +
                 'Admin sẽ duyệt trong vòng 1-5 phút!');
 
-            // Reset form
+            // 7. Reset form
             document.getElementById('network').value = '';
             document.getElementById('amount').value = '';
             document.getElementById('cardCode').value = '';
@@ -289,10 +320,11 @@
 
         } catch (error) {
             console.error('Lỗi nạp thẻ:', error);
-            showPopup('❌', 'Lỗi', 'Không thể gửi thẻ. Vui lòng thử lại!');
+            showPopup('❌', 'Lỗi hệ thống', 'Không thể gửi thẻ. Vui lòng thử lại sau!');
         } finally {
+            // Khôi phục nút bấm
             btn.disabled = false;
-            btn.textContent = '✅ Xác nhận nạp thẻ';
+            btn.textContent = originalText;
         }
     }
 </script>
