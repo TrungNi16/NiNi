@@ -63,7 +63,9 @@
         .btn-create:disabled { opacity: 0.4; cursor: not-allowed; background: #333; }
 
         .history-box { background: rgba(10,10,26,0.95); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 20px; }
-        .history-title { color: #ffd700; font-size: 18px; font-weight: 700; margin-bottom: 15px; }
+        .history-title { color: #ffd700; font-size: 18px; font-weight: 700; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .btn-reload { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #aaa; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; transition: 0.3s; }
+        .btn-reload:hover { background: rgba(255,255,255,0.1); color: #fff; }
         .table-wrap { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; font-size: 13px; }
         thead th { text-align: left; color: #666; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; padding: 12px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
@@ -74,6 +76,11 @@
         .status-pending { background: rgba(255,200,0,0.1); color: #ffcc00; border: 1px solid rgba(255,200,0,0.2); }
         .status-done { background: rgba(0,255,136,0.1); color: #00ff88; border: 1px solid rgba(0,255,136,0.2); }
         .status-rejected { background: rgba(255,50,50,0.1); color: #ff6666; border: 1px solid rgba(255,50,50,0.2); }
+        
+        @media (max-width: 1024px) {
+            .stats-row, .cards-grid, .notice-bar { grid-template-columns: 1fr; }
+            .privilege-bar { flex-direction: column; align-items: flex-start; }
+        }
     </style>
 </head>
 <body>
@@ -189,7 +196,7 @@
                     <div class="limit-row"><span>Hạn ngạch</span><span class="count" id="count-Layma">0/2 Lượt</span></div>
                     <div class="progress-bar"><div class="progress-fill" id="progress-Layma" style="width:0%;"></div></div>
                 </div>
-                <button class="btn-create" id="btn-Layma" onclick="createLink('Layma', 510)">➜ Tạo link Layma (510đ)</button>
+                <button class="btn-create" id="btn-Layma" data-name="Layma" data-price="510" onclick="createLink('Layma', 510)">➜ Tạo link Layma (510đ)</button>
             </div>
 
             <div class="card">
@@ -205,7 +212,7 @@
                     <div class="limit-row"><span>Hạn ngạch</span><span class="count" id="count-TrafficVN">0/2 Lượt</span></div>
                     <div class="progress-bar"><div class="progress-fill" id="progress-TrafficVN" style="width:0%;"></div></div>
                 </div>
-                <button class="btn-create" id="btn-TrafficVN" onclick="createLink('TrafficVN', 260)">➜ Tạo link TrafficVN (260đ)</button>
+                <button class="btn-create" id="btn-TrafficVN" data-name="TrafficVN" data-price="260" onclick="createLink('TrafficVN', 260)">➜ Tạo link TrafficVN (260đ)</button>
             </div>
 
             <div class="card">
@@ -221,7 +228,7 @@
                     <div class="limit-row"><span>Hạn ngạch</span><span class="count" id="count-Gtraffic">0/2 Lượt</span></div>
                     <div class="progress-bar"><div class="progress-fill" id="progress-Gtraffic" style="width:0%;"></div></div>
                 </div>
-                <button class="btn-create" id="btn-Gtraffic" onclick="createLink('Gtraffic', 360)">➜ Tạo link Gtraffic (360đ)</button>
+                <button class="btn-create" id="btn-Gtraffic" data-name="Gtraffic" data-price="360" onclick="createLink('Gtraffic', 360)">➜ Tạo link Gtraffic (360đ)</button>
             </div>
 
             <div class="card">
@@ -237,12 +244,15 @@
                     <div class="limit-row"><span>Hạn ngạch</span><span class="count" id="count-GtrafficDirect">0/2 Lượt</span></div>
                     <div class="progress-bar"><div class="progress-fill" id="progress-GtrafficDirect" style="width:0%;"></div></div>
                 </div>
-                <button class="btn-create" id="btn-GtrafficDirect" onclick="createLink('Gtraffic Direct', 360)">➜ Tạo link Gtraffic Direct (360đ)</button>
+                <button class="btn-create" id="btn-GtrafficDirect" data-name="Gtraffic Direct" data-price="360" onclick="createLink('Gtraffic Direct', 360)">➜ Tạo link Gtraffic Direct (360đ)</button>
             </div>
         </div>
 
         <div class="history-box">
-            <div class="history-title">📜 Lượt vượt link gần đây</div>
+            <div class="history-title">
+                📜 Lượt vượt link gần đây
+                <button class="btn-reload" onclick="refreshAll()">🔄 Tải lại</button>
+            </div>
             <div class="table-wrap">
                 <table>
                     <thead>
@@ -352,44 +362,64 @@ async function updateAllLimits() {
         { name: 'Gtraffic', id: 'Gtraffic', price: 360 },
         { name: 'Gtraffic Direct', id: 'GtrafficDirect', price: 360 }
     ];
-    for (var i = 0; i < services.length; i++) {
-        var svc = services[i];
+    
+    // Sử dụng Promise.all để chạy song song
+    var promises = services.map(async function(svc) {
         var used = await getUsedCount(svc.name);
         var countEl = document.getElementById('count-' + svc.id);
         var progressEl = document.getElementById('progress-' + svc.id);
         var btnEl = document.getElementById('btn-' + svc.id);
+        
         if (countEl) countEl.textContent = used + '/' + MAX_LIMIT + ' Lượt';
         if (progressEl) progressEl.style.width = (used / MAX_LIMIT * 100) + '%';
+        
         if (btnEl) {
             if (used >= MAX_LIMIT) {
                 btnEl.disabled = true;
                 btnEl.textContent = '❌ Hết lượt hôm nay';
             } else {
                 btnEl.disabled = false;
-                btnEl.textContent = '➜ Tạo link ' + svc.name + ' (' + svc.price + 'đ)';
+                var displayName = btnEl.getAttribute('data-name') || svc.name;
+                var displayPrice = btnEl.getAttribute('data-price') || svc.price;
+                btnEl.textContent = '➜ Tạo link ' + displayName + ' (' + displayPrice + 'đ)';
             }
         }
-    }
+    });
+    
+    await Promise.all(promises);
 }
 
 async function createLink(service, points) {
     var currentUser = localStorage.getItem('currentUser');
-    if (!currentUser) { alert('⚠️ Vui lòng đăng nhập lại!'); return; }
+    if (!currentUser) { 
+        showPopup('⚠️', 'Lỗi', 'Vui lòng đăng nhập lại để thực hiện!'); 
+        return; 
+    }
+    
     try {
         var used = await getUsedCount(service);
         if (used >= MAX_LIMIT) {
             showPopup('⚠️', 'Hết lượt', 'Bạn đã dùng hết ' + MAX_LIMIT + ' lượt cho ' + service + ' hôm nay!');
             return;
         }
+        
+        // Tạo link giả lập
         var link = 'https://' + service.toLowerCase().replace(/\s/g, '') + '.net/' + Math.random().toString(36).substring(2, 11);
+        
+        // Lưu vào Firebase
         await saveLinkHistoryToCloud(currentUser, service, link, points, 'pending');
         await db.ref('dailyLinks/' + currentUser + '/' + getTodayStr() + '/' + service).set(used + 1);
+        
         showPopup('🔗', 'Tạo link thành công!', 'Link: ' + link + '\n\nĐã dùng ' + (used + 1) + '/' + MAX_LIMIT + ' lượt.');
+        
+        // Cập nhật lại UI
         await updateAllLimits();
         await loadHistory();
         await loadStats();
+        
     } catch(error) {
-        showPopup('❌', 'Lỗi', 'Không thể tạo link: ' + error.message);
+        console.error('Lỗi tạo link:', error);
+        showPopup('❌', 'Lỗi hệ thống', 'Không thể tạo link: ' + error.message);
     }
 }
 
@@ -397,38 +427,49 @@ async function loadHistory() {
     var tbody = document.getElementById('historyBody');
     var currentUser = localStorage.getItem('currentUser');
     if (!currentUser) return;
+    
     try {
         var history = await getLinkHistoryFromCloud(currentUser);
         if (!history || history.length === 0) {
             tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#555;padding:40px;">📭 Chưa có lượt vượt link nào</td></tr>';
             return;
         }
+        
         var html = '';
         history.slice(0, 5).forEach(function(item) {
             var statusHtml = '';
             if (item.status === 'pending') statusHtml = '<span class="status-badge status-pending">⏳ Chờ duyệt</span>';
             else if (item.status === 'done') statusHtml = '<span class="status-badge status-done">✅ Đã duyệt</span>';
             else statusHtml = '<span class="status-badge status-rejected">❌ Từ chối</span>';
+            
             var date = new Date(item.time);
             var dateStr = String(date.getDate()).padStart(2,'0') + '/' + String(date.getMonth()+1).padStart(2,'0') + ' ' + String(date.getHours()).padStart(2,'0') + ':' + String(date.getMinutes()).padStart(2,'0');
+            
             html += '<tr>' +
                 '<td>' + item.service + '</td>' +
-                '<td><span class="td-link">' + item.link + '</span></td>' +
+                '<td><span class="td-link" title="' + item.link + '">' + item.link + '</span></td>' +
                 '<td class="td-points">+' + item.points + 'đ</td>' +
                 '<td>' + statusHtml + '</td>' +
                 '<td>' + dateStr + '</td>' +
                 '</tr>';
         });
         tbody.innerHTML = html;
-    } catch(e) { console.error('Lỗi load history:', e); }
+    } catch(e) { 
+        console.error('Lỗi load history:', e);
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#ff6666;padding:40px;">❌ Lỗi tải lịch sử</td></tr>';
+    }
+}
+
+async function refreshAll() {
+    await updateAllLimits();
+    await loadHistory();
+    await loadStats();
 }
 
 document.addEventListener('DOMContentLoaded', function() {
     startCountdown();
     setTimeout(function() {
-        updateAllLimits();
-        loadHistory();
-        loadStats();
+        refreshAll();
     }, 500);
 });
 </script>
