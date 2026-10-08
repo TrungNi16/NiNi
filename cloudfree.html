@@ -6,70 +6,122 @@
     <title>Cloud Free Mỗi Ngày - NiNi Store</title>
     <link rel="stylesheet" href="layout.css">
     <style>
-        .cloudfree-container {
+        .cloud-container {
             max-width: 700px;
             margin: 0 auto;
             text-align: center;
             padding: 40px 20px;
         }
 
-        .cloudfree-container .icon {
-            font-size: 100px;
+        .cloud-container .icon {
+            font-size: 80px;
             margin-bottom: 20px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
         }
 
-        .cloudfree-container h1 {
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .cloud-container h1 {
             color: #ffd700;
             font-size: 32px;
             margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
         }
 
-        .cloudfree-container .subtitle {
+        .subtitle {
             color: #888;
             font-size: 14px;
             margin-bottom: 30px;
         }
 
-        .cloudfree-list {
-            background: rgba(255, 255, 255, 0.03);
+        .reward-list {
+            background: rgba(10, 10, 26, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
-            padding: 15px 20px;
+            padding: 20px;
             text-align: left;
             margin-bottom: 20px;
         }
 
-        .cloudfree-item {
+        .reward-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 14px 0;
+            padding: 15px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            color: #ccc;
-            flex-wrap: wrap;
-            gap: 8px;
+            transition: 0.2s;
+            border-radius: 8px;
         }
 
-        .cloudfree-item:last-child {
+        .reward-item:last-child {
             border-bottom: none;
         }
 
-        .cloudfree-item .name {
-            color: #fff;
-            font-size: 14px;
+        .reward-item:hover {
+            background: rgba(255, 255, 255, 0.03);
         }
 
-        .cloudfree-item .status {
+        .reward-item .left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .reward-item .day-badge {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: 700;
-            font-size: 13px;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
         }
 
-        .cloudfree-item .status.done {
+        .reward-item .day-badge.active {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: rgba(0, 255, 136, 0.3);
             color: #00ff88;
         }
 
-        .cloudfree-item .status.locked {
-            color: #555;
+        .reward-item .info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .reward-item .name {
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .reward-item .desc {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .reward-item .status {
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .status-received {
+            color: #00ff88;
+        }
+
+        .status-locked {
+            color: #666;
         }
 
         .btn-claim {
@@ -77,22 +129,50 @@
             background: linear-gradient(135deg, #ffd700, #f0a500);
             color: #0a0a1a;
             border: none;
-            border-radius: 10px;
-            font-weight: 700;
+            border-radius: 12px;
+            font-weight: 800;
             font-size: 16px;
             cursor: pointer;
             transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
         }
 
-        .btn-claim:hover {
+        .btn-claim:hover:not(:disabled) {
             transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.5);
         }
 
         .btn-claim:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            transform: none;
+            background: #555;
+            color: #ccc;
+            box-shadow: none;
+        }
+
+        .note {
+            color: #888;
+            font-size: 13px;
+            margin-top: 25px;
+            line-height: 1.6;
+            padding: 15px;
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .note strong {
+            color: #ffd700;
+        }
+
+        @media (max-width: 600px) {
+            .cloud-container h1 { font-size: 24px; }
+            .cloud-container .icon { font-size: 60px; }
+            .reward-item { padding: 12px; }
+            .reward-item .day-badge { width: 35px; height: 35px; font-size: 12px; }
+            .reward-item .name { font-size: 14px; }
         }
     </style>
 </head>
@@ -149,35 +229,25 @@
     </nav>
 
     <main class="content" id="content">
-        <div class="cloudfree-container">
+        <div class="cloud-container">
             <div class="icon">☁️</div>
             <h1>Cloud Free Mỗi Ngày</h1>
             <p class="subtitle">Nhận quà miễn phí mỗi ngày - Tích lũy điểm đổi quà</p>
 
-            <div class="cloudfree-list">
-                <div class="cloudfree-item">
-                    <span class="name">🎁 Ngày 1: Code Vimos 1 Day</span>
-                    <span class="status done">✅ Đã nhận</span>
-                </div>
-                <div class="cloudfree-item">
-                    <span class="name">🎁 Ngày 2: Code Vipplayer 1 Ngày</span>
-                    <span class="status done">✅ Đã nhận</span>
-                </div>
-                <div class="cloudfree-item">
-                    <span class="name">🎁 Ngày 3: Code Ughearna 4H</span>
-                    <span class="status done">✅ Đã nhận</span>
-                </div>
-                <div class="cloudfree-item">
-                    <span class="name">🎁 Ngày 4: Máy Cloud 1 ngày</span>
-                    <span class="status locked">🔒 Chưa nhận</span>
-                </div>
-                <div class="cloudfree-item">
-                    <span class="name">🎁 Ngày 5: Code Vimos 3 Day</span>
-                    <span class="status locked">🔒 Chưa nhận</span>
-                </div>
+            <div class="reward-list" id="rewardList">
+                <!-- Sẽ được render bằng JS -->
+                <div style="text-align:center; padding:20px; color:#555;">⏳ Đang tải...</div>
             </div>
 
-            <button class="btn-claim" onclick="claimDaily()">🎁 Nhận ngay</button>
+            <button class="btn-claim" id="claimBtn" onclick="claimReward()">🎁 Nhận ngay</button>
+
+            <div class="note">
+                <strong>ℹ️ Lưu ý:</strong><br>
+                • Mỗi ngày bạn chỉ được nhận 1 phần quà duy nhất.<br>
+                • Phần quà sẽ được cộng trực tiếp vào tài khoản.<br>
+                • Chuỗi ngày nhận quà sẽ reset nếu bạn bỏ lỡ 1 ngày.<br>
+                • Liên hệ admin nếu có vấn đề.
+            </div>
         </div>
     </main>
 </div>
@@ -198,39 +268,193 @@
 <script src="layout.js"></script>
 
 <script>
-    async function claimDaily() {
-        var user = localStorage.getItem('currentUser');
-        if (!user) {
+    // Cấu hình các phần quà theo ngày
+    var REWARDS = [
+        { day: 1, name: 'Code Vimos 1 Day', desc: 'Code xem phim Vimos 1 ngày', icon: '🎬' },
+        { day: 2, name: 'Code Vipplayer 1 Ngày', desc: 'Code Vipplayer 1 ngày', icon: '🎬' },
+        { day: 3, name: 'Code Ugheama 4H', desc: 'Code Ugheama 4 giờ', icon: '🎬' },
+        { day: 4, name: 'Máy Cloud 1 ngày', desc: 'Thuê máy Cloud 1 ngày', icon: '☁️' },
+        { day: 5, name: 'Code Vimos 3 Day', desc: 'Code Vimos 3 ngày', icon: '🎬' }
+    ];
+
+    var currentUser = null;
+    var userCheckinData = null;
+
+    // Lấy ngày hôm nay dạng YYYY-MM-DD
+    function getTodayStr() {
+        var d = new Date();
+        return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    }
+
+    // Tải dữ liệu điểm danh của user
+    async function loadCheckinData() {
+        if (!currentUser) return null;
+        try {
+            var snap = await db.ref('dailyCheckin/' + currentUser).once('value');
+            return snap.val() || { lastCheckin: null, streak: 0 };
+        } catch(e) {
+            console.error('Lỗi load checkin:', e);
+            return { lastCheckin: null, streak: 0 };
+        }
+    }
+
+    // Render danh sách quà
+    function renderRewards() {
+        var list = document.getElementById('rewardList');
+        var todayStr = getTodayStr();
+        var lastCheckin = userCheckinData ? userCheckinData.lastCheckin : null;
+        var streak = userCheckinData ? userCheckinData.streak : 0;
+        var hasCheckedInToday = (lastCheckin === todayStr);
+
+        var html = '';
+        REWARDS.forEach(function(reward, index) {
+            var isReceived = false;
+            var isActive = false;
+
+            // Logic xác định trạng thái
+            if (hasCheckedInToday) {
+                // Nếu đã điểm danh hôm nay, tất cả các ngày <= streak đều đã nhận
+                if (reward.day <= streak) {
+                    isReceived = true;
+                }
+            } else {
+                // Nếu chưa điểm danh hôm nay
+                if (reward.day <= streak) {
+                    isReceived = true; // Đã nhận từ các ngày trước
+                } else if (reward.day === streak + 1) {
+                    isActive = true; // Ngày tiếp theo có thể nhận
+                }
+            }
+
+            var statusHtml = '';
+            if (isReceived) {
+                statusHtml = '<span class="status status-received">✅ Đã nhận</span>';
+            } else if (isActive) {
+                statusHtml = '<span class="status status-locked" style="color:#ffd700;">🎁 Có thể nhận</span>';
+            } else {
+                statusHtml = '<span class="status status-locked">🔒 Chưa nhận</span>';
+            }
+
+            html += '<div class="reward-item">' +
+                '<div class="left">' +
+                    '<div class="day-badge ' + (isReceived ? 'active' : '') + '">' + reward.day + '</div>' +
+                    '<div class="info">' +
+                        '<span class="name">' + reward.icon + ' ' + reward.name + '</span>' +
+                        '<span class="desc">' + reward.desc + '</span>' +
+                    '</div>' +
+                '</div>' +
+                '<div>' + statusHtml + '</div>' +
+            '</div>';
+        });
+
+        list.innerHTML = html;
+
+        // Cập nhật trạng thái nút bấm
+        var btn = document.getElementById('claimBtn');
+        if (hasCheckedInToday) {
+            btn.disabled = true;
+            btn.textContent = '✅ Đã nhận hôm nay';
+        } else {
+            btn.disabled = false;
+            btn.textContent = '🎁 Nhận ngay';
+        }
+    }
+
+    // Hàm nhận quà
+    async function claimReward() {
+        if (!currentUser) {
             showPopup('⚠️', 'Lỗi', 'Vui lòng đăng nhập lại!');
             return;
         }
 
-        try {
-            var today = new Date().toDateString();
-            var lastClaim = await db.ref('dailyClaims/' + user + '/lastClaim').once('value').then(function(s) { return s.val(); });
+        var btn = document.getElementById('claimBtn');
+        btn.disabled = true;
+        btn.textContent = '⏳ Đang xử lý...';
 
-            if (lastClaim === today) {
-                showPopup('⚠️', 'Đã nhận rồi', 'Bạn đã nhận quà hôm nay rồi!\nVui lòng quay lại vào ngày mai.');
+        try {
+            var todayStr = getTodayStr();
+            var lastCheckin = userCheckinData ? userCheckinData.lastCheckin : null;
+            
+            if (lastCheckin === todayStr) {
+                showPopup('⚠️', 'Đã nhận rồi', 'Bạn đã nhận quà hôm nay rồi. Quay lại vào ngày mai nhé!');
+                btn.disabled = true;
+                btn.textContent = '✅ Đã nhận hôm nay';
                 return;
             }
 
-            // Lưu lượt nhận
-            await db.ref('dailyClaims/' + user).set({
-                lastClaim: today,
+            // Tính toán streak mới
+            var newStreak = 1;
+            if (lastCheckin) {
+                var lastDate = new Date(lastCheckin);
+                var todayDate = new Date(todayStr);
+                var diffTime = Math.abs(todayDate - lastDate);
+                var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                
+                if (diffDays === 1) {
+                    // Ngày liên tiếp
+                    newStreak = (userCheckinData.streak || 0) + 1;
+                } else {
+                    // Bỏ lỡ ngày, reset streak
+                    newStreak = 1;
+                }
+            }
+
+            // Giới hạn streak tối đa là 5 (hoặc số lượng quà)
+            if (newStreak > REWARDS.length) {
+                newStreak = REWARDS.length;
+            }
+
+            // Lưu vào Firebase
+            await db.ref('dailyCheckin/' + currentUser).set({
+                lastCheckin: todayStr,
+                streak: newStreak,
+                updatedAt: Date.now()
+            });
+
+            // Cộng quà vào tài khoản (ví dụ cộng 1 điểm hoặc lưu lịch sử)
+            // Ở đây ta lưu lịch sử nhận quà
+            var rewardRef = db.ref('checkinHistory/' + currentUser).push();
+            await rewardRef.set({
+                day: newStreak,
+                rewardName: REWARDS[newStreak - 1] ? REWARDS[newStreak - 1].name : 'Quà',
                 time: Date.now()
             });
 
-            // Cộng 50 điểm cho user
-            await addUserBalance(user, 50);
+            // Cập nhật lại dữ liệu local
+            userCheckinData.lastCheckin = todayStr;
+            userCheckinData.streak = newStreak;
 
-            showPopup('✅', 'Nhận thành công!',
-                'Bạn đã nhận được +50 điểm!\nSố dư đã được cập nhật.');
+            showPopup('🎉', 'Nhận quà thành công!', 
+                'Bạn đã nhận được: ' + (REWARDS[newStreak - 1] ? REWARDS[newStreak - 1].name : 'Quà') + '\n' +
+                'Chuỗi ngày: ' + newStreak + '/' + REWARDS.length + '\n\n' +
+                'Hẹn gặp lại vào ngày mai!');
+
+            renderRewards();
 
         } catch (error) {
             console.error('Lỗi nhận quà:', error);
-            showPopup('❌', 'Lỗi', 'Không thể nhận quà. Vui lòng thử lại!');
+            showPopup('❌', 'Lỗi hệ thống', 'Không thể nhận quà. Vui lòng thử lại sau!');
+            btn.disabled = false;
+            btn.textContent = '🎁 Nhận ngay';
         }
     }
+
+    // Khởi tạo trang
+    document.addEventListener('DOMContentLoaded', async function() {
+        currentUser = localStorage.getItem('currentUser');
+        
+        if (!currentUser) {
+            document.getElementById('rewardList').innerHTML = '<div style="text-align:center; padding:20px; color:#ff6666;">⚠️ Vui lòng đăng nhập lại!</div>';
+            document.getElementById('claimBtn').disabled = true;
+            return;
+        }
+
+        // Đợi Firebase khởi tạo
+        setTimeout(async function() {
+            userCheckinData = await loadCheckinData();
+            renderRewards();
+        }, 500);
+    });
 </script>
 
 </body>
