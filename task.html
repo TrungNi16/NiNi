@@ -3,694 +3,404 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nhiệm Vụ - NINI STORE</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Lịch sử nạp tiền - NiNi Store</title>
+    <link rel="stylesheet" href="layout.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0a0616;
-            color: #e2e8f0;
-            min-height: 100vh;
+        .history-container {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 40px 20px;
         }
 
-        /* ===== SIDEBAR ===== */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 260px;
-            height: 100vh;
-            background: #0a0616;
-            border-right: 1px solid #1e1435;
-            padding: 20px 0;
-            overflow-y: auto;
-            transition: transform 0.3s ease;
-            z-index: 1000;
+        .history-container .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
         }
 
-        .sidebar.hidden {
-            transform: translateX(-100%);
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
-        .sidebar-brand {
-            padding: 0 20px 20px;
-            border-bottom: 1px solid #1e1435;
-            margin-top: 50px;
+        .history-container h1 {
+            color: #ffd700;
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
         }
 
-        .sidebar-brand h1 {
-            font-size: 20px;
-            color: #fbbf24;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .sidebar-brand p {
-            font-size: 12px;
-            color: #6b7280;
-            margin-top: 4px;
-            padding-left: 30px;
-        }
-
-        .sidebar-nav {
-            padding: 15px 0;
-        }
-
-        .sidebar-nav a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 20px;
-            color: #9ca3af;
-            text-decoration: none;
+        .subtitle {
+            color: #888;
             font-size: 14px;
-            transition: all 0.2s;
-            border-left: 3px solid transparent;
-        }
-
-        .sidebar-nav a:hover,
-        .sidebar-nav a.active {
-            background: #1a0f2e;
-            color: #fbbf24;
-            border-left-color: #fbbf24;
-        }
-
-        .sidebar-nav a i {
-            width: 20px;
-            font-size: 16px;
-        }
-
-        .sidebar-nav .submenu {
-            padding-left: 20px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s;
-        }
-
-        .sidebar-nav .submenu.open {
-            max-height: 300px;
-        }
-
-        .sidebar-nav .submenu a {
-            font-size: 13px;
-            padding: 8px 20px;
-        }
-
-        .sidebar-nav .has-submenu > a::after {
-            content: '▼';
-            margin-left: auto;
-            font-size: 10px;
-            transition: transform 0.3s;
-        }
-
-        .sidebar-nav .has-submenu.open > a::after {
-            transform: rotate(180deg);
-        }
-
-        /* User info */
-        .user-info {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 15px 20px;
-            border-top: 1px solid #1e1435;
-            background: #0a0616;
-        }
-
-        .user-info .user-name {
-            font-weight: 600;
-            font-size: 14px;
-            color: #e2e8f0;
-        }
-
-        .user-info .user-balance {
-            color: #fbbf24;
-            font-size: 13px;
-            margin-top: 4px;
-        }
-
-        .user-info .btn-logout {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            background: #1a0f2e;
-            color: #ef4444;
-            border: 1px solid #2d1f4a;
-            border-radius: 8px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 13px;
-            transition: 0.3s;
-        }
-
-        .user-info .btn-logout:hover {
-            background: #2d1f4a;
-        }
-
-        /* ===== MENU TOGGLE ===== */
-        .menu-toggle {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1100;
-            width: 45px;
-            height: 45px;
-            background: #1a0f2e;
-            border: 1px solid #2d1f4a;
-            border-radius: 10px;
-            color: #fbbf24;
-            font-size: 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-
-        .menu-toggle:hover {
-            background: #2d1f4a;
-        }
-
-        /* ===== MAIN CONTENT ===== */
-        .main-content {
-            margin-left: 260px;
-            min-height: 100vh;
-            padding: 30px;
-            transition: margin-left 0.3s;
-        }
-
-        .main-content.full {
-            margin-left: 0;
-        }
-
-        /* ===== PAGE HEADER ===== */
-        .page-header {
-            margin-bottom: 30px;
-        }
-
-        .page-header h1 {
-            font-size: 28px;
-            font-weight: 700;
-            color: #e2e8f0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 8px;
-        }
-
-        .page-header h1 i {
-            color: #fbbf24;
-        }
-
-        .page-header p {
-            color: #6b7280;
-            font-size: 14px;
-        }
-
-        /* ===== STATS ===== */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
             margin-bottom: 25px;
         }
 
-        .stat-card {
-            background: #0f0a1e;
-            border: 1px solid #1e1435;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .stat-card .stat-icon {
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
-
-        .stat-card .stat-value {
-            font-size: 22px;
-            font-weight: 700;
-            color: #60a5fa;
-            margin-bottom: 4px;
-        }
-
-        .stat-card .stat-label {
-            font-size: 12px;
-            color: #6b7280;
-            text-transform: uppercase;
-        }
-
-        /* ===== TASK LIST ===== */
-        .task-section {
-            background: #0f0a1e;
-            border: 1px solid #1e1435;
-            border-radius: 16px;
-            padding: 25px;
-        }
-
-        .task-section h2 {
-            font-size: 18px;
-            font-weight: 600;
-            color: #e2e8f0;
-            margin-bottom: 20px;
+        /* Bộ lọc trạng thái */
+        .filter-bar {
             display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .task-section h2 i {
-            color: #fbbf24;
-        }
-
-        .task-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 18px;
-            background: #0a0616;
-            border: 1px solid #1e1435;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            transition: all 0.3s;
-        }
-
-        .task-item:hover {
-            border-color: #2d1f4a;
-        }
-
-        .task-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            font-size: 22px;
-            flex-shrink: 0;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
-        .icon-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
-        .icon-green { background: linear-gradient(135deg, #10b981, #059669); }
-        .icon-yellow { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
-        .icon-pink { background: linear-gradient(135deg, #ec4899, #db2777); }
-        .icon-purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .filter-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            color: #aaa;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-        .task-info {
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+
+        .filter-btn.active {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: rgba(255, 215, 0, 0.3);
+            color: #ffd700;
+            font-weight: 700;
+        }
+
+        .history-list {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: left;
+            min-height: 100px;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            flex-wrap: wrap;
+            gap: 8px;
+            transition: 0.2s;
+        }
+
+        .history-item:hover {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-item .info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
             flex: 1;
         }
 
-        .task-info h3 {
+        .history-item .amount {
+            color: #00ff88;
+            font-weight: 700;
             font-size: 15px;
-            font-weight: 600;
-            color: #e2e8f0;
-            margin-bottom: 5px;
+            min-width: 100px;
         }
 
-        .task-info p {
-            font-size: 13px;
-            color: #6b7280;
-        }
-
-        .task-reward {
+        .history-item .meta {
+            color: #888;
+            font-size: 12px;
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
-            gap: 5px;
-            margin-right: 15px;
+            gap: 2px;
         }
 
-        .task-reward .reward {
-            color: #fbbf24;
-            font-weight: 700;
-            font-size: 15px;
-        }
-
-        .task-reward .reward-label {
+        .history-item .meta .detail {
+            color: #666;
             font-size: 11px;
-            color: #6b7280;
         }
 
-        .btn-task {
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
-            color: #0f0a1e;
-            border: none;
-            border-radius: 8px;
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
             font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.3s;
             white-space: nowrap;
         }
 
-        .btn-task:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(251, 191, 36, 0.4);
+        .status-done {
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            border: 1px solid rgba(0, 255, 136, 0.2);
         }
 
-        .btn-task.completed {
-            background: #1a0f2e;
-            color: #10b981;
-            border: 1px solid #10b981;
-            cursor: default;
+        .status-pending {
+            background: rgba(255, 200, 0, 0.1);
+            color: #ffcc00;
+            border: 1px solid rgba(255, 200, 0, 0.2);
         }
 
-        .btn-task.completed:hover {
-            transform: none;
-            box-shadow: none;
+        .status-rejected {
+            background: rgba(255, 50, 50, 0.1);
+            color: #ff6666;
+            border: 1px solid rgba(255, 50, 50, 0.2);
         }
 
-        .btn-task.disabled {
-            background: #1a0f2e;
-            color: #4b5563;
-            cursor: not-allowed;
-            border: 1px solid #2d1f4a;
+        .empty-state {
+            text-align: center;
+            color: #555;
+            padding: 40px 20px;
         }
 
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-
-            .sidebar.show {
-                transform: translateX(0);
-            }
-
-            .main-content {
-                margin-left: 0;
-                padding: 20px 15px;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .task-item {
-                flex-wrap: wrap;
-            }
-
-            .btn-task {
-                width: 100%;
-            }
-
-            .task-reward {
-                margin-right: 0;
-            }
+        .empty-state .icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+            animation: none;
         }
 
-        /* Overlay */
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
+        .btn-reload {
+            margin-top: 20px;
+            padding: 10px 25px;
+            background: rgba(255, 215, 0, 0.1);
+            color: #ffd700;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
-        .overlay.show {
-            display: block;
+        .btn-reload:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 600px) {
+            .history-container h1 { font-size: 24px; }
+            .history-container .icon { font-size: 60px; }
+            .history-item .amount { min-width: auto; }
+            .filter-bar { gap: 6px; }
+            .filter-btn { padding: 6px 12px; font-size: 12px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Menu Toggle -->
-    <button class="menu-toggle" onclick="toggleSidebar()">
-        <i class="fas fa-bars"></i>
-    </button>
+<button class="hamburger" onclick="toggleSidebar()" title="Ẩn/Hiện menu">☰</button>
+<div class="overlay" id="overlay" onclick="closeMobileSidebar()"></div>
 
-    <!-- Overlay -->
-    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
-
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
+<div class="container">
+    <nav class="sidebar" id="sidebar">
         <div class="sidebar-brand">
-            <h1>⭐ NINI STORE</h1>
-            <p>Free Fire Code Shop</p>
+            <h2>🌟 NINI STORE</h2>
+            <div class="sub">Free Fire Code Shop</div>
         </div>
-
-        <nav class="sidebar-nav">
-            <a href="home.html">
-                <i class="fas fa-home"></i> Trang chủ
-            </a>
-            <a href="task.html" class="active">
-                <i class="fas fa-tasks"></i> Nhiệm vụ
-            </a>
-            <a href="exchange.html">
-                <i class="fas fa-gift"></i> Đổi điểm
-            </a>
-
-            <div class="has-submenu">
-                <a href="#" onclick="toggleSubmenu(this); return false;">
-                    <i class="fas fa-wallet"></i> Nạp Tiền
-                </a>
-                <div class="submenu">
-                    <a href="card.html"><i class="fas fa-credit-card"></i> Nạp Thẻ Cào</a>
-                    <a href="bank.html"><i class="fas fa-university"></i> Nạp Bank/Momo</a>
-                    <a href="recharge-history.html"><i class="fas fa-history"></i> Lịch sử nạp tiền</a>
+        <ul class="sidebar-menu">
+            <li data-page="home"><a href="home.html">🏠 Trang chủ</a></li>
+            <li data-page="task"><a href="task.html">📋 Nhiệm vụ</a></li>
+            <li data-page="exchange"><a href="exchange.html">🔄 Đổi điểm</a></li>
+            <li class="has-sub">
+                <a href="#">💰 Nạp Tiền <span class="menu-arrow">▼</span></a>
+                <ul class="sub-menu">
+                    <li data-page="card"><a href="card.html">💳 Nạp Thẻ Cào</a></li>
+                    <li data-page="bank"><a href="bank.html">🏦 Nạp Bank/Momo</a></li>
+                    <li data-page="recharge-history" class="active"><a href="recharge-history.html">📜 Lịch sử nạp tiền</a></li>
+                </ul>
+            </li>
+            <li class="has-sub">
+                <a href="#">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
+                <ul class="sub-menu">
+                    <li data-page="redeem"><a href="redeem.html">🔄 Redeem Uphone 4h</a></li>
+                    <li data-page="buycloud"><a href="buycloud.html">☁️ Mua Máy Cloud</a></li>
+                    <li data-page="checkcloud"><a href="checkcloud.html">🔍 Check Máy Uphone</a></li>
+                    <li data-page="codelogin"><a href="codelogin.html">🔑 Code Login Cloud</a></li>
+                </ul>
+            </li>
+            <li data-page="giftcode"><a href="giftcode.html">🎁 Nhập Giftcode</a></li>
+            <li data-page="flashsale"><a href="flashsale.html">⚡ Flash Sale Cloud</a></li>
+            <li data-page="ranking"><a href="ranking.html">🏆 Bảng Xếp Hạng</a></li>
+            <li data-page="history"><a href="history.html">📜 Lịch sử mua hàng</a></li>
+            <li data-page="taskhistory"><a href="taskhistory.html">📜 Lịch sử nhiệm vụ</a></li>
+            <li data-page="cloudfree"><a href="cloudfree.html">☁️ Cloud Free Mỗi Ngày</a></li>
+            <li data-page="support"><a href="support.html">⚙️ Trung Tâm Hỗ Trợ</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <span class="user-avatar">👤</span>
+                <div>
+                    <strong id="usernameDisplay">Khách</strong>
+                    <span id="balanceDisplay">💰 Đang tải...</span>
                 </div>
             </div>
-
-            <div class="has-submenu">
-                <a href="#" onclick="toggleSubmenu(this); return false;">
-                    <i class="fas fa-tools"></i> Công Cụ
-                </a>
-                <div class="submenu">
-                    <a href="redeeem.html"><i class="fas fa-sync-alt"></i> Redeem Ugphone 4h</a>
-                    <a href="#"><i class="fas fa-cloud"></i> Mua Máy Cloud</a>
-                    <a href="#"><i class="fas fa-search"></i> Check Máy Ugphone</a>
-                    <a href="codelogin.html"><i class="fas fa-key"></i> Code Login Cloud</a>
-                    <a href="#"><i class="fas fa-bolt"></i> Quick Login</a>
-                </div>
-            </div>
-
-            <a href="#"><i class="fas fa-gift"></i> Nhập Giftcode</a>
-            <a href="#"><i class="fas fa-bolt"></i> Flash Sale Cloud</a>
-            <a href="#"><i class="fas fa-trophy"></i> Bảng Xếp Hạng</a>
-            <a href="#"><i class="fas fa-history"></i> Lịch sử mua hàng</a>
-            <a href="#"><i class="fas fa-history"></i> Lịch sử nhiệm vụ</a>
-            <a href="cloudfree.html"><i class="fas fa-cloud"></i> Cloud Free Mỗi Ngày</a>
-            <a href="support.html"><i class="fas fa-headset"></i> Trung Tâm Hỗ Trợ</a>
-        </nav>
-
-        <div class="user-info">
-            <div class="user-name">trungni16</div>
-            <div class="user-balance">💰 100.740.301đ</div>
-            <a href="logout.html" class="btn-logout">
-                <i class="fas fa-sign-out-alt"></i> Đăng xuất
-            </a>
+            <a href="#" class="logout-btn" onclick="logout()">🚪 Đăng xuất</a>
         </div>
-    </aside>
+    </nav>
 
-    <!-- Main Content -->
-    <main class="main-content" id="mainContent">
+    <main class="content" id="content">
+        <div class="history-container">
+            <div class="icon">📜</div>
+            <h1>Lịch sử nạp tiền</h1>
+            <p class="subtitle">Theo dõi tất cả các giao dịch nạp thẻ của bạn</p>
 
-        <!-- Page Header -->
-        <div class="page-header">
-            <h1><i class="fas fa-tasks"></i> Nhiệm Vụ</h1>
-            <p>Hoàn thành nhiệm vụ để nhận thưởng điểm và quà tặng hấp dẫn!</p>
+            <!-- Bộ lọc -->
+            <div class="filter-bar">
+                <button class="filter-btn active" onclick="filterHistory('all', this)">Tất cả</button>
+                <button class="filter-btn" onclick="filterHistory('done', this)">✅ Thành công</button>
+                <button class="filter-btn" onclick="filterHistory('pending', this)">⏳ Chờ duyệt</button>
+                <button class="filter-btn" onclick="filterHistory('rejected', this)">❌ Thất bại</button>
+            </div>
+
+            <div class="history-list" id="historyList">
+                <div class="empty-state">⏳ Đang tải...</div>
+            </div>
+
+            <button class="btn-reload" onclick="loadHistory()">🔄 Tải lại</button>
         </div>
-
-        <!-- Stats -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon">✅</div>
-                <div class="stat-value" id="completedCount">0</div>
-                <div class="stat-label">Đã hoàn thành</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">⏳</div>
-                <div class="stat-value" id="pendingCount">5</div>
-                <div class="stat-label">Chưa làm</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">💰</div>
-                <div class="stat-value" id="totalReward">0đ</div>
-                <div class="stat-label">Tổng thưởng</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">🏆</div>
-                <div class="stat-value">0</div>
-                <div class="stat-label">Xếp hạng</div>
-            </div>
-        </div>
-
-        <!-- Task List -->
-        <div class="task-section">
-            <h2><i class="fas fa-list-check"></i> Danh Sách Nhiệm Vụ</h2>
-
-            <!-- Task 1 -->
-            <div class="task-item">
-                <div class="task-icon icon-blue">📱</div>
-                <div class="task-info">
-                    <h3>Đăng ký tài khoản Ugphone</h3>
-                    <p>Đăng ký tài khoản Ugphone lần đầu để nhận thưởng</p>
-                </div>
-                <div class="task-reward">
-                    <div class="reward">+10,000đ</div>
-                    <div class="reward-label">Phần thưởng</div>
-                </div>
-                <button class="btn-task" onclick="doTask(1, 10000)">LÀM NGAY</button>
-            </div>
-
-            <!-- Task 2 -->
-            <div class="task-item">
-                <div class="task-icon icon-green">💬</div>
-                <div class="task-info">
-                    <h3>Tham gia Group Facebook</h3>
-                    <p>Tham gia group Facebook chính thức của NINI STORE</p>
-                </div>
-                <div class="task-reward">
-                    <div class="reward">+5,000đ</div>
-                    <div class="reward-label">Phần thưởng</div>
-                </div>
-                <button class="btn-task" onclick="doTask(2, 5000)">LÀM NGAY</button>
-            </div>
-
-            <!-- Task 3 -->
-            <div class="task-item">
-                <div class="task-icon icon-pink">📢</div>
-                <div class="task-info">
-                    <h3>Mời bạn bè tham gia</h3>
-                    <p>Mời 1 người bạn đăng ký tài khoản thành công</p>
-                </div>
-                <div class="task-reward">
-                    <div class="reward">+20,000đ</div>
-                    <div class="reward-label">Phần thưởng</div>
-                </div>
-                <button class="btn-task" onclick="doTask(3, 20000)">LÀM NGAY</button>
-            </div>
-
-            <!-- Task 4 -->
-            <div class="task-item">
-                <div class="task-icon icon-yellow">⭐</div>
-                <div class="task-info">
-                    <h3>Đánh giá 5 sao</h3>
-                    <p>Đánh giá 5 sao cho fanpage NINI STORE trên Facebook</p>
-                </div>
-                <div class="task-reward">
-                    <div class="reward">+3,000đ</div>
-                    <div class="reward-label">Phần thưởng</div>
-                </div>
-                <button class="btn-task" onclick="doTask(4, 3000)">LÀM NGAY</button>
-            </div>
-
-            <!-- Task 5 -->
-            <div class="task-item">
-                <div class="task-icon icon-purple">🎁</div>
-                <div class="task-info">
-                    <h3>Nạp tiền lần đầu</h3>
-                    <p>Nạp tiền lần đầu với bất kỳ mệnh giá nào</p>
-                </div>
-                <div class="task-reward">
-                    <div class="reward">+50,000đ</div>
-                    <div class="reward-label">Phần thưởng</div>
-                </div>
-                <button class="btn-task" onclick="doTask(5, 50000)">LÀM NGAY</button>
-            </div>
-
-        </div>
-
     </main>
+</div>
 
-    <script>
-        // ===== SIDEBAR TOGGLE =====
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const main = document.getElementById('mainContent');
-            const overlay = document.getElementById('overlay');
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup-box">
+        <div class="icon" id="popupIcon">📢</div>
+        <h3 id="popupTitle">Thông báo</h3>
+        <p id="popupMessage">Nội dung thông báo</p>
+        <button class="close-btn" onclick="closePopup()">Đã hiểu</button>
+    </div>
+</div>
 
-            if (window.innerWidth <= 768) {
-                sidebar.classList.toggle('show');
-                overlay.classList.toggle('show');
-            } else {
-                sidebar.classList.toggle('hidden');
-                main.classList.toggle('full');
-            }
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="firebase.js"></script>
+<script src="layout.js"></script>
+
+<script>
+    var allHistoryData = []; // Lưu trữ dữ liệu gốc để lọc
+
+    // Hàm tải lịch sử nạp tiền
+    async function loadHistory() {
+        var user = localStorage.getItem('currentUser');
+        var list = document.getElementById('historyList');
+        
+        if (!user) {
+            list.innerHTML = '<div class="empty-state"><div class="icon">⚠️</div>Vui lòng đăng nhập lại!</div>';
+            return;
         }
 
-        // ===== SUBMENU TOGGLE =====
-        function toggleSubmenu(element) {
-            const submenu = element.nextElementSibling;
-            if (submenu) {
-                submenu.classList.toggle('open');
-                element.parentElement.classList.toggle('open');
+        list.innerHTML = '<div class="empty-state">⏳ Đang tải...</div>';
+
+        try {
+            // Kiểm tra kết nối Firebase
+            if (typeof db === 'undefined') {
+                throw new Error('Không thể kết nối đến máy chủ!');
             }
-        }
 
-        // ===== DO TASK =====
-        let completedTasks = JSON.parse(localStorage.getItem('completedTasks') || '[]');
-        let totalReward = parseInt(localStorage.getItem('totalReward') || '0');
+            // Lấy từ collection 'cards' trên Firebase
+            var snapshot = await db.ref('cards/' + user).once('value');
+            var cards = snapshot.val();
 
-        function doTask(taskId, reward) {
-            // Kiểm tra đã làm chưa
-            if (completedTasks.includes(taskId)) {
-                alert('❌ Bạn đã hoàn thành nhiệm vụ này rồi!');
+            if (!cards) {
+                list.innerHTML = '<div class="empty-state"><div class="icon">📭</div>Bạn chưa có giao dịch nào</div>';
+                allHistoryData = [];
                 return;
             }
 
-            // Xác nhận
-            if (!confirm(`Bạn có chắc muốn làm nhiệm vụ này?\n\nPhần thưởng: +${reward.toLocaleString()}đ`)) {
-                return;
-            }
+            // Chuyển object thành array và sắp xếp mới nhất lên đầu
+            allHistoryData = Object.values(cards).sort(function(a, b) {
+                return (b.time || 0) - (a.time || 0);
+            });
 
-            // Đánh dấu hoàn thành
-            completedTasks.push(taskId);
-            totalReward += reward;
+            renderHistory(allHistoryData);
 
-            localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
-            localStorage.setItem('totalReward', totalReward.toString());
+        } catch (error) {
+            console.error('Lỗi load lịch sử nạp tiền:', error);
+            list.innerHTML = '<div class="empty-state"><div class="icon">❌</div>Lỗi tải dữ liệu. Vui lòng thử lại!</div>';
+        }
+    }
 
-            // Cập nhật UI
-            updateUI(taskId);
-
-            // Thông báo
-            alert(`✅ Hoàn thành nhiệm vụ!\n\nBạn nhận được: +${reward.toLocaleString()}đ`);
-
-            // TODO: Gửi request lên server để cộng điểm
-            // fetch('api/task.php', {
-            //     method: 'POST',
-            //     body: JSON.stringify({ task_id: taskId, reward: reward })
-            // });
+    // Hàm hiển thị danh sách
+    function renderHistory(items) {
+        var list = document.getElementById('historyList');
+        
+        if (!items || items.length === 0) {
+            list.innerHTML = '<div class="empty-state"><div class="icon">📭</div>Không có giao dịch nào phù hợp</div>';
+            return;
         }
 
-        function updateUI(taskId) {
-            // Cập nhật nút
-            const buttons = document.querySelectorAll('.btn-task');
-            const button = buttons[taskId - 1];
-            if (button) {
-                button.textContent = '✅ ĐÃ XONG';
-                button.classList.add('completed');
-                button.disabled = true;
+        var html = '';
+        items.forEach(function(item) {
+            var date = new Date(item.time || Date.now());
+            var dateStr = String(date.getDate()).padStart(2, '0') + '/' +
+                          String(date.getMonth() + 1).padStart(2, '0') + '/' +
+                          date.getFullYear() + ' ' +
+                          String(date.getHours()).padStart(2, '0') + ':' +
+                          String(date.getMinutes()).padStart(2, '0');
+
+            var statusClass = 'status-pending';
+            var statusText = '⏳ Chờ duyệt';
+
+            if (item.status === 'done') {
+                statusClass = 'status-done';
+                statusText = '✅ Thành công';
+            } else if (item.status === 'rejected') {
+                statusClass = 'status-rejected';
+                statusText = '❌ Thất bại';
             }
 
-            // Cập nhật stats
-            document.getElementById('completedCount').textContent = completedTasks.length;
-            document.getElementById('pendingCount').textContent = 5 - completedTasks.length;
-            document.getElementById('totalReward').textContent = totalReward.toLocaleString() + 'đ';
-        }
+            // Ẩn một phần mã thẻ và serial để bảo mật
+            var codeMasked = item.code ? item.code.slice(0, 4) + '****' + item.code.slice(-4) : 'N/A';
+            var serialMasked = item.serial ? item.serial.slice(0, 4) + '****' + item.serial.slice(-4) : 'N/A';
 
-        // Khởi tạo UI khi load
-        document.addEventListener('DOMContentLoaded', function() {
-            completedTasks.forEach(taskId => updateUI(taskId));
-            document.getElementById('completedCount').textContent = completedTasks.length;
-            document.getElementById('pendingCount').textContent = 5 - completedTasks.length;
-            document.getElementById('totalReward').textContent = totalReward.toLocaleString() + 'đ';
+            html += '<div class="history-item">' +
+                '<div class="info">' +
+                    '<span class="amount">+' + (item.amount || 0).toLocaleString('vi-VN') + 'đ</span>' +
+                    '<div class="meta">' +
+                        '<span>' + (item.network || 'Thẻ cào') + ' • ' + dateStr + '</span>' +
+                        '<span class="detail">Mã: ' + codeMasked + ' | Serial: ' + serialMasked + '</span>' +
+                    '</div>' +
+                '</div>' +
+                '<span class="status-badge ' + statusClass + '">' + statusText + '</span>' +
+            '</div>';
         });
-    </script>
+
+        list.innerHTML = html;
+    }
+
+    // Hàm lọc lịch sử
+    function filterHistory(status, btnElement) {
+        // Cập nhật trạng thái active cho nút
+        document.querySelectorAll('.filter-btn').forEach(function(btn) {
+            btn.classList.remove('active');
+        });
+        btnElement.classList.add('active');
+
+        // Lọc dữ liệu
+        if (status === 'all') {
+            renderHistory(allHistoryData);
+        } else {
+            var filtered = allHistoryData.filter(function(item) {
+                return item.status === status;
+            });
+            renderHistory(filtered);
+        }
+    }
+
+    // Tải lịch sử khi trang được tải
+    document.addEventListener('DOMContentLoaded', function() {
+        // Đợi một chút để Firebase khởi tạo
+        setTimeout(loadHistory, 500);
+    });
+</script>
 
 </body>
 </html>
