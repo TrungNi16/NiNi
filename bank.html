@@ -10,7 +10,7 @@
             max-width: 600px;
             margin: 0 auto;
             text-align: center;
-            padding: 40px 20px;
+            padding: 20px;
         }
 
         .bank-container .icon {
@@ -26,14 +26,14 @@
         }
 
         .bank-container h1 {
-            color: #ffd700;
+            color: #3b82f6;
             font-size: 32px;
             margin-bottom: 30px;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
         }
 
         .bank-info {
-            background: rgba(255, 255, 255, 0.03);
+            background: #11151c;
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
             padding: 30px;
@@ -41,8 +41,8 @@
         }
 
         .bank-section {
-            background: rgba(255, 215, 0, 0.03);
-            border: 1px solid rgba(255, 215, 0, 0.1);
+            background: rgba(59, 130, 246, 0.03);
+            border: 1px solid rgba(59, 130, 246, 0.1);
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 15px;
@@ -50,12 +50,12 @@
         }
 
         .bank-section:hover {
-            border-color: rgba(255, 215, 0, 0.3);
-            background: rgba(255, 215, 0, 0.05);
+            border-color: rgba(59, 130, 246, 0.3);
+            background: rgba(59, 130, 246, 0.05);
         }
 
         .bank-section h4 {
-            color: #ffd700;
+            color: #3b82f6;
             font-size: 16px;
             margin-bottom: 12px;
             display: flex;
@@ -91,7 +91,7 @@
         }
 
         .bank-section .value:hover {
-            color: #ffd700;
+            color: #3b82f6;
             text-decoration: underline;
         }
 
@@ -133,9 +133,9 @@
             display: inline-block;
             margin-top: 15px;
             padding: 10px 20px;
-            background: rgba(0, 170, 255, 0.1);
-            color: #00aaff;
-            border: 1px solid rgba(0, 170, 255, 0.3);
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.3);
             border-radius: 8px;
             text-decoration: none;
             font-size: 14px;
@@ -144,7 +144,7 @@
         }
 
         .btn-contact:hover {
-            background: rgba(0, 170, 255, 0.2);
+            background: rgba(59, 130, 246, 0.2);
             transform: translateY(-2px);
         }
     </style>
@@ -175,10 +175,12 @@
             <li class="has-sub">
                 <a href="#">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
                 <ul class="sub-menu">
-                    <li data-page="redeem"><a href="redeem.html">🔄 Redeem Uphone 4h</a></li>
+                    <li data-page="cloud-manager"><a href="cloud-manager.html">🖥️ Quản Lý Cloud <span class="badge-new">NEW</span></a></li>
+                    <li data-page="redeem"><a href="redeem.html">🔄 Redeem Ugphone 4h</a></li>
                     <li data-page="buycloud"><a href="buycloud.html">☁️ Mua Máy Cloud</a></li>
-                    <li data-page="checkcloud"><a href="checkcloud.html">🔍 Check Máy Uphone</a></li>
+                    <li data-page="checkcloud"><a href="checkcloud.html">🔍 Check Máy Ugphone</a></li>
                     <li data-page="codelogin"><a href="codelogin.html">🔑 Code Login Cloud</a></li>
+                    <li data-page="quicklogin"><a href="quick-login.html">⚡ Quick Login</a></li>
                 </ul>
             </li>
             <li data-page="giftcode"><a href="giftcode.html">🎁 Nhập Giftcode</a></li>
@@ -202,6 +204,23 @@
     </nav>
 
     <main class="content" id="content">
+        <!-- Header -->
+        <div class="top-header">
+            <div class="header-left">
+                <span class="page-title">Nạp Bank / MoMo</span>
+            </div>
+            <div class="header-right">
+                <input type="text" class="search-box" placeholder="Tìm kiếm...">
+                <div class="coin-display">💰 <span id="headerBalance">0</span> Coin</div>
+                <button class="icon-btn">🔔</button>
+                <button class="icon-btn">💬</button>
+                <div class="user-dropdown">
+                    <span class="name" id="headerUsername">Khách</span>
+                    <span>▼</span>
+                </div>
+            </div>
+        </div>
+
         <div class="bank-container">
             <div class="icon">🏦</div>
             <h1>Nạp qua Bank / MoMo</h1>
@@ -236,7 +255,7 @@
                 <div class="note-warning">
                     ⚠️ Nội dung chuyển khoản bắt buộc:
                     <strong id="transferContent">[Tên đăng nhập]</strong>
-                    <button onclick="copyToClipboard(document.getElementById('transferContent').textContent)" style="margin-top:10px; padding:5px 15px; background:#ffd700; border:none; border-radius:5px; font-weight:bold; cursor:pointer;">📋 Copy nội dung</button>
+                    <button onclick="copyToClipboard(document.getElementById('transferContent').textContent)" style="margin-top:10px; padding:5px 15px; background:#3b82f6; color:#fff; border:none; border-radius:5px; font-weight:bold; cursor:pointer;">📋 Copy nội dung</button>
                 </div>
 
                 <div class="note-info">
@@ -270,14 +289,11 @@
 <script>
     // Hàm sao chép vào clipboard
     function copyToClipboard(text) {
-        // Tạo một phần tử input tạm thời
         var tempInput = document.createElement("input");
         tempInput.value = text;
         document.body.appendChild(tempInput);
-        
-        // Chọn và sao chép
         tempInput.select();
-        tempInput.setSelectionRange(0, 99999); // Cho mobile
+        tempInput.setSelectionRange(0, 99999);
         
         try {
             var successful = document.execCommand('copy');
@@ -291,7 +307,6 @@
             showPopup('❌', 'Lỗi', 'Trình duyệt không hỗ trợ sao chép tự động!');
         }
         
-        // Xóa phần tử tạm
         document.body.removeChild(tempInput);
     }
 
