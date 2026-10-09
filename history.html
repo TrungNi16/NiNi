@@ -9,7 +9,7 @@
         .history-container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 20px;
         }
 
         .page-header {
@@ -30,10 +30,10 @@
         }
 
         .page-header h1 {
-            color: #ffd700;
+            color: #3b82f6;
             font-size: 32px;
             margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
         }
 
         .page-header p {
@@ -68,14 +68,14 @@
         }
 
         .filter-btn.active {
-            background: rgba(255, 215, 0, 0.15);
-            border-color: rgba(255, 215, 0, 0.4);
-            color: #ffd700;
+            background: rgba(59, 130, 246, 0.15);
+            border-color: rgba(59, 130, 246, 0.4);
+            color: #3b82f6;
         }
 
         /* Danh sách lịch sử */
         .history-list {
-            background: rgba(10, 10, 26, 0.95);
+            background: #11151c;
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
             overflow: hidden;
@@ -118,7 +118,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .item-icon.code { background: rgba(255, 215, 0, 0.1); border-color: rgba(255, 215, 0, 0.2); }
+        .item-icon.code { background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.2); }
         .item-icon.cloud { background: rgba(0, 200, 255, 0.1); border-color: rgba(0, 200, 255, 0.2); }
         .item-icon.vip { background: rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.2); }
         .item-icon.skin { background: rgba(255, 68, 170, 0.1); border-color: rgba(255, 68, 170, 0.2); }
@@ -152,7 +152,7 @@
         }
 
         .item-price {
-            color: #ffd700;
+            color: #3b82f6;
             font-size: 16px;
             font-weight: 800;
             font-family: 'Courier New', monospace;
@@ -236,10 +236,12 @@
             <li class="has-sub">
                 <a href="#">🔧 Công Cụ <span class="menu-arrow">▼</span></a>
                 <ul class="sub-menu">
-                    <li data-page="redeem"><a href="redeem.html">🔄 Redeem Uphone 4h</a></li>
+                    <li data-page="cloud-manager"><a href="cloud-manager.html">🖥️ Quản Lý Cloud <span class="badge-new">NEW</span></a></li>
+                    <li data-page="redeem"><a href="redeem.html">🔄 Redeem Ugphone 4h</a></li>
                     <li data-page="buycloud"><a href="buycloud.html">☁️ Mua Máy Cloud</a></li>
-                    <li data-page="checkcloud"><a href="checkcloud.html">🔍 Check Máy Uphone</a></li>
+                    <li data-page="checkcloud"><a href="checkcloud.html">🔍 Check Máy Ugphone</a></li>
                     <li data-page="codelogin"><a href="codelogin.html">🔑 Code Login Cloud</a></li>
+                    <li data-page="quicklogin"><a href="quick-login.html">⚡ Quick Login</a></li>
                 </ul>
             </li>
             <li data-page="giftcode"><a href="giftcode.html">🎁 Nhập Giftcode</a></li>
@@ -263,6 +265,23 @@
     </nav>
 
     <main class="content" id="content">
+        <!-- Header -->
+        <div class="top-header">
+            <div class="header-left">
+                <span class="page-title">Lịch sử mua hàng</span>
+            </div>
+            <div class="header-right">
+                <input type="text" class="search-box" placeholder="Tìm kiếm...">
+                <div class="coin-display">💰 <span id="headerBalance">0</span> Coin</div>
+                <button class="icon-btn">🔔</button>
+                <button class="icon-btn">💬</button>
+                <div class="user-dropdown">
+                    <span class="name" id="headerUsername">Khách</span>
+                    <span>▼</span>
+                </div>
+            </div>
+        </div>
+
         <div class="history-container">
             <div class="page-header">
                 <div class="icon">📜</div>
