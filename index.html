@@ -8,7 +8,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
 
         body {
-            background: linear-gradient(135deg, #0a0a1a, #1a0a2e);
+            background: linear-gradient(135deg, #0b0e14, #111827);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -16,20 +16,23 @@
         }
 
         .login-box {
-            background: rgba(255,255,255,0.05);
+            background: #11151c;
             padding: 40px 35px;
             border-radius: 20px;
-            border: 1px solid rgba(255,215,0,0.2);
+            border: 1px solid rgba(59, 130, 246, 0.2);
             width: 400px;
             max-width: 90%;
-            box-shadow: 0 0 50px rgba(255,215,0,0.05);
+            box-shadow: 0 0 50px rgba(59, 130, 246, 0.05);
         }
 
         .login-box h1 {
-            color: #ffd700;
+            color: #3b82f6;
             text-align: center;
             font-size: 28px;
             margin-bottom: 5px;
+        }
+        .login-box h1 span {
+            color: #fff;
         }
 
         .login-box .sub {
@@ -60,9 +63,9 @@
         }
 
         .login-box input:focus {
-            border-color: #ffd700;
+            border-color: #3b82f6;
             outline: none;
-            box-shadow: 0 0 20px rgba(255,215,0,0.05);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.05);
         }
 
         .login-box input::placeholder { color: #555; }
@@ -78,7 +81,7 @@
         .remember-row input[type="checkbox"] {
             width: 18px;
             height: 18px;
-            accent-color: #ffd700;
+            accent-color: #3b82f6;
             cursor: pointer;
         }
 
@@ -108,13 +111,13 @@
         .btn-cancel:hover { background: rgba(255,255,255,0.1); }
 
         .btn-login {
-            background: linear-gradient(135deg, #ffd700, #f0a500);
-            color: #0a0a1a;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: #fff;
         }
 
-        .btn-login:hover {
+        .btn-login:hover:not(:disabled) {
             transform: scale(1.02);
-            box-shadow: 0 0 30px rgba(255,215,0,0.15);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.15);
         }
 
         .register-link {
@@ -124,8 +127,8 @@
             font-size: 14px;
         }
 
-        .register-link a { color: #ffd700; text-decoration: none; font-weight: 600; }
-        .register-link a:hover { color: #ffed4a; }
+        .register-link a { color: #3b82f6; text-decoration: none; font-weight: 600; }
+        .register-link a:hover { color: #60a5fa; }
 
         .error-msg {
             background: rgba(255,0,0,0.1);
@@ -152,12 +155,12 @@
         }
 
         .saved-info {
-            background: rgba(255,215,0,0.05);
-            border: 1px solid rgba(255,215,0,0.1);
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.1);
             border-radius: 10px;
             padding: 10px 15px;
             margin-bottom: 15px;
-            color: #ffd700;
+            color: #3b82f6;
             font-size: 13px;
             display: none;
             text-align: center;
@@ -166,7 +169,7 @@
         .loading {
             display: none;
             text-align: center;
-            color: #ffd700;
+            color: #3b82f6;
             font-size: 13px;
             margin-bottom: 15px;
         }
@@ -183,7 +186,7 @@
     <div id="successMsg" class="success-msg"></div>
     <div id="loading" class="loading">⏳ Đang xử lý...</div>
 
-    <form id="loginForm">
+    <form id="loginForm" onsubmit="handleLogin(event)">
         <label>👤 Tài khoản</label>
         <input type="text" id="username" placeholder="Nhập tên đăng nhập" required>
 
@@ -199,7 +202,7 @@
         </div>
 
         <div class="btn-group">
-            <button type="reset" class="btn-cancel" onclick="clearSaved()">HỦY</button>
+            <button type="button" class="btn-cancel" onclick="clearSaved()">HỦY</button>
             <button type="submit" class="btn-login" id="loginBtn">VÀO WEB</button>
         </div>
     </form>
@@ -237,11 +240,9 @@
     }
 
     // ===== KHỞI TẠO =====
-    // ✅ ĐÃ XÓA phần auto-redirect gây vòng lặp vô hạn
     window.addEventListener('DOMContentLoaded', function() {
         newCaptcha();
 
-        // Chỉ tự động điền thông tin đã lưu
         var savedUser = localStorage.getItem('savedUsername');
         var savedPass = localStorage.getItem('savedPassword');
         var remember = localStorage.getItem('rememberMe');
@@ -265,11 +266,14 @@
         localStorage.removeItem('savedPassword');
         localStorage.removeItem('rememberMe');
         document.getElementById('savedInfo').style.display = 'none';
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('rememberMe').checked = false;
         newCaptcha();
     }
 
     // ===== XỬ LÝ ĐĂNG NHẬP =====
-    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    async function handleLogin(e) {
         e.preventDefault();
 
         var user = document.getElementById('username').value.trim();
@@ -285,6 +289,7 @@
         errorMsg.style.display = 'none';
         successMsg.style.display = 'none';
 
+        // Kiểm tra captcha
         if (parseInt(captcha) !== currentCaptchaAnswer) {
             errorMsg.textContent = '❌ Sai mã xác nhận!';
             errorMsg.style.display = 'block';
@@ -351,7 +356,7 @@
             loginBtn.disabled = false;
             loginBtn.textContent = 'VÀO WEB';
         }
-    });
+    }
 </script>
 
 </body>
